@@ -1,0 +1,16 @@
+{
+  "name": "skyberry2016",
+  "version": "0.0.1",
+  "description": "Skyberry Studio 2016",
+  "author": "Daniel James Williams",
+  "main": "server.js",
+  "scripts": {
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/daniel-williams/skyberry2016.git"
+  },
+  "license": "ISC",
+}
