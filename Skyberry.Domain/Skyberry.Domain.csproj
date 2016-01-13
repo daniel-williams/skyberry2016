@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3B4FBBB9-CB73-4D9E-8177-618110B706EE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Skyberry.Domain</RootNamespace>
+    <AssemblyName>Skyberry.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.0.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.0.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Infrastructure\DefaultCacheProvider.cs" />
+    <Compile Include="Infrastructure\IRepository.cs" />
+    <Compile Include="Infrastructure\IUnitOfWork.cs" />
+    <Compile Include="Linq\LinqExtensions.cs" />
+    <Compile Include="Migrations\201401082019023_initial.cs" />
+    <Compile Include="Migrations\201401082019023_initial.Designer.cs">
+      <DependentUpon>201401082019023_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201401272332357_adding-counters.cs" />
+    <Compile Include="Migrations\201401272332357_adding-counters.Designer.cs">
+      <DependentUpon>201401272332357_adding-counters.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201401311902001_imageset-image-tweaks.cs" />
+    <Compile Include="Migrations\201401311902001_imageset-image-tweaks.Designer.cs">
+      <DependentUpon>201401311902001_imageset-image-tweaks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201404241843315_identity2.cs" />
+    <Compile Include="Migrations\201404241843315_identity2.Designer.cs">
+      <DependentUpon>201404241843315_identity2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509152159049_design-review-updates.cs" />
+    <Compile Include="Migrations\201509152159049_design-review-updates.Designer.cs">
+      <DependentUpon>201509152159049_design-review-updates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Linq\FieldMapAttribute.cs" />
+    <Compile Include="Linq\PageSortCriteria.cs" />
+    <Compile Include="Models\Pocos\Accolade.cs" />
+    <Compile Include="Models\Pocos\Counter.cs" />
+    <Compile Include="Models\AccoladeRepository.cs" />
+    <Compile Include="Models\Pocos\Account.cs" />
+    <Compile Include="Models\AccountRepository.cs" />
+    <Compile Include="Models\Pocos\Address.cs" />
+    <Compile Include="Models\AddressRepository.cs" />
+    <Compile Include="Models\Pocos\Contact.cs" />
+    <Compile Include="Models\ContactRepository.cs" />
+    <Compile Include="Models\Pocos\Contract.cs" />
+    <Compile Include="Models\Pocos\ContractDocument.cs" />
+    <Compile Include="Models\ContractDocumentRepository.cs" />
+    <Compile Include="Models\ContractRepository.cs" />
+    <Compile Include="Models\Pocos\DesignReview.cs" />
+    <Compile Include="Models\CounterRepository.cs" />
+    <Compile Include="Models\DesignReviewRepository.cs" />
+    <Compile Include="Models\Pocos\ReviewComment.cs" />
+    <Compile Include="Models\Pocos\Document.cs" />
+    <Compile Include="Models\DocumentRepository.cs" />
+    <Compile Include="Models\Pocos\Image.cs" />
+    <Compile Include="Models\ImageRepository.cs" />
+    <Compile Include="Models\Pocos\ImageSet.cs" />
+    <Compile Include="Models\Pocos\ImageSetItem.cs" />
+    <Compile Include="Models\ImageSetItemRepository.cs" />
+    <Compile Include="Models\ImageSetRepository.cs" />
+    <Compile Include="Models\Pocos\Invoice.cs" />
+    <Compile Include="Models\InvoiceRepository.cs" />
+    <Compile Include="Models\Pocos\Payment.cs" />
+    <Compile Include="Models\PaymentRepository.cs" />
+    <Compile Include="Models\Pocos\Project.cs" />
+    <Compile Include="Models\Pocos\ProjectDocument.cs" />
+    <Compile Include="Models\ProjectDocumentRepository.cs" />
+    <Compile Include="Models\ProjectRepository.cs" />
+    <Compile Include="Models\Pocos\ReviewDocument.cs" />
+    <Compile Include="Models\ReviewDocumentRepository.cs" />
+    <Compile Include="Models\SkyberryUserRepository.cs" />
+    <Compile Include="Models\Pocos\Tag.cs" />
+    <Compile Include="Models\TagRepository.cs" />
+    <Compile Include="Models\Pocos\Testimonial.cs" />
+    <Compile Include="Models\Pocos\SkyberryUser.cs" />
+    <Compile Include="Models\TestimonialRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Infrastructure\RepositoryBase.cs" />
+    <Compile Include="SkyberryContext.cs" />
+    <Compile Include="Infrastructure\UnitOfWork.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201401082019023_initial.resx">
+      <DependentUpon>201401082019023_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401272332357_adding-counters.resx">
+      <DependentUpon>201401272332357_adding-counters.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401311902001_imageset-image-tweaks.resx">
+      <DependentUpon>201401311902001_imageset-image-tweaks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201404241843315_identity2.resx">
+      <DependentUpon>201404241843315_identity2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509152159049_design-review-updates.resx">
+      <DependentUpon>201509152159049_design-review-updates.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Skyberry.Core\Skyberry.Core.csproj">
+      <Project>{a65ba071-c6f8-404c-88a7-3a975675fa6c}</Project>
+      <Name>Skyberry.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

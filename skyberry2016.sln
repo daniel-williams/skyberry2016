@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".git", ".git", "{1D6589B7-EE12-40F8-AA15-8EB7FB64F819}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".npm", ".npm", "{FB048CFD-C7CE-41E6-AE6C-1D89FDFCEDB7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{4A967F45-6813-44B6-BE43-503599668EC1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{7E360FA9-6C92-4AED-8FF5-F8CA0420856B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyberry.Core", "Skyberry.Core\Skyberry.Core.csproj", "{A65BA071-C6F8-404C-88A7-3A975675FA6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyberry.Domain", "Skyberry.Domain\Skyberry.Domain.csproj", "{3B4FBBB9-CB73-4D9E-8177-618110B706EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A65BA071-C6F8-404C-88A7-3A975675FA6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A65BA071-C6F8-404C-88A7-3A975675FA6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A65BA071-C6F8-404C-88A7-3A975675FA6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A65BA071-C6F8-404C-88A7-3A975675FA6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B4FBBB9-CB73-4D9E-8177-618110B706EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B4FBBB9-CB73-4D9E-8177-618110B706EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B4FBBB9-CB73-4D9E-8177-618110B706EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B4FBBB9-CB73-4D9E-8177-618110B706EE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A65BA071-C6F8-404C-88A7-3A975675FA6C} = {4A967F45-6813-44B6-BE43-503599668EC1}
+		{3B4FBBB9-CB73-4D9E-8177-618110B706EE} = {4A967F45-6813-44B6-BE43-503599668EC1}
+	EndGlobalSection
+EndGlobal
