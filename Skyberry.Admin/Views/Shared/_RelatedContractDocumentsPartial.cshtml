@@ -1,0 +1,32 @@
+﻿@model List<Skyberry.Domain.ContractDocument>
+
+<div class="related">
+    <h4>Contract Documents</h4>
+    <table id="tbl-grid-contract-document" class="tbl-grid hl">
+        <tr>
+            <th class="c1">Filename</th>
+            <th class="c2">Title</th>
+            <th class="c3">Version</th>
+            <th class="c4"></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="c1">
+                    <a href="/files/@item.Filename" target="_blank">@Html.DisplayFor(modelItem => item.FilenameOriginal)</a>
+                </td>
+                <td class="c2">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td class="c3">
+                    @Html.DisplayFor(modelItem => item.Version)
+                </td>
+                <td class="c4">
+                    @Html.ActionLink("Edit", "Edit", "ContractDocuments", new { id = item.Id }, null) |
+                    @Html.ActionLink("Details", "Details", "ContractDocuments", new { id = item.Id }, null) |
+                    @Html.ActionLink("Delete", "Delete", "ContractDocuments", new { id = item.Id }, null)
+                </td>
+            </tr>
+        }
+    </table>
+</div>

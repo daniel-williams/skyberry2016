@@ -1,0 +1,78 @@
+﻿@model Skyberry.Admin.ViewModels.AccoladeVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    bool isCreate = Model.Accolade.AccoladeId == Guid.Empty;
+    var mode = isCreate ? "Create" : "Edit";
+    
+    ViewBag.Title = "@mode Accolade";
+}
+
+<h2>@mode Accolade</h2>
+<hr />
+
+<form action="@Url.Action(@mode)" name="frm" id="frm" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="Accolade.AccoladeId" value="@Model.Accolade.AccoladeId" />
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Accolade.Title, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.Accolade.Title, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Accolade.Title, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Accolade.Description, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-10">
+                @Html.TextAreaFor(model => model.Accolade.Description, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Accolade.Description, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Accolade.IsActive, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.EditorFor(model => model.Accolade.IsActive)
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Accolade.IsActive, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="ImageSets" class="control-label col-xs-2">Image Sets</label>
+            <div class="col-xs-6">
+                <select id="ImageSets" name="ImageSets" multiple="multiple" class="multiple form-control">
+                    @foreach (var imageSet in Model.ImageSets)
+                    {
+                        var isSelected = Model.Accolade.ImageSets != null && Model.Accolade.ImageSets.Contains(imageSet) ? "selected=selected" : "";
+
+                        <option value="@imageSet.ImageSetId.ToString()" @isSelected>@imageSet.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@Html.Partial("_RelatedImageSetsPartial", Model.Accolade.ImageSets.ToList())
+

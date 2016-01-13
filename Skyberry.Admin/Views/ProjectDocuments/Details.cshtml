@@ -1,0 +1,18 @@
+﻿@model Skyberry.Admin.ViewModels.ProjectDocumentVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "ProjectDocument Details";
+}
+
+<h2>ProjectDocument Details</h2>
+<hr />
+
+<div>
+    @Html.Partial("_ProjectDocumentDetailsPartial", Model)
+</div>
+
+<p class="pad-full">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ProjectDocument.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

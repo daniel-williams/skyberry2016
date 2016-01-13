@@ -1,0 +1,44 @@
+﻿@model List<Skyberry.Domain.ReviewDocument>
+
+<div class="related">
+    <h4>Review Documents</h4>
+    <table id="tbl-grid-review-document" class="tbl-grid hl">
+        <tr>
+            <th class="c1">Account</th>
+            <th class="c2">Project</th>
+            <th class="c3">Design Review</th>
+            <th class="c4">Title</th>
+            <th class="c5">Version</th>
+            <th class="c6">Order</th>
+            <th class="c7"></th>
+        </tr>
+        @foreach (var item in Model.OrderBy(e=>e.Order))
+        {
+            <tr>
+                <td class="c1">
+                    @Html.DisplayFor(modelItem => item.DesignReview.Project.Account.Name)
+                </td>
+                <td class="c2">
+                    @Html.DisplayFor(modelItem => item.DesignReview.Project.Name)
+                </td>
+                <td class="c3">
+                    @Html.DisplayFor(modelItem => item.DesignReview.Title)
+                </td>
+                <td class="c4">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td class="c5">
+                    @Html.DisplayFor(modelItem => item.Version)
+                </td>
+                <td class="c6">
+                    @Html.DisplayFor(modelItem => item.Order)
+                </td>
+                <td class="c7">
+                    @Html.ActionLink("Edit", "Edit", "ReviewDocuments", new { id = item.Id }, null) |
+                    @Html.ActionLink("Details", "Details", "ReviewDocuments", new { id = item.Id }, null) |
+                    @Html.ActionLink("Delete", "Delete", "ReviewDocuments", new { id = item.Id }, null)
+                </td>
+            </tr>
+        }
+    </table>
+</div>

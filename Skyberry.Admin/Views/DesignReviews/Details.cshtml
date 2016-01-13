@@ -1,0 +1,20 @@
+﻿@model Skyberry.Admin.ViewModels.DesignReviewVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Design Review Details";
+}
+
+<h2>Design Review Details</h2>
+<hr />
+
+<div>
+    @Html.Partial("_DesignReviewDetailsPartial", Model)
+</div>
+
+<p class="pad-full">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.DesignReview.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+@Html.Partial("_RelatedReviewDocumentsPartial", Model.DesignReview.ReviewDocuments.ToList())

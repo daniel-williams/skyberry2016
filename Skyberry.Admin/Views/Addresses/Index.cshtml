@@ -1,0 +1,113 @@
+﻿@model Skyberry.Admin.ViewModels.AddressListVM
+
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Address List";
+    string sortby = "";
+}
+
+<h2>Address List</h2>
+<hr />
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div id="grid-filters">
+    <form action="@Url.Action("Index", "Addresses")" method="get" name="frm" id="frm">
+        <input type="hidden" name="Sort" value="@Model.PageSortCriteria.Sort" />
+        <input type="hidden" name="Page" value="1" />
+
+        <h4>Filters</h4>
+        <div>
+            <label for="AddressType">Address Type</label>
+            <input type="text" name="AddressType" id="AddressType" value="@Model.SearchCriteria.AddressType" />
+        </div>
+        <div>
+            <label for="Locality">Locality</label>
+            <input type="text" name="Locality" id="Locality" value="@Model.SearchCriteria.Locality" />
+        </div>
+        <div>
+            <label for="Region">Region</label>
+            <input type="text" name="Region" id="Region" value="@Model.SearchCriteria.Region" />
+        </div>
+        <div style="margin-top:10px;"><button type="submit" class="btn btn-default">Update</button></div>
+    </form>
+</div>
+
+<div class="pager-div">
+    @if (Model.Addresses.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.Addresses, page => Url.Action("Index", "Addresses", new { page = page, sort = Model.PageSortCriteria.Sort, addressType = Model.SearchCriteria.AddressType, locality = Model.SearchCriteria.Locality, region = Model.SearchCriteria.Region }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>
+
+<table id="tbl-grid-address" class="tbl-grid hl pad-full">
+    <tr>
+        <th class="c1">
+            @{
+                sortby = "AddressType";
+            }
+            <a href="@Url.Action("Index", "Addresses", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), addressType = Model.SearchCriteria.AddressType, locality = Model.SearchCriteria.Locality, region = Model.SearchCriteria.Region })">Type<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c2">
+            @{
+                sortby = "Line1";
+            }
+            <a href="@Url.Action("Index", "Addresses", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), addressType = Model.SearchCriteria.AddressType, locality = Model.SearchCriteria.Locality, region = Model.SearchCriteria.Region })">Line 1<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c3">
+            @{
+                sortby = "Line2";
+            }
+            <a href="@Url.Action("Index", "Addresses", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), addressType = Model.SearchCriteria.AddressType, locality = Model.SearchCriteria.Locality, region = Model.SearchCriteria.Region })">Line 2<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c4">
+            @{
+                sortby = "Locality";
+            }
+            <a href="@Url.Action("Index", "Addresses", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), addressType = Model.SearchCriteria.AddressType, locality = Model.SearchCriteria.Locality, region = Model.SearchCriteria.Region })">Locality<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c5">
+            @{
+                sortby = "Region";
+            }
+            <a href="@Url.Action("Index", "Addresses", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), addressType = Model.SearchCriteria.AddressType, locality = Model.SearchCriteria.Locality, region = Model.SearchCriteria.Region })">Region<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c6"></th>
+    </tr>
+    @foreach (var item in Model.Addresses)
+    {
+        <tr>
+            <td class="c1">
+                @Html.DisplayFor(modelItem => item.AddressType)
+            </td>
+            <td class="c2">
+                @Html.DisplayFor(modelItem => item.Line1)
+            </td>
+            <td class="c3">
+                @Html.DisplayFor(modelItem => item.Line2)
+            </td>
+            <td class="c4">
+                @Html.DisplayFor(modelItem => item.Locality)
+            </td>
+            <td class="c5">
+                @Html.DisplayFor(modelItem => item.Region)
+            </td>
+            <td class="c6">
+                @Html.ActionLink("Edit", "Edit", new { id = item.AddressId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.AddressId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.AddressId })
+            </td>
+        </tr>
+    }
+</table>
+
+<div class="pager-div">
+    @if (Model.Addresses.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.Addresses, page => Url.Action("Index", "Addresses", new { page = page, sort = Model.PageSortCriteria.Sort, addressType = Model.SearchCriteria.AddressType, locality = Model.SearchCriteria.Locality, region = Model.SearchCriteria.Region }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>

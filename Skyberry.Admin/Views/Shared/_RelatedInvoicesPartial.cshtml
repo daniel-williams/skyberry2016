@@ -1,0 +1,40 @@
+﻿@model List<Skyberry.Domain.Invoice>
+
+<div class="related">
+    <h4>Invoices</h4>
+    <table id="tbl-grid-invoice" class="tbl-grid hl pad-full">
+        <tr>
+            <th class="c1">Title</th>
+            <th class="c2">Number</th>
+            <th class="c3">Account</th>
+            <th class="c4">Version</th>
+            <th class="c5">Created</th>
+            <th class="c6"></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="c1">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td class="c2">
+                    @Html.DisplayFor(modelItem => item.InvoiceNumber)
+                </td>
+                <td class="c3">
+                    @Html.DisplayFor(modelItem => item.Account.Name)
+                </td>
+                <td class="c4">
+                    @Html.DisplayFor(modelItem => item.Version)
+                </td>
+                <td class="c5">
+                    @(item.CreatedDate.ToString("M/dd/yyy"))
+                </td>
+                <td class="c6">
+                    @Html.ActionLink("Edit", "Edit", "Invoices", new { id = item.Id }, null) |
+                    @Html.ActionLink("Details", "Details", "Invoices", new { id = item.Id }, null) |
+                    @Html.ActionLink("Delete", "Delete", "Invoices", new { id = item.Id }, null)
+                </td>
+            </tr>
+        }
+    </table>
+</div>

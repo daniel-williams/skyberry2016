@@ -1,0 +1,9 @@
+﻿@model Skyberry.Admin.ViewModels.ImageSetVM
+
+<dl class="dl-horizontal">
+    <dt>@Html.DisplayNameFor(model => model.ImageSet.Name)</dt>
+    <dd>@Html.DisplayFor(model => model.ImageSet.Name)</dd>
+
+    <dt>Thumbnail</dt>
+    <dd><img src="~/files/@(Model.ImageSet.Image.Filename)?mode=crop&width=50" style="margin:10px 5px;" />@Model.ImageSet.Image.Title - @Model.ImageSet.Image.FilenameOriginal</dd>
+</dl>

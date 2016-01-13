@@ -1,0 +1,27 @@
+﻿@model Skyberry.Admin.ViewModels.ProjectVM
+
+<dl class="dl-horizontal">
+    <dt>@Html.DisplayNameFor(model => model.Project.Name)</dt>
+    <dd>@Html.DisplayFor(model => model.Project.Name)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Project.Description)</dt>
+    <dd>@Html.Raw(Model.Project.Description)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Project.Status)</dt>
+    <dd>@Html.DisplayFor(model => model.Project.Status)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Project.StartDate)</dt>
+    <dd>@(Model.Project.StartDate.HasValue ? Model.Project.StartDate.Value.ToString("M/dd/yyyy") : "")</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Project.EstimatedCompletionDate)</dt>
+    <dd>@(Model.Project.EstimatedCompletionDate.HasValue ? Model.Project.EstimatedCompletionDate.Value.ToString("M/dd/yyyy") : "")</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Project.CompletionDate)</dt>
+    <dd>@(Model.Project.CompletionDate.HasValue ? Model.Project.CompletionDate.Value.ToString("M/dd/yyyy") : "")</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Project.CreatedDate)</dt>
+    <dd>@(Model.Project.CreatedDate.ToString("M/dd/yyyy"))</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Project.Account.Name)</dt>
+    <dd>@Html.DisplayFor(model => model.Project.Account.Name)</dd>
+</dl>

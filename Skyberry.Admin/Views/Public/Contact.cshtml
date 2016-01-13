@@ -1,0 +1,129 @@
+﻿@model Skyberry.Admin.ViewModels.ContactUsVM
+
+@{
+    ViewBag.Title = "Contact";
+}
+@section meta_tags
+{
+    <meta name="description" content="Contact Skyberry Studio and get started on your next design project or web development project today! Free estimates." />
+}
+@section nav_top
+{
+    @Html.Partial("_NavTopPartial", new Skyberry.Admin.ViewModels.NavVM("Contact"))
+}
+@section nav_bottom
+{
+    @Html.Partial("_NavBottomPartial", new Skyberry.Admin.ViewModels.NavVM("Contact"))
+}
+
+
+<div class="container fixed section">
+    <div class="col-xs-12 pull-left">
+        <h1>Contact Us</h1>
+    </div>
+    <div class="col-xs-12 pull-left">
+        Whether you’d like to get started on your next project or simply chat about how amazing the ultimate salmon roll is at Himitsu in Bothell, we would love to hear from you!
+    </div>
+    <div class="col-xs-12 pull-left break">
+        <div class="row">
+            <div class="col-xs-7">
+                @if (Model.Received)
+                {
+                    <h3>Thank you!</h3>
+                    <div>Your inquiry has been received. You should receive a response from Skyberry staff within 24 hours.</div>
+                }
+                else
+                {
+                    <h3>Send us a message</h3>
+                    <section id="support-form">
+                        <form action="@Url.Action("Contact", "Public")" method="post" class="form-horizontal">
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                @Html.ValidationSummary(true)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Email, new { @class = "col-xs-4 control-label" })
+                                <div class="col-xs-6">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "you@domain.com" })
+                                        </div>
+                                        <div class="col-xs-12">
+                                            @Html.ValidationMessageFor(m => m.Email, null, new { @class = "help-block" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Regarding, new { @class = "col-xs-4 control-label" })
+                                <div class="col-xs-6">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <select name="Regarding" id="Regarding" class="form-control">
+                                                <option value="General Inquiry">General Inquiry</option>
+                                                <option value="Billing">Billing</option>
+                                                <option value="Design Related">Design Related</option>
+                                                <option value="Technical Issue">Technical Issue</option>
+                                                <option value="Update Account Information">Update Account Information</option>
+                                                <option value="New Work Request">New Work Request</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            @Html.ValidationMessageFor(m => m.Regarding, null, new { @class = "help-block" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Comment, new { @class = "col-xs-4 control-label" })
+                                <div class="col-xs-8">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            @Html.TextAreaFor(m => m.Comment, new { @class = "form-control", @style = "height: 125px;", placeholder = "What can we do for you?" })
+                                        </div>
+                                        <div class="col-xs-12">
+                                            @Html.ValidationMessageFor(m => m.Comment, null, new { @class = "help-block" })
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <div class="checkbox">
+                                                <label>
+                                                    @Html.CheckBoxFor(m => m.Subscribe)
+                                                    Subscribe to Skyberry News. (all the cool kids are doing it!)
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-4"></div>
+                                <div class="col-xs-4">
+                                    <button type="submit" class="btn btn-default">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+                }
+            </div>
+            <div class="col-xs-1"></div>
+            <div class="col-xs-4">
+                <h3>Get in touch</h3>
+                <div class="pad-full">
+                    Skyberry Studio<br />
+                    Seattle: Bothell Washington 98012 USA
+                </div>
+                <div class="pad-full">
+                    +1 503 272 1022<br />
+                    <a href="mailto:contact@skyberrystudio.com">contact@skyberrystudio.com</a>
+                </div>
+                <div id="wrap-social">
+                    <a href="http://facebook.com/skyberrystudio" target="_blank" title="Like us on Facebook"><i class="icon-facebook"></i></a>
+                    <a href="http://twitter.com/skyberrystudio" target="_blank" title="Follow us on Twitter"><i class="icon-twitter"></i></a>
+                    <a href="http://pinterest.com/skyberrystudio" target="_blank" title="Follow us on Pinterest"><i class="icon-pinterest"></i></a>
+                    <a href="http://youtube.com/skyberrystudio" target="_blank" title="Subscribe to our tube, dude!"><i class="icon-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,72 @@
+﻿@model Skyberry.Admin.ViewModels.ImageSetVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    bool isCreate = Model.ImageSet.ImageSetId == Guid.Empty;
+    string mode = isCreate ? "Create" : "Edit";
+
+    ViewBag.Title = "@mode ImageSet";
+}
+
+<h2>@mode ImageSet</h2>
+<hr />
+
+<form action="@Url.Action(@mode)" name="frm" id="frm" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="ImageSet.ImageSetId" value="@Model.ImageSet.ImageSetId" />
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageSet.Name, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.ImageSet.Name, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ImageSet.Name, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageSet.ImageId, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.DropDownListFor(m => m.ImageSet.ImageId, new SelectList(Model.ImageOpts, "Id", "Value", @Model.ImageSet.ImageId), new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ImageSet.ImageId, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Images" class="control-label col-xs-2">Set Images</label>
+            <div class="col-xs-6">
+                <select id="Images" name="Images" multiple="multiple" class="multiple form-control" >
+                    @{
+                        var setImages = Model.ImageSet.SetImages;
+                    }
+                    @foreach (var image in Model.Images)
+                    {
+                        var isSelected = Model.ImageSet.ImageSetItems != null && setImages.Contains(image) ? "selected=selected" : "";
+
+                        <option value="@image.Id.ToString()" @isSelected>@image.Title - @image.FilenameOriginal</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@Html.Partial("_RelatedImageSetItemsPartial", Model.ImageSet.ImageSetItems.ToList())

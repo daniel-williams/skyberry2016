@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Admin - Skyberry Studio</title>
+
+    @Styles.Render("~/bundles/css/admin")
+    @RenderSection("styles", required: false)
+
+    @Scripts.Render("~/bundles/js/modernizr")
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+@if (Request.IsAuthenticated)
+{
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Accolades", "Index", "Accolades")</li>
+                    <li>@Html.ActionLink("Accounts", "Index", "Accounts")</li>
+                    <li>@Html.ActionLink("Addresses", "Index", "Addresses")</li>
+                    <li>@Html.ActionLink("Contacts", "Index", "Contacts")</li>
+                    <li>@Html.ActionLink("Contract Documents", "Index", "ContractDocuments")</li>
+                    <li>@Html.ActionLink("Contracts", "Index", "Contracts")</li>
+                    <li>@Html.ActionLink("Design Reviews", "Index", "DesignReviews")</li>
+                    <li>@Html.ActionLink("Images", "Index", "Images")</li>
+                    <li>@Html.ActionLink("Image Set Items", "Index", "ImageSetItems")</li>
+                    <li>@Html.ActionLink("Image Sets", "Index", "ImageSets")</li>
+                    <li>@Html.ActionLink("Invoices", "Index", "Invoices")</li>
+                    <li>@Html.ActionLink("Payments", "Index", "Payments")</li>
+                    <li>@Html.ActionLink("Project Documents", "Index", "ProjectDocuments")</li>
+                    <li>@Html.ActionLink("Projects", "Index", "Projects")</li>
+                    <li>@Html.ActionLink("Review Documents", "Index", "ReviewDocuments")</li>
+                    <li>@Html.ActionLink("Tags", "Index", "Tags")</li>
+                    <li>@Html.ActionLink("Testimonials", "Index", "Testimonials")</li>
+                    <li>@Html.ActionLink("Users", "Index", "Users")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+}
+            </div>
+        </div>
+    </div>
+    <div class="container body-content" style="margin-bottom:100px;">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; 2006 - @DateTime.Now.Year. Skyberry Studio&trade; All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/js/admin")
+    <script src="~/scripts/tinymce/tinymce.min.js"></script>
+    <script src="~/scripts/tinymce/jquery.tinymce.min.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,122 @@
+﻿@model Skyberry.Admin.ViewModels.DesignReviewVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    bool isCreate = Model.DesignReview.Id == Guid.Empty;
+    string mode = isCreate ? "Create" : "Edit";
+
+    ViewBag.Title = "@mode Design Review";
+}
+
+<h2>@mode Design Review</h2>
+<hr />
+
+<form action="@Url.Action(@mode)" name="frm" id="frm" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="DesignReview.Id" value="@Model.DesignReview.Id" />
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DesignReview.Title, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.DesignReview.Title, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.DesignReview.Title, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DesignReview.Description, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-10">
+                @Html.TextAreaFor(model => model.DesignReview.Description, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.DesignReview.Description, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DesignReview.SelectedComment, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-10">
+                @Html.TextAreaFor(model => model.DesignReview.SelectedComment, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.DesignReview.SelectedComment, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DesignReview.AdditionalComment, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-10">
+                @Html.TextAreaFor(model => model.DesignReview.AdditionalComment, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.DesignReview.AdditionalComment, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DesignReview.AcceptedDate, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                <input type="text" name="DesignReview.AcceptedDate" id="DesignReview_AcceptedDate" value="@(Model.DesignReview.AcceptedDate.HasValue ? Model.DesignReview.AcceptedDate.Value.ToString("M/dd/yyyy") : "")" class="form-control date" />
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.DesignReview.AcceptedDate, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DesignReview.IsActive, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.CheckBoxFor(model => model.DesignReview.IsActive)
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.DesignReview.IsActive, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DesignReview.ProjectId, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.DropDownListFor(m => m.DesignReview.ProjectId, new SelectList(Model.ProjectOpts, "Id", "Value", @Model.DesignReview.ProjectId), new { @class = "single form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.DesignReview.ProjectId, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DesignReview.SelectedReviewDocumentId, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @if (Model.DesignReview.SelectedReviewDocument != null)
+                {
+                    <label class="control-label"><a href="/files/@Model.DesignReview.SelectedReviewDocument.Filename" target="_blank">@Model.DesignReview.SelectedReviewDocument.FilenameOriginal</a></label>
+                }
+                else
+                {
+                    <label class="control-label">no selection yet</label>
+                }
+            </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@Html.Partial("_RelatedReviewDocumentsPartial", Model.DesignReview.ReviewDocuments.ToList())

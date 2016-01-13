@@ -1,0 +1,131 @@
+﻿@model Skyberry.Admin.ViewModels.UserVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    bool isCreate = string.IsNullOrWhiteSpace(Model.User.UserName);
+    var mode = isCreate ? "Create" : "Edit";
+
+    ViewBag.Title = "@mode User";
+
+}
+
+<h2>@mode User</h2>
+<hr />
+
+<form action="@Url.Action(@mode)" name="frm" id="frm" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+        <input type="hidden" name="User.Id" value="@Model.User.Id" />
+
+        @if (isCreate)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.User.UserName, new { @class = "control-label col-xs-2" })
+                <div class="col-xs-6">
+                    @Html.TextBoxFor(model => model.User.UserName, new { @class = "form-control" })
+                </div>
+                <div class="col-xs-offset-2 col-xs-10">
+                    @Html.ValidationMessageFor(model => model.User.UserName, null, new { @class = "help-block" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-2">Password</label>
+                <div class="col-xs-6">
+                    <input type="text" name="Password" id="Password" value="" class="form-control" placeholder="" />
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.User.UserName, new { @class = "control-label col-xs-2" })
+                <div class="col-xs-6">
+                    @Html.TextBoxFor(model => model.User.UserName, new { @class = "form-control", disabled = "disabled" })
+                </div>
+                <div class="col-xs-offset-2 col-xs-10">
+                    @Html.ValidationMessageFor(model => model.User.UserName, null, new { @class = "help-block" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-2">Password</label>
+                <div class="col-xs-6">
+                    <input type="text" name="Password" id="Password" value="" class="form-control" placeholder="********" />
+                </div>
+            </div>
+        }
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.User.Email, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.User.Email, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.User.Email, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.User.Title, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.User.Title, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.User.Title, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.User.FirstName, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.User.FirstName, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.User.FirstName, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.User.LastName, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.User.LastName, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.User.LastName, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.User.JobTitle, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.User.JobTitle, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.User.JobTitle, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@Html.Partial("_RelatedContactsPartial", Model.User.Contacts.ToList())
+@Html.Partial("_RelatedAddressesPartial", Model.User.Addresses.ToList())
+@Html.Partial("_RelatedAccountsPartial", Model.User.Accounts.ToList())

@@ -1,0 +1,18 @@
+﻿@model Skyberry.Admin.ViewModels.PaymentVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Payment Details";
+}
+
+<h2>Payment Details</h2>
+<hr />
+
+<div>
+    @Html.Partial("_PaymentDetailsPartial", Model)
+</div>
+
+<p class="pad-full">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Payment.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

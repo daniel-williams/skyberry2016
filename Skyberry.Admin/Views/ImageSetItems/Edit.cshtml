@@ -1,0 +1,65 @@
+﻿@model Skyberry.Admin.ViewModels.ImageSetItemVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    bool isCreate = Model.ImageSetItem.ImageSetItemId == Guid.Empty;
+    var mode = isCreate ? "Create" : "Edit";
+
+    ViewBag.Title = "@mode Image Set Item";
+}
+
+<h2>@mode Image Set Item</h2>
+<hr />
+
+<form action="@Url.Action(@mode)" name="frm" id="frm" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="ImageSetItem.ImageSetItemId" value="@Model.ImageSetItem.ImageSetItemId" />
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageSetItem.ImageSetId, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.DropDownListFor(m => m.ImageSetItem.ImageSetId, new SelectList(Model.ImageSetOpts, "Id", "Value", @Model.ImageSetItem.ImageSetId), new { @class = "single form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ImageSetItem.ImageSetId, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageSetItem.ImageId, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.DropDownListFor(m => m.ImageSetItem.ImageId, new SelectList(Model.ImageOpts, "Id", "Value", @Model.ImageSetItem.ImageId), new { @class = "single form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ImageSetItem.ImageId, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageSetItem.Position, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.ImageSetItem.Position, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ImageSetItem.Position, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+

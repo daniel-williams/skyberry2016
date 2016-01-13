@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Not Found";
+}
+@section meta_tags
+{
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+}
+@section nav_top
+{
+    @Html.Partial("_NavTopPartial", new Skyberry.Admin.ViewModels.NavVM(""))
+}
+@section nav_bottom
+{
+    @Html.Partial("_NavBottomPartial", new Skyberry.Admin.ViewModels.NavVM(""))
+}
+
+
+
+
+
+<div class="container fixed section">
+    <div class="col-xs-12 pull-left">
+        <h1>Oops!</h1>
+        <p>The page you were looking for could not be found.</p>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+﻿@model Skyberry.Admin.ViewModels.ProjectVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Delete Project";
+}
+
+<h2>Delete Project</h2>
+<hr />
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    @Html.Partial("_ProjectDetailsPartial", Model)
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
+
+@Html.Partial("_RelatedProjectDocumentsPartial", Model.Project.ProjectDocuments.ToList())

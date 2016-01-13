@@ -1,0 +1,20 @@
+﻿@model Skyberry.Admin.ViewModels.TagVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+	ViewBag.Title = "Tag Details";	
+}
+
+<h2>Tag Details</h2>
+<hr />
+
+<div>
+    @Html.Partial("_TagDetailsPartial", Model)
+</div>
+
+<p class="pad-full">
+	@Html.ActionLink("Edit", "Edit", new { id = Model.Tag.TagId }) |
+	@Html.ActionLink("Back to List", "Index")
+</p>
+
+@Html.Partial("_RelatedImagesPartial", Model.Tag.Images.ToList())

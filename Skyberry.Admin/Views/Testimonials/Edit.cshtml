@@ -1,0 +1,103 @@
+﻿@model Skyberry.Admin.ViewModels.TestimonialVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    bool isCreate = Model.Testimonial.TestimonialId == Guid.Empty;
+    var mode = isCreate ? "Create" : "Edit";
+    
+    ViewBag.Title = "@mode Testimonial";
+}
+
+@section styles
+{
+    <link href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+}
+
+<h2>@(isCreate ? "Create" : "Edit") Testimonial</h2>
+<hr />
+
+<form action="@Url.Action(@mode)" name="frm" id="frm" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="Testimonial.TestimonialId" value="@Model.Testimonial.TestimonialId" />
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Testimonial.Title, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.Testimonial.Title, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Testimonial.Title, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Testimonial.Description, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-10">
+                @Html.TextAreaFor(model => model.Testimonial.Description, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Testimonial.Description, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Testimonial.IsFeatured, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.EditorFor(model => model.Testimonial.IsFeatured)
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Testimonial.IsFeatured, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Testimonial.IsActive, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.EditorFor(model => model.Testimonial.IsActive)
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Testimonial.IsActive, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Testimonial.AccountId, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.DropDownListFor(m => m.Testimonial.AccountId, new SelectList(Model.AccountOpts, "Id", "Value", @Model.Testimonial.AccountId), new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Testimonial.AccountId, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="ImageSets" class="control-label col-xs-2">Image Sets</label>
+            <div class="col-xs-6">
+                <select id="ImageSets" name="ImageSets" multiple="multiple" class="form-control">
+                    @foreach (var imageSet in Model.ImageSets)
+                    {
+                        var isSelected = Model.Testimonial.ImageSets != null && Model.Testimonial.ImageSets.Contains(imageSet) ? "selected=selected" : "";
+
+                        <option value="@imageSet.ImageSetId.ToString()" @isSelected>@imageSet.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@Html.Partial("_RelatedImageSetsPartial", Model.Testimonial.ImageSets.ToList())
+

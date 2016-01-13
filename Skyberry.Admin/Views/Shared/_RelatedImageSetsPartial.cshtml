@@ -1,0 +1,40 @@
+﻿@model List<Skyberry.Domain.ImageSet>
+
+<div class="related">
+    <h4>Image Sets</h4>
+    <table id="tbl-grid-image-set" class="tbl-grid hl">
+        <tr>
+            <th class="c1"></th>
+            <th class="c2">Name</th>
+            <th class="c3"></th>
+        </tr>
+
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td class="c1"><img src="~/files/@(item.Image.Filename)?mode=crop&width=50" /></td>
+                    <td class="c2">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td class="c3">
+                        @Html.ActionLink("Edit", "Edit", "ImageSets", new { id = item.ImageSetId }, null) |
+                        @Html.ActionLink("Details", "Details", "ImageSets", new { id = item.ImageSetId }, null) |
+                        @Html.ActionLink("Delete", "Delete", "ImageSets", new { id = item.ImageSetId }, null)
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3">none</td>
+            </tr>
+        }
+
+    </table>
+
+
+
+</div>

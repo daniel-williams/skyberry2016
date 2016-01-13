@@ -1,0 +1,88 @@
+﻿@model Skyberry.Admin.ViewModels.TagListVM
+
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Tag List";
+
+    string sortby = "";
+}
+
+<h2>Tag List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div id="grid-filters">
+    <form action="@Url.Action("Index", "Tags")" method="get" name="frm" id="frm">
+        <input type="hidden" name="Sort" value="@Model.PageSortCriteria.Sort" />
+        <input type="hidden" name="Page" value="1" />
+
+        <h4>Filters</h4>
+        <div>
+            <label for="Name">Name</label>
+            <input type="text" name="Name" id="Name" value="@Model.SearchCriteria.Name" />
+        </div>
+        <div style="margin-top:10px;"><button type="submit" class="btn btn-default">Update</button></div>
+    </form>
+</div>
+
+<div class="pager-div">
+    @if (Model.Tags.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.Tags, page => Url.Action("Index", "Tags", new { page = page, sort = Model.PageSortCriteria.Sort, name = Model.SearchCriteria.Name }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>
+
+<table id="tbl-grid-tag" class="tbl-grid hl pad-full">
+    <tr>
+        <th class="c1">
+            @{
+                sortby = "Name";
+            }
+            <a href="@Url.Action("Index", "Tags", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), name = Model.SearchCriteria.Name })">Name<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c2">
+            @{
+                sortby = "IsFilter";
+            }
+            <a href="@Url.Action("Index", "Tags", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), name = Model.SearchCriteria.Name })">Filter<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c3">
+            @{
+                sortby = "IsActive";
+            }
+            <a href="@Url.Action("Index", "Tags", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), name = Model.SearchCriteria.Name })">Active<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c4"></th>
+    </tr>
+    @foreach (var item in Model.Tags)
+    {
+        <tr>
+            <td class="c1">
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td class="c2">
+                @Html.DisplayFor(modelItem => item.IsFilter)
+            </td>
+            <td class="c3">
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td class="c4">
+                @Html.ActionLink("Edit", "Edit", "Tags", new { id = item.TagId }, null) |
+                @Html.ActionLink("Details", "Details", "Tags", new { id = item.TagId }, null) |
+                @Html.ActionLink("Delete", "Delete", "Tags", new { id = item.TagId }, null)
+            </td>
+        </tr>
+    }
+</table>
+
+<div class="pager-div">
+    @if (Model.Tags.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.Tags, page => Url.Action("Index", "Tags", new { page = page, sort = Model.PageSortCriteria.Sort, name = Model.SearchCriteria.Name }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>
+

@@ -1,0 +1,42 @@
+﻿@model List<Skyberry.Domain.Project>
+
+<div class="related">
+    <h4>Projects</h4>
+    <table id="tbl-grid-project" class="tbl-grid hl pad-full">
+        <tr>
+            <th class="c1">Name</th>
+            <th class="c2">Account</th>
+            <th class="c3">Start</th>
+            <th class="c4">Estimated</th>
+            <th class="c5">Completed</th>
+            <th class="c6"></th>
+        </tr>
+
+        @foreach (var item in Model.OrderByDescending(e => e.StartDate))
+        {
+            <tr>
+                <td class="c1">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td class="c2">
+                    @Html.DisplayFor(modelItem => item.Account.Name)
+                </td>
+                <td class="c3">
+                    @(item.StartDate.HasValue ? item.StartDate.Value.Date.ToString("M/dd/yyy") : "")
+                </td>
+                <td class="c4">
+                    @(item.EstimatedCompletionDate.HasValue ? item.EstimatedCompletionDate.Value.Date.ToString("M/dd/yyy") : "")
+                </td>
+                <td class="c5">
+                    @(item.CompletionDate.HasValue ? item.CompletionDate.Value.Date.ToString("M/dd/yyy") : "")
+                </td>
+                <td class="c6">
+                    @Html.ActionLink("Edit", "Edit", "Projects", new { id = item.Id }, null) |
+                    @Html.ActionLink("Details", "Details", "Projects", new { id = item.Id }, null) |
+                    @Html.ActionLink("Delete", "Delete", "Projects", new { id = item.Id }, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

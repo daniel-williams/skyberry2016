@@ -1,0 +1,18 @@
+﻿@model Skyberry.Admin.ViewModels.InvoiceVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Invoice Details";
+}
+
+<h2>Invoice Details</h2>
+<hr />
+
+<div>
+    @Html.Partial("_InvoiceDetailsPartial", Model)
+</div>
+
+<p class="pad-full">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Invoice.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

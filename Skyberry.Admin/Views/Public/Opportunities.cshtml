@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Job Opportunities";
+}
+@section meta_tags
+{
+    <meta name="description" content="Creative design and web development job opportunities available at Skyberry Studio in Bothell Washington." />
+}
+@section nav_top
+{
+    @Html.Partial("_NavTopPartial", new Skyberry.Admin.ViewModels.NavVM(""))
+}
+@section nav_bottom
+{
+    @Html.Partial("_NavBottomPartial", new Skyberry.Admin.ViewModels.NavVM(""))
+}
+
+
+
+
+
+<div class="container fixed section">
+    <div class="col-xs-12 pull-left">
+        <h1>Opportunities</h1>
+        <p>Skyberry Studio™ is always on the lookout for great talent. Check this page from time to time to learn about new employment opportunities. Thank you for your interest in joining our team. Please NO phone calls, NO recruiters.</p>
+    </div>
+    <div class="col-xs-12 pull-left break">
+        <div class="row">
+            <div class="col-xs-4">
+                <h3>How to apply</h3>
+                <p>Please email your cover letter and resume to <a href="mailto:jobs@skyberrystudio.com">jobs@skyberrystudio.com</a> with the title of the position and your name in the subject line. please include any attachments as a pdf. if you are applying for a creative position, please provide a link to your portfolio.</p>
+            </div>
+            <div class="col-xs-4">
+                <h3>Where we're based</h3>
+                <p>We do work for clients all over the world from our studio in Bothell Washington, just northeast of Seattle.</p>
+            </div>
+            <div class="col-xs-4">
+                <h3>Open positions</h3>
+                <p>All current openings are for independent contractors on a per project basis.</p>
+                <ul>
+                    <li>Graphic Designer</li>
+                    <li>Copywriter</li>
+                    <li>Email Marketing Specialist</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

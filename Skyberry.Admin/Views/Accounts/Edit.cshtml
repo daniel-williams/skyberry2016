@@ -1,0 +1,108 @@
+﻿@model Skyberry.Admin.ViewModels.AccountVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    bool isCreate = Model.Account.Id == Guid.Empty;
+    var mode = isCreate ? "Create" : "Edit";
+    
+    ViewBag.Title = "@mode Account";
+}
+
+<h2>@mode Account</h2>
+<hr />
+
+<form action="@Url.Action(@mode)" name="frm" id="frm" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="Account.Id" value="@Model.Account.Id" />
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+
+        @if (!isCreate)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Account.Number, new { @class = "control-label col-xs-2" })
+                <div class="col-xs-6">
+                    @Html.TextBoxFor(model => model.Account.Number, new { @class = "form-control", disabled = "disabled" })
+                </div>
+                <div class="col-xs-offset-2 col-xs-10">
+                    @Html.ValidationMessageFor(model => model.Account.Number, null, new { @class = "help-block" })
+                </div>
+            </div>
+        }
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Account.Name, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.Account.Name, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Account.Name, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Account.IndustryType, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.DropDownListFor(m => m.Account.IndustryType, new SelectList(Model.IndustryTypeOpts, "Id", "Value", @Model.Account.IndustryType), new { @class = "single form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Account.IndustryType, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Account.ClientSinceDate, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                <input type="text" name="Account.ClientSinceDate" id="Account_ClientSinceDate" value="@(Model.Account.ClientSinceDate.ToString("M/dd/yyyy"))" class="form-control date" />
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Account.ClientSinceDate, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Account.IsActive, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.CheckBoxFor(model => model.Account.IsActive)
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Account.IsActive, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Users" class="control-label col-xs-2">Users</label>
+            <div class="col-xs-6">
+                <select id="Users" name="Users" multiple="multiple" class="multiple form-control" >
+                    @foreach (var item in Model.Users)
+                    {
+                        var isSelected = Model.Account.SkyberryUsers != null && Model.Account.SkyberryUsers.Contains(item) ? "selected=selected" : "";
+
+                        <option value="@item.Id" @isSelected>@item.FirstName @item.LastName (@item.UserName)</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@Html.Partial("_RelatedUsersPartial", Model.Account.SkyberryUsers.ToList())
+@Html.Partial("_RelatedProjectsPartial", Model.Account.Projects.ToList())
+@Html.Partial("_RelatedInvoicesPartial", Model.Account.Invoices.ToList())
+@Html.Partial("_RelatedPaymentsPartial", Model.Account.Payments.ToList())
+@Html.Partial("_RelatedAddressesPartial", Model.Account.Addresses.ToList())
+@Html.Partial("_RelatedContactsPartial", Model.Account.Contacts.ToList())
+@Html.Partial("_RelatedAccoladesPartial", Model.Account.Accolades.ToList())
+@Html.Partial("_RelatedTestimonialsPartial", Model.Account.Testimonials.ToList())

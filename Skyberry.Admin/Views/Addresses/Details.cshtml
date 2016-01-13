@@ -1,0 +1,21 @@
+﻿@model Skyberry.Admin.ViewModels.AddressVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Address Details";
+}
+
+<h2>Address Details</h2>
+<hr />
+
+<div>
+    @Html.Partial("_AddressDetailsPartial", Model)
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Address.AddressId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+
+@Html.Partial("_RelatedUsersPartial", Model.Address.SkyberryUsers.ToList())
+@Html.Partial("_RelatedAccountsPartial", Model.Address.Accounts.ToList())

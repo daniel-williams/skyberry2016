@@ -1,0 +1,11 @@
+﻿@model Skyberry.Admin.ViewModels.NavVM
+
+<ul>
+    <li class="@(Model.Area == "Skyberry" ? "selected " : "")"><a href="@Url.Action("Skyberry", "Public")">Skyberry</a></li>
+    <li class="@(Model.Area == "Creative" ? "selected " : "")"><a href="@Url.Action("Creative", "Public")">Creative</a></li>
+    <li class="@(Model.Area == "Development" ? "selected " : "")"><a href="@Url.Action("Development", "Public")">Development</a></li>
+    <li class="@(Model.Area == "Portfolio" ? "selected " : "")"><a href="@Url.Action("Portfolio", "Public")">Portfolio</a></li>
+    <li class="@(Model.Area == "Blog" ? "selected " : "")"><a href="/blog/">Blog</a></li>
+    <li class="@(Model.Area == "MyAccount" ? "selected " : "")"><a href="@Url.Action("Summary", "MyAccount")">My Account</a></li>
+    <li class="@(Model.Area == "Contact" ? "selected " : "")"><a href="@Url.Action("Contact", "Public")">Contact</a></li>
+</ul>

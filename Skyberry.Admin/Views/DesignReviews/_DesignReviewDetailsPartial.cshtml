@@ -1,0 +1,34 @@
+﻿@model Skyberry.Admin.ViewModels.DesignReviewVM
+
+<dl class="dl-horizontal">
+    <dt>@Html.DisplayNameFor(model => model.DesignReview.Title)</dt>
+    <dd>@Html.DisplayFor(model => model.DesignReview.Title)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.DesignReview.Description)</dt>
+    <dd>@Html.Raw(Model.DesignReview.Description)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.DesignReview.SelectedComment)</dt>
+    <dd>@Html.DisplayFor(model => model.DesignReview.SelectedComment)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.DesignReview.AdditionalComment)</dt>
+    <dd>@Html.DisplayFor(model => model.DesignReview.AdditionalComment)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.DesignReview.AcceptedDate)</dt>
+    <dd>@(Model.DesignReview.AcceptedDate.HasValue ? Model.DesignReview.AcceptedDate.Value.ToString("M/dd/yyyy") : "")</dd>
+
+    <dt>Project Name</dt>
+    <dd>@Html.DisplayFor(model => model.DesignReview.Project.Name)</dd>
+
+    <dt>Selected Document</dt>
+    <dd>
+        @if (Model.DesignReview.SelectedReviewDocument != null)
+        {
+            <a href="/files/@Model.DesignReview.SelectedReviewDocument.Filename">@Html.DisplayFor(model => model.DesignReview.SelectedReviewDocument.Title)</a>
+        }
+        else
+        {
+            <span>none</span>
+        }
+    </dd>
+</dl>
+

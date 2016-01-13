@@ -1,0 +1,15 @@
+﻿@model Skyberry.Admin.ViewModels.PaymentVM
+
+<dl class="dl-horizontal">
+    <dt>@Html.DisplayNameFor(model => model.Payment.Account.Name)</dt>
+    <dd>@Html.DisplayFor(model => model.Payment.Account.Name)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Payment.Amount)</dt>
+    <dd>@Html.Raw(Model.Payment.Amount)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Payment.PaymentType)</dt>
+    <dd>@Html.DisplayFor(model => model.Payment.PaymentType)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Payment.PaymentDate)</dt>
+    <dd>@(Model.Payment.PaymentDate.HasValue ? Model.Payment.PaymentDate.Value.ToString("M/dd/yyyy") : "")</dd>
+</dl>

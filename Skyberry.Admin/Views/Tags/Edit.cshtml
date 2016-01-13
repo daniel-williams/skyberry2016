@@ -1,0 +1,80 @@
+﻿@model Skyberry.Admin.ViewModels.TagVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    bool isCreate = Model.Tag.TagId == Guid.Empty;
+    string mode = isCreate ? "Create" : "Edit";
+
+    ViewBag.Title = "@mode Tag";
+}
+
+<h2>@(isCreate ? "Create" : "Edit") Tag</h2>
+<hr />
+
+<form action="@Url.Action(@mode)" name="frm" id="frm" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true)
+        <input type="hidden" name="Tag.TagId" value="@Model.Tag.TagId" />
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Tag.Name, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.Tag.Name, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Tag.Name, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Tag.IsFilter, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.CheckBoxFor(model => model.Tag.IsFilter)
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Tag.IsFilter, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Tag.IsActive, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.CheckBoxFor(model => model.Tag.IsActive)
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Tag.IsActive, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Images" class="control-label col-xs-2">Images</label>
+            <div class="col-xs-6">
+                <select id="Images" name="Images" multiple="multiple" class="multiple form-control">
+                    @foreach (var image in Model.Images)
+                    {
+                        var isSelected = Model.Tag.Images != null && Model.Tag.Images.Contains(image) ? "selected=selected" : "";
+
+                        <option value="@image.Id.ToString()" @isSelected>@image.Title - @image.FilenameOriginal</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@Html.Partial("_RelatedImagesPartial", Model.Tag.Images.ToList())

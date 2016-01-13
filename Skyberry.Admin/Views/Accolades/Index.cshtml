@@ -1,0 +1,96 @@
+﻿@model Skyberry.Admin.ViewModels.AccoladeListVM
+
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Accolade List";
+
+    string sortby = "";
+}
+
+<h2>Accolade List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div id="grid-filters">
+    <form action="@Url.Action("Index", "Accolades")" method="get" name="frm" id="frm">
+        <input type="hidden" name="Sort" value="@Model.PageSortCriteria.Sort" />
+        <input type="hidden" name="Page" value="1" />
+
+        <h4>Filters</h4>
+        <div>
+            <label for="Title">Title</label>
+            <input type="text" name="Title" id="Title" value="@Model.SearchCriteria.Title" />
+        </div>
+        <div style="margin-top:10px;"><button type="submit" class="btn btn-default">Update</button></div>
+    </form>
+</div>
+
+<div class="pager-div">
+    @if (Model.Accolades.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.Accolades, page => Url.Action("Index", "Testimonials", new { page = page, sort = Model.PageSortCriteria.Sort, title = Model.SearchCriteria.Title }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>
+
+<table id="tbl-grid-accolade" class="tbl-grid hl pad-full">
+    <tr>
+        <th class="c1">
+            @{
+                sortby = "Account.Name";
+            }
+            <a href="@Url.Action("Index", "Accolades", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), title = Model.SearchCriteria.Title })">Account<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c2">
+            @{
+                sortby = "Title";
+            }
+            <a href="@Url.Action("Index", "Accolades", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), title = Model.SearchCriteria.Title })">Title<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c3">
+            @{
+                sortby = "Description";
+            }
+            <a href="@Url.Action("Index", "Accolades", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), title = Model.SearchCriteria.Title })">Description<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c4">
+            @{
+                sortby = "IsActive";
+            }
+            <a href="@Url.Action("Index", "Accolades", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), title = Model.SearchCriteria.Title })">Active<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c5"></th>
+    </tr>
+    @foreach (var item in Model.Accolades)
+    {
+        <tr>
+            <td class="c1">
+                @Html.DisplayFor(modelItem => item.Account.Name)
+            </td>
+            <td class="c2">
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td class="c3">
+                @Html.Raw(item.Description)
+            </td>
+            <td class="c4">
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td class="c5">
+                @Html.ActionLink("Edit", "Edit", "Accolades", new { id = item.AccoladeId }, null) |
+                @Html.ActionLink("Details", "Details", "Accolades", new { id = item.AccoladeId }, null) |
+                @Html.ActionLink("Delete", "Delete", "Accolades", new { id = item.AccoladeId }, null)
+            </td>
+    </tr>
+    }
+</table>
+
+<div class="pager-div">
+    @if (Model.Accolades.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.Accolades, page => Url.Action("Index", "Testimonials", new { page = page, sort = Model.PageSortCriteria.Sort, title = Model.SearchCriteria.Title }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>

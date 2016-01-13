@@ -1,0 +1,146 @@
+﻿
+.frm_row
+{
+    width:625px;
+    margin-bottom:9px;   
+}
+.frm_lbl, .frm_in
+{
+    position: relative;
+    vertical-align: top;
+    display: inline-block; zoom: 1; *display: inline;
+}
+.frm_lbl
+{
+    width: 150px;
+    text-align: right;
+    font-size:14px;
+    line-height: 30px;
+    margin-right:10px;
+}
+.frm_in
+{
+    width: 450px;
+    text-align: left;
+}
+.frm_in span
+{
+    vertical-align:top;
+}
+
+
+
+
+#contact_wrap
+{
+    position:relative;
+    margin-top:25px;
+}
+#contact_info
+{
+    float:left;
+}
+#contact_form
+{
+    float:right;
+}
+
+
+
+
+
+
+
+input[type="button"], input[type="submit"], input[type="reset"], input[type="file"]
+{
+    font-size:14px;
+    color:#79868A;
+    padding:5px 10px;
+    background:#fafafa;  
+    background:-webkit-linear-gradient(top,  #fafafa 0%,#f4f4f4 40%,#DCF1F9 100%);
+    box-shadow:0 1px 3px #ddd;  
+    -webkit-transition:0.2s linear;
+}
+input[type="button"]:hover, input[type="submit"]:hover, input[type="reset"]:hover, input[type="file"]:hover
+{
+    background:-webkit-linear-gradient(top,  #fafafa 0%,#f4f4f4 40%,#fff 100%);
+}
+input[type="text"], input[type="password"]
+{
+    font-size:14px;
+    color:#79868A;
+    padding:5px 5px 5px 10px;
+    margin:0px;
+    width:250px;
+}
+select
+{
+    font-size:14px;
+    color:#79868A;
+    padding:5px 5px 5px 10px;
+    margin:0px;
+    width:250px;
+}
+textarea
+{
+    font-size:14px;
+    color:#79868A;
+    padding:5px 5px 5px 10px;
+    margin:0px;
+    width:400px;
+    height:125px;
+    border:1px solid #999;
+}
+input[type="checkbox"]
+{
+    margin-right:5px;
+}
+.frm_cbx
+{
+    line-height:25px;
+}
+
+/********** validation **********/
+
+.fieldError
+{
+	background:transparent url(../images/red_x.png) no-repeat center right;
+}
+.fieldValid
+{
+	background:transparent url(../images/green_check.png) no-repeat center right;
+}
+.inputInit
+{
+
+}
+.inputValid
+{
+    border:1px solid green !important;
+}
+.inputError
+{
+    border:1px solid red !important;
+}
+.fieldInit
+{
+    padding-right:20px;
+}
+
+#frm_invalid
+{
+    position:relative;
+    display:none;
+    line-height:26px;
+	font-size:14px;
+	color: #888;
+}
+#frm_invalid img
+{
+    position:relative;
+    top:3px;
+}
+
+
+
+

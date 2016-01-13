@@ -1,0 +1,70 @@
+﻿@model Skyberry.Admin.ViewModels.ContractVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    bool isCreate = Model.Contract.ContractId == Guid.Empty;
+    var mode = isCreate ? "Create" : "Edit";
+    ViewBag.Title = "@mode Contract";
+}
+
+<h2>@mode Contract</h2>
+<hr />
+
+<form action="@Url.Action(@mode)" name="frm" id="frm" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="Contract.ContractId" value="@Model.Contract.ContractId" />
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+
+        @if (!isCreate)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Contract.Number, new { @class = "control-label col-xs-2" })
+                <div class="col-xs-6">
+                    @Html.TextBoxFor(model => model.Contract.Number, new { @class = "form-control", disabled = "disabled" })
+                </div>
+                <div class="col-xs-offset-2 col-xs-10">
+                    @Html.ValidationMessageFor(model => model.Contract.Number, null, new { @class = "help-block" })
+                </div>
+            </div>
+        }
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Contract.Title, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.Contract.Title, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Contract.Title, null, new { @class = "help-block" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="Projects" class="control-label col-xs-2">Projects</label>
+            <div class="col-xs-6">
+                <select id="Projects" name="Projects" multiple="multiple" class="multiple form-control" >
+                    @foreach (var item in Model.Projects)
+                    {
+                        var isSelected = Model.Contract.Projects != null && Model.Contract.Projects.Contains(item) ? "selected=selected" : "";
+
+                        <option value="@item.ProjectId.ToString()" @isSelected>@(item.Account.Name) - @(item.Name)</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@Html.Partial("_RelatedContractDocumentsPartial", Model.Contract.ContractDocuments.ToList())
+@Html.Partial("_RelatedProjectsPartial", Model.Contract.Projects.ToList())

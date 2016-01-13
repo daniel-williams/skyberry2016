@@ -1,0 +1,120 @@
+﻿@model Skyberry.Admin.ViewModels.UserListVM
+
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "User List";
+    string sortby = "";
+}
+
+<h2>User List</h2>
+<hr />
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div id="grid-filters">
+    <form action="@Url.Action("Index", "Users")" method="get" name="frm" id="frm">
+        <input type="hidden" name="Sort" value="@Model.PageSortCriteria.Sort" />
+        <input type="hidden" name="Page" value="1" />
+
+        <h4>Filters</h4>
+        <div>
+            <label for="FirstName">First Name</label>
+            <input type="text" name="FirstName" id="FirstName" value="@Model.SearchCriteria.FirstName" />
+        </div>
+        <div>
+            <label for="LastName">Last Name</label>
+            <input type="text" name="LastName" id="LastName" value="@Model.SearchCriteria.LastName" />
+        </div>
+        <div>
+            <label for="UserName">Username</label>
+            <input type="text" name="UserName" id="UserName" value="@Model.SearchCriteria.UserName" />
+        </div>
+        <div>
+            <label for="Email">Email</label>
+            <input type="text" name="Email" id="Email" value="@Model.SearchCriteria.Email" />
+        </div>
+        
+        <div style="margin-top:10px;"><button type="submit" class="btn btn-default">Update</button></div>
+    </form>
+</div>
+
+<div class="pager-div">
+    @if (Model.Users.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.Users, page => Url.Action("Index", "Users", new { page = page, sort = Model.PageSortCriteria.Sort, firstName = Model.SearchCriteria.FirstName, lastName = Model.SearchCriteria.LastName, userName = Model.SearchCriteria.UserName, email = Model.SearchCriteria.Email }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>
+
+<table id="tbl-grid-user" class="tbl-grid hl pad-full">
+    <tr>
+        <th class="c1">
+            @{
+                sortby = "FirstName";
+            }
+            <a href="@Url.Action("Index", "Users", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), firstName = Model.SearchCriteria.FirstName, lastName = Model.SearchCriteria.LastName, userName = Model.SearchCriteria.UserName, email = Model.SearchCriteria.Email })">First Name<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c2">
+            @{
+                sortby = "LastName";
+            }
+            <a href="@Url.Action("Index", "Users", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), firstName = Model.SearchCriteria.FirstName, lastName = Model.SearchCriteria.LastName, userName = Model.SearchCriteria.UserName, email = Model.SearchCriteria.Email })">Last Name<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c3">
+            @{
+                sortby = "UserName";
+            }
+            <a href="@Url.Action("Index", "Users", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), firstName = Model.SearchCriteria.FirstName, lastName = Model.SearchCriteria.LastName, userName = Model.SearchCriteria.UserName, email = Model.SearchCriteria.Email })">Username<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c4">
+            @{
+                sortby = "Email";
+            }
+            <a href="@Url.Action("Index", "Users", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), firstName = Model.SearchCriteria.FirstName, lastName = Model.SearchCriteria.LastName, userName = Model.SearchCriteria.UserName, email = Model.SearchCriteria.Email })">Email<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c5">
+            @{
+                sortby = "CreatedDate";
+            }
+            <a href="@Url.Action("Index", "Users", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), firstName = Model.SearchCriteria.FirstName, lastName = Model.SearchCriteria.LastName, userName = Model.SearchCriteria.UserName, email = Model.SearchCriteria.Email })">Created<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c6"></th>
+    </tr>
+
+    @foreach (var item in Model.Users)
+    {
+        <tr>
+            <td class="c1">
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td class="c2">
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td class="c3">
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td class="c4">
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td class="c5">
+                @(item.CreatedDate.ToString("M/dd/yyy"))
+            </td>
+            <td class="c6">
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div class="pager-div">
+    @if (Model.Users.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.Users, page => Url.Action("Index", "Users", new { page = page, sort = Model.PageSortCriteria.Sort, firstName = Model.SearchCriteria.FirstName, lastName = Model.SearchCriteria.LastName, userName = Model.SearchCriteria.UserName, email = Model.SearchCriteria.Email }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>

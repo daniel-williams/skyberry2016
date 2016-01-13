@@ -1,0 +1,112 @@
+﻿@model Skyberry.Admin.ViewModels.ProjectDocumentVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    bool isCreate = Model.ProjectDocument.Id == Guid.Empty;
+    string mode = isCreate ? "Create" : "Edit";
+
+    ViewBag.Title = "@mode Project Document";
+}
+
+<h2>@mode Project Document</h2>
+<hr />
+
+<form action="@Url.Action(@mode)" name="frm" id="frm" @(isCreate ? "enctype=multipart/form-data" : "") method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="ProjectDocument.Id" value="@Model.ProjectDocument.Id" />
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+        @if (isCreate)
+        {
+            <div class="form-group">
+                <label for="FileData" class="control-label col-xs-2">File</label>
+                <div class="col-xs-6">
+                    <input type="file" name="FileData" id="ProjectDocument_FileData" class="form-control" />
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="form-group">
+                <label for="ProjectDocument_FilenameOriginal" class="control-label col-xs-2">Filename</label>
+                <div class="col-xs-6">
+                    @Html.TextBoxFor(model => model.ProjectDocument.FilenameOriginal, new { @class = "form-control" })
+                </div>
+                <div class="col-xs-offset-2 col-xs-10">
+                    @Html.ValidationMessageFor(model => model.ProjectDocument.FilenameOriginal, null, new { @class = "help-block" })
+                </div>
+            </div>
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProjectDocument.Title, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.ProjectDocument.Title, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ProjectDocument.Title, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProjectDocument.Description, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-10">
+                @Html.TextAreaFor(model => model.ProjectDocument.Description, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ProjectDocument.Description, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProjectDocument.Version, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.ProjectDocument.Version, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ProjectDocument.Version, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProjectDocument.DocType, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.DropDownListFor(m => m.ProjectDocument.DocType, new SelectList(Model.ProjectDocumentTypeOpts, "Id", "Value", @Model.ProjectDocument.DocType), new { @class = "single form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ProjectDocument.DocType, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="ProjectId" class="control-label col-xs-2">Project</label>
+            <div class="col-xs-6">
+                @Html.DropDownListFor(m => m.ProjectDocument.ProjectId, new SelectList(Model.ProjectOpts, "Id", "Value", @Model.ProjectDocument.ProjectId), new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ProjectDocument.ProjectId, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProjectDocument.IsActive, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.CheckBoxFor(model => model.ProjectDocument.IsActive)
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ProjectDocument.IsActive, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

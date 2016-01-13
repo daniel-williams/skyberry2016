@@ -1,0 +1,82 @@
+﻿@model Skyberry.Admin.ViewModels.ContactListVM
+
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Contact List";
+    string sortby = "";
+}
+
+<h2>Contact List</h2>
+<hr />
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div id="grid-filters">
+    <form action="@Url.Action("Index", "Contacts")" method="get" name="frm" id="frm">
+        <input type="hidden" name="Sort" value="@Model.PageSortCriteria.Sort" />
+        <input type="hidden" name="Page" value="1" />
+
+        <h4>Filters</h4>
+        <div>
+            <label for="ContactType">Contact Type</label>
+            <input type="text" name="ContactType" id="ContactType" value="@Model.SearchCriteria.ContactType" />
+        </div>
+        <div>
+            <label for="ContactData">Contact Data</label>
+            <input type="text" name="ContactData" id="ContactData" value="@Model.SearchCriteria.ContactData" />
+        </div>
+        <div style="margin-top:10px;"><button type="submit" class="btn btn-default">Update</button></div>
+    </form>
+</div>
+
+<div class="pager-div">
+    @if (Model.Contacts.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.Contacts, page => Url.Action("Index", "Contacts", new { page = page, sort = Model.PageSortCriteria.Sort, contactType = Model.SearchCriteria.ContactType, contactData = Model.SearchCriteria.ContactData }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>
+
+<table id="tbl-grid-contact" class="tbl-grid hl pad-full">
+    <tr>
+        <th class="c1">
+            @{
+                sortby = "ContactType";
+            }
+            <a href="@Url.Action("Index", "Contacts", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), contactType = Model.SearchCriteria.ContactType, contactData = Model.SearchCriteria.ContactData })">Type<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c2">
+            @{
+                sortby = "ContactData";
+            }
+            <a href="@Url.Action("Index", "Contacts", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), contactType = Model.SearchCriteria.ContactType, contactData = Model.SearchCriteria.ContactData })">Data<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c3"></th>
+    </tr>
+    @foreach (var item in Model.Contacts)
+    {
+        <tr>
+            <td class="c1">
+                @Html.DisplayFor(modelItem => item.ContactType)
+            </td>
+            <td class="c2">
+                @Html.DisplayFor(modelItem => item.ContactData)
+            </td>
+            <td class="c3">
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>
+
+<div class="pager-div">
+    @if (Model.Contacts.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.Contacts, page => Url.Action("Index", "Contacts", new { page = page, sort = Model.PageSortCriteria.Sort, contactType = Model.SearchCriteria.ContactType, contactData = Model.SearchCriteria.ContactData }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>

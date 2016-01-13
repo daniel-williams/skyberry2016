@@ -1,0 +1,83 @@
+﻿@model Skyberry.Admin.ViewModels.ContactVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    bool isCreate = Model.Contact.Id == Guid.Empty;
+    var mode = isCreate ? "Create" : "Edit";
+
+    ViewBag.Title = "@mode Contact";
+}
+
+<h2>@mode Contact</h2>
+<hr />
+
+<form action="@Url.Action(@mode)" name="frm" id="frm" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="Contact.Id" value="@Model.Contact.Id" />
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Contact.ContactType, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.DropDownListFor(m => m.Contact.ContactType, new SelectList(Model.ContactTypeOpts, "Id", "Value", @Model.Contact.ContactType), new { @class = "single form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Contact.ContactType, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Contact.ContactData, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.Contact.ContactData, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Contact.ContactData, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Images" class="control-label col-xs-2">Users</label>
+            <div class="col-xs-6">
+                <select id="Users" name="Users" multiple="multiple" class="multiple form-control">
+                    @foreach (var item in Model.Users)
+                    {
+                        var isSelected = Model.Contact.SkyberryUsers != null && Model.Contact.SkyberryUsers.Contains(item) ? "selected=selected" : "";
+
+                        <option value="@item.Id.ToString()" @isSelected>@item.FirstName @item.LastName (@item.UserName)</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Images" class="control-label col-xs-2">Accounts</label>
+            <div class="col-xs-6">
+                <select id="Accounts" name="Accounts" multiple="multiple" class="multiple form-control">
+                    @foreach (var item in Model.Accounts)
+                    {
+                        var isSelected = Model.Contact.Accounts != null && Model.Contact.Accounts.Contains(item) ? "selected=selected" : "";
+
+                        <option value="@item.Id.ToString()" @isSelected>@item.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@Html.Partial("_RelatedUsersPartial", Model.Contact.SkyberryUsers.ToList())
+@Html.Partial("_RelatedAccountsPartial", Model.Contact.Accounts.ToList())

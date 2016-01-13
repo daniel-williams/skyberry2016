@@ -1,0 +1,411 @@
+﻿/* styles for validation helpers */
+.field-validation-error {
+  color: #b94a48;
+}
+.field-validation-valid {
+  display: none;
+}
+input.input-validation-error {
+  border: 1px solid #b94a48;
+}
+input[type="checkbox"].input-validation-error {
+  border: 0 none;
+}
+.validation-summary-errors {
+  color: #b94a48;
+}
+.validation-summary-valid {
+  display: none;
+}
+body {
+  padding-top: 150px;
+  padding-bottom: 20px;
+}
+/* Set padding to keep content from hitting the edges */
+.body-content {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+/* Set width on the form input elements since they're 100% wide by default */
+.related {
+  margin-top: 20px;
+}
+.img-grid > li {
+  list-style: none;
+  margin: 0;
+  float: left;
+}
+.sort {
+  margin-left: 5px;
+  font-size: 8px;
+  line-height: 20px;
+}
+.tbl-grid {
+  width: 100%;
+  max-width: 100%;
+}
+.tbl-grid.hl tr:hover {
+  background-color: #f9f9f9;
+}
+.tbl-grid th {
+  background-color: #eee;
+  white-space: nowrap;
+}
+.tbl-grid th,
+.tbl-grid td {
+  border-bottom: 1px solid #ccc;
+  padding: 5px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+#tbl-grid-image .c0 {
+  width: 50px;
+  padding-left: 0;
+}
+#tbl-grid-image .c2 {
+  width: 20%;
+}
+#tbl-grid-image .c3 {
+  width: 20%;
+}
+#tbl-grid-image .c4 {
+  width: 1%;
+  min-width: 150px;
+  white-space: nowrap;
+  text-align: right;
+}
+#tbl-grid-contract .c1 {
+  width: 20%;
+}
+#tbl-grid-contract .c2 {
+  width: 10%;
+}
+#tbl-grid-contract .c4 {
+  width: 1%;
+  min-width: 150px;
+  white-space: nowrap;
+  text-align: right;
+}
+#tbl-grid-contract-document .c1 {
+  width: 30%;
+}
+#tbl-grid-contract-document .c2 {
+  width: 20%;
+}
+#tbl-grid-contract-document .c4 {
+  width: 1%;
+  min-width: 150px;
+  white-space: nowrap;
+  text-align: right;
+}
+#tbl-grid-project-document .c1 {
+  width: 20%;
+}
+#tbl-grid-project-document .c2 {
+  width: 20%;
+}
+#tbl-grid-project-document .c3 {
+  width: 20%;
+}
+#tbl-grid-project-document .c4 {
+  width: 20%;
+}
+#tbl-grid-project-document .c6 {
+  width: 1%;
+  min-width: 150px;
+  white-space: nowrap;
+  text-align: right;
+}
+#tbl-grid-design-review .c1 {
+  width: 20%;
+}
+#tbl-grid-design-review .c2 {
+  width: 20%;
+}
+#tbl-grid-design-review .c3 {
+  width: 20%;
+}
+#tbl-grid-design-review .c5 {
+  width: 1%;
+  min-width: 150px;
+  white-space: nowrap;
+  text-align: right;
+}
+#tbl-grid-review-document .c1 {
+  width: 20%;
+}
+#tbl-grid-review-document .c2 {
+  width: 20%;
+}
+#tbl-grid-review-document .c3 {
+  width: 20%;
+}
+#tbl-grid-review-document .c4 {
+  width: 20%;
+}
+#tbl-grid-review-document .c5 {
+  width: 10%;
+}
+#tbl-grid-review-document .c6 {
+  width: 10%;
+}
+#tbl-grid-review-document .c7 {
+  width: 1%;
+  min-width: 150px;
+  white-space: nowrap;
+  text-align: right;
+}
+#tbl-grid-image-set .c1 {
+  width: 70px;
+}
+#tbl-grid-image-set .c3 {
+  width: 1%;
+  min-width: 150px;
+  white-space: nowrap;
+  text-align: right;
+}
+#tbl-grid-image-set-item .c1 {
+  width: 70px;
+}
+#tbl-grid-image-set-item .c2 {
+  width: 30%;
+}
+#tbl-grid-image-set-item .c4 {
+  width: 1%;
+  min-width: 150px;
+  white-space: nowrap;
+  text-align: right;
+}
+#tbl-grid-tag .c2 {
+  width: 15%;
+}
+#tbl-grid-tag .c3 {
+  width: 15%;
+}
+#tbl-grid-tag .c4 {
+  width: 1%;
+  min-width: 150px;
+  white-space: nowrap;
+  text-align: right;
+}
+#tbl-grid-accolade .c1 {
+  width: 20%;
+}
+#tbl-grid-accolade .c2 {
+  width: 20%;
+}
+#tbl-grid-accolade .c4 {
+  width: 10%;
+}
+#tbl-grid-accolade .c5 {
+  width: 1%;
+  min-width: 150px;
+  white-space: nowrap;
+  text-align: right;
+}
+#tbl-grid-testimonial .c1 {
+  width: 20%;
+}
+#tbl-grid-testimonial .c2 {
+  width: 20%;
+}
+#tbl-grid-testimonial .c4 {
+  width: 10%;
+}
+#tbl-grid-testimonial .c5 {
+  width: 1%;
+  min-width: 150px;
+  white-space: nowrap;
+  text-align: right;
+}
+#tbl-grid-project .c2 {
+  width: 20%;
+}
+#tbl-grid-project .c3 {
+  width: 10%;
+}
+#tbl-grid-project .c4 {
+  width: 10%;
+}
+#tbl-grid-project .c5 {
+  width: 10%;
+}
+#tbl-grid-project .c6 {
+  width: 1%;
+  min-width: 150px;
+  white-space: nowrap;
+  text-align: right;
+}
+#tbl-grid-invoice .c1 {
+  width: 20%;
+}
+#tbl-grid-invoice .c2 {
+  width: 10%;
+}
+#tbl-grid-invoice .c3 {
+  width: 20%;
+}
+#tbl-grid-invoice .c4 {
+  width: 10%;
+}
+#tbl-grid-invoice .c6 {
+  width: 1%;
+  min-width: 150px;
+  white-space: nowrap;
+  text-align: right;
+}
+#tbl-grid-contact .c1 {
+  width: 10%;
+}
+#tbl-grid-contact .c3 {
+  width: 1%;
+  min-width: 150px;
+  white-space: nowrap;
+  text-align: right;
+}
+#tbl-grid-address .c1 {
+  width: 10%;
+}
+#tbl-grid-address .c4 {
+  width: 10%;
+}
+#tbl-grid-address .c5 {
+  width: 10%;
+}
+#tbl-grid-address .c6 {
+  width: 1%;
+  min-width: 150px;
+  white-space: nowrap;
+  text-align: right;
+}
+#tbl-grid-user .c1 {
+  width: 10%;
+}
+#tbl-grid-user .c2 {
+  width: 10%;
+}
+#tbl-grid-user .c3 {
+  width: 20%;
+}
+#tbl-grid-user .c4 {
+  width: 20%;
+}
+#tbl-grid-user .c6 {
+  width: 1%;
+  min-width: 150px;
+  white-space: nowrap;
+  text-align: right;
+}
+#tbl-grid-payment .c1 {
+  width: 20%;
+}
+#tbl-grid-payment .c2 {
+  width: 10%;
+}
+#tbl-grid-payment .c3 {
+  width: 10%;
+}
+#tbl-grid-payment .c5 {
+  width: 1%;
+  min-width: 150px;
+  white-space: nowrap;
+  text-align: right;
+}
+#tag-list > div {
+  float: left;
+  padding: 5px 7px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  margin: 0 5px 5px 0;
+}
+.pad-full {
+  margin-top: 20px;
+}
+.pagination {
+  margin: 10px 0;
+}
+.pagination-container {
+  text-align: right;
+}
+.ui-multiselect {
+  padding: 2px 0 2px 4px;
+  text-align: left;
+}
+.ui-multiselect span.ui-icon {
+  float: right;
+}
+.ui-multiselect-single .ui-multiselect-checkboxes input {
+  position: absolute !important;
+  top: auto !important;
+  left: -9999px;
+}
+.ui-multiselect-single .ui-multiselect-checkboxes label {
+  padding: 5px !important;
+}
+.ui-multiselect-header {
+  margin-bottom: 3px;
+  padding: 3px 0 3px 4px;
+}
+.ui-multiselect-header ul {
+  font-size: 0.9em;
+}
+.ui-multiselect-header ul li {
+  float: left;
+  padding: 0 10px 0 0;
+}
+.ui-multiselect-header a {
+  text-decoration: none;
+}
+.ui-multiselect-header a:hover {
+  text-decoration: underline;
+}
+.ui-multiselect-header span.ui-icon {
+  float: left;
+}
+.ui-multiselect-header li.ui-multiselect-close {
+  float: right;
+  text-align: right;
+  padding-right: 0;
+}
+.ui-multiselect-menu {
+  display: none;
+  padding: 3px;
+  position: absolute;
+  z-index: 10000;
+  text-align: left;
+}
+.ui-multiselect-checkboxes {
+  position: relative /* fixes bug in IE6/7 */;
+  overflow-y: auto;
+}
+.ui-multiselect-checkboxes label {
+  cursor: default;
+  display: block;
+  border: 1px solid transparent;
+  padding: 3px 1px;
+}
+.ui-multiselect-checkboxes label input {
+  position: relative;
+  top: 1px;
+}
+.ui-multiselect-checkboxes li {
+  clear: both;
+  font-size: 0.9em;
+  padding-right: 3px;
+}
+.ui-multiselect-checkboxes li.ui-multiselect-optgroup-label {
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 1px solid;
+}
+.ui-multiselect-checkboxes li.ui-multiselect-optgroup-label a {
+  display: block;
+  padding: 3px;
+  margin: 1px 0;
+  text-decoration: none;
+}
+/* remove label borders in IE6 because IE6 does not support transparency */
+* html .ui-multiselect-checkboxes label {
+  border: none;
+}

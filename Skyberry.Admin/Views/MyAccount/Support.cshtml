@@ -1,0 +1,132 @@
+﻿@model Skyberry.Admin.ViewModels.MyAccountSupportVM
+
+@{
+    ViewBag.Title = "Account Support";
+}
+@section meta_tags
+{
+    <meta name="description" content="Account support for Skyberry Studio clients." />
+}
+@section nav_top
+{
+    @Html.Partial("_NavTopPartial", new Skyberry.Admin.ViewModels.NavVM("MyAccount", "Support"))
+}
+@section nav_bottom
+{
+    @Html.Partial("_NavBottomPartial", new Skyberry.Admin.ViewModels.NavVM("MyAccount", "Support"))
+}
+@section styles
+{
+    @Styles.Render("~/bundles/css/account")
+}
+
+
+@if (Model.Received)
+{
+    <div class="container fixed section">
+        <div class="col-xs-12 pull-left">
+            <h1>Support</h1>
+            @if(User.IsInRole("Admin"))
+            { 
+                <p>Signed in as <strong>@Model.User.UserName</strong> for account <strong>@Model.Account.Name</strong></p>
+            }
+            <div id="acct_inst">
+                Thank you! Your inquiry has been received. You should receive a response from Skyberry staff within 24 hours.
+                <br />
+                <br />
+                <span class="bdata">For immediate assistance</span>
+                <div>Phone: +1 503 272 1022</div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container fixed section">
+        <div class="col-xs-12 pull-left">
+            <h1>Support</h1>
+            @if (User.IsInRole("Admin"))
+            {
+                <p>Signed in as <strong>@Model.User.UserName</strong> for account <strong>@Model.Account.Name</strong></p>
+            }
+        </div>
+        <div class="col-xs-12 pull-left">
+            <div id="acct_inst">Please provide as much detail as you can. Skyberry staff will respond within 24 hours to the email address you provide.</div>
+        </div>
+        <div class="col-xs-12 pull-left">
+            <section id="support-form">
+                <form action="@Url.Action("Support", "MyAccount")" method="post" class="form-horizontal">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        @Html.ValidationSummary(true)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Name, new { @class = "col-xs-2 control-label" })
+                        <div class="col-xs-4">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                                </div>
+                                <div class="col-xs-12">
+                                    @Html.ValidationMessageFor(m => m.Name, null, new { @class = "help-block" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email, new { @class = "col-xs-2 control-label" })
+                        <div class="col-xs-4">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                </div>
+                                <div class="col-xs-12">
+                                    @Html.ValidationMessageFor(m => m.Email, null, new { @class = "help-block" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Regarding, new { @class = "col-xs-2 control-label" })
+                        <div class="col-xs-4">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <select name="Regarding" id="Regarding" class="form-control">
+                                        <option value="General Inquiry">General Inquiry</option>
+                                        <option value="Billing">Billing</option>
+                                        <option value="Design Related">Design Related</option>
+                                        <option value="Technical Issue">Technical Issue</option>
+                                        <option value="Update Account Information">Update Account Information</option>
+                                        <option value="New Work Request">New Work Request</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-12">
+                                    @Html.ValidationMessageFor(m => m.Regarding, null, new { @class = "help-block" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Details, new { @class = "col-xs-2 control-label" })
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    @Html.TextAreaFor(m => m.Details, new { @class = "form-control", @style = "height: 125px;" })
+                                </div>
+                                <div class="col-xs-12">
+                                    @Html.ValidationMessageFor(m => m.Details, null, new { @class = "help-block" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-2"></div>
+                        <div class="col-xs-2">
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+}

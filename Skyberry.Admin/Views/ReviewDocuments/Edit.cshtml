@@ -1,0 +1,125 @@
+﻿@model Skyberry.Admin.ViewModels.ReviewDocumentVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    bool isCreate = Model.ReviewDocument.Id == Guid.Empty;
+    string mode = isCreate ? "Create" : "Edit";
+
+    ViewBag.Title = "@mode Review Document";
+}
+
+<h2>@mode Review Document</h2>
+<hr />
+
+<form action="@Url.Action(@mode)" name="frm" id="frm" @(isCreate ? "enctype=multipart/form-data" : "") method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="ReviewDocument.Id" value="@Model.ReviewDocument.Id" />
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+
+        @if (isCreate)
+        {
+            <div class="form-group">
+                <label for="FileData" class="control-label col-xs-2">File</label>
+                <div class="col-xs-6">
+                    <input type="file" name="FileData" id="ReviewDocument_FileData" class="form-control" />
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="form-group">
+                <label for="ReviewDocument_FilenameOriginal" class="control-label col-xs-2">Filename</label>
+                <div class="col-xs-6">
+                    @Html.TextBoxFor(model => model.ReviewDocument.FilenameOriginal, new { @class = "form-control" })
+                </div>
+                <div class="col-xs-offset-2 col-xs-10">
+                    @Html.ValidationMessageFor(model => model.ReviewDocument.FilenameOriginal, null, new { @class = "help-block" })
+                </div>
+            </div>
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReviewDocument.Title, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.ReviewDocument.Title, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ReviewDocument.Title, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReviewDocument.Order, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.ReviewDocument.Order, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ReviewDocument.Order, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReviewDocument.Description, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-10">
+                @Html.TextAreaFor(model => model.ReviewDocument.Description, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ReviewDocument.Description, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReviewDocument.Version, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.ReviewDocument.Version, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ReviewDocument.Version, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReviewDocument.DocType, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.DropDownListFor(m => m.ReviewDocument.DocType, new SelectList(Model.ReviewDocumentTypeOpts, "Id", "Value", @Model.ReviewDocument.DocType), new { @class = "single form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ReviewDocument.DocType, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="ReviewId" class="control-label col-xs-2">Review</label>
+            <div class="col-xs-6">
+                @Html.DropDownListFor(m => m.ReviewDocument.DesignReviewId, new SelectList(Model.DesignReviewOpts, "Id", "Value", @Model.ReviewDocument.DesignReviewId), new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ReviewDocument.DesignReviewId, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReviewDocument.IsActive, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.CheckBoxFor(model => model.ReviewDocument.IsActive)
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ReviewDocument.IsActive, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+

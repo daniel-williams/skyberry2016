@@ -1,0 +1,40 @@
+﻿@model List<Skyberry.Domain.Address>
+
+<div class="related">
+    <h4>Addresses</h4>
+    <table id="tbl-grid-address" class="tbl-grid hl">
+        <tr>
+            <th class="c1">Type</th>
+            <th class="c2">Line 1</th>
+            <th class="c3">Line 2</th>
+            <th class="c4">Locality</th>
+            <th class="c5">Region</th>
+            <th class="c6"></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="c1">
+                    @Html.DisplayFor(modelItem => item.AddressType)
+                </td>
+                <td class="c2">
+                    @Html.DisplayFor(modelItem => item.Line1)
+                </td>
+                <td class="c3">
+                    @Html.DisplayFor(modelItem => item.Line2)
+                </td>
+                <td class="c4">
+                    @Html.DisplayFor(modelItem => item.Locality)
+                </td>
+                <td class="c5">
+                    @Html.DisplayFor(modelItem => item.Region)
+                </td>
+                <td class="c6">
+                    @Html.ActionLink("Edit", "Edit", "Addresses", new { id = item.AddressId }, null) |
+                    @Html.ActionLink("Details", "Details", "Addresses", new { id = item.AddressId }, null) |
+                    @Html.ActionLink("Delete", "Delete", "Addresses", new { id = item.AddressId }, null)
+                </td>
+            </tr>
+        }
+    </table>
+</div>

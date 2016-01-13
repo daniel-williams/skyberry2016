@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @RenderSection("meta_tags", required: false)
+
+    <title>@ViewBag.Title | Skyberry Studio&trade; Bothell Washington</title>
+
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" href="~/images/apple-touch-icon.png" />
+    @Styles.Render("~/bundles/css/site")
+    @RenderSection("styles", required: false)
+    @Scripts.Render("~/bundles/js/modernizr")
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-32767429-1', 'skyberrystudio.com');
+        ga('send', 'pageview');
+    </script>
+    <script type="text/javascript" src="//use.typekit.com/vah0nza.js"></script>
+    <script type="text/javascript">    try { Typekit.load(); } catch (e) { }</script>
+</head>
+<body id="top">
+    <section id="section-clouds" class="mask clouds">
+        <div class="frame">
+            <div id="wrap-cloud">
+                <img id="sunburst" src="~/images/sun-burst.png" alt="Sunbust" />
+                <img id="cloud1" src="~/images/cloud-lg.png" alt="Cloud" />
+                <img id="cloud2" src="~/images/cloud-md.png" alt="Cloud" />
+                <img id="cloud3" src="~/images/cloud-md.png" alt="Cloud" />
+                <img id="cloud4" src="~/images/cloud-sm.png" alt="Cloud" />
+                <img id="cloud5" src="~/images/cloud-sm.png" alt="Cloud" />
+                <img id="cloud6" src="~/images/cloud-sm.png" alt="Cloud" />
+                <img id="cloud7" src="~/images/cloud-sm.png" alt="Cloud" />
+                <img id="wisp1" src="~/images/wisp-01.png" alt="wisp" />
+                <img id="wisp2" src="~/images/wisp-02.png" alt="wisp" />
+                <img id="wisp3" src="~/images/wisp-03.png" alt="wisp" />
+            </div>
+        </div>
+    </section>
+    <header>
+        <div class="container fixed">
+            <div id="wrap-logo" class="col-xs-12">
+                <h1><a href="@Url.Action("Skyberry", "Public")" title="Skyberry Studio Home"><img src="~/images/skyberry-logo.png" alt="Skyberry Studio &trade; Logo" /></a></h1>
+            </div>
+        </div>
+    </header>
+    <nav id="nav-top" class="container fixed">
+        <div class="col-xs-12">
+            <div id="wrap-nav">
+                @RenderSection("nav_top", required: true)
+            </div>
+        </div>
+    </nav>
+    <section id="section-sky">
+        @RenderBody()
+    </section>
+    <section id="section-horizon" class="mask horizon">
+        <div class="frame">
+            <div><img src="~/images/skyline-xw.png" alt="Skyberry Studio&trade; Horizon" width="1410" /><a href="@Url.Action("Contact", "Public")" id="contact-us-meow"><img src="~/images/contact-us-meow.png" /></a><img src="~/images/mini-zeppelin.png" id="zeppelin" /></div>
+        </div>
+    </section>
+    <section id="section-grass">
+        @RenderSection("grass", required: false)
+    </section>
+    <section id="section-dirt">
+        @RenderSection("dirt", required: false)
+    </section>
+    <footer id="footer">
+        <div class="container fixed section">
+            <div class="col-xs-4">
+                <h4>Information &amp; News</h4>
+                <div><a href="@Url.Action("OurClients", "Public")">Our clients</a></div>
+                <div><a href="@Url.Action("ClientTestimonials", "Public")">Client testimonials</a></div>
+                <div><a href="@Url.Action("ToolsAndResources", "Public")">Tools &amp; resources</a></div>
+                <div><a href="~/blog/">Blog</a></div>
+                <div><a href="@Url.Action("Opportunities", "Public")">Opportunities</a></div>
+            </div>
+            <div class="col-xs-4">
+                <h4>Services</h4>
+                <div><a href="@Url.Action("Creative", "Public")#sec-logo-design">Logo design &amp; brand identity</a></div>
+                <div><a href="@Url.Action("Creative", "Public")#sec-graphic-design">Graphic &amp; print design</a></div>
+                <div><a href="@Url.Action("Development", "Public")#sec-website-development">Website design</a></div>
+                <div><a href="@Url.Action("Development", "Public")#sec-software-solutions">Web development &amp; CMS</a></div>
+                <div><a href="@Url.Action("Development", "Public")#sec-software-solutions">E-commerce solutions</a></div>
+                <div><a href="@Url.Action("Development", "Public")#sec-website-development">Social media marketing &amp; branding</a></div>
+            </div>
+            <div class="col-xs-4">
+                <h4>Contact &amp; Support</h4>
+                <div><a href="@Url.Action("Contact", "Public")">Contact us</a></div>
+                <div><a href="@Url.Action("Summary", "MyAccount")">My account</a></div>
+                <div><a href="@Url.Action("SupportAndFAQ", "Public")">Support &amp; FAQ</a></div>
+                <div><a href="@Url.Action("SubscribeToNewsletter", "Public")">Subscribe to newsletter</a></div>
+                <div><a href="@Url.Action("PrivacyPolicy", "Public")">Privacy policy</a></div>
+            </div>
+            <div id="seen_on" class="col-xs-12 pull-left">
+                <span class="title item">As seen on:</span>
+                <img class="item" src="~/images/featured-angieslist.png" alt="Angies List" />
+                <img class="item" src="~/images/featured-iheartlogos.png" alt="I Heart Logos" />
+                <img class="item" src="~/images/featured-seattledotcom.png" alt="Fantasy Artist" />
+                <img class="item" src="~/images/featured-thumbtack.png" alt="Thumbtack" />
+                <img class="item" src="~/images/featured-theoregonian.png" alt="The Oregonian" />
+                <img class="item" src="~/images/featured-aboutcom.png" alt="About dot com" />
+            </div>
+        </div>
+    </footer>
+    <section id="section-dirty" class="mask dirty">
+        <div class="frame">
+            <div><img src="~/images/dirty-looking-dirt-xw.png" alt="Skyberry Studio&trade; Dirty Looking Dirt" /></div>
+        </div>
+    </section>
+    <section id="section-footer-bottom">
+        <div class="container fixed section">
+            <div class="col-xs-8">
+                <nav id="nav-bottom">
+                    @RenderSection("nav_bottom", required: true)
+                </nav>
+                <div id="wrap-social">
+                    <a href="http://facebook.com/skyberrystudio" target="_blank" title="Like us on Facebook"><i class="icon-facebook"></i></a>
+                    <a href="http://twitter.com/skyberrystudio" target="_blank" title="Follow us on Twitter"><i class="icon-twitter"></i></a>
+                    <a href="http://pinterest.com/skyberrystudio" target="_blank" title="Follow us on Pinterest"><i class="icon-pinterest"></i></a>
+                    <a href="http://youtube.com/skyberrystudio" target="_blank" title="Subscribe to our tube, dude!"><i class="icon-youtube"></i></a>
+                </div>
+            </div>
+
+            <div id="copy" class="col-xs-4">
+                <div class="copy">&copy; 2006 - @(DateTime.Now.Year). Skyberry Studio &trade;. All Rights Reserved.</div>
+                <div class="copy">Bothell, Washington, USA</div>
+                <div class="copy">Phone: +1 503 272 1022</div>
+            </div>
+        </div>
+    </section>
+    <div id="scroll-top"><a href="#sec-top" class="scroll" data-scroll="sec-top"><i class="icon-arrow-up"></i></a></div>
+
+    @Scripts.Render("~/bundles/js/site")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

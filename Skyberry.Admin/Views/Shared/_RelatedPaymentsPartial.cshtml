@@ -1,0 +1,36 @@
+﻿@model List<Skyberry.Domain.Payment>
+
+<div class="related">
+    <h4>Payments</h4>
+    <table id="tbl-grid-payment" class="tbl-grid hl">
+        <tr>
+            <th class="c1">Account</th>
+            <th class="c2">Amount</th>
+            <th class="c3">Type</th>
+            <th class="c4">Date</th>
+            <th class="c5"></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="c1">
+                    @Html.DisplayFor(modelItem => item.Account.Name)
+                </td>
+                <td class="c2">
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td class="c3">
+                    @Html.DisplayFor(modelItem => item.PaymentType)
+                </td>
+                <td class="c4">
+                    @(item.PaymentDate.HasValue ? item.PaymentDate.Value.Date.ToString("M/dd/yyy") : "")
+                </td>
+                <td class="c5">
+                    @Html.ActionLink("Edit", "Edit", "Payments", new { id = item.Id }, null) |
+                    @Html.ActionLink("Details", "Details", "Payments", new { id = item.Id }, null) |
+                    @Html.ActionLink("Delete", "Delete", "Payments", new { id = item.Id }, null)
+                </td>
+            </tr>
+        }
+    </table>
+</div>

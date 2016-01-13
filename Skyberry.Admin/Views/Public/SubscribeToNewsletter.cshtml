@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Subscribe to Skyberry News";
+}
+@section meta_tags
+{
+    <meta name="description" content="Subscribe to Skyberry News, a free bi-monthly e-newsletter focusing on design, technology and tools for your business." />
+}
+@section nav_top
+{
+    @Html.Partial("_NavTopPartial", new Skyberry.Admin.ViewModels.NavVM(""))
+}
+@section nav_bottom
+{
+    @Html.Partial("_NavBottomPartial", new Skyberry.Admin.ViewModels.NavVM(""))
+}
+
+
+
+
+
+<div class="container fixed section">
+    <div class="col-xs-12 pull-left">
+        <h1>Subscribe to Newsletter</h1>
+        <p>Subscribe to Skyberry News, a bi-monthly e-newsletter focusing on design, technology and tools for your business.<em>You can unsubscribe at any time.</em></p>
+    </div>
+    <div class="col-xs-6 break">
+        <form action="http://skyberrystudio.us2.list-manage1.com/subscribe/post?u=4b56e68a9798fa4d3ceee6386&amp;id=e5f899b5ab" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="form-horizontal" target="_blank">
+            <div class="form-group">
+                <label class="col-xs-4 control-label">Email</label>
+                <div class="col-xs-8">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <input type="email" value="" name="EMAIL" class="form-control email" id="EMAIL" placeholder="you@domain.com" data-val="true" data-val-regex="Invalid email format. ex. you@domain.com"  data-val-required="Email Address is required." /> @*data-val-regex-pattern="(\w[-._\w]*\w@\w[-._\w]*\w\.\w{2,3})"*@
+                        </div>
+                        <div class="col-xs-12">
+                            <span class="field-validation-valid help-block" data-valmsg-for="EMAIL" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-4"></div>
+                <div class="col-xs-4">
+                    <button type="submit" name="subscribe" class="btn btn-default">Subscribe</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+

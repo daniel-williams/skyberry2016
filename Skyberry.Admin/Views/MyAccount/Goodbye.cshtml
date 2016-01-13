@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Account Sign Out";
+}
+@section meta_tags
+{
+    <meta name="description" content="" />
+}
+@section nav_top
+{
+    @Html.Partial("_NavTopPartial", new Skyberry.Admin.ViewModels.NavVM("MyAccount", "Goodbye"))
+}
+@section nav_bottom
+{
+    @Html.Partial("_NavBottomPartial", new Skyberry.Admin.ViewModels.NavVM("MyAccount", "Goodbye"))
+}
+
+
+<div class="container fixed section">
+    <div class="col-xs-12 pull-left">
+        <h1>Goodbye!</h1>
+    </div>
+</div>

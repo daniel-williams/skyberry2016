@@ -1,0 +1,87 @@
+﻿@model Skyberry.Admin.ViewModels.ContractListVM
+
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Contract List";
+    string sortby = "";
+}
+
+<h2>Contract List</h2>
+<hr />
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div id="grid-filters">
+    <form action="@Url.Action("Index", "Contracts")" method="get" name="frm" id="frm">
+        <input type="hidden" name="Sort" value="@Model.PageSortCriteria.Sort" />
+        <input type="hidden" name="Page" value="1" />
+
+        <h4>Filters</h4>
+        <div>
+            <label for="Title">Title</label>
+            <input type="text" name="Title" id="Title" value="@Model.SearchCriteria.Title" />
+        </div>
+        <div style="margin-top:10px;"><button type="submit" class="btn btn-default">Update</button></div>
+    </form>
+</div>
+
+<div class="pager-div">
+    @if (Model.Contracts.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.Contracts, page => Url.Action("Index", "Contracts", new { page = page, sort = Model.PageSortCriteria.Sort, title = Model.SearchCriteria.Title }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>
+
+<table id="tbl-grid-contract" class="tbl-grid hl pad-full">
+    <tr>
+        <th class="c1">
+            @{
+                sortby = "Title";
+            }
+            <a href="@Url.Action("Index", "Contracts", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), title = Model.SearchCriteria.Title })">Title<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c2">
+            @{
+                sortby = "Number";
+            }
+            <a href="@Url.Action("Index", "Contracts", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), title = Model.SearchCriteria.Title })">Number<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c3">
+            @{
+                sortby = "CreatedDate";
+            }
+            <a href="@Url.Action("Index", "Contracts", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), title = Model.SearchCriteria.Title })">Created<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c4"></th>
+    </tr>
+    @foreach (var item in Model.Contracts)
+    {
+        <tr>
+            <td class="c1">
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td class="c2">
+                @Html.DisplayFor(modelItem => item.Number)
+            </td>
+            <td class="c3">
+                @item.CreatedDate.ToString("M/dd/yyyy")
+            </td>
+            <td class="c4">
+                @Html.ActionLink("Edit", "Edit", new { id = item.ContractId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ContractId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ContractId })
+            </td>
+        </tr>
+    }
+</table>
+
+<div class="pager-div">
+    @if (Model.Contracts.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.Contracts, page => Url.Action("Index", "Contracts", new { page = page, sort = Model.PageSortCriteria.Sort, title = Model.SearchCriteria.Title }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>

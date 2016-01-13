@@ -1,0 +1,236 @@
+﻿@model Skyberry.Admin.ViewModels.MyAccountSummaryVM
+
+@using Skyberry.Admin.Infrastructure
+@{
+    ViewBag.Title = "Account Summary";
+}
+@section meta_tags
+{
+    <meta name="description" content="Account summary for Skyberry Studio clients." />
+}
+@section nav_top
+{
+    @Html.Partial("_NavTopPartial", new Skyberry.Admin.ViewModels.NavVM("MyAccount", "Summary"))
+}
+@section nav_bottom
+{
+    @Html.Partial("_NavBottomPartial", new Skyberry.Admin.ViewModels.NavVM("MyAccount", "Summary"))
+}
+@section styles
+{
+    @Styles.Render("~/bundles/css/account")
+}
+
+
+<div class="container fixed section">
+    <div class="col-xs-12 pull-left">
+        <h1>Account Summary</h1>
+        @if (User.IsInRole("Admin"))
+        {
+            <p>Signed in as <strong>@Model.User.UserName</strong> for account <strong>@Model.Account.Name</strong></p>
+        }
+    </div>
+    <div class="col-xs-6">
+        <fieldset>
+            <legend>User Information</legend>
+            <div class="d_item">
+                <div class="d_lbl">Name</div>
+                <div class="d_data">@Model.User.FirstName @Model.User.LastName</div>
+            </div>
+            <div class="d_item">
+                <div class="d_lbl">Contact</div>
+                <div class="d_data">
+                    @if (Model.User.Contacts != null && Model.User.Contacts.Count > 0)
+                    {
+                        foreach (var item in Model.User.Contacts)
+                        {
+                            string val = item.ContactData;
+                            if (val.Length > 40)
+                            {
+                                val = val.Substring(0, 37) + "...";
+                            }
+                            if (item.ContactData.ToLower().StartsWith("http"))
+                            {
+                                val = "<a href='" + item.ContactData + "' target='_blank'>" + val + "</a>";
+                            }
+                            <div class='idata'>@val<span class='d_data_i itype'>@item.ContactType</span></div>
+                        }
+                    }
+                    else
+                    {
+                        <span class='d_data_i'>no contact on file</span><br />
+                    }
+                </div>
+            </div>
+            <div class="d_item">
+                <div class="d_lbl">Address</div>
+                <div class="d_data">
+                    @if (Model.User.Addresses != null && Model.User.Addresses.Count > 0)
+                    {
+                        foreach (var item in Model.User.Addresses)
+                        {
+                            string val = HtmlUtil.DisplayAddress(item);
+                            <div class='idata'>@Html.Raw(val)<span class='d_data_i itype'>@item.AddressType</span></div>
+                        }
+                    }
+                    else
+                    {
+                        <span class='d_data_i'>no address on file</span><br />
+                    }
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div class="col-xs-6">
+        <fieldset class="rnd">
+            <legend class="rnd">Account Information</legend>
+            <div class="d_item">
+                <div class="d_lbl">Account Name</div>
+                <div class="d_data">
+                    @if (Model.Account != null)
+                    {
+                        if (User.IsInRole("Admin"))
+                        {
+                            <form action="@Url.Action("Summary", "MyAccount")" method="post" id="frm-account">
+                                <select id="AccountId" name="AccountId">
+                                    @foreach (var item in Model.Accounts)
+                                    {
+                                        string selected = Model.Account.Id == item.Id ? "selected" : "";
+                                        <option value="@item.Id" @selected>@item.Name</option>
+                                    }
+                                </select>
+
+                            </form>
+                        }
+                        else
+                        {
+                            @Model.Account.Name
+                        }
+                    }
+                    else
+                    {
+                        <span class='d_data_i'>no associated account</span>
+                    }
+                </div>
+            </div>
+            <div class="d_item">
+                <div class="d_lbl">Account Contact</div>
+                <div class="d_data">
+                    @if (Model.Account != null && Model.Account.Contacts != null && Model.Account.Contacts.Count > 0)
+                    {
+                        foreach (var item in Model.Account.Contacts)
+                        {
+                            string val = item.ContactData;
+                            if (val.Length > 40)
+                            {
+                                val = val.Substring(0, 37) + "...";
+                            }
+                            if (item.ContactData.ToLower().StartsWith("http"))
+                            {
+                                val = "<a href='" + item.ContactData + "' target='_blank'>" + val + "</a>";
+                            }
+                            <div class='idata'>@Html.Raw(val)<span class='d_data_i itype'>@item.ContactType</span></div>
+                        }
+                    }
+                    else
+                    {
+                        <span class='d_data_i'>no contact on file</span><br />
+                    }
+                </div>
+            </div>
+            <div class="d_item">
+                <div class="d_lbl">Account Address</div>
+                <div class="d_data">
+                    @if (Model.Account != null && Model.Account.Addresses != null && Model.Account.Addresses.Count > 0)
+                    {
+                        foreach (var item in Model.Account.Addresses)
+                        {
+                            string val = HtmlUtil.DisplayAddress(item);
+                            <div class='idata'>@Html.Raw(val)<span class='d_data_i itype'>@item.AddressType</span></div>
+                        }
+                    }
+                    else
+                    {
+                        <span class='d_data_i'>no address on file</span><br />
+                    }
+                </div>
+            </div>
+        </fieldset>
+
+    </div>
+
+    <div class="col-xs-6 pad-full"></div>
+    <div class="col-xs-6 pad-full">
+        <fieldset class="rnd">
+            <legend class="rnd">Billing Summary</legend>
+            <div class="d_item">Account Balance</div>
+            @{
+                var invAmount = (
+                                     from inv in Model.Account.Invoices
+                                     select (Decimal?)inv.Amount
+                                 ).Sum() ?? 0;
+                var payAmount = (
+                                     from pay in Model.Account.Payments
+                                     select (Decimal?)pay.Amount
+                                 ).Sum() ?? 0;
+
+                var balance = invAmount - payAmount;
+            }
+            @if (balance > 0)
+            {
+                <div class="d_data">$@balance.ToString()</div>
+                <div id="pay_wrap">
+                    <div class="d_item">Payment Options</div>
+                    <div class="d_data">
+
+                        <div id="paypal_wrap">
+                            <div class="row-paypal"><img src="~/images/paypal-payments.png?mode=crop&width=350" alt="PayPal payment options" /></div>
+                            <div class="row-paypal">
+                                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="frm-paypal">
+                                    <input type="hidden" name="cmd" value="_xclick" />
+                                    <input type="hidden" name="business" value="lacey@skyberrystudio.com" />
+                                    <input type="hidden" name="amount" value="@balance" />
+                                    <input type="hidden" name="item_name" value="Payment via www.skyberrystudio.com website for @Model.User.FirstName @Model.User.LastName, account #@Model.Account.Number." />
+                                    <input type="hidden" name="custom" value="$@balance" />
+                                    <input type="hidden" name="invoice" value="" />
+                                    <input type="hidden" name="image_url" value="https://skyberrystudio.com/images/skyberry_logo_190x50.png" />
+                                    <input type="hidden" name="cpp_header_image" value="https://skyberrystudio.com/images/skyberry_logo_750x50.png" />
+                                    <input type="hidden" name="cpp_headerback_color" value="e6e6e6" />
+                                    <input type="hidden" name="cpp_headerborder_color" value="e6e6e6" />
+                                    <input type="hidden" name="no_note" value="1" />
+                                    <input type="hidden" name="no_shipping" value="1" />
+                                    <input type="hidden" name="return" value="https://skyberrystudio.com/my-account/summary" />
+                                    <input type="hidden" name="cancel_return" value="https://skyberrystudio.com/my-account/summary" />
+                                    <input type="hidden" name="rm" value="2" />
+                                    <input type="hidden" name="cbt" value="Return to Skyberry Studio&trade;." />
+                                    <button id="btn-paypal" type="submit" class="btn btn-default">Pay Now</button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="d_data">$@balance.ToString()</div>
+                <div id="pay_thankYou">
+                    <div class="d_item">Thank you for your business!</div>
+                </div>
+            }
+        </fieldset>
+    </div>
+
+</div>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $("#AccountId").change(function () {
+                $("#frm-account").submit();
+            });
+        });
+    </script>
+}

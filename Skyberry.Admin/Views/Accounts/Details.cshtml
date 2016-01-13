@@ -1,0 +1,26 @@
+﻿@model Skyberry.Admin.ViewModels.AccountVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Account Details";
+}
+
+<h2>Account Details</h2>
+<hr />
+
+<div>
+    @Html.Partial("_AccountDetailsPartial", Model)
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Account.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+@Html.Partial("_RelatedUsersPartial", Model.Account.SkyberryUsers.ToList())
+@Html.Partial("_RelatedProjectsPartial", Model.Account.Projects.ToList())
+@Html.Partial("_RelatedInvoicesPartial", Model.Account.Invoices.ToList())
+@Html.Partial("_RelatedPaymentsPartial", Model.Account.Payments.ToList())
+@Html.Partial("_RelatedAddressesPartial", Model.Account.Addresses.ToList())
+@Html.Partial("_RelatedContactsPartial", Model.Account.Contacts.ToList())
+@Html.Partial("_RelatedAccoladesPartial", Model.Account.Accolades.ToList())
+@Html.Partial("_RelatedTestimonialsPartial", Model.Account.Testimonials.ToList())

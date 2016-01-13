@@ -1,0 +1,53 @@
+﻿.fieldError
+{
+	background:transparent url(../images/red_x.png) no-repeat center right;
+}
+.fieldValid
+{
+	background:transparent url(../images/green_check.png) no-repeat center right;
+}
+.inputInit
+{
+
+}
+.inputValid
+{
+    border:1px solid green !important;
+}
+.inputError
+{
+    border:1px solid red !important;
+}
+.fieldInit
+{
+    padding-right:20px;
+}
+
+#frm_invalid
+{
+    position:relative;
+    display:none;
+    margin:0px 0px 0px 205px;
+    line-height:26px;
+    font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #888;
+}
+#frm_invalid img
+{
+    position:relative;
+    top:3px;
+}
+
+.eg
+{
+    font-size:11px;
+    font-style:italic;
+    padding-left:5px;
+}
+
+
+#form_answers2 {margin-top:5px;}
+#content_form2 .lbl {position:relative;vertical-align:top;display:inline-block;zoom:1;*display:inline;width:200px;text-align:right;line-height:26px;}
+
+#content_form2 .in {position:relative;vertical-align:top;display:inline-block;zoom:1;*display:inline;width:225px;text-align:left;margin-left:5px;}

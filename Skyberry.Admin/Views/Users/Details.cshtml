@@ -1,0 +1,24 @@
+﻿@model Skyberry.Admin.ViewModels.UserVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "User Details";
+}
+
+<h2>User Details</h2>
+<hr />
+
+<div>
+    @Html.Partial("_UserDetailsPartial", Model)
+</div>
+
+<p class="pad-full">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.User.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+
+@Html.Partial("_RelatedContactsPartial", Model.User.Contacts.ToList())
+@Html.Partial("_RelatedAddressesPartial", Model.User.Addresses.ToList())
+@Html.Partial("_RelatedAccountsPartial", Model.User.Accounts.ToList())
+

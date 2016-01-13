@@ -1,0 +1,18 @@
+﻿@model Skyberry.Admin.ViewModels.ContractDocumentVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "ContractDocument Details";
+}
+
+<h2>ContractDocument Details</h2>
+<hr />
+
+<div>
+    @Html.Partial("_ContractDocumentDetailsPartial", Model)
+</div>
+
+<p class="pad-full">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ContractDocument.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

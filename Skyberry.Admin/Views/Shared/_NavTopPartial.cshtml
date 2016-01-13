@@ -1,0 +1,61 @@
+﻿@model Skyberry.Admin.ViewModels.NavVM
+@{
+    bool hasSub = Model.Area == "Skyberry" || Model.Area == "Creative" || Model.Area == "Development";
+}
+
+<ul class="main">
+    <li class="@(Model.Area == "Skyberry" ? "selected " : "")"><a href="@Url.Action("Skyberry", "Public")">Skyberry</a></li>
+    <li class="@(Model.Area == "Creative" ? "selected " : "")"><a href="@Url.Action("Creative", "Public")">Creative</a></li>
+    <li class="@(Model.Area == "Development" ? "selected " : "")"><a href="@Url.Action("Development", "Public")">Development</a></li>
+    <li class="@(Model.Area == "Portfolio" ? "selected " : "")"><a href="@Url.Action("Portfolio", "Public")">Portfolio</a></li>
+    <li class="@(Model.Area == "Blog" ? "selected " : "")"><a href="/blog/">Blog</a></li>
+    <li class="@(Model.Area == "MyAccount" ? "selected " : "")"><a href="@Url.Action("Summary", "MyAccount")">My Account</a></li>
+    <li class="@(Model.Area == "Contact" ? "selected " : "")"><a href="@Url.Action("Contact", "Public")">Contact</a></li>
+</ul>
+@if (Model.Area == "Skyberry")
+{
+    <ul class="sub">
+        <li><a href="@Url.Action("Skyberry", "Public")#sec-why-skyberry" class="scroll" data-scroll="sec-why-skyberry">Why Skyberry</a></li>
+        <li><a href="@Url.Action("Skyberry", "Public")#sec-meet-skyberry" class="scroll" data-scroll="sec-meet-skyberry">Meet Skyberry</a></li>
+    </ul>
+}
+else if (Model.Area == "Creative")
+{
+    <ul class="sub">
+        <li><a href="@Url.Action("Creative", "Public")#sec-logo-design" class="scroll" data-scroll="sec-logo-design">Logo Design</a></li>
+        <li><a href="@Url.Action("Creative", "Public")#sec-graphic-design" class="scroll" data-scroll="sec-graphic-design">Graphic Design</a></li>
+    </ul>
+}
+else if (Model.Area == "Development")
+{
+    <ul class="sub">
+        <li><a href="@Url.Action("Development", "Public")#sec-website-development" class="scroll" data-scroll="sec-website-development">Website Development</a></li>
+        <li><a href="@Url.Action("Development", "Public")#sec-software-solutions" class="scroll" data-scroll="sec-software-solutions">Software Solutions</a></li>
+    </ul>
+}
+else if (Model.Area == "Portfolio")
+{
+    <ul class="sub with-state">
+        <li class="selected">All</li>
+        <li>Logo</li>
+        <li>Print</li>
+        <li>Web</li>
+        <li>Sketchbook</li>
+        <li>Award Winners</li>
+    </ul>
+}
+else if (Model.Area == "MyAccount" && User.Identity.IsAuthenticated)
+{
+    <ul class="sub with-state">
+        <li class="@(Model.Section == "Summary" ? "selected " : "")"><a href="@Url.Action("Summary", "MyAccount")">Account Summary</a></li>
+        <li class="@(Model.Section == "Projects" ? "selected " : "")"><a href="@Url.Action("Projects", "MyAccount")">Projects</a></li>
+        <li class="@(Model.Section == "Billing" ? "selected " : "")"><a href="@Url.Action("Billing", "MyAccount")">Billing</a></li>
+        <li class="@(Model.Section == "Support" ? "selected " : "")"><a href="@Url.Action("Support", "MyAccount")">Support</a></li>
+        @if (User.IsInRole("Admin"))
+        {
+            <li><a href="@Url.Action("Index", "Admin")">Admin</a></li>
+        }
+        <li class="pull-right"><a href="@Url.Action("SignOut", "MyAccount")">Sign Out</a></li>
+
+    </ul>
+}

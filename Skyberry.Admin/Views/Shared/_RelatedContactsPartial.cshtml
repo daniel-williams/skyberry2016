@@ -1,0 +1,28 @@
+﻿@model List<Skyberry.Domain.Contact>
+
+<div class="related">
+    <h4>Contacts</h4>
+    <table id="tbl-grid-contact" class="tbl-grid hl">
+        <tr>
+            <th class="c1">Type</th>
+            <th class="c2">Data</th>
+            <th class="c3"></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="c1">
+                    @Html.DisplayFor(modelItem => item.ContactType)
+                </td>
+                <td class="c2">
+                    @Html.DisplayFor(modelItem => item.ContactData)
+                </td>
+                <td class="c3">
+                    @Html.ActionLink("Edit", "Edit", "Contacts", new { id = item.Id }, null) |
+                    @Html.ActionLink("Details", "Details", "Contacts", new { id = item.Id }, null) |
+                    @Html.ActionLink("Delete", "Delete", "Contacts", new { id = item.Id }, null)
+                </td>
+            </tr>
+        }
+    </table>
+</div>

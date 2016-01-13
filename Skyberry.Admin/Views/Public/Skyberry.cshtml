@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "Website Development and Logo Design Bothell Washington";
+}
+@section meta_tags
+{
+    <meta name="description" content="Website Development, Graphic Design and Logo Design in Bothell Washington, northeast of Seattle." />
+}
+@section nav_top
+{
+    @Html.Partial("_NavTopPartial", new Skyberry.Admin.ViewModels.NavVM("Skyberry"))
+}
+@section nav_bottom
+{
+    @Html.Partial("_NavBottomPartial", new Skyberry.Admin.ViewModels.NavVM("Skyberry"))
+}
+@section scripts
+{
+    @Scripts.Render("~/bundles/js/testimonials")
+}
+
+
+
+
+<div id="we-do" class="container fixed section">
+    <div class="col-xs-12 pull-left">
+        <h1>creative design and custom development</h1>
+        <p>Skyberry Studio is an award winning graphic design and web development agency based in Bothell Washington, just northeast of Seattle.  We are experts in branding, logo design, graphic design and website development.</p>
+    </div>
+    <div class="col-xs-12 pull-left break"></div>
+    <div class="col-xs-6">
+        <h3>Crafted with Care</h3>
+        <p>Your business is unique. We take the time to understand your needs, your goals and your dreams. Our refined processes allow you to breathe easy and focus on the right things.</p>
+    </div>
+    <div class="col-xs-6">
+        <h3>people really like us</h3>
+        <div id="testimonials">
+            <div class="item">“Your designs are honestly the BEST I have ever seen. Your style is AMAZING.” - Kathy Dimmick, CEO, United Imaging Partners</div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section grass
+{
+    <div id="why-skyberry" class="container fixed section">
+        <div class="col-xs-12">
+            <h1>Why Skyberry</h1>
+        </div>
+
+        <div class="col-xs-12">
+            <h3>We Are Here For You</h3>
+            <p>Want to talk with the same person every time you call? We have a small design team that still provides the personal attention you'll appreciate. We are responsive, friendly, experienced, and are continually searching for ways to make you successful.</p>
+            @*<h3>we are always here for you</h3>
+            <p>We offer personalized attention, we are responsive and friendly and it shows when you work with us. </p>*@
+            <div class="break"></div>
+            <h3>Awards and Stuff</h3>
+            <p>Our work has been published in industry books and magazines, we’ve won eleven awards in the About.com Readers' Choice Awards for 'Best Web Designs', we were selected by The International Business Times for the 'Top Web Design Firms of 2012' list and our work is often featured on showcase sites.</p>
+            <div class="break"></div>
+
+            <h3>Proof Is In the Pudding</h3>
+
+            <p>Skyberry Studio produces top-notch, award winning work, but don't take our word for it. Have a look at our <a href="http://skyberrystudio.com/portfolio">portfolio</a> and some of the diverse <a href="http://skyberrystudio.com/our-clients">businesses</a> we work with. </p>
+            <div id="featured-client">
+                <img src="~/images/featured-client-cityofbeaverton.png" />
+                <img src="~/images/featured-client-clearchannel.png" />
+                <img src="~/images/featured-client-strideline.png" />
+                <img src="~/images/featured-client-napaautoparts.png" />
+                <img src="~/images/featured-client-nitroknitters.png" />
+            </div>
+
+            <div class="break"></div>
+            <h3>The Great Northwest</h3>
+            <p>Skyberry Studio was founded in Portland Oregon in 2006 and is currently located northeast of Seattle, in the wonderful city of Bothell Washington. </p>
+            <p>We are a member of Creative Design Professionals Worldwide and support local organizations. We have office cats and proudly support the Cat Adoption Team and Humane Society.</p>
+        </div>
+    </div>
+}
+@section dirt
+{
+    <div id="meet-skyberry" class="container fixed section">
+        <div class="col-xs-12">
+            <h1>meet skyberry</h1>
+        </div>
+        
+        <div class="col-xs-6">
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="tbl-seal-horz">
+                        <tr>
+                            <td><img src="~/images/seal-lacey.png" /></td>
+                            <td>
+                                <div class="name">Lacey Johnston</div>
+                                <div class="title">Creative Director</div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row bio">
+                <div class="col-xs-10">
+                    <p>Lacey Johnston founded Skyberry in 2006, with a passion for great design, an abundance of creativity, and a drive to exhaust every pencil she comes into contact with. She is also Co-Founder of DesignOBot, an online service for Creative Professionals.</p>
+                    <p>After attending Portland Community College, Lacey began a career in executive administration and human resources. Feeling the creative itch and growing restless, she decided to pursue her dreams in graphic & print design.  Now, with years of award winning design and publications, she continues to do what she loves, every day. Her areas of expertise are in brand identity design, print collateral, web design and illustration.</p>
+                    <p>When she's not in the studio designing, you might find Lacey swimming at the local gym, working with paper crafts, golfing, cooking, or gaming.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-6">
+            <div class="row">
+                <table class="tbl-seal-horz">
+                    <tr>
+                        <td><img src="~/images/seal-daniel.png" /></td>
+                        <td>
+                            <div class="name">Daniel Williams</div>
+                            <div class="title">Technical Director</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row bio">
+                <div class="col-xs-10">
+                    <p>Having held the position of Technical Director at numerous companies, including Landacorp, Multimedia Resources Inc., High Technology Solutions, and Coffey Communications, Daniel Williams brings a wealth of knowledge and experience to Skyberry Studio. Drawing on expertise from diverse spaces such as healthcare, content management, client relationship management, digital advertising, content distribution, finance and commerce, Daniel has been architecting end-to-end solutions for almost two decades.</p>
+                    <p>Daniel is a Microsoft Certified Professional (MCP) & Certified Solutions Expert (MCSE+I). At Oregon Institute of Technology, he studied Laser Electro-Optical Technology. He enjoys cooking, reading, gaming, and oh yes, coffee.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <img id="worm" src="~/images/worm.png" />
+}

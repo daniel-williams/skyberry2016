@@ -1,0 +1,33 @@
+﻿@model Skyberry.Admin.ViewModels.InvoiceVM
+
+<dl class="dl-horizontal">
+    <dt>@Html.DisplayNameFor(model => model.Invoice.Filename)</dt>
+    <dd><a href="~/files/@Model.Invoice.Filename">@Model.Invoice.FilenameOriginal</a></dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Invoice.FileMimeType)</dt>
+    <dd>@Html.DisplayFor(model => model.Invoice.FileMimeType)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Invoice.FileSize)</dt>
+    <dd>@Html.DisplayFor(model => model.Invoice.FileSize)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Invoice.Title)</dt>
+    <dd>@Html.DisplayFor(model => model.Invoice.Title)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Invoice.Description)</dt>
+    <dd>@Html.Raw(Model.Invoice.Description)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Invoice.Amount)</dt>
+    <dd>@Html.Raw(Model.Invoice.Amount)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Invoice.Version)</dt>
+    <dd>@Html.DisplayFor(model => model.Invoice.Version)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Invoice.CreatedDate)</dt>
+    <dd>@Html.DisplayFor(model => model.Invoice.CreatedDate)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Invoice.IsEstimate)</dt>
+    <dd>@Html.DisplayFor(model => model.Invoice.IsEstimate)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Invoice.IsActive)</dt>
+    <dd>@Html.DisplayFor(model => model.Invoice.IsActive)</dd>
+</dl>

@@ -1,0 +1,19 @@
+﻿@model Skyberry.Admin.ViewModels.TestimonialVM
+
+<dl class="dl-horizontal">
+    <dt>@Html.DisplayNameFor(model => model.Testimonial.Account.Name)</dt>
+    <dd>@Html.DisplayFor(model => model.Testimonial.Account.Name)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Testimonial.Title)</dt>
+    <dd>@Html.DisplayFor(model => model.Testimonial.Title)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Testimonial.Description)</dt>
+    <dd>@Html.Raw(Model.Testimonial.Description)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Testimonial.IsFeatured)</dt>
+    <dd>@Html.DisplayFor(model => model.Testimonial.IsFeatured)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Testimonial.IsActive)</dt>
+    <dd>@Html.DisplayFor(model => model.Testimonial.IsActive)</dd>
+</dl>
+

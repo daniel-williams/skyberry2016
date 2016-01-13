@@ -1,0 +1,27 @@
+﻿@model Skyberry.Admin.ViewModels.ProjectDocumentVM
+
+<dl class="dl-horizontal">
+    <dt>@Html.DisplayNameFor(model => model.ProjectDocument.Filename)</dt>
+    <dd><a href="~/files/@Model.ProjectDocument.Filename">@Model.ProjectDocument.FilenameOriginal</a></dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ProjectDocument.FileMimeType)</dt>
+    <dd>@Html.DisplayFor(model => model.ProjectDocument.FileMimeType)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ProjectDocument.FileSize)</dt>
+    <dd>@Html.DisplayFor(model => model.ProjectDocument.FileSize)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ProjectDocument.Title)</dt>
+    <dd>@Html.DisplayFor(model => model.ProjectDocument.Title)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ProjectDocument.Description)</dt>
+    <dd>@Html.Raw(Model.ProjectDocument.Description)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ProjectDocument.Version)</dt>
+    <dd>@Html.DisplayFor(model => model.ProjectDocument.Version)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ProjectDocument.CreatedDate)</dt>
+    <dd>@Html.DisplayFor(model => model.ProjectDocument.CreatedDate)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ProjectDocument.IsActive)</dt>
+    <dd>@Html.DisplayFor(model => model.ProjectDocument.IsActive)</dd>
+</dl>

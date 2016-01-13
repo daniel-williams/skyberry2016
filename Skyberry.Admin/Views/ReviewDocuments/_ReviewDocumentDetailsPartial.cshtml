@@ -1,0 +1,30 @@
+﻿@model Skyberry.Admin.ViewModels.ReviewDocumentVM
+
+<dl class="dl-horizontal">
+    <dt>@Html.DisplayNameFor(model => model.ReviewDocument.Filename)</dt>
+    <dd><a href="~/files/@Model.ReviewDocument.Filename">@Model.ReviewDocument.FilenameOriginal</a></dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ReviewDocument.FileMimeType)</dt>
+    <dd>@Html.DisplayFor(model => model.ReviewDocument.FileMimeType)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ReviewDocument.FileSize)</dt>
+    <dd>@Html.DisplayFor(model => model.ReviewDocument.FileSize)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ReviewDocument.Title)</dt>
+    <dd>@Html.DisplayFor(model => model.ReviewDocument.Title)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ReviewDocument.Order)</dt>
+    <dd>@Html.DisplayFor(model => model.ReviewDocument.Order)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ReviewDocument.Description)</dt>
+    <dd>@Html.Raw(Model.ReviewDocument.Description)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ReviewDocument.Version)</dt>
+    <dd>@Html.DisplayFor(model => model.ReviewDocument.Version)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ReviewDocument.CreatedDate)</dt>
+    <dd>@Html.DisplayFor(model => model.ReviewDocument.CreatedDate)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ReviewDocument.IsActive)</dt>
+    <dd>@Html.DisplayFor(model => model.ReviewDocument.IsActive)</dd>
+</dl>

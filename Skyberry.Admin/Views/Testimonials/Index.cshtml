@@ -1,0 +1,100 @@
+﻿@model Skyberry.Admin.ViewModels.TestimonialListVM
+
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Testimonial List";
+
+    string sortby = "";
+}
+
+<h2>Testimonial List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div id="grid-filters">
+    <form action="@Url.Action("Index", "Testimonials")" method="get" name="frm" id="frm">
+        <input type="hidden" name="Sort" value="@Model.PageSortCriteria.Sort" />
+        <input type="hidden" name="Page" value="1" />
+
+        <h4>Filters</h4>
+        <div>
+            <label for="Title">Title</label>
+            <input type="text" name="Title" id="Title" value="@Model.SearchCriteria.Title" />
+        </div>
+        <div>
+            <label for="Description">Description</label>
+            <input type="text" name="Description" id="Description" value="@Model.SearchCriteria.Description" />
+        </div>
+        <div style="margin-top:10px;"><button type="submit" class="btn btn-default">Update</button></div>
+    </form>
+</div>
+
+<div class="pager-div">
+    @if (Model.Testimonials.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.Testimonials, page => Url.Action("Index", "Testimonials", new { page = page, sort = Model.PageSortCriteria.Sort, title = Model.SearchCriteria.Title, description = Model.SearchCriteria.Description }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>
+
+<table id="tbl-grid-accolade" class="tbl-grid hl pad-full">
+    <tr>
+        <th class="c1">
+            @{
+                sortby = "Account.Name";
+            }
+            <a href="@Url.Action("Index", "Testimonials", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), title = Model.SearchCriteria.Title, description = Model.SearchCriteria.Description })">Account<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c2">
+            @{
+                sortby = "Title";
+            }
+            <a href="@Url.Action("Index", "Testimonials", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), title = Model.SearchCriteria.Title, description = Model.SearchCriteria.Description })">Title<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c3">
+            @{
+                sortby = "Description";
+            }
+            <a href="@Url.Action("Index", "Testimonials", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), title = Model.SearchCriteria.Title, description = Model.SearchCriteria.Description })">Description<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c4">
+            @{
+                sortby = "IsActive";
+            }
+            <a href="@Url.Action("Index", "Testimonials", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), title = Model.SearchCriteria.Title, description = Model.SearchCriteria.Description })">Active<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c5"></th>
+    </tr>
+    @foreach (var item in Model.Testimonials)
+    {
+        <tr>
+            <td class="c1">
+                @Html.DisplayFor(modelItem => item.Account.Name)
+            </td>
+            <td class="c2">
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td class="c3">
+                @Html.Raw(item.Description)
+            </td>
+            <td class="c4">
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td class="c5">
+                @Html.ActionLink("Edit", "Edit", "Testimonials", new { id = item.TestimonialId }, null) |
+                @Html.ActionLink("Details", "Details", "Testimonials", new { id = item.TestimonialId }, null) |
+                @Html.ActionLink("Delete", "Delete", "Testimonials", new { id = item.TestimonialId }, null)
+            </td>
+        </tr>
+    }
+</table>
+
+<div class="pager-div">
+    @if (Model.Testimonials.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.Testimonials, page => Url.Action("Index", "Testimonials", new { page = page, sort = Model.PageSortCriteria.Sort, title = Model.SearchCriteria.Title, description = Model.SearchCriteria.Description }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>

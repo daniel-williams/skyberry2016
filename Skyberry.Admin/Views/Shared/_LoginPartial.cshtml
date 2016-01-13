@@ -1,0 +1,6 @@
+﻿@using Microsoft.AspNet.Identity
+
+@if (Request.IsAuthenticated)
+{
+    <div><a href="@Url.Action("Summary", "MyAccount")">Clients</a> | <a href="@Url.Action("SignOut", "MyAccount")">Sign Out</a></div>
+}

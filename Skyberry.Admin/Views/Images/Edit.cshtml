@@ -1,0 +1,146 @@
+﻿@model Skyberry.Admin.ViewModels.ImageVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    bool isCreate = Model.Image.Id == Guid.Empty;
+    string mode = isCreate ? "Create" : "Edit";
+
+    ViewBag.Title = "@mode Image";
+}
+
+<h2>@mode Image</h2>
+<hr />
+
+<form action="@Url.Action(@mode)" name="frm" id="frm" enctype="multipart/form-data" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="Image.Id" value="@Model.Image.Id" />
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+
+        @*@if (isCreate)
+            {
+                <div class="form-group">
+                    <label for="FileData" class="control-label col-xs-2">File</label>
+                    <div class="col-xs-6">
+                        <input type="file" name="FileData" id="Image_FileData" class="form-control" />
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label for="Image_FilenameOriginal" class="control-label col-xs-2">Filename</label>
+                    <div class="col-xs-6">
+                        @Html.TextBoxFor(model => model.Image.FilenameOriginal, new { @class = "form-control" })
+                    </div>
+                    <div class="col-xs-offset-2 col-xs-10">
+                        @Html.ValidationMessageFor(model => model.Image.FilenameOriginal, null, new { @class = "help-block" })
+                    </div>
+                </div>
+            }*@
+
+
+        <div class="form-group">
+            <label for="FileData" class="control-label col-xs-2">File</label>
+            <div class="col-xs-6">
+                <input type="file" name="FileData" id="Image_FileData" class="form-control" />
+            </div>
+        </div>
+
+        @if (!isCreate)
+        {
+            <div class="form-group">
+                <label for="Image_FilenameOriginal" class="control-label col-xs-2">Filename</label>
+                <div class="col-xs-6">
+                    @Html.TextBoxFor(model => model.Image.FilenameOriginal, new { @class = "form-control" })
+                </div>
+                <div class="col-xs-offset-2 col-xs-10">
+                    @Html.ValidationMessageFor(model => model.Image.FilenameOriginal, null, new { @class = "help-block" })
+                </div>
+            </div>
+        }
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Image.Title, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.Image.Title, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Image.Title, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Image.Description, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-10">
+                @Html.TextAreaFor(model => model.Image.Description, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Image.Description, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Image.Version, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.Image.Version, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Image.Version, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Image.IsActive, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.CheckBoxFor(model => model.Image.IsActive)
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Image.IsActive, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+                <label for="ImageSetId" class="control-label col-xs-2">Image Set</label>
+                <div class="col-xs-6">
+                    @Html.DropDownListFor(m => m.Image.ImageSetId, new SelectList(Model.ImageSetOpts, "Id", "Value", @Model.Image.ImageSetId), new { @class = "form-control" })
+                </div>
+                <div class="col-xs-offset-2 col-xs-10">
+                    @Html.ValidationMessageFor(model => model.Image.ImageSetId, null, new { @class = "help-block" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            <label for="Tags" class="control-label col-xs-2">Tags</label>
+            <div class="col-xs-6">
+                <select id="Tags" name="Tags" multiple="multiple" class="multiple form-control">
+                    @foreach (var tag in Model.Tags)
+                    {
+                        var isSelected = Model.Image.Tags != null && Model.Image.Tags.Contains(tag) ? "selected=selected" : "";
+
+                        <option value="@tag.TagId.ToString()" @isSelected>@tag.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@Html.Partial("_RelatedTagsPartial", Model.Image.Tags.ToList())
+

@@ -1,0 +1,33 @@
+﻿@model Skyberry.Admin.ViewModels.AccountVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Delete Account";
+}
+
+<h2>Delete Account</h2>
+<hr />
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    @Html.Partial("_AccountDetailsPartial", Model)
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
+
+
+@Html.Partial("_RelatedUsersPartial", Model.Account.SkyberryUsers.ToList())
+@Html.Partial("_RelatedProjectsPartial", Model.Account.Projects.ToList())
+@Html.Partial("_RelatedInvoicesPartial", Model.Account.Invoices.ToList())
+@Html.Partial("_RelatedPaymentsPartial", Model.Account.Payments.ToList())
+@Html.Partial("_RelatedAddressesPartial", Model.Account.Addresses.ToList())
+@Html.Partial("_RelatedContactsPartial", Model.Account.Contacts.ToList())
+@Html.Partial("_RelatedAccoladesPartial", Model.Account.Accolades.ToList())
+@Html.Partial("_RelatedTestimonialsPartial", Model.Account.Testimonials.ToList())

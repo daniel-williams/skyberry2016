@@ -1,0 +1,120 @@
+﻿@model Skyberry.Admin.ViewModels.AccountListVM
+
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Account List";
+    string sortby = "";
+}
+
+<h2>Account List</h2>
+<hr />
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div id="grid-filters">
+    <form action="@Url.Action("Index", "Accounts")" method="get" name="frm" id="frm">
+        <input type="hidden" name="Sort" value="@Model.PageSortCriteria.Sort" />
+        <input type="hidden" name="Page" value="1" />
+
+        <h4>Filters</h4>
+        <div>
+            <label for="Name">Name</label>
+            <input type="text" name="Name" id="Name" value="@Model.SearchCriteria.Name" />
+        </div>
+        <div>
+            <label for="IndustryType">IndustryType</label>
+            <input type="text" name="IndustryType" id="IndustryType" value="@Model.SearchCriteria.IndustryType" />
+        </div>
+        <div style="margin-top:10px;"><button type="submit" class="btn btn-default">Update</button></div>
+    </form>
+</div>
+
+<div class="pager-div">
+    @if (Model.Accounts.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.Accounts, page => Url.Action("Index", "Accounts", new { page = page, sort = Model.PageSortCriteria.Sort, name = Model.SearchCriteria.Name, industryType = Model.SearchCriteria.IndustryType }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>
+
+<table id="tbl-grid-account" class="tbl-grid hl pad-full">
+    <tr>
+        <th class="c1">
+            @{
+                sortby = "Name";
+            }
+            <a href="@Url.Action("Index", "Accounts", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), name = Model.SearchCriteria.Name, industryType = Model.SearchCriteria.IndustryType })">Name<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c2">
+            @{
+                sortby = "Number";
+            }
+            <a href="@Url.Action("Index", "Accounts", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), name = Model.SearchCriteria.Name, industryType = Model.SearchCriteria.IndustryType })">Number<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c3">
+            @{
+                sortby = "IndustryType";
+            }
+            <a href="@Url.Action("Index", "Accounts", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), name = Model.SearchCriteria.Name, industryType = Model.SearchCriteria.IndustryType })">IndustryType<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c4">
+            @{
+                sortby = "ClientSinceDate";
+            }
+            <a href="@Url.Action("Index", "Accounts", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), name = Model.SearchCriteria.Name, industryType = Model.SearchCriteria.IndustryType })">Client Since<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c5">
+            @{
+                sortby = "CreatedDate";
+            }
+            <a href="@Url.Action("Index", "Accounts", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), name = Model.SearchCriteria.Name, industryType = Model.SearchCriteria.IndustryType })">Created<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c6">
+            @{
+                sortby = "IsActive";
+            }
+            <a href="@Url.Action("Index", "Accounts", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), name = Model.SearchCriteria.Name, industryType = Model.SearchCriteria.IndustryType })">Active<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c7"></th>
+    </tr>
+
+    @foreach (var item in Model.Accounts)
+    {
+        <tr>
+            <td class="c1">
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td class="c2">
+                @Html.DisplayFor(modelItem => item.Number)
+            </td>
+            <td class="c3">
+                @Html.DisplayFor(modelItem => item.IndustryType)
+            </td>
+            <td class="c4">
+                @Html.DisplayFor(modelItem => item.ClientSinceDate)
+            </td>
+            <td class="c5">
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td class="c6">
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td class="c7">
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div class="pager-div">
+    @if (Model.Accounts.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.Accounts, page => Url.Action("Index", "Accounts", new { page = page, sort = Model.PageSortCriteria.Sort, name = Model.SearchCriteria.Name, industryType = Model.SearchCriteria.IndustryType }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>

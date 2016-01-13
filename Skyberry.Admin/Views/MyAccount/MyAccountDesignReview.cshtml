@@ -1,0 +1,120 @@
+﻿@model Skyberry.Admin.ViewModels.MyAccountDesignReviewVM
+
+@{
+    ViewBag.Title = "Design Review";
+
+    bool locked = Model.DesignReview.AcceptedDate.HasValue;
+    string access = locked ? "disabled='disabled'" : "";
+}
+@section meta_tags
+{
+    <meta name="description" content="" />
+}
+@section nav_top
+{
+    @Html.Partial("_NavTopPartial", new Skyberry.Admin.ViewModels.NavVM("MyAccount", "Projects"))
+}
+@section nav_bottom
+{
+    @Html.Partial("_NavBottomPartial", new Skyberry.Admin.ViewModels.NavVM("MyAccount", "Projects"))
+}
+@section styles
+{
+    @Styles.Render("~/bundles/css/account")
+}
+
+
+
+<div class="container fixed section">
+    <div class="col-xs-12 pull-left">
+        <h1>Design Review</h1>
+        @if (User.IsInRole("Admin"))
+        {
+            <p>Signed in as <strong>@Model.User.UserName</strong> for account <strong>@Model.Account.Name</strong></p>
+        }
+    </div>
+    <div class="col-xs-12 pull-left">
+        <div id="dr_opts">
+            <div id="dr_head_wrap">
+                @if (locked)
+                {
+                    <div id="accepted_wrap">This Design Review was accepted by Skyberry Studio&trade; and has been locked as of @(Model.DesignReview.AcceptedDate.Value.ToString("MM/dd/yyyy")).</div>
+                }
+                @if (Model.Received)
+                {
+                    <div class="dr_sect" id="feedback_received">
+                        <div>Thank you! Your feebback has been received.</div>
+                        <div class="pad-full">You may add to or revise your feedback using this form up until Skyberry "accepts" it. Once feedback is accepted by Skyberry, this form will be disabled.</div>
+                    </div>
+                }
+                <div class="dr_sect">
+                    <div class="dr_ttl">Project</div>
+                    <div class="dr_data">@Model.DesignReview.Project.Name</div>
+                </div>
+                <div class="dr_sect">
+                    <div class="dr_ttl">Design Review Title</div>
+                    <div class="dr_data">@Model.DesignReview.Title</div>
+                </div>
+                <div class="dr_sect">
+                    <div class="dr_ttl">Description</div>
+                    <div class="dr_data">@Html.Raw(Model.DesignReview.Description)</div>
+                </div>
+                <div class="dr_sect">
+                    <div class="dr_ttl">Instructions</div>
+                    <div class="dr_data">
+                        Please select which design you would like to proceed with by selecting from the options below. Use the Comment boxes to document any feedback or refinements you'd like to see.<br /><br />
+                        Once you have made your selection, please allow up to 24 hours for Skyberry Studio&trade; to receive the design review.  Once received by Skyberry, this design review will be locked.  The selected design will return to production or finalization, depending on which phase the project is currently in.  If you need assistance, please contact us via the <a href="@Url.Action("Support", "MyAccount")">Support</a> page.
+                    </div>
+                </div>
+            </div>
+            <div id="dr_form">
+                <form action="@Url.Action("MyAccountDesignReview", "MyAccount")" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="DesignReview.DesignReviewId" value="@Model.DesignReview.Id" />
+                    @if(!locked)
+                    { 
+                    <div class="dr_save">
+                        <button type="submit" class="btn btn-default">Save Changes</button>
+                    </div>
+                    }
+                    <div>
+                        <div class="dr_sect">
+                            <div class="dr_lbl">Selected Option Comment</div>
+                            <div class="dr_data"><textarea name="DesignReview.SelectedComment" id="DesignReview_SelectedComment" class="dr_comment" @access>@Model.DesignReview.SelectedComment</textarea></div>
+                        </div>
+                        <div class="dr_sect">
+                            <div class="dr_lbl">Additional Comment</div>
+                            <div class="dr_data"><textarea name="DesignReview.AdditionalComment" id="DesignReview_AdditionalComment" class="dr_comment" @access>@Model.DesignReview.AdditionalComment</textarea></div>
+                        </div>
+                    </div>
+                    @foreach (var item in Model.DesignReview.ReviewDocuments.OrderBy(e => e.Order))
+                    {
+                        string selected = Model.DesignReview.SelectedReviewDocumentId == item.Id ? "checked='checked'" : "";
+
+                        <div class="dr_opt_wrap">
+                            <div class="dr_opt radio">
+                                <label>
+                                    <input type="radio" id="DesignReview_SelectedReviewDocumentId" name="DesignReview.SelectedReviewDocumentId" value="@item.Id" @selected @access />
+                                    @item.Title
+                                </label>                                
+                            </div>
+                            @if(!string.IsNullOrWhiteSpace(item.Description))
+                            {
+                            <div class="dr_data dr_desc">@Html.Raw(item.Description)</div>
+                            }
+                            <div class="dr_data dr_img"><a href="@Url.Action("FileDownload", "MyAccount", new { id = item.Id })"><img src="~/files/@item.Filename" /></a></div>
+                        </div>
+                    }
+                    @if(!locked)
+                    { 
+                    <div class="dr_save">
+                        <button type="submit" class="btn btn-default">Save Changes</button>
+                    </div>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

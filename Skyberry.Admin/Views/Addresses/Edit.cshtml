@@ -1,0 +1,156 @@
+﻿@model Skyberry.Admin.ViewModels.AddressVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    bool isCreate = Model.Address.AddressId == Guid.Empty;
+    var mode = isCreate ? "Create" : "Edit";
+
+    ViewBag.Title = "@mode Address";
+}
+
+<h2>@mode Address</h2>
+<hr />
+
+<form action="@Url.Action(@mode)" name="frm" id="frm" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="Address.AddressId" value="@Model.Address.AddressId" />
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address.Line1, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.Address.Line1, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Address.Line1, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address.Line2, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.Address.Line2, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Address.Line2, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address.Line3, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.Address.Line3, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Address.Line3, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address.Line4, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.Address.Line4, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Address.Line4, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address.Locality, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.Address.Locality, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Address.Locality, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address.Region, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.Address.Region, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Address.Region, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address.PostCode, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.Address.PostCode, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Address.PostCode, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address.Country, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.DropDownListFor(m => m.Address.Country, new SelectList(Model.CountryOpts, "Id", "Value", @Model.Address.Country), new { @class = "single form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Address.Country, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address.AddressType, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.DropDownListFor(m => m.Address.AddressType, new SelectList(Model.AddressTypeOpts, "Id", "Value", @Model.Address.AddressType), new { @class = "single form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Address.AddressType, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        
+        <div class="form-group">
+            <label for="Images" class="control-label col-xs-2">Users</label>
+            <div class="col-xs-6">
+                <select id="Users" name="Users" multiple="multiple" class="multiple form-control">
+                    @foreach (var item in Model.Users)
+                    {
+                        var isSelected = Model.Address.SkyberryUsers != null && Model.Address.SkyberryUsers.Contains(item) ? "selected=selected" : "";
+
+                        <option value="@item.Id.ToString()" @isSelected>@item.FirstName @item.LastName (@item.UserName)</option>
+                    }
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="Images" class="control-label col-xs-2">Accounts</label>
+            <div class="col-xs-6">
+                <select id="Accounts" name="Accounts" multiple="multiple" class="multiple form-control">
+                    @foreach (var item in Model.Accounts)
+                    {
+                        var isSelected = Model.Address.Accounts != null && Model.Address.Accounts.Contains(item) ? "selected=selected" : "";
+
+                        <option value="@item.Id.ToString()" @isSelected>@item.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        
+
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@Html.Partial("_RelatedUsersPartial", Model.Address.SkyberryUsers.ToList())
+@Html.Partial("_RelatedAccountsPartial", Model.Address.Accounts.ToList())

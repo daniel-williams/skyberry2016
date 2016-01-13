@@ -1,0 +1,20 @@
+﻿@model Skyberry.Admin.ViewModels.AccoladeVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Accolade Details";
+}
+
+<h2>Accolade Details</h2>
+<hr />
+
+<div class="clearfix">
+    @Html.Partial("_AccoladeDetailsPartial", Model)
+</div>
+
+<p class="pad-full">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Accolade.AccoladeId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+@Html.Partial("_RelatedImageSetsPartial", Model.Accolade.ImageSets.ToList())

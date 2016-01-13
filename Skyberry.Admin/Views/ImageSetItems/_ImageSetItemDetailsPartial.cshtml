@@ -1,0 +1,12 @@
+﻿@model Skyberry.Admin.ViewModels.ImageSetItemVM
+
+<dl class="dl-horizontal">
+    <dt>@Html.DisplayNameFor(model => model.ImageSetItem.ImageSet.Name)</dt>
+    <dd>@Html.DisplayFor(model => model.ImageSetItem.ImageSet.Name)</dd>
+
+    <dt>Image</dt>
+    <dd><img src="~/files/@(Model.ImageSetItem.Image.Filename)?mode=crop&width=50" style="margin:10px 5px;" />@Model.ImageSetItem.Image.Title - @Model.ImageSetItem.Image.FilenameOriginal</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ImageSetItem.Position)</dt>
+    <dd>@Html.DisplayFor(model => model.ImageSetItem.Position)</dd>
+</dl>

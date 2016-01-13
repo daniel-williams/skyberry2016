@@ -1,0 +1,31 @@
+﻿@model Skyberry.Admin.ViewModels.ImageVM
+
+@using Skyberry.Domain
+
+
+<dl class="dl-horizontal">
+    <dt>@Html.DisplayNameFor(model => model.Image.Filename)</dt>
+    <dd><a href="~/files/@Model.Image.Filename" target="_blank">@Model.Image.FilenameOriginal</a></dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Image.FileMimeType)</dt>
+    <dd>@Html.DisplayFor(model => model.Image.FileMimeType)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Image.FileSize)</dt>
+    <dd>@Html.DisplayFor(model => model.Image.FileSize)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Image.Title)</dt>
+    <dd>@Html.DisplayFor(model => model.Image.Title)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Image.Description)</dt>
+    <dd>@Html.Raw(Model.Image.Description)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Image.Version)</dt>
+    <dd>@Html.DisplayFor(model => model.Image.Version)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Image.CreatedDate)</dt>
+    <dd>@Html.DisplayFor(model => model.Image.CreatedDate)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.Image.IsActive)</dt>
+    <dd>@Html.DisplayFor(model => model.Image.IsActive)</dd>
+</dl>
+

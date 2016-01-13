@@ -1,0 +1,113 @@
+﻿@model Skyberry.Admin.ViewModels.ProjectDocumentListVM
+
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Project Document List";
+    string sortby = "";
+}
+
+<h2>Project Document List</h2>
+<hr />
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div id="grid-filters">
+    <form action="@Url.Action("Index", "ProjectDocuments")" method="get" name="frm" id="frm">
+        <input type="hidden" name="Sort" value="@Model.PageSortCriteria.Sort" />
+        <input type="hidden" name="Page" value="1" />
+
+        <h4>Filters</h4>
+        <div>
+            <label for="Filename">Filename</label>
+            <input type="text" name="Filename" id="Filename" value="@Model.SearchCriteria.Filename" />
+        </div>
+        <div>
+            <label for="Title">Title</label>
+            <input type="text" name="Title" id="Title" value="@Model.SearchCriteria.Title" />
+        </div>
+        <div>
+            <label for="Version">Version</label>
+            <input type="text" name="Version" id="Version" value="@Model.SearchCriteria.Version" />
+        </div>
+        <div style="margin-top:10px;"><button type="submit" class="btn btn-default">Update</button></div>
+    </form>
+</div>
+
+<div class="pager-div">
+    @if (Model.ProjectDocuments.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.ProjectDocuments, page => Url.Action("Index", "ProjectDocuments", new { page = page, sort = Model.PageSortCriteria.Sort, filename = Model.SearchCriteria.Filename, title = Model.SearchCriteria.Title, version = Model.SearchCriteria.Version }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>
+<table id="tbl-grid-project-document" class="tbl-grid hl pad-full">
+    <tr>
+        <th class="c1">
+            @{
+                sortby = "Project.Account.Name";
+            }
+            <a href="@Url.Action("Index", "ProjectDocuments", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), filename = Model.SearchCriteria.Filename, title = Model.SearchCriteria.Title, version = Model.SearchCriteria.Version })">Account<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c2">
+            @{
+                sortby = "Project.Name";
+            }
+            <a href="@Url.Action("Index", "ProjectDocuments", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), filename = Model.SearchCriteria.Filename, title = Model.SearchCriteria.Title, version = Model.SearchCriteria.Version })">Project<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c3">
+            @{
+                sortby = "FilenameOriginal";
+            }
+            <a href="@Url.Action("Index", "ProjectDocuments", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), filename = Model.SearchCriteria.Filename, title = Model.SearchCriteria.Title, version = Model.SearchCriteria.Version })">Filename<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c4">
+            @{
+                sortby = "Title";
+            }
+            <a href="@Url.Action("Index", "ProjectDocuments", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), filename = Model.SearchCriteria.Filename, title = Model.SearchCriteria.Title, version = Model.SearchCriteria.Version })">Title<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c5">
+            @{
+                sortby = "Version";
+            }
+            <a href="@Url.Action("Index", "ProjectDocuments", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby), filename = Model.SearchCriteria.Filename, title = Model.SearchCriteria.Title, version = Model.SearchCriteria.Version })">Version<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c6"></th>
+    </tr>
+    @foreach (var item in Model.ProjectDocuments)
+    {
+        <tr>
+            <td class="c1">
+                @Html.DisplayFor(modelItem => item.Project.Account.Name)
+            </td>
+            <td class="c2">
+                @Html.DisplayFor(modelItem => item.Project.Name)
+            </td>
+            <td class="c3">
+                <a href="/files/@item.Filename" target="_blank">@Html.DisplayFor(modelItem => item.FilenameOriginal)</a>
+            </td>
+            <td class="c4">
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td class="c5">
+                @Html.DisplayFor(modelItem => item.Version)
+            </td>
+            <td class="c6">
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>
+
+
+<div class="pager-div">
+    @if (Model.ProjectDocuments.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.ProjectDocuments, page => Url.Action("Index", "ProjectDocuments", new { page = page, sort = Model.PageSortCriteria.Sort, filename = Model.SearchCriteria.Filename, title = Model.SearchCriteria.Title, version = Model.SearchCriteria.Version }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>

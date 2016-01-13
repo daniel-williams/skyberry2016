@@ -1,0 +1,76 @@
+﻿@model Skyberry.Admin.ViewModels.PaymentVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    bool isCreate = Model.Payment.Id == Guid.Empty;
+    string mode = isCreate ? "Create" : "Edit";
+
+    ViewBag.Title = "@mode Payment";
+}
+
+<h2>@mode Payment</h2>
+<hr />
+
+<form action="@Url.Action(@mode)" name="frm" id="frm" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="Payment.Id" value="@Model.Payment.Id" />
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Payment.Amount, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.Payment.Amount, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Payment.Amount, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Payment.PaymentType, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.DropDownListFor(m => m.Payment.PaymentType, new SelectList(Model.PaymentTypeOpts, "Id", "Value", @Model.Payment.PaymentType), new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Payment.PaymentType, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Payment.PaymentDate, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                <input type="text" name="Payment.PaymentDate" id="Payment_PaymentDate" value="@(Model.Payment.PaymentDate.HasValue ? Model.Payment.PaymentDate.Value.ToString("M/dd/yyyy") : "")" class="form-control date" />
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Payment.PaymentDate, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Payment.AccountId, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.DropDownListFor(m => m.Payment.AccountId, new SelectList(Model.AccountOpts, "Id", "Value", @Model.Payment.AccountId), new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.Payment.AccountId, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+

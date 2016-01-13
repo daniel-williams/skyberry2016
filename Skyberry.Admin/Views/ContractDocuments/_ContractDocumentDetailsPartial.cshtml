@@ -1,0 +1,27 @@
+﻿@model Skyberry.Admin.ViewModels.ContractDocumentVM
+
+<dl class="dl-horizontal">
+    <dt>@Html.DisplayNameFor(model => model.ContractDocument.Filename)</dt>
+    <dd><a href="~/files/@Model.ContractDocument.Filename" target="_blank">@Model.ContractDocument.FilenameOriginal</a></dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ContractDocument.FileMimeType)</dt>
+    <dd>@Html.DisplayFor(model => model.ContractDocument.FileMimeType)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ContractDocument.FileSize)</dt>
+    <dd>@Html.DisplayFor(model => model.ContractDocument.FileSize)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ContractDocument.Title)</dt>
+    <dd>@Html.DisplayFor(model => model.ContractDocument.Title)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ContractDocument.Description)</dt>
+    <dd>@Html.Raw(Model.ContractDocument.Description)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ContractDocument.Version)</dt>
+    <dd>@Html.DisplayFor(model => model.ContractDocument.Version)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ContractDocument.CreatedDate)</dt>
+    <dd>@Html.DisplayFor(model => model.ContractDocument.CreatedDate)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.ContractDocument.IsActive)</dt>
+    <dd>@Html.DisplayFor(model => model.ContractDocument.IsActive)</dd>
+</dl>

@@ -1,0 +1,14 @@
+﻿.snap {
+  display: inline-block;
+  -ms-zoom: 1;
+  zoom: 1;
+  *display: inline;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: " ";
+}
+.clearfix:after {
+  clear: both;
+}

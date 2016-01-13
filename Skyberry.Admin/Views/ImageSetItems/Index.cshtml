@@ -1,0 +1,68 @@
+﻿@model Skyberry.Admin.ViewModels.ImageSetItemListVM
+
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Image Set Item List";
+    string sortby = "";
+}
+
+<h2>Image Set Item List</h2>
+<hr />
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div class="pager-div">
+    @if (Model.ImageSetItems.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.ImageSetItems, page => Url.Action("Index", "ImageSetItems", new { page = page, sort = Model.PageSortCriteria.Sort }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>
+
+<table id="tbl-grid-image-set-item" class="tbl-grid hl pad-full">
+    <tr>
+        <th class="c1"></th>
+        <th class="c2">
+            @{
+                sortby = "ImageSet.Name";
+            }
+            <a href="@Url.Action("Index", "ImageSetItems", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby) })">Image Set<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c3">
+            @{
+                sortby = "Position";
+            }
+            <a href="@Url.Action("Index", "ImageSetItems", new { page = Model.PageSortCriteria.Page, sort = Model.PageSortCriteria.SortToogle(sortby) })">Order<span class="sort @Model.PageSortCriteria.SortCss(sortby)"></span></a>
+        </th>
+        <th class="c4"></th>
+    </tr>
+    @foreach (var item in Model.ImageSetItems)
+    {
+        <tr>
+            <td class="c1">
+                <img src="/files/@item.Image.Filename?mode=crop&width=50" title="@item.Image.Title (@item.Image.FilenameOriginal)" />
+            </td>
+            <td class="c2">
+                @Html.DisplayFor(modelItem => item.ImageSet.Name)
+            </td>
+            <td class="c3">
+                @Html.DisplayFor(modelItem => item.Position)
+            </td>
+            <td class="c4">
+                @Html.ActionLink("Edit", "Edit", new { id = item.ImageSetItemId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ImageSetItemId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ImageSetItemId })
+            </td>
+        </tr>
+    }
+</table>
+
+<div class="pager-div">
+    @if (Model.ImageSetItems.GetMetaData().PageCount > 1)
+    {
+        @Html.PagedListPager((IPagedList)Model.ImageSetItems, page => Url.Action("Index", "ImageSetItems", new { page = page, sort = Model.PageSortCriteria.Sort }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+    }
+</div>

@@ -1,0 +1,32 @@
+﻿@model List<Skyberry.Domain.Tag>
+
+<div class="related">
+    <h4>Tags</h4>
+    <table id="tbl-grid-tag" class="tbl-grid hl">
+        <tr>
+            <th class="c1">Name</th>
+            <th class="c2">Filter</th>
+            <th class="c3">Active</th>
+            <th class="c4"></th>
+        </tr>
+        @foreach (var item in Model.OrderBy(e=>e.Name))
+        {
+            <tr>
+                <td class="c1">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td class="c2">
+                    @Html.DisplayFor(modelItem => item.IsFilter)
+                </td>
+                <td class="c3">
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                <td class="c4">
+                    @Html.ActionLink("Edit", "Edit", "Tags", new { id = item.TagId }, null) |
+                    @Html.ActionLink("Details", "Details", "Tags", new { id = item.TagId }, null) |
+                    @Html.ActionLink("Delete", "Delete", "Tags", new { id = item.TagId }, null)
+                </td>
+            </tr>
+        }
+    </table>
+</div>

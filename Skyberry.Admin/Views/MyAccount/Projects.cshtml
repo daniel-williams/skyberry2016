@@ -1,0 +1,155 @@
+﻿@model Skyberry.Admin.ViewModels.MyAccountProjectsVM
+
+@{
+    ViewBag.Title = "Account Projects";
+}
+@section meta_tags
+{
+    <meta name="description" content="Account Projects for Skyberry Studio clients." />
+}
+@section nav_top
+{
+    @Html.Partial("_NavTopPartial", new Skyberry.Admin.ViewModels.NavVM("MyAccount", "Projects"))
+}
+@section nav_bottom
+{
+    @Html.Partial("_NavBottomPartial", new Skyberry.Admin.ViewModels.NavVM("MyAccount", "Projects"))
+}
+@section styles
+{
+    @Styles.Render("~/bundles/css/account")
+}
+
+<div class="container fixed section">
+    <div class="col-xs-12 pull-left">
+        <h1>Projects</h1>
+        @if (User.IsInRole("Admin"))
+        {
+            <p>Signed in as <strong>@Model.User.UserName</strong> for account <strong>@Model.Account.Name</strong></p>
+        }
+    </div>
+    @if (Model.Projects != null && Model.Projects.Count > 0)
+    {
+        foreach (var item in Model.Projects.OrderByDescending(e => e.StartDate))
+        {
+            <div class="col-xs-12 pull-left info-box-12">
+                <fieldset>
+                    <legend>@item.Name</legend>
+
+                    <div class="col-xs-6">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="d_item">
+                                    <div class="d_lbl">Start Date</div>
+                                    <div class="d_data">@(item.StartDate.HasValue ? item.StartDate.Value.ToString("MM/dd/yyyy") : "")</div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="d_item">
+                                    <div class="d_lbl">Completion Date</div>
+                                    <div class="d_data">@Html.Raw(item.CompletionDate.HasValue ? item.CompletionDate.Value.ToString("MM/dd/yyyy") : item.EstimatedCompletionDate.HasValue ? item.EstimatedCompletionDate.Value.ToString("MM/dd/yyyy") + " <span class='d_data_i'>(estimated)</span>" : "<span class='d_data_i'>no date on file</span>")</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="d_item">
+                                    <div class="d_lbl">Contract Documents</div>
+                                    <div>
+                                        @if (item.Contracts != null && item.Contracts.Count > 0)
+                                        {
+                                            foreach (var contract in item.Contracts)
+                                            {
+                                                foreach (var doc in contract.ContractDocuments.OrderBy(e => e.CreatedDate))
+                                                {
+                                                    <div class='data'><a href="@Url.Action("FileDownload", "MyAccount", new { id = @doc.Id })" class="d_data file">@doc.FilenameOriginal</a><span class='d_data_i itype'>@doc.DocType</span></div>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class='d_data d_data_i'>no contracts on file</span><br />
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="d_item">
+                                    <div class="d_lbl">Project Documents</div>
+                                    <div>
+                                        @{
+                                        var projectDocs = item.ProjectDocuments.Where(e => e.DocType != "Final Deliverables").Select(e => e).ToList();
+                                        if (projectDocs != null && projectDocs.Count > 0)
+                                        {
+                                            foreach (var doc in projectDocs.OrderBy(e => e.CreatedDate))
+                                            {
+                                                <div class='idata'><a href="@Url.Action("FileDownload", "MyAccount", new { id = @doc.Id })" class="d_data file">@doc.FilenameOriginal</a><span class='d_data_i itype'>@doc.DocType</span></div>
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            <span class='d_data d_data_i'>no project documents on file</span><br />
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="d_item">
+                                    <div class="d_lbl">Final Deliverables</div>
+                                    <div>
+                                        @{
+                                        var deliverableDocs = item.ProjectDocuments.Where(e => e.DocType == "Final Deliverables").Select(e => e).ToList();
+                                        if (deliverableDocs != null && deliverableDocs.Count > 0)
+                                        {
+                                            foreach (var doc in deliverableDocs.OrderBy(e => e.CreatedDate))
+                                            {
+                                                <div class='idata'><a href="@Url.Action("FileDownload", "MyAccount", new { id = @doc.Id })" class="d_data file">@doc.FilenameOriginal</a><span class='d_data_i itype'>@doc.DocType</span></div>
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            <span class='d_data d_data_i'>no deliverables on file</span><br />
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-3"></div>
+                    <div class="col-xs-3">
+                        <div class="d_item">
+                            <div class="d_lbl">Design Reviews</div>
+                            <div>
+                                @if (item.DesignReviews != null && item.DesignReviews.Count > 0)
+                                {
+                                    foreach (var review in item.DesignReviews.OrderBy(e => e.Title))
+                                    {
+                                        <div class="idata"><a href="@Url.Action("MyAccountDesignReview", "MyAccount", new { id = @review.Id })" class="d_data file">@review.Title</a></div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="d_data d_data_i">no Design Reviews on file</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-xs-12 pull-left">
+            <div class='data'><span class='d_data d_data_i'>no active Projects were found</span></div>
+        </div>
+    }
+</div>

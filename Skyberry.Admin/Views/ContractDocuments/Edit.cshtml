@@ -1,0 +1,118 @@
+﻿@model Skyberry.Admin.ViewModels.ContractDocumentVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    bool isCreate = Model.ContractDocument.Id == Guid.Empty;
+    string mode = isCreate ? "Create" : "Edit";
+
+    ViewBag.Title = "@mode Contract Document";
+}
+
+@section styles
+{
+    <link href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+}
+
+<h2>@mode Contract Document</h2>
+<hr />
+
+<form action="@Url.Action(@mode)" name="frm" id="frm" @(isCreate ? "enctype=multipart/form-data" : "") method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="ContractDocument.Id" value="@Model.ContractDocument.Id" />
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+
+        @if (isCreate)
+        {
+            <div class="form-group">
+                <label for="FileData" class="control-label col-xs-2">File</label>
+                <div class="col-xs-6">
+                    <input type="file" name="FileData" id="ContractDocument_FileData" class="form-control" />
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="form-group">
+                <label for="ContractDocument_FilenameOriginal" class="control-label col-xs-2">Filename</label>
+                <div class="col-xs-6">
+                    @Html.TextBoxFor(model => model.ContractDocument.FilenameOriginal, new { @class = "form-control" })
+                </div>
+                <div class="col-xs-offset-2 col-xs-10">
+                    @Html.ValidationMessageFor(model => model.ContractDocument.FilenameOriginal, null, new { @class = "help-block" })
+                </div>
+            </div>
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContractDocument.Title, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.ContractDocument.Title, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ContractDocument.Title, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContractDocument.Description, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-10">
+                @Html.TextAreaFor(model => model.ContractDocument.Description, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ContractDocument.Description, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContractDocument.Version, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.ContractDocument.Version, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ContractDocument.Version, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContractDocument.DocType, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.DropDownListFor(m => m.ContractDocument.DocType, new SelectList(Model.ContractDocumentTypeOpts, "Id", "Value", @Model.ContractDocument.DocType), new { @class = "single form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ContractDocument.DocType, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="ContractId" class="control-label col-xs-2">Contract</label>
+            <div class="col-xs-6">
+                @Html.DropDownListFor(m => m.ContractDocument.ContractId, new SelectList(Model.ContractOpts, "Id", "Value", @Model.ContractDocument.ContractId), new { @class = "single form-control" })
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ContractDocument.ContractId, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContractDocument.IsActive, new { @class = "control-label col-xs-2" })
+            <div class="col-xs-6">
+                @Html.CheckBoxFor(model => model.ContractDocument.IsActive)
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ValidationMessageFor(model => model.ContractDocument.IsActive, null, new { @class = "help-block" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

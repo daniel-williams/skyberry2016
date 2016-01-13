@@ -1,0 +1,36 @@
+﻿@model List<Skyberry.Domain.DesignReview>
+
+<div class="related">
+    <h4>Design Reviews</h4>
+    <table id="tbl-grid-design-review" class="tbl-grid hl">
+        <tr>
+            <th class="c1">Account</th>
+            <th class="c2">Project</th>
+            <th class="c3">Title</th>
+            <th class="c4">Description</th>
+            <th class="c5"></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="c1">
+                    @Html.DisplayFor(modelItem => item.Project.Account.Name)
+                </td>
+                <td class="c2">
+                    @Html.DisplayFor(modelItem => item.Project.Name)
+                </td>
+                <td class="c3">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td class="c4">
+                    @Html.Raw(item.Description)
+                </td>
+                <td class="c5">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </table>
+</div>

@@ -1,0 +1,186 @@
+﻿@model Skyberry.Admin.ViewModels.MyAccountBillingVM
+
+@{
+    ViewBag.Title = "Account Billing";
+
+    var invAmount = (from inv in Model.Account.Invoices 
+                     select (Decimal?)inv.Amount).Sum() ?? 0;
+    var payAmount = (from pay in Model.Account.Payments
+                     select (Decimal?)pay.Amount).Sum() ?? 0;
+    var balance = invAmount - payAmount;
+}
+@section meta_tags
+{
+    <meta name="description" content="Account billing for Skyberry Studio clients." />
+}
+@section nav_top
+{
+    @Html.Partial("_NavTopPartial", new Skyberry.Admin.ViewModels.NavVM("MyAccount", "Billing"))
+}
+@section nav_bottom
+{
+    @Html.Partial("_NavBottomPartial", new Skyberry.Admin.ViewModels.NavVM("MyAccount", "Billing"))
+}
+@section styles
+{
+    @Styles.Render("~/bundles/css/account")
+}
+
+
+<div class="container fixed section">
+    <div class="col-xs-12 pull-left">
+        <h1>Billing</h1>
+        @if (User.IsInRole("Admin"))
+        {
+            <p>Signed in as <strong>@Model.User.UserName</strong> for account <strong>@Model.Account.Name</strong></p>
+        }
+    </div>
+    <div class="col-xs-12 pull-left info-box-12">
+        <fieldset>
+            <legend>Make a Payment</legend>
+            <div class="row">
+                <div class="col-xs-2">
+                    <div class="d_item">
+                        <div class="d_lbl">Account Balance</div>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="d_item">
+                        <div class="d_lbl">Pay this Amount</div>
+                    </div>
+                </div>
+                <div class="col-xs-8">
+                    <div class="d_item">
+                        <div class="d_lbl"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                    <input type="hidden" name="cmd" value="_xclick" />
+                    <input type="hidden" name="business" value="lacey@skyberrystudio.com" />
+                    <input type="hidden" name="amount" value="@balance" />
+                    <input type="hidden" name="item_name" value="Payment via www.skyberrystudio.com website for @Model.User.FirstName @Model.User.LastName, account #@Model.Account.Number." />
+                    <input type="hidden" name="custom" value="$@balance" />
+                    <input type="hidden" name="invoice" value="" />
+                    <input type="hidden" name="image_url" value="https://skyberrystudio.com/images/skyberry_logo_190x50.png" />
+                    <input type="hidden" name="cpp_header_image" value="https://skyberrystudio.com/images/skyberry_logo_750x50.png" />
+                    <input type="hidden" name="cpp_headerback_color" value="e6e6e6" />
+                    <input type="hidden" name="cpp_headerborder_color" value="e6e6e6" />
+                    <input type="hidden" name="no_note" value="1" />
+                    <input type="hidden" name="no_shipping" value="1" />
+                    <input type="hidden" name="return" value="https://skyberrystudio.com/my-account/summary" />
+                    <input type="hidden" name="cancel_return" value="https://skyberrystudio.com/my-account/summary" />
+                    <input type="hidden" name="rm" value="2" />
+                    <input type="hidden" name="cbt" value="Return to Skyberry Studio&trade;." />
+
+                    <div class="col-xs-2">
+                        <div class="d_item">
+                            <div class="d_data">$@balance</div>
+                        </div>
+                    </div>
+                    <div class="col-xs-2">
+                        <div class="d_item">
+                            <div class="d_data"><input type="text" name="amount" value="$@balance" style="width:75px;text-align:right;padding:0 5px;" /></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-8">
+                        <div class="d_data"><button type="submit" class="btn btn-default">Pay Now</button><img src="~/images/paypal-payments.png?mode=crop&width=350" alt="PayPal payment options" style="margin:0 20px;" /></div>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="data"><span class="d_data d_data_i">Please allow 48 hours for payment information to be updated</span></div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div class="col-xs-12 pull-left info-box-12">
+        <fieldset>
+            <legend>Invoices</legend>
+            <div class="row">
+                <div class="col-xs-2">
+                    <div class="d_item">
+                        <div class="d_lbl">Invoice #</div>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="d_item">
+                        <div class="d_lbl">Amount</div>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="d_item">
+                        <div class="d_lbl">Invoice Date</div>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="d_item">
+                        <div class="d_lbl">Due Date</div>
+                    </div>
+                </div>
+                <div class="col-xs-4"></div>
+            </div>
+            @foreach (var item in Model.Account.Invoices.OrderByDescending(e=>e.InvoiceNumber))
+            {
+                <div class="row">
+                    <div class="col-xs-2">
+                        <div class="d_data">@item.InvoiceNumber</div>
+                    </div>
+                    <div class="col-xs-2">
+                        <div class="d_data">$@item.Amount</div>
+                    </div>
+                    <div class="col-xs-2">
+                        <div class="d_data">@(item.SentDate.HasValue ? item.SentDate.Value.ToString("MM/dd/yyyy") : "")</div>
+                    </div>
+                    <div class="col-xs-2">
+                        <div class="d_data">@(item.DueDate.HasValue ? item.DueDate.Value.ToString("MM/dd/yyyy") : "")</div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="d_data file">
+                            <a href="@Url.Action("FileDownload", "MyAccount", new { id = @item.Id })" class="d_data file">@item.FilenameOriginal</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </fieldset>
+    </div>
+    <div class="col-xs-12 pull-left info-box-12">
+        <fieldset>
+            <legend>Payments</legend>
+            <div class="data"><span class="d_data d_data_i">Please allow 48 hours for payment information to be updated</span></div>
+            <div class="row">
+                <div class="col-xs-2">
+                    <div class="d_item">
+                        <div class="d_lbl">Payment Date</div>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="d_item">
+                        <div class="d_lbl">Amount</div>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="d_item">
+                        <div class="d_lbl">Payment Method</div>
+                    </div>
+                </div>
+            </div>
+            @foreach (var item in Model.Account.Payments.OrderByDescending(e=>e.PaymentDate))
+            {
+                <div class="row">
+                    <div class="col-xs-2">
+                        <div class="d_data">@(item.PaymentDate.HasValue ? item.PaymentDate.Value.ToString("MM/dd/yyyy") : "")</div>
+                    </div>
+                    <div class="col-xs-2">
+                        <div class="d_data">$@item.Amount</div>
+                    </div>
+                    <div class="col-xs-2">
+                        <div class="d_data">@item.PaymentType</div>
+                    </div>
+                </div>
+            }
+        </fieldset>
+    </div>
+</div>

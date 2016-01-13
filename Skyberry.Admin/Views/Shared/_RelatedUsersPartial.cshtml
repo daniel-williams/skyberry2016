@@ -1,0 +1,40 @@
+﻿@model List<Skyberry.Domain.SkyberryUser>
+
+<div class="related">
+    <h4>Users</h4>
+    <table id="tbl-grid-user" class="tbl-grid hl">
+        <tr>
+            <th class="c1">First Name</th>
+            <th class="c2">Last Name</th>
+            <th class="c3">Username</th>
+            <th class="c4">Email</th>
+            <th class="c5">Created</th>
+            <th class="c6"></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="c1">
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td class="c2">
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td class="c3">
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td class="c4">
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td class="c5">
+                    @(item.CreatedDate.ToString("M/dd/yyy"))
+                </td>
+                <td class="c6">
+                    @Html.ActionLink("Edit", "Edit", "Users", new { id = item.Id }, null) |
+                    @Html.ActionLink("Details", "Details", "Users", new { id = item.Id }, null) |
+                    @Html.ActionLink("Delete", "Delete", "Users", new { id = item.Id }, null)
+                </td>
+            </tr>
+        }
+    </table>
+</div>

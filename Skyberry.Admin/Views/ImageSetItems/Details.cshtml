@@ -1,0 +1,19 @@
+﻿@model Skyberry.Admin.ViewModels.ImageSetItemVM
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Image Set Item Details";
+}
+
+<h2>Image Set Item Details</h2>
+<hr />
+
+<div>
+    @Html.Partial("_ImageSetItemDetailsPartial", Model)
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ImageSetItem.ImageSetItemId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+
