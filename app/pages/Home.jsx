@@ -5,7 +5,7 @@ export default React.createClass({
   mixins: [PureRender],
 
   render: function() {
-    return <div>home</div>;
+    return <div>wtf!?</div>;
   },
-  
+
 });

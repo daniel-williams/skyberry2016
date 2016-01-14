@@ -1,2 +1,4 @@
 
-export default {};
+export default {
+  subscribeDelay: 60000,
+}
