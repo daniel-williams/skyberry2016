@@ -12,8 +12,20 @@ var DIST_PATH = path.resolve(WEB_ROOT, 'content/bundles');
 module.exports = {
     entry: {
         app: [path.resolve(APP_ROOT, 'index')],
-        dashboard: [path.resolve(APP_ROOT, 'dashboard')],
-        vendors: ['jquery', 'react', 'react-router', 'redux', 'react-redux', 'immutable'],
+        vendors: [
+          'jquery',
+          'react',
+          'react-addons-pure-render-mixin',
+          'react-router',
+          'history',
+          'redux',
+          'react-redux',
+          'react-bootstrap',
+          'isomorphic-fetch',
+          'immutable',
+          'formsy-react',
+          'webfontloader',
+        ],
     },
     module: {
         loaders: [
@@ -48,6 +60,8 @@ module.exports = {
           names: ['vendors'],
           minChunks: Infinity
         }),
-        new webpack.NoErrorsPlugin()
+        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.OccurenceOrderPlugin(),
+        // new webpack.NoErrorsPlugin()
     ],
 };
