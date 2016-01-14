@@ -1,0 +1,292 @@
+@import (reference) './mixins.less';
+
+// colors
+@white: #fff;
+@light-gray: #C2BBB6;
+@medium-gray: #666;
+@yellow: #ff9e1b;
+@orange: #e57200;
+// TODO: consolidate colors
+// from cta?
+// #222;
+// #333;
+// from btn-default
+//#e6e6e6;
+// from btn-sky
+// background-color: #cc6500;
+// border-color: #b25900;
+
+
+// sizing
+@base-space: 20;
+.make-space(@base-space);
+
+@base-font-size: 14px;
+@grid-float-breakpoint: 700px;
+
+html, body {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+}
+
+html {
+  background-color: @light-gray;
+}
+
+body {
+  font-family: 'proxima-nova-alt', 'sans-serif';
+  background-color: @white;
+  color: @medium-gray;
+  font-size: @base-font-size;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'bebas-neue', 'sans-serif';
+  color: @light-gray;
+  font-weight: normal;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+// TODO: lets ditch this is favor of .b
+h1 .xl {
+    font-weight: bold;
+}
+h1 { font-size: 48px; line-height: 48px; }
+h2 { font-size: 36px; line-height: 36px; }
+h3 { font-size: 28px; line-height: 28px; }
+h4 { font-size: 22px; line-height: 22px; }
+button.btn { font-size: 24px; }
+
+@media (max-width: 767px) {
+  h1 { font-size: 40px; line-height: 40px; }
+  h2 { font-size: 32px; line-height: 32px; }
+  h3 { font-size: 24px; line-height: 24px; }
+  h4 { font-size: 20px; line-height: 20px; }
+  button.btn { font-size: 20px; }
+}
+@media (max-width: 479px) {
+  h1 { font-size: 28px; line-height: 28px; }
+  h2 { font-size: 24px; line-height: 24px; }
+  h3 { font-size: 22px; line-height: 22px; }
+  h4 { font-size: 18px; line-height: 18px; }
+  button.btn { font-size: 16px; }
+}
+
+
+
+
+a, a:hover, a:active, a:focus, a:visited {
+    color: @yellow;
+    text-decoration: none;
+}
+
+a:hover {
+    color: @orange;
+}
+
+
+
+.center {
+    text-align: center;
+}
+
+.justify {
+    text-align: justify;
+}
+
+.txt-lt {
+    text-align: left;
+}
+
+.txt-c {
+    text-align: center;
+}
+
+.txt-rt {
+    text-align: right;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+    .xs-right {
+        text-align: right;
+    }
+
+    .xs-left {
+        text-align: left;
+    }
+
+    .xs-center {
+        text-align: center;
+    }
+}
+
+
+.cta-block {
+    margin: 75px auto;
+    color: #222;
+}
+
+.cta-ttl {
+    text-align: center;
+    color: #333;
+}
+
+p.cta-txt {
+    text-align: center;
+}
+
+@media (max-width:767px) {
+
+    h1, .cta-ttl {
+        font-size: 30px;
+    }
+
+    .cta-block {
+        margin: 50px auto;
+    }
+}
+
+
+
+
+
+
+.col {
+    float: left;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.col-center {
+    float: none;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+
+.ipsum-appear {
+    left: 0px;
+    opacity: 0.0;
+    transition: left .5s ease-in, opacity .5s ease-in;
+}
+
+.ipsum-appear.ipsum-appear-active {
+    left: 0;
+    opacity: 1.0;
+}
+
+.fade-enter {
+    opacity: 0.0;
+    transition: opacity .5s ease-in;
+}
+
+.fade-enter.fade-enter-active {
+    opacity: 1.0;
+}
+
+.fade-leave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 1.0;
+    transition: opacity .5s ease-in;
+}
+
+.fade-leave.fade-leave-active {
+    opacity: 0.0;
+}
+
+
+
+
+
+
+
+
+
+
+.image {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.image-loaded {
+    opacity: 1;
+}
+
+
+.cta-ttl {
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.btn-sky {
+    color: @white;
+    background-color: @yellow;
+    border-color: @yellow;
+}
+
+.btn-sky:hover,
+.btn-sky:focus,
+.btn-sky:active,
+.btn-sky.active {
+    color: @white !important;
+    background-color: #cc6500;
+    border-color: #b25900;
+}
+
+.btn-sky.disabled:hover,
+.btn-sky.disabled:focus,
+.btn-sky.disabled:active,
+.btn-sky.disabled.active,
+.btn-sky[disabled]:hover,
+.btn-sky[disabled]:focus,
+.btn-sky[disabled]:active,
+.btn-sky[disabled].active,
+fieldset[disabled] .btn-sky:hover,
+fieldset[disabled] .btn-sky:focus,
+fieldset[disabled] .btn-sky:active,
+fieldset[disabled] .btn-sky.active {
+    background-color: @yellow;
+    border-color: @yellow;
+}
+
+
+
+
+.as-bg {
+    float: left;
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    min-width: 700px;
+    z-index: -10;
+}
+
+
+
+
+
+
+
+
+.staff .bio > p {
+    text-align: justify;
+}
+
+.staff {
+}
+
+
+.btn.btn-default:focus {
+    background-color: @white;
+    &:hover {
+        background-color: #e6e6e6;
+    }
+}

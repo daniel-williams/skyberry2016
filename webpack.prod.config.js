@@ -11,7 +11,7 @@ var DIST_PATH = path.resolve(WEB_ROOT, 'content/bundles');
 
 module.exports = {
     entry: {
-        app: [path.resolve(APP_ROOT, 'app')],
+        app: [path.resolve(APP_ROOT, 'index')],
         dashboard: [path.resolve(APP_ROOT, 'dashboard')],
         vendors: ['jquery', 'react', 'react-router', 'redux', 'react-redux', 'immutable'],
     },

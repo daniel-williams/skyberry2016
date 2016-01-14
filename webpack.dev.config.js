@@ -11,7 +11,7 @@ var DIST_PATH = path.resolve(WEB_ROOT, 'content/bundles');
 
 module.exports = {
     entry: {
-        app: [path.resolve(APP_ROOT, 'app')],
+        app: [path.resolve(APP_ROOT, 'index')],
         dashboard: [path.resolve(APP_ROOT, 'dashboard')],
         vendors: ['jquery', 'react', 'react-router', 'redux', 'react-redux', 'immutable'],
     },
@@ -35,7 +35,7 @@ module.exports = {
     output: {
         path: DIST_PATH,
         filename: '[name].bundle.js',
-        publicPath: '/content/bundles/'
+        publicPath: 'http://localhost:8080/content/bundles/'
     },
     plugins: [
         new webpack.ProvidePlugin({
