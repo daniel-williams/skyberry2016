@@ -12,7 +12,7 @@ var DIST_PATH = path.resolve(WEB_ROOT, 'content/bundles');
 module.exports = {
   entry: {
     app: [
-      path.resolve(APP_ROOT, 'index'),
+      path.resolve(APP_ROOT, 'app'),
       'webpack/hot/only-dev-server'
     ],
     vendors: [
