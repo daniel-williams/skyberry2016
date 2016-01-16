@@ -11,7 +11,7 @@ import {Subscribe} from '../components';
 
 import Bootstrap from '../../Web/content/styles/bootstrap.min.css';
 require('../site.less');
-require('../fonts');
+require('../utils/FontLoader');
 
 
 let subscribeTimer = null;
@@ -29,11 +29,7 @@ const Root = React.createClass({
   render: function() {
     return (
       <div id='root'>
-        <div>ima header when I grow up</div>
-        <div id='page-wrap'>
-          {this.props.children}
-        </div>
-        <div>ima footer when I grow up</div>
+        {this.props.children}
         <Subscribe {...this.props} />
       </div>
     );

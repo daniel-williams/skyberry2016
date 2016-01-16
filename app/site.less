@@ -1,4 +1,4 @@
-@import (reference) './mixins.less';
+@import (reference) './utils/mixins.less';
 
 // colors
 @white: #fff;
@@ -75,106 +75,79 @@ button.btn { font-size: 24px; }
 
 
 
-
 a, a:hover, a:active, a:focus, a:visited {
     color: @yellow;
     text-decoration: none;
 }
-
 a:hover {
     color: @orange;
 }
 
 
-
+// general text styles
+.b, .bold {
+  font-weight: bold;
+}
+.i, .italic {
+  font-style: italic;
+}
 .center {
     text-align: center;
 }
-
 .justify {
     text-align: justify;
 }
-
-.txt-lt {
+.left {
     text-align: left;
 }
-
-.txt-c {
-    text-align: center;
-}
-
-.txt-rt {
+.right {
     text-align: right;
 }
-
 .nowrap {
     white-space: nowrap;
 }
-
 @media (max-width: 767px) {
     .xs-right {
         text-align: right;
     }
-
     .xs-left {
         text-align: left;
     }
-
     .xs-center {
         text-align: center;
     }
 }
 
-
-.cta-block {
-    margin: 75px auto;
-    color: #222;
-}
-
-.cta-ttl {
-    text-align: center;
-    color: #333;
-}
-
-p.cta-txt {
-    text-align: center;
-}
-
-@media (max-width:767px) {
-
-    h1, .cta-ttl {
-        font-size: 30px;
-    }
-
-    .cta-block {
-        margin: 50px auto;
-    }
-}
-
-
-
-
-
-
+// extend bootstrap col styles
 .col {
-    float: left;
-    padding-left: 15px;
-    padding-right: 15px;
+  float: left;
+  padding-left: 15px;
+  padding-right: 15px;
 }
-
 .col-center {
-    float: none;
-    margin-right: auto;
-    margin-left: auto;
+  float: none;
+  margin-right: auto;
+  margin-left: auto;
 }
 
+
+
+// transitions
+img {
+  transition: opacity 1.5s;
+}
+img.loading {
+    opacity: 0;
+}
+img.loaded {
+    opacity: 1;
+}
 
 .ipsum-appear {
     left: 0px;
     opacity: 0.0;
     transition: left .5s ease-in, opacity .5s ease-in;
 }
-
 .ipsum-appear.ipsum-appear-active {
     left: 0;
     opacity: 1.0;
@@ -184,11 +157,9 @@ p.cta-txt {
     opacity: 0.0;
     transition: opacity .5s ease-in;
 }
-
 .fade-enter.fade-enter-active {
     opacity: 1.0;
 }
-
 .fade-leave {
     position: absolute;
     top: 0;
@@ -196,7 +167,6 @@ p.cta-txt {
     opacity: 1.0;
     transition: opacity .5s ease-in;
 }
-
 .fade-leave.fade-leave-active {
     opacity: 0.0;
 }
@@ -204,33 +174,12 @@ p.cta-txt {
 
 
 
-
-
-
-
-
-
-.image {
-    opacity: 0;
-    transition: opacity 0.5s;
-}
-
-.image-loaded {
-    opacity: 1;
-}
-
-
-.cta-ttl {
-    text-transform: uppercase;
-    font-weight: 700;
-}
-
+// buttons
 .btn-sky {
     color: @white;
     background-color: @yellow;
     border-color: @yellow;
 }
-
 .btn-sky:hover,
 .btn-sky:focus,
 .btn-sky:active,
@@ -239,7 +188,6 @@ p.cta-txt {
     background-color: #cc6500;
     border-color: #b25900;
 }
-
 .btn-sky.disabled:hover,
 .btn-sky.disabled:focus,
 .btn-sky.disabled:active,
@@ -255,8 +203,41 @@ fieldset[disabled] .btn-sky.active {
     background-color: @yellow;
     border-color: @yellow;
 }
+.btn.btn-default:focus {
+  background-color: @white;
+  &:hover {
+    background-color: #e6e6e6;
+  }
+}
 
 
+
+
+
+// TODO: move cta styles out
+.cta-block {
+    margin: 75px auto;
+    color: #222;
+}
+.cta-ttl {
+    text-align: center;
+    color: #333;
+}
+p.cta-txt {
+    text-align: center;
+}
+@media (max-width:767px) {
+    h1, .cta-ttl {
+        font-size: 30px;
+    }
+        margin: 50px auto;
+        .cta-block {
+    }
+}
+.cta-ttl {
+    text-transform: uppercase;
+    font-weight: 700;
+}
 
 
 .as-bg {
@@ -269,24 +250,6 @@ fieldset[disabled] .btn-sky.active {
     z-index: -10;
 }
 
-
-
-
-
-
-
-
 .staff .bio > p {
     text-align: justify;
-}
-
-.staff {
-}
-
-
-.btn.btn-default:focus {
-    background-color: @white;
-    &:hover {
-        background-color: #e6e6e6;
-    }
 }
