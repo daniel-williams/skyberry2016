@@ -1,0 +1,40 @@
+@import (reference) '../site.less';
+
+
+#blog {
+  min-height: 300px;
+
+  article {
+    margin-bottom: 30px;
+
+    header {
+      margin-bottom: 10px;
+
+      a, a:visited, a:focus {
+        color: @yellow;
+      }
+      a:hover {
+        color: @orange;
+      }
+      .title {
+        display: inline;
+      }
+    }
+    footer {
+      margin-top: 10px;
+
+      .tags-wrap {
+        .title {
+          font-weight: bold;
+          margin-right: 5px;
+        }
+        .tags > span:after {
+          content: ', '
+        }
+        .tags > span:last-child:after {
+          content: ''
+        }
+      }
+    }
+  }
+}
