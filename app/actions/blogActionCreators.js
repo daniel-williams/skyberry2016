@@ -3,14 +3,14 @@ import {checkStatus, parseJSON} from './fetch-helpers';
 
 import store from '../store';
 import {
-  BLOG_REQUESTED,
-  BLOG_SUCCESS,
-  BLOG_FAILED,
+  BLOG_FETCHING,
+  BLOG_FETCH_SUCCESS,
+  BLOG_FETCH_FAILED,
   BLOG_PAGE_NEXT,
   BLOG_PAGE_PREV,
-  POSTS_REQUESTED,
-  POSTS_SUCCESS,
-  POSTS_FAILED,
+  POSTS_FETCHING,
+  POSTS_FETCH_SUCCESS,
+  POSTS_FETCH_FAILED,
   POST_REQUESTED,
   POST_SUCCESS,
   POST_FAILED,
@@ -28,20 +28,20 @@ function getPostUrl(itemId) {
 
 function fetchBlog(dispatch) {
   dispatch({
-    type: BLOG_REQUESTED,
+    type: BLOG_FETCHING,
   });
 
   fetch(blogUrl)
     .then(checkStatus)
     .then(parseJSON)
     .then(json => dispatch({
-      type: BLOG_SUCCESS,
+      type: BLOG_FETCH_SUCCESS,
       payload: {
         blog: json
       },
     }))
     .catch(err => dispatch({
-      type: BLOG_FAILED,
+      type: BLOG_FETCH_FAILED,
       payload: {
         date: new Date(),
         err: err
@@ -52,19 +52,18 @@ function fetchBlog(dispatch) {
 function fetchPostsAsNeeded(dispatch, getState, slug) {
   const blog = getState().get('blog').toJS();
   if(slug) {
-    if(!blog.items.find((item) => item.slug === slug)) {
-      const post = getState().get('post').toJS();
-      if(!post.isFetching && !post.item && !post.lastFetchError) {
+    if(!blog.posts.find(p => p.slug === slug)) {
+      if(!blog.isFetching && !blog.post && !blog.lastFetchError) {
         fetchPostBySlug(slug)(dispatch, getState);
       }
     }
   }
-    const {activePage, itemsPerPage, totalItemCount} = blog;
-    const loadedItemCount = blog.items.length;
+    const {activePage, itemsPerPage, totalPostCount} = blog;
+    const loadedItemCount = blog.posts.length;
 
     // do we have enough posts for the current page?
-    if((activePage * itemsPerPage) > loadedItemCount && loadedItemCount < totalItemCount) {
-      // yes! how many do we need?
+    if((activePage * itemsPerPage) > loadedItemCount && loadedItemCount < totalPostCount) {
+      // no! how many do we need?
       const count = activePage * itemsPerPage - loadedItemCount;
       const pageToken = blog.pageToken;
       fetchPost(count, pageToken)(dispatch, getState);
@@ -79,7 +78,7 @@ function fetchPost(count = 0, pageToken) {
 
   return function(dispatch) {
     dispatch({
-      type: POSTS_REQUESTED
+      type: POSTS_FETCHING
     });
 
     fetch(postsUrl + count + pageToken)
@@ -87,16 +86,16 @@ function fetchPost(count = 0, pageToken) {
       .then(parseJSON)
       .then(json => {
         dispatch({
-          type: POSTS_SUCCESS,
+          type: POSTS_FETCH_SUCCESS,
           payload: {
             date: new Date(),
-            items: json.items,
+            posts: json.items,
             pageToken: json.nextPageToken
           }
         })
       })
       .catch(err => dispatch({
-        type: POSTS_FAILED,
+        type: POSTS_FETCH_FAILED,
         payload: {
           date: new Date(),
           err: err
@@ -114,15 +113,15 @@ function fetchPostBySlug(slug) {
       .then(checkStatus)
       .then(parseJSON)
       .then(json => {
-        const slugMap = json.items.map(item => {
+        const postSlugs = json.items.map(p => {
           return {
-            id: item.id,
-            slug: getSlugFromUrl(item.url),
+            id: p.id,
+            slug: getSlugFromUrl(p.url),
           }
         });
-        const tgtItem = slugMap.find(item => item.slug === slug);
-        if(tgtItem) {
-          fetch(getPostUrl(tgtItem.id))
+        const tgtPost = postSlugs.find(p => p.slug === slug);
+        if(tgtPost) {
+          fetch(getPostUrl(tgtPost.id))
             .then(checkStatus)
             .then(parseJSON)
             .then(json => {
@@ -130,7 +129,7 @@ function fetchPostBySlug(slug) {
                 type: POST_SUCCESS,
                 payload: {
                   date: new Date(),
-                  item: processBlogItem(json)
+                  post: json
                 },
               });
             })
@@ -160,26 +159,6 @@ function fetchPostBySlug(slug) {
       }));
 
   }
-}
-
-function processBlogItem(item) {
-  return {
-      id: item.id,
-      title: item.title,
-      url: item.url,
-      slug: getSlugFromUrl(item.url),
-      content: item.content,
-      date: item.published,
-      tags: item.labels
-  };
-}
-
-function getSlugFromUrl(url) {
-  var name = url.split('/').slice(-1)[0];
-  if(name.indexOf('.' >= 0)) {
-      name = name.substr(0, name.lastIndexOf('.'));
-  }
-  return name;
 }
 
 
