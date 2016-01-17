@@ -12,15 +12,15 @@ import {
 
 
 export function showSubscribe() {
-  store.dispatch({
+  return {
     type: SUBSCRIBE_SHOW
-  });
+  };
 }
 
 export function hideSubscribe() {
-  store.dispatch({
+  return {
     type: SUBSCRIBE_HIDE
-  });
+  };
 }
 
 export function submitSubscribe(formData) {

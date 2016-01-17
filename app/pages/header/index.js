@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Nav from './Nav';
-require('./index.less');
+require('./header.less');
 
 
 export default React.createClass({

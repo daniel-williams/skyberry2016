@@ -1,58 +1,46 @@
 import React, {PropTypes} from 'react';
-import classnames from 'classnames';
+import PureRender from 'react-addons-pure-render-mixin';
 
-require('./IconButtonBar.less');
+import Icon from './Icon';
 
 
 export default React.createClass({
   displayName: 'IconButtonBar',
 
+  mixins: [PureRender],
+
   propTypes: {
-    links: PropTypes.array,
-    size: PropTypes.string,
+    links: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired,
+        alt: PropTypes.string,
+      })
+    ),
+    size: PropTypes.number,
   },
   getDefaultProps: function() {
     return {
-      links: [{
-        title: 'facebook',
-        url: 'http://facebook.com'
-      },
-      {
-        title: 'twitter',
-        url: 'http://twitter.com'
-      },
-      {
-        title: 'linkedin',
-        url: 'http://linkedin.com'
-      },
-      {
-        title: 'youtube',
-        url: 'http://youtube.com'
-      }],
-      size: '24px'
+      links: [
+        {title: 'facebook', url: 'http://facebook.com'},
+        {title: 'twitter', url: 'http://twitter.com'},
+        {title: 'linkedin', url: 'http://linkedin.com'},
+        {title: 'youtube', url: 'http://youtube.com'},
+      ],
+      size: 24,
     };
-  },
-  getInitialState: function() {
-    return {};
   },
 
   render: function() {
-
-    var items = this.props.links.map(function(item, i) {
-      if(!(item.title && item.url)) {
-        return;
-      }
-      var alt = item.alt || 'Link to ' + item.title;
-
-      return (
-        <a key={i} href={item.url} title={alt} target='_blank'>
-          <i className={'icon-' + item.title} style={{fontSize:this.props.size}}></i>
-        </a>
-      );
-    }.bind(this));
+    const style = {fontSize: this.props.size};
+    const items = this.props.links.map(item =>
+      <a key={item.title} href={item.url} title={item.alt || 'Link to ' + item.title} target='_blank'>
+        <Icon name={item.title} style={style} />
+      </a>
+    );
 
     return (
-      <div className='sky icon-button-bar'>
+      <div className='icon-button-bar'>
         {items}
       </div>
     );

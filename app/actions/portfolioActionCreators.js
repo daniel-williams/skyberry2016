@@ -36,10 +36,6 @@ export function fetchPortfolio(key) {
     fetch('/api/portfolio?c=' + key)
     .then(checkStatus)
     .then(parseJSON)
-    .then(json => {
-      console.log('portfolio result: ', json);
-      return json;
-    })
     .then(json => dispatch({
       type: PORTFOLIO_FETCH_SUCCESS,
       payload: {

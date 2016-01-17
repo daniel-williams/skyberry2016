@@ -1,16 +1,19 @@
 import React, {PropTypes} from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import PureRender from 'react-addons-pure-render-mixin';
 
 export default React.createClass({
-  mixin: [PureRenderMixin],
+  mixin: [PureRender],
 
   propTypes: {
-    name: PropTypes.string,
+    name: PropTypes.string.isRequired,
   },
 
   render: function() {
     return (
-      <i className={'icon-' + this.props.name} {...this.props} />
+      <i className={'icon-' + this.props.name} {...this.props}>
+        {this.props.children}
+      </i>
     );
-  }
-})
+  },
+
+});

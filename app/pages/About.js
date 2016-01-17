@@ -48,7 +48,7 @@ export default React.createClass({
           </Col>
           <Col xs={12} align='center' className='mb-dbl visible-xs xs-center'>
             <h4>Connect with Lacey</h4>
-            <IconButtonBar links={linksForLacey} size='48px' />
+            <IconButtonBar links={linksForLacey} size={48} />
           </Col>
           <Col sm={6} xs={12}>
             <Staff name='Daniel Williams' title='I solve business problems using technology' imgSrc='/content/images/staff-daniel-williams.png'>
@@ -58,17 +58,17 @@ export default React.createClass({
           </Col>
           <Col xs={12} className='mb-dbl visible-xs xs-center'>
             <h4>Connect with Daniel</h4>
-            <IconButtonBar links={linksForDaniel} size='48px' />
+            <IconButtonBar links={linksForDaniel} size={48} />
           </Col>
         </Row>
         <Row className='mb-dbl hidden-xs'>
           <Col sm={6} xs={12} className='staff-connect'>
             <h4>Connect with Lacey</h4>
-            <IconButtonBar links={linksForLacey} size='48px' />
+            <IconButtonBar links={linksForLacey} size={48} />
           </Col>
           <Col sm={6} xs={12} className='staff-connect'>
             <h4>Connect with Daniel</h4>
-            <IconButtonBar links={linksForDaniel} size='48px' />
+            <IconButtonBar links={linksForDaniel} size={48} />
           </Col>
         </Row>
       </Grid>

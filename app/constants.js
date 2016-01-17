@@ -1,7 +1,9 @@
 
 export default {
-  subscribeDelay: 60000,
-  porfolioSlug: '/content/images/portfolio-slug.png',
+  subscribe: {
+    active: true,
+    delay: 60000,
+  },
 
   keys: {
       identity: 'Identity.token',
@@ -13,6 +15,7 @@ export default {
       apiKey: 'AIzaSyCBrVr_qmMkn__DOgWIlMvGY7hOI0WEv_o',
       itemsPerPage: 5,
   },
+
   portfolio: {
     default: 'print',
     options: [
@@ -20,18 +23,17 @@ export default {
         { value: 'logo', label: 'Brand & Identity' },
         { value: 'web', label: 'Web & Apps' },
     ],
+    slug: '/content/images/portfolio-slug.png',
   },
+
   links: {
       lacey: [
-          {title: 'linkedin', alt:'', url: 'https://www.linkedin.com/in/laceyjohnston'},
-          {title: 'behance', alt:'', url: 'https://behance.com/laceyjohnston'},
-          {title: 'twitter', alt:'', url: 'https://twitter.com/'},
+          {title: 'linkedin', alt:'Lacey on LinkedIn', url: 'https://www.linkedin.com/in/laceyjohnston'},
+          {title: 'behance', alt:'Lacey on Behance', url: 'https://behance.com/laceyjohnston'},
       ],
       daniel: [
-          {title: 'linkedin', alt:'', url: 'https://linkedin.com/in/danielwilliamsus'},
-          {title: 'github', alt:'', url: 'https://github.com/daniel-williams'},
-          {title: '', alt:'', url: ''},
-          {title: 'twitter', alt:'', url: 'https://twitter.com/iblogabit'},
+          {title: 'linkedin', alt:'Daniel on LinkedIn', url: 'https://linkedin.com/in/danielwilliamsus'},
+          {title: 'github', alt:'Daniel on GitHub', url: 'https://github.com/daniel-williams'},
       ],
       skyberry: [
           {title: 'facebook', alt:'Skyberry on Facebook', url: 'http://facebook.com/skyberrystudio'},
@@ -39,9 +41,6 @@ export default {
           {title: 'pinterest', alt:'Skyberry on Pinterest', url: 'http://pinterest.com/skyberrystudio'},
           {title: 'linkedin', alt:'Skyberry on LinkedIn', url: 'https://www.linkedin.com/company/skyberry-studio'},
           {title: 'youtube', alt:'Skyberry on YouTube', url: 'http://youtube.com/skyberrystudio'},
-      ],
-      tmpl: [
-          {title: '', alt:'', url: ''},
       ],
   },
 

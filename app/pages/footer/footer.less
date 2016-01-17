@@ -1,0 +1,73 @@
+@import (reference) '../../site.less';
+
+
+#footer {
+  borderTop: 1px solid @light-gray;
+
+  h1, h3 {
+    color: @medium-gray;
+    background-color: @tan;
+  }
+  .footer-nav {
+      background-color: @tan;
+
+      ul {
+        li {
+          float: left;
+          list-style-type: none;
+
+          a {
+              margin: 15px 0;
+              padding: 15px;
+              font-size: 18px;
+              line-height: 18px;
+              color: #666666;
+              border-radius: 8px;
+
+              &:hover {
+                background-color: @yellow;
+                color: @white;
+              }
+              &:active, &:focus {
+                background-color: @orange;
+                color: @white;
+              }
+          }
+        }
+      }
+      .footer-col {
+        margin-bottom: 25px;
+
+        & > h3 {
+            text-align: center;
+        }
+        .col-body {
+            margin-top: 15px;
+
+            div {
+                text-align: center;
+            }
+        }
+      }
+  }
+  .social-icons {
+    margin-top: 25px;
+
+    a {
+      margin: 0 3px;
+    }
+    i {
+      font-size: 40px;
+      line-height: 40px;
+    }
+    .copyright {
+      padding: 24px 0 6px;
+      font-size: 10px;
+      line-height: 10px;
+      background-color: @light-gray;
+      color: @medium-gray;
+      text-align: center;
+    }
+  }
+
+}

@@ -6,10 +6,11 @@
 @medium-gray: #666;
 @yellow: #ff9e1b;
 @orange: #e57200;
+@tan: #FFF9F5;
+@charcoal: #222;
+@gravel: #333;
+
 // TODO: consolidate colors
-// from cta?
-// #222;
-// #333;
 // from btn-default
 //#e6e6e6;
 // from btn-sky
@@ -58,19 +59,26 @@ h3 { font-size: 28px; line-height: 28px; }
 h4 { font-size: 22px; line-height: 22px; }
 button.btn { font-size: 24px; }
 
-@media (max-width: 767px) {
+@media (max-width: 991px) {
   h1 { font-size: 40px; line-height: 40px; }
   h2 { font-size: 32px; line-height: 32px; }
   h3 { font-size: 24px; line-height: 24px; }
   h4 { font-size: 20px; line-height: 20px; }
   button.btn { font-size: 20px; }
 }
+@media (max-width: 767px) {
+  h1 { font-size: 34px; line-height: 34px; }
+  h2 { font-size: 26px; line-height: 26px; }
+  h3 { font-size: 20px; line-height: 20px; }
+  h4 { font-size: 16px; line-height: 16px; }
+  button.btn { font-size: 16px; }
+}
 @media (max-width: 479px) {
   h1 { font-size: 28px; line-height: 28px; }
-  h2 { font-size: 24px; line-height: 24px; }
-  h3 { font-size: 22px; line-height: 22px; }
-  h4 { font-size: 18px; line-height: 18px; }
-  button.btn { font-size: 16px; }
+  h2 { font-size: 22px; line-height: 22px; }
+  h3 { font-size: 18px; line-height: 18px; }
+  h4 { font-size: 16px; line-height: 16px; }
+  button.btn { font-size: 14px; }
 }
 
 
@@ -153,6 +161,11 @@ a:hover {
   }
 }
 
+.icon-button-bar {
+  & > a + a {
+    margin-left: 5px;
+  }
+}
 
 // transitions
 img {

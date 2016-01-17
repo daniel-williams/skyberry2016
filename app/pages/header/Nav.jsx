@@ -4,7 +4,6 @@ import {Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 
 import Brand from './Brand';
-require('./index.less');
 
 
 export default React.createClass({
@@ -53,16 +52,6 @@ export default React.createClass({
       </Navbar>
     );
   },
-
-    // renderBrand: function() {
-    //     return (
-    //         <Brand
-    //             src="/content/images/logo.png"
-    //             title='Skyberry Logo'
-    //             id='sky-logo'
-    //             className={this.state.inDashboard} />
-    //     );
-    // },
   renderPublicDashboard: function() {
     return (
       <NavDropdown eventKey={6} title="Dashboard" id='dashboard-ddl' className={this.inDash()}>

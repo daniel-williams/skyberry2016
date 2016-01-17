@@ -1,32 +1,18 @@
 import React, {PropTypes} from 'react';
 import {Grid, Row, Col} from 'react-bootstrap';
-import classnames from 'classnames';
 
 import {IconButtonBar} from '../../components';
-
 import constants from '../../constants';
-require('./index.less');
+require('./footer.less');
 
 
 export default React.createClass({
   displayName: 'Footer',
 
-  propTypes: {
-    user: PropTypes.object
-  },
-  getDefaultProps: function() {
-    return {
-      user: {}
-    };
-  },
-  getInitialState: function() {
-    return {};
-  },
-
   render: function () {
     return (
       <section id='footer'>
-        <Grid fluid={true} style={{borderTop:'1px solid #ccc'}}>
+        <Grid fluid={true}>
           {this.renderFooterTitle()}
           {this.renderColumns()}
           {this.renderFooterNav()}
@@ -48,20 +34,20 @@ export default React.createClass({
       <Row className='mt'>
         <Col lg={2} sm={1} className='hidden-xs'></Col>
         <Col lg={2} sm={3} xs={12}>
-          {this.renderFirstColumn()}
+          {this.renderLeftColumn()}
         </Col>
         <Col lg={4} sm={4} xs={12}>
-          {this.renderSecondColumn()}
+          {this.renderCenterColumn()}
         </Col>
         <Col lg={2} sm={3} xs={12}>
-          {this.renderThirdColumn()}
+          {this.renderRightColumn()}
         </Col>
         <Col lg={2} sm={1} className='hidden-xs'></Col>
       </Row>
     );
   },
 
-  renderFirstColumn: function() {
+  renderLeftColumn: function() {
     return (
       <div className='footer-col'>
         <h3>Get In Touch</h3>
@@ -75,7 +61,7 @@ export default React.createClass({
       </div>
     );
   },
-  renderSecondColumn: function() {
+  renderCenterColumn: function() {
     return (
       <div className='footer-col'>
         <h3>We're Social</h3>
@@ -87,12 +73,12 @@ export default React.createClass({
       </div>
     );
   },
-  renderThirdColumn: function() {
+  renderRightColumn: function() {
     return (
       <div className='footer-col'>
         <h3>Our Studio</h3>
         <div className='col-body'>
-          <div>Skyberry Studio is located in beautiful Bothell, just northeast of Seattle Washington overlooking the wetland preserve at North Creek.</div>
+          <div>Skyberry Studio is located in beautiful Bothell, just northeast of Seattle Washington, overlooking the wetland preserve at North Creek.</div>
         </div>
       </div>
     );
@@ -101,12 +87,11 @@ export default React.createClass({
   renderSocialIcons: function() {
     return (
       <div className='social-icons'>
-        <IconButtonBar links={constants.links.skyberry} size='48px' />
+        <IconButtonBar links={constants.links.skyberry} size={48} />
       </div>
     );
   },
 
-  // TODO djw: active section should be maintained in Main and handed to Header & Footer via props
   renderFooterNav: function() {
     return (
       <Row className='footer-nav'>

@@ -1,0 +1,109 @@
+@import (reference) '../../site.less';
+
+
+#header {
+
+  nav {
+    color: @gravel;
+    background-color: @white;
+    margin-bottom: 0;
+  }
+  .navbar-default {
+    padding: 15px 0;
+    /*border: none;*/
+  }
+  .navbar-header {
+    margin: 0 -15px;
+  }
+  .navbar-toggle {
+    margin-bottom: 0;
+    background-color: @white;
+
+    .icon-bar {
+      width: 35px;
+      height: 3px;
+      background-color: @medium-gray;
+
+      & + .icon-bar {
+        width: 35px;
+        height: 3px;
+        margin-top: 6px;
+      }
+    }
+    &:hover {
+
+      .icon-bar {
+        background-color: @orange;
+      }
+    }
+  }
+  .navbar-nav > li > a {
+    border-radius: 4px;
+  }
+  /*.navbar-nav > li.on {
+        background-image: url(/content/images/gold-dot.png);
+        background-repeat: no-repeat;
+        background-position: 50% 90%;
+    }*/
+  .navbar-nav a {
+
+    &:hover {
+      background-color: @yellow;
+      color: @white;
+    }
+    &:active {
+      background-color: @orange;
+      color: @white;
+    }
+  }
+  .navbar-nav > .open > a {
+
+    &, &:hover, &:focus {
+      color: @white;
+      background-color: @orange;
+    }
+  }
+  .navbar-brand {
+    padding: 0 0 0 15px;
+  }
+}
+#sky-logo {
+  height: 100px;
+  margin: 0;
+  transition: height 1s;
+  transition-timing-function: ease-in-out;
+}
+.navbar-nav, .navbar-toggle {
+  transition: margin-top 1s;
+  transition-timing-function: ease-in-out;
+}
+.navbar-nav {
+  margin-top: 20px;
+}
+.navbar-toggle {
+  margin-top: 30px;
+}
+.navbar-collapse.in,
+.navbar-collapse.collapsing {
+  margin-top: 10px;
+}
+.in-dash {
+  #sky-logo {
+    height: 50px;
+    overflow: hidden;
+  }
+  .navbar-nav {
+    margin-top: 0;
+  }
+  .navbar-toggle {
+    margin-top: 10px;
+  }
+}
+@media (max-width:699px) {
+  #header {
+    .navbar-nav {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+}

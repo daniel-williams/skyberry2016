@@ -3,7 +3,6 @@ import {toJS} from 'immutable';
 import {Modal, Grid, Row, Col} from 'react-bootstrap';
 import Formsy from 'formsy-react';
 
-import * as actions from '../actions/subscribeActionCreators';
 import {Icon, SkyInput} from '../components';
 
 export default React.createClass({
@@ -88,7 +87,7 @@ export default React.createClass({
 
   handleClose: function(e) {
     e.preventDefault();
-    actions.hideSubscribe();
+    this.props.hideSubscribe();
   },
 
 });
