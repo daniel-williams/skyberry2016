@@ -5,6 +5,7 @@ import {Route, IndexRoute} from 'react-router';
 import Root from '../containers/Root';
 import Home from '../containers/Home';
 import Blog from '../containers/Blog';
+import Portfolio from '../containers/Portfolio';
 
 // pages
 import Main from '../pages/Main';
@@ -16,7 +17,7 @@ const routes = (
       <Route component={Main}>
         <Route path='/' component={Home} />
         <Route path='/about' component={About} />
-        <Route path='/portfolio' component={About} />
+        <Route path='/portfolio' component={Portfolio} />
         <Route path='/blog' component={Blog}>
           <Route path='/blog/:articleSlug' component={Blog} />
         </Route>

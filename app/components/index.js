@@ -7,6 +7,7 @@ import IconButtonBar from './IconButtonBar';
 import ImageBoard from './ImageBoard';
 import ImageLoader from './ImageLoader';
 import ModalBox from './ModalBox';
+import Select from './Select';
 import {SkyInput, SkyPager, SkyPlayer, SkyTextArea} from './sky';
 import Spinner from './Spinner';
 import Staff from './Staff';
@@ -22,6 +23,7 @@ export {
   ImageBoard,
   ImageLoader,
   ModalBox,
+  Select,
   SkyInput,
   SkyPager,
   SkyPlayer,

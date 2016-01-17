@@ -13,6 +13,14 @@ export default {
       apiKey: 'AIzaSyCBrVr_qmMkn__DOgWIlMvGY7hOI0WEv_o',
       itemsPerPage: 5,
   },
+  portfolio: {
+    default: 'print',
+    options: [
+        { value: 'print', label: 'Print & Graphic Design' },
+        { value: 'logo', label: 'Brand & Identity' },
+        { value: 'web', label: 'Web & Apps' },
+    ],
+  },
   links: {
       lacey: [
           {title: 'linkedin', alt:'', url: 'https://www.linkedin.com/in/laceyjohnston'},
