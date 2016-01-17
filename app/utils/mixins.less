@@ -2,19 +2,19 @@
 @qtr: ~'-qtr';
 @half: ~'-half';
 @dbl: ~'-dbl';
-@tpl: ~'-tpl';
+@trpl: ~'-trpl';
 
 .make-space(@size) {
   .make-padding(@size / 4, @qtr);
   .make-padding(@size / 2, @half);
   .make-padding(@size, ~'');
   .make-padding(@size * 2, @dbl);
-  .make-padding( @size * 3, @tpl);
+  .make-padding( @size * 3, @trpl);
   .make-margin(@size / 4, @qtr);
   .make-margin(@size / 2, @half);
   .make-margin(@size, ~'');
   .make-margin(@size * 2, @dbl);
-  .make-margin( @size * 3, @tpl);
+  .make-margin( @size * 3, @trpl);
 }
 
 .make-padding(@size, @prefix) {
