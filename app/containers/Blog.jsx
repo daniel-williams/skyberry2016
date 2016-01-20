@@ -8,7 +8,7 @@ import Blog from '../pages/Blog';
 
 function mapStateToProps(state) {
   return {
-    blog: state.get('blog'),
+    blog: state.get('blog').toJS(),
   };
 }
 

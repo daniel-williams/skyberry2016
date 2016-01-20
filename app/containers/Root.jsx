@@ -2,9 +2,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {toJS} from 'immutable';
 
+import constants from '../constants';
 import * as actions from '../actions/subscribeActionCreators';
 import {Subscribe} from '../components';
-import constants from '../constants';
 
 import Bootstrap from '../../Web/content/styles/bootstrap.min.css';
 require('../site.less');
@@ -40,7 +40,8 @@ const Root = React.createClass({
 
 function mapStateToProps(state) {
   return {
-    subscribe: state.get('subscribe'),
+    subscribe: state.get('subscribe').toJS(),
+    email: state.getIn(['identity', 'email']),
   };
 }
 

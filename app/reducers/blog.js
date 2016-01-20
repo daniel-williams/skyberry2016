@@ -63,7 +63,7 @@ export default function(state = initialState, action) {
       return state.withMutations((state) => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
-        state.set('lastFetchError', action.payload.err);
+        state.set('lastFetchError', action.payload.error);
         return state;
       });
     }
@@ -96,7 +96,7 @@ export default function(state = initialState, action) {
       return state.withMutations((state) => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
-        state.set('lastFetchError', action.payload.err);
+        state.set('lastFetchError', action.payload.error);
         return state;
       });
     }
@@ -116,7 +116,7 @@ export default function(state = initialState, action) {
       return state.withMutations((state) => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
-        state.set('lastFetchError', action.payload.err);
+        state.set('lastFetchError', action.payload.error);
         return state;
       });
     }

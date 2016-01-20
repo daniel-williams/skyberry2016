@@ -40,11 +40,11 @@ function fetchBlog(dispatch) {
         blog: json
       },
     }))
-    .catch(err => dispatch({
+    .catch(error => dispatch({
       type: BLOG_FETCH_FAILED,
       payload: {
         date: new Date(),
-        err: err
+        error: error
       },
     }));
 }
@@ -94,11 +94,11 @@ function fetchPost(count = 0, pageToken) {
           }
         })
       })
-      .catch(err => dispatch({
+      .catch(error => dispatch({
         type: POSTS_FETCH_FAILED,
         payload: {
           date: new Date(),
-          err: err
+          error: error
         }
       }));
   }
@@ -133,11 +133,11 @@ function fetchPostBySlug(slug) {
                 },
               });
             })
-            .catch(err => dispatch({
+            .catch(error => dispatch({
               type: POST_FAILED,
               payload: {
                 date: new Date(),
-                err: err
+                error: error
               },
             }))
         } else {
@@ -145,16 +145,16 @@ function fetchPostBySlug(slug) {
             type: POST_FAILED,
             payload: {
               date: new Date(),
-              err: 'Post not found.'
+              error: 'Post not found.'
             },
           });
         }
       })
-      .catch(err => dispatch({
+      .catch(error => dispatch({
         type: POST_FAILED,
         payload: {
           date: new Date(),
-          err: err
+          error: error
         },
       }));
 

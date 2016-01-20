@@ -5,15 +5,16 @@ import Formsy from 'formsy-react';
 
 import {Icon, SkyInput} from '../components';
 
+// FIX: subscribe email could be different than identity.email... we need to store this apart.
 export default React.createClass({
   isActive: function() {
-    return this.props.subscribe.get('isActive');
+    return this.props.subscribe.isActive;
   },
   showSubscribe: function() {
-    return this.props.subscribe.get('showSubscribe');
+    return this.props.subscribe.showSubscribe;
   },
   getButtonState: function() {
-    return this.props.subscribe.get('isPosting') ? 'disabled' : '';
+    return this.props.subscribe.isPosting ? 'disabled' : '';
   },
   render: function() {
     return (
@@ -45,13 +46,12 @@ export default React.createClass({
   },
   renderForm: function() {
     let btnState = this.getButtonState();
-    let user = {};
     return (
       <Formsy.Form onValidSubmit={this.props.submitSubscribe}>
         <Row>
           <Col xs={12} className='mb'>
             <SkyInput name="email"
-              value={user.email}
+              value={this.props.email}
               required
               validations="isEmail"
               validationError="A valid email address is required."
@@ -71,12 +71,11 @@ export default React.createClass({
     );
   },
   renderSuccess: function() {
-    let user = {}
     return (
       <Row>
         <Col xs={12} className='mb'>
           <h4>Hooray!</h4>
-          <p>You will occasionally receive news and announcements at <span className='b'>{user.email}</span>. Thank you for your interest in Anna Lancaster Fine Art.</p>
+          <p>You will occasionally receive news and announcements at <span className='b'>{this.props.email}</span>. Thank you for your interest in Anna Lancaster Fine Art.</p>
         </Col>
         <Col xs={12}>
           <button type='button' className='btn btn-default' onClick={this.handleClose}>Close</button>

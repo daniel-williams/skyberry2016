@@ -9,10 +9,9 @@ require('./Portfolio.less');
 export default React.createClass({
 
   isFetching: function() {
-    return this.props.portfolio.get('isFetching');
+    return this.props.portfolio.isFetching;
   },
   componentDidMount: function() {
-    console.log(this);
     this.props.switchPortfolio(constants.portfolio.default);
   },
 
@@ -44,15 +43,15 @@ export default React.createClass({
   },
 
   renderPortfolio: function() {
-    const images = this.props.portfolio.getIn(['collections', this.props.portfolio.get('key')]);
+    const images = this.props.portfolio.collections[this.props.portfolio.key];
     if(images) {
-      return <ImageBoard images={images.toJS()} columns={{xxs:1,xs:2,sm:2,md:3,lg:4}} />;
+      return <ImageBoard images={images} columns={{xxs:1,xs:2,sm:2,md:3,lg:4}} />;
     }
   },
 
   handleChange: function(event)  {
     var key = event.target.value;
-    if(key != this.props.portfolio.get('key')) {
+    if(key != this.props.portfolio.key) {
       this.props.switchPortfolio(key);
     }
   },

@@ -10,15 +10,15 @@ export function requireAuthentication(Component) {
 
   const AuthenticatedComponent = React.createClass({
     componentWillMount: function() {
-      this.checkAuth();
+      this.checkAuth(this.props);
     },
     componentWillReceiveProps: function(nextProps) {
-      this.checkAuth();
+      this.checkAuth(nextProps);
     },
-    checkAuth: function() {
-      if (!this.isAuthenticated()) {
-        this.props.setNextUrl(this.props.location.pathname);
-        this.props.history.pushState(null, '/dashboard/sign-in');
+    checkAuth: function(props) {
+      if (props.identity.isAuthenticated !== true) {
+        props.setNextUrl(props.location.pathname);
+        props.history.replaceState(null, '/dashboard/sign-in');
       }
     },
     isAuthenticated: function() {
@@ -30,9 +30,11 @@ export function requireAuthentication(Component) {
 
   });
 
-  const mapStateToProps = (state) => ({
-    identity: state.get('identity').toJS(),
-  });
+  function mapStateToProps(state) {
+    return {
+      identity: state.get('identity').toJS(),
+    };
+  }
 
   return connect(mapStateToProps, actions)(AuthenticatedComponent);
 }

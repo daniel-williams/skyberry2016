@@ -8,7 +8,7 @@ import Portfolio from '../pages/Portfolio';
 
 function mapStateToProps(state) {
   return {
-    portfolio: state.get('portfolio'),
+    portfolio: state.get('portfolio').toJS(),
   };
 }
 

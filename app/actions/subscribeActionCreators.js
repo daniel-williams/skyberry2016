@@ -28,7 +28,7 @@ export function submitSubscribe(formData) {
     dispatch({
       type: SUBSCRIBE_POSTING,
       payload: {
-        user: formData
+        identity: formData
       }
     });
 

@@ -9,6 +9,7 @@ import ImageBoard from './ImageBoard';
 import ImageLoader from './ImageLoader';
 import ModalBox from './ModalBox';
 import Select from './Select';
+import SignInForm from './SignInForm';
 import {SkyInput, SkyPager, SkyPlayer, SkyTextArea} from './sky';
 import Spinner from './Spinner';
 import Staff from './Staff';
@@ -26,6 +27,7 @@ export {
   ImageLoader,
   ModalBox,
   Select,
+  SignInForm,
   SkyInput,
   SkyPager,
   SkyPlayer,

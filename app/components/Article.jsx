@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import PureRender from 'react-addons-pure-render-mixin';
 import {Link} from 'react-router';
 import {Breadcrumb, BreadcrumbItem} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
@@ -8,6 +9,8 @@ import {Fetching} from '.';
 
 export default React.createClass({
   displayName: 'Article',
+
+  mixins: [PureRender],
 
   propTypes: {
     displayBreadcrumb: PropTypes.bool,

@@ -49,6 +49,7 @@ export default {
       dashboard: '/dashboard/projects',
       api: '/api',
       files: '/files/',
+      images: '/content/images/',
   },
 
   DevIpsum: {

@@ -7,9 +7,9 @@ import {SkyInput, SkyTextArea} from './sky';
 export default React.createClass({
 
   render: function() {
-    const identity = this.props.identity.toJS() || {};
-    const contact = this.props.contact.toJS() || {};
-    const errors = contact.lastPostError && contact.lastPostError.errors || {}
+    const identity = this.props.identity;
+    const contact = this.props.contact;
+    const errors = {} && contact.lastPostError && contact.lastPostError.errors;
     return (
       <formsy.Form onSubmit={this.props.handleSubmit} validationErrors={errors}>
         <Row>
@@ -46,7 +46,7 @@ export default React.createClass({
         </Row>
         <Row>
           <Col xs={12} className='form-group'>
-            <button className='btn btn-sky' type='submit' disabled={this.props.contact.get('isPosting')}>Send</button>
+            <button className='btn btn-sky' type='submit' disabled={this.props.contact.isPosting}>Send</button>
           </Col>
         </Row>
       </formsy.Form>

@@ -1,53 +1,44 @@
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {Location} from 'react-router';
 import {toJS} from 'immutable';
 import {Grid, Row, Col, Pager, PageItem, Pagination} from 'react-bootstrap';
 
-// import * as actions from '../actions/blogActionCreators';
 import {Article, ArticleList, Fetching} from '../components';
 require('./Blog.less');
 
 
 export default React.createClass({
-  mixins: [PureRenderMixin],
+  displayName: 'Blog',
 
   componentWillMount: function() {
     this.props.fetchAsNeeded(this.getSlug());
   },
   componentWillReceiveProps(nextProps) {
-    if(!nextProps.blog.get('isFetching')) {
-      this.props.fetchAsNeeded(this.getSlug());
+    if(!nextProps.blog.isFetching) {
+      nextProps.fetchAsNeeded(nextProps.params.articleSlug);
     }
   },
 
-  isFetching: function(props) {
-    props = props || this.props;
-    return props.blog.get('isFetching');
+  isFetching: function() {
+    return this.props.blog.isFetching;
   },
   getSlug: function() {
     return this.props.params.articleSlug;
   },
   hasSlug: function() {
-    return !!this.getSlug();
+    return !!this.props.params.articleSlug;
   },
 
   getPosts: function() {
-    const itemsPerPage = this.props.blog.get('itemsPerPage');
-    const start = (this.props.blog.get('activePage') - 1) * itemsPerPage;
+    const {itemsPerPage, activePage} = this.props.blog;
+    const start = (activePage - 1) * itemsPerPage;
     const end = start + itemsPerPage;
 
-    return this.props.blog.get('posts').slice(start, end).toJS();
+    return this.props.blog.posts.slice(start, end);
   },
   getPost: function() {
     const slug = this.getSlug();
-    return this.props.blog.get('posts').find(p => p.slug === slug) || this.props.blog.get('post');
-  },
-  getPageCount: function() {
-    return this.props.blog.get('totalPages');
-  },
-  getActivePage: function() {
-    return this.props.blog.get('activePage');
+    return this.props.blog.posts.find(p => p.slug === slug) || this.props.blog.post;
   },
 
   render: function() {
@@ -78,14 +69,12 @@ export default React.createClass({
   },
 
   renderPager: function() {
-    const activePage = this.getActivePage();
-    const pageCount = this.getPageCount();
-
+    const {totalPages, activePage} = this.props.blog;
     return (
       <Pager>
         <PageItem previous onClick={this.handlePagePrev} disabled={activePage === 1}>newer</PageItem>
-        <span className='mh' style={{lineHeight:'32px'}}>page {activePage} of {pageCount}</span>
-        <PageItem next onClick={this.handlePageNext} disabled={activePage === pageCount}>older</PageItem>
+        <span className='mh' style={{lineHeight:'32px'}}>page {activePage} of {totalPages}</span>
+        <PageItem next onClick={this.handlePageNext} disabled={activePage === totalPages}>older</PageItem>
       </Pager>
     );
   },

@@ -1,13 +1,13 @@
 import React, {PropTypes} from 'react';
-import {Location} from 'react-router';
-import {Pagination} from 'react-bootstrap';
+import PureRender from 'react-addons-pure-render-mixin';
 
-import constants from '../constants';
-import {Article, Fetching} from '.';
+import {Article} from '.';
 
 
 export default React.createClass({
   displayName: 'ArticleList',
+
+  mixins: [PureRender],
 
   propTypes: {
     items: PropTypes.array,
@@ -16,9 +16,6 @@ export default React.createClass({
     return {
       items: [],
     };
-  },
-  hasItems: function() {
-    return this.props.items.length;
   },
   render: function() {
     return (

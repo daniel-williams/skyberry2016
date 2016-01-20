@@ -8,8 +8,8 @@ import Contact from '../pages/Contact';
 
 function mapStateToProps(state) {
   return {
-    contact: state.get('contact'),
-    identity: state.get('identity'),
+    contact: state.get('contact').toJS(),
+    identity: state.get('identity').toJS(),
   };
 }
 

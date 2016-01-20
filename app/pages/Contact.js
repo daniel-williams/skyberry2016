@@ -7,14 +7,12 @@ import constants from '../constants';
 
 export default React.createClass({
   hasPosted: function() {
-    let temp = this.props.contact.get('hasPosted');
-    console.log('hasPosted:', temp);
-    return temp;
+    return this.props.contact.hasPosted;
   },
   render: function () {
     return (
       <div className='Contact'>
-        <CoverBillboard imgSrc='/content/images/jumbo4.jpg'>
+        <CoverBillboard imgSrc={constants.routes.images + 'jumbo4.jpg'}>
           <ModalBox headline='Get In Touch'>
             <div>
               <div className='center'>+1 503 272 1022</div>
@@ -46,12 +44,11 @@ export default React.createClass({
     return <ContactForm {...this.props} />
   },
   renderThankYou: function() {
-    const identity = this.props.identity.toJS();
     return (
       <Row>
         <Col xs={12}>
           <h3>Super Fantastic!</h3>
-          <p>We've received your message. If appropriate, we'll get back to you at {identity.email}, soon. To ensure delivery, please add <a href='mailto:contact@skyberrystudio.com'>contact@skyberrystudio.com</a> to your address book or email whitelist.</p>
+          <p>We've received your message. If appropriate, we'll get back to you at {this.props.identity.email}, soon. To ensure delivery, please add <a href='mailto:contact@skyberrystudio.com'>contact@skyberrystudio.com</a> to your address book or email whitelist.</p>
           <p>Thank you for your interest in Skyberry Studio. We love what we do and wouldn't be here without you!</p>
           <div className='mt'>Have <a href='javascript:void(0)' onClick={this.props.resetContact}>more to say</a>?</div>
         </Col>

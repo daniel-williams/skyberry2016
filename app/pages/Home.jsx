@@ -1,27 +1,26 @@
 import React from 'react';
-import PureRender from 'react-addons-pure-render-mixin';
 import {Grid} from 'react-bootstrap';
 import {toJS} from 'immutable';
 
+import constants from '../constants';
 import {CoverBillboard, ModalBox, ImageBoard} from '../components';
 
 
 export default React.createClass({
   displayName: 'Home',
-  mixins: [PureRender],
 
   hasFeaturedItems: function() {
-    return this.props.featured.get('items').count() > 0;
+    return this.props.featured.items.length > 0;
   },
   getFeaturedItems: function() {
-    return this.props.featured.get('items').toJS();
+    return this.props.featured.items;
   },
-  getTestimonialDescriptions: function() {
-      return this.props.testimonials.toJS().map(item => item.description);
-  },
+  // getTestimonialDescriptions: function() {
+  //     return this.props.testimonials.toJS().map(item => item.description);
+  // },
 
   componentDidMount: function() {
-    if(!this.props.featured.get('hasFetched') && !this.props.featured.get('isFetching')) {
+    if(!this.props.featured.hasFetched && !this.props.featured.isFetching) {
       this.props.fetchFeatured();
     }
   },
@@ -37,7 +36,7 @@ export default React.createClass({
 
   renderBillboard : function() {
     return (
-      <CoverBillboard imgSrc='/content/images/jumbo1.jpg'>
+      <CoverBillboard imgSrc={constants.routes.images + 'jumbo1.jpg'}>
         <ModalBox headline='Graphic Design & Web Development' overlay={true}>
           <p>Skyberry Studio is a full-service, award winning, desgin and development company. We are experts in brand identity, logo design, graphic design and web application development.</p>
           <button className='btn btn-sky'>Get your Free Project Consultation</button>
