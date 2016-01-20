@@ -9,14 +9,6 @@ import Brand from './Brand';
 export default React.createClass({
   displayName: 'Nav',
 
-  propTypes: {
-    user: PropTypes.object,
-  },
-  getDefaultProps: function() {
-    return {
-      user: {},
-    }
-  },
   getInitialState: function() {
     return {
       expanded: false
@@ -26,7 +18,6 @@ export default React.createClass({
     return this.props.location.pathname.indexOf('/dashboard/') >= 0 ? 'active' : '';
   },
   render: function () {
-    let authenticated = this.props.user.authenticated;
     return (
       <Navbar expanded={this.state.expanded} onToggle={this.handleToggle}>
         <Navbar.Header>
@@ -46,7 +37,7 @@ export default React.createClass({
             <LinkContainer to='/portfolio'><NavItem eventKey={3}>Portfolio</NavItem></LinkContainer>
             <LinkContainer to='/blog'><NavItem eventKey={4}>Blog</NavItem></LinkContainer>
             <LinkContainer to='/contact'><NavItem eventKey={5}>Contact</NavItem></LinkContainer>
-            {authenticated ? this.renderAuthenticatedDashboard() : this.renderPublicDashboard()}
+            {this.props.isAuthenticated ? this.renderAuthenticatedDashboard() : this.renderPublicDashboard()}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
