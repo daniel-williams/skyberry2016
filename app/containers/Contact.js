@@ -9,7 +9,7 @@ import Contact from '../pages/Contact';
 function mapStateToProps(state) {
   return {
     contact: state.get('contact'),
-    user: state.get('user'),
+    identity: state.get('identity'),
   };
 }
 
