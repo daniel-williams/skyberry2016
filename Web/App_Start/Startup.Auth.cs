@@ -37,7 +37,7 @@ namespace Web
             {
                 TokenEndpointPath = new PathString("/token"),
                 Provider = new ApplicationOAuthProvider(PublicClientId),
-                AuthorizeEndpointPath = new PathString("/api/account/ExternalLogin"),
+                //AuthorizeEndpointPath = new PathString("/api/account/ExternalLogin"),
                 //If the AccessTokenExpireTimeSpan is changed, also change the ExpiresUtc in the RefreshTokenProvider.cs.
                 AccessTokenExpireTimeSpan = TimeSpan.FromHours(24),
                 AllowInsecureHttp = true,

@@ -17,7 +17,7 @@ namespace Web.Filters
         {
             if (actionContext.ModelState.IsValid == false)
             {
-                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.BadRequest); 
+                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.BadRequest);
                 actionContext.Response.Content = new StringContent(JsonConvert.SerializeObject(new
                 {
                     code = HttpStatusCode.BadRequest,

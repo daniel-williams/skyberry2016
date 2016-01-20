@@ -2,6 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using Web.Filters;
 
+using Newtonsoft.Json;
+using System.Net.Http;
+
 namespace Web.Controllers.api
 {
     [RoutePrefix("api/contact")]
@@ -15,7 +18,7 @@ namespace Web.Controllers.api
             if (contact == null) {
                 return BadRequest("No data was supplied.");
             }
-            return Ok();
+            return Ok(new { code = 200, description = "okay" });
         }
     }
 
