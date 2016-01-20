@@ -4,20 +4,19 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 
 namespace Web.Providers
 {
-    // sample persistence of refresh tokens
-    // this is not production ready!
     public class RefreshTokenProvider : IAuthenticationTokenProvider
     {
         private static ConcurrentDictionary<string, AuthenticationTicket> _refreshTokens = new ConcurrentDictionary<string, AuthenticationTicket>();
 
         public async Task CreateAsync(AuthenticationTokenCreateContext context)
         {
-            var guid = Guid.NewGuid().ToString();
+            Guid guid = Guid.NewGuid();
 
             // maybe only create a handle the first time, then re-use for same client
             // copy properties and set the desired lifetime of refresh token
@@ -29,18 +28,22 @@ namespace Web.Providers
             var refreshTokenTicket = new AuthenticationTicket(context.Ticket.Identity, refreshTokenProperties);
 
             //_refreshTokens.TryAdd(guid, context.Ticket);
-            _refreshTokens.TryAdd(guid, refreshTokenTicket);
+            _refreshTokens.TryAdd(ComputeHash(guid), refreshTokenTicket);
 
-            // consider storing only the hash of the handle
-            context.SetToken(guid);
+            context.SetToken(guid.ToString());
         }
 
         public async Task ReceiveAsync(AuthenticationTokenReceiveContext context)
         {
-            AuthenticationTicket ticket;
-            if (_refreshTokens.TryRemove(context.Token, out ticket))
+            Guid token;
+            if (Guid.TryParse(context.Token, out token))
             {
-                context.SetTicket(ticket);
+                AuthenticationTicket ticket;
+
+                if (_refreshTokens.TryRemove(ComputeHash(token), out ticket))
+                {
+                    context.SetTicket(ticket);
+                }
             }
         }
 
@@ -52,6 +55,16 @@ namespace Web.Providers
         public void Receive(AuthenticationTokenReceiveContext context)
         {
             ReceiveAsync(context);
+        }
+
+        private string ComputeHash(Guid input)
+        {
+            byte[] source = input.ToByteArray();
+
+            var encoder = new SHA256Managed();
+            byte[] encoded = encoder.ComputeHash(source);
+
+            return Convert.ToBase64String(encoded);
         }
     }
 }

@@ -35,13 +35,15 @@ namespace Web
             PublicClientId = "self";
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
-                TokenEndpointPath = new PathString("/token"),
+                // access tokens
                 Provider = new ApplicationOAuthProvider(PublicClientId),
-                //AuthorizeEndpointPath = new PathString("/api/account/ExternalLogin"),
-                //If the AccessTokenExpireTimeSpan is changed, also change the ExpiresUtc in the RefreshTokenProvider.cs.
-                AccessTokenExpireTimeSpan = TimeSpan.FromHours(24),
+                // using short lived access tokens coupled with long lived refresh tokens
+                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(60),
                 AllowInsecureHttp = true,
-                RefreshTokenProvider = new RefreshTokenProvider()
+
+                // refresh tokens
+                RefreshTokenProvider = new RefreshTokenProvider(),
+                TokenEndpointPath = new PathString("/token"),
             };
 
             // Enable the application to use bearer tokens to authenticate users
