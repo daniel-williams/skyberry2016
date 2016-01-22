@@ -1,22 +1,23 @@
-import fetch from 'isomorphic-fetch';
-import {checkStatus, parseJSON} from './fetch-helpers';
+import {getJson} from '../services/FetchService';
 
-import store from '../store';
+import constants from '../constants';
+import {getSlugFromUrl} from '../utils/BloggerUtils';
 import {
   BLOG_FETCHING,
   BLOG_FETCH_SUCCESS,
   BLOG_FETCH_FAILED,
   BLOG_PAGE_NEXT,
   BLOG_PAGE_PREV,
+
   POSTS_FETCHING,
   POSTS_FETCH_SUCCESS,
   POSTS_FETCH_FAILED,
-  POST_REQUESTED,
-  POST_SUCCESS,
-  POST_FAILED,
+
+  POST_FETCHING,
+  POST_FETCH_SUCCESS,
+  POST_FETCH_FAILED,
 } from '.';
 
-import constants from '../constants';
 
 
 const {host, id, apiKey, itemsPerPage} = constants.blog;
@@ -27,26 +28,11 @@ function getPostUrl(itemId) {
 }
 
 function fetchBlog(dispatch) {
-  dispatch({
-    type: BLOG_FETCHING,
-  });
+  dispatch(fetchingBlog());
 
-  fetch(blogUrl)
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(json => dispatch({
-      type: BLOG_FETCH_SUCCESS,
-      payload: {
-        blog: json
-      },
-    }))
-    .catch(error => dispatch({
-      type: BLOG_FETCH_FAILED,
-      payload: {
-        date: new Date(),
-        error: error
-      },
-    }));
+  getJson(blogUrl)
+    .then(json => dispatch(fetchBlogSuccess(json)))
+    .catch(error => dispatch(fetchBlogFailed(error)));
 }
 
 function fetchPostsAsNeeded(dispatch, getState, slug) {
@@ -77,41 +63,19 @@ function fetchPost(count = 0, pageToken) {
                           : '';
 
   return function(dispatch) {
-    dispatch({
-      type: POSTS_FETCHING
-    });
+    dispatch(fetchingPosts());
 
-    fetch(postsUrl + count + pageToken)
-      .then(checkStatus)
-      .then(parseJSON)
-      .then(json => {
-        dispatch({
-          type: POSTS_FETCH_SUCCESS,
-          payload: {
-            date: new Date(),
-            posts: json.items,
-            pageToken: json.nextPageToken
-          }
-        })
-      })
-      .catch(error => dispatch({
-        type: POSTS_FETCH_FAILED,
-        payload: {
-          date: new Date(),
-          error: error
-        }
-      }));
+    getJson(postsUrl + count + pageToken)
+      .then(json => dispatch(fetchPostsSuccess(json)))
+      .catch(error => dispatch(fetchPostsFailed(error)));
   }
 }
 
 function fetchPostBySlug(slug) {
   return function(dispatch, getState) {
-    dispatch({
-      type: POST_REQUESTED,
-    });
-    fetch(postsUrl + '&maxResults=500&fields=items(id,url)')
-      .then(checkStatus)
-      .then(parseJSON)
+    dispatch(fetchingPost());
+
+    getJson(postsUrl + '&maxResults=500&fields=items(id,url)')
       .then(json => {
         const postSlugs = json.items.map(p => {
           return {
@@ -121,43 +85,13 @@ function fetchPostBySlug(slug) {
         });
         const tgtPost = postSlugs.find(p => p.slug === slug);
         if(tgtPost) {
-          fetch(getPostUrl(tgtPost.id))
-            .then(checkStatus)
-            .then(parseJSON)
-            .then(json => {
-              dispatch({
-                type: POST_SUCCESS,
-                payload: {
-                  date: new Date(),
-                  post: json
-                },
-              });
-            })
-            .catch(error => dispatch({
-              type: POST_FAILED,
-              payload: {
-                date: new Date(),
-                error: error
-              },
-            }))
+          return getJson(getPostUrl(tgtPost.id))
+            .then(json => dispatch(fetchPostSuccess(json)))
         } else {
-          dispatch({
-            type: POST_FAILED,
-            payload: {
-              date: new Date(),
-              error: 'Post not found.'
-            },
-          });
+          throw new Error('Post not found.');
         }
       })
-      .catch(error => dispatch({
-        type: POST_FAILED,
-        payload: {
-          date: new Date(),
-          error: error
-        },
-      }));
-
+      .catch(error => dispatch(fetchPostFailed(error)));
   }
 }
 
@@ -173,6 +107,83 @@ export function fetchAsNeeded(slug) {
     }
   }
 }
+
+
+
+export function fetchingBlog() {
+  return {
+    type: BLOG_FETCHING,
+  };
+}
+export function fetchBlogSuccess(json) {
+  return {
+    type: BLOG_FETCH_SUCCESS,
+    payload: {
+      blog: json
+    },
+  };
+}
+export function fetchBlogFailed(error) {
+  return {
+    type: BLOG_FETCH_FAILED,
+    payload: {
+      date: new Date(),
+      error: error
+    },
+  };
+}
+
+export function fetchingPosts() {
+  return {
+    type: POSTS_FETCHING
+  };
+}
+// TODO:  losing some data by plucking from json... review to persist or optimize request
+export function fetchPostsSuccess(json) {
+  return {
+    type: POSTS_FETCH_SUCCESS,
+    payload: {
+      date: new Date(),
+      posts: json.items,
+      pageToken: json.nextPageToken
+    }
+  };
+}
+export function fetchPostsFailed(error) {
+  return {
+    type: POSTS_FETCH_FAILED,
+    payload: {
+      date: new Date(),
+      error: error
+    }
+  };
+}
+
+
+export function fetchingPost() {
+  return {
+    type: POST_FETCHING,
+  };
+}
+export function fetchPostSuccess(json) {
+  return {
+    type: POST_FETCH_SUCCESS,
+    payload: {
+      date: new Date(),
+      post: json
+    },
+  };
+}
+export function fetchPostFailed(error) {
+  return {
+    type: POST_FETCH_FAILED,
+    payload: {
+      date: new Date(),
+      error: error
+    },
+  };
+}
+
 export function blogPageNext() {
   return {
     type: BLOG_PAGE_NEXT

@@ -41,26 +41,33 @@ export function refreshRequestOptions(refresh_token) {
     body: toFormData(payload),
   };
 }
-export function getApiRequestOptions(access_token) {
-  return {
+export function getApiRequestOptions(token) {
+  let options = {
     method: 'get',
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': 'Bearer  ' + access_token
     },
   };
+  if(!!token) {
+    options.headers['Authorization'] = 'Bearer  ' + token;
+  }
+  return options;
 }
+
 export function postApiRequestOptions(access_token, payload) {
-  return {
+  let options = {
     method: 'post',
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': 'Bearer  ' + access_token
     },
     body: JSON.stringify(payload),
   };
+  if(!!token) {
+    options.headers['Authorization'] = 'Bearer  ' + token;
+  }
+  return options;
 }
 
 function toFormData(obj) {

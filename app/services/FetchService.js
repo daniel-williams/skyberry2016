@@ -43,3 +43,19 @@ export function getAccounts(token, id) {
   .then(checkStatus)
   .then(parseJSON)
 }
+export function getJson(route, token) {
+  return fetch(
+    route,
+    getApiRequestOptions(token)
+  )
+  .then(checkStatus)
+  .then(parseJSON)
+}
+export function postJson(route, token) {
+  return fetch(
+    route,
+    postApiRequestOptions(token)
+  )
+  .then(checkStatus)
+  .then(parseJSON)
+}

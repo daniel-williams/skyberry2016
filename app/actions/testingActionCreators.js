@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch';
 
 import constants from '../constants';
-import {refreshIdentity} from '../services/OAuthService';
+import {refreshIdentity} from '../services/FetchService';
 import {setIdentity} from './identityActionCreators';
 
 

@@ -5,7 +5,7 @@ import {
   signIn,
   getUser,
   getAccounts
-} from '../services/OAuthService';
+} from '../services/FetchService';
 import {
   requestUser,
   setUser,
