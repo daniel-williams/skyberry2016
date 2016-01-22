@@ -13,6 +13,7 @@ const initialState = fromJS({
   lastRequestDate: null,
   lastRequestError: null,
 
+  isAuthenticated: false,
   id: null,
   username: null,
   email: null,
@@ -25,6 +26,7 @@ const initialState = fromJS({
 });
 
 export default function(state = initialState, action) {
+  console.log('user reducer:', action);
   switch(action.type) {
     case USER_REQUESTED: {
       return state.set('isRequesting', true);
@@ -36,6 +38,7 @@ export default function(state = initialState, action) {
         state.set('lastRequestError', null);
 
         const user = action.payload.user;
+        state.set('isAuthenticated', true);
         state.set('id', user.id);
         state.set('username', user.username);
         state.set('email', user.email);

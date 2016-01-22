@@ -1,13 +1,12 @@
 import {fromJS} from 'immutable';
 
 import {
-  SET_NEXT_URL,
-  CLEAR_NEXT_URL,
-
   IDENTITY_REQUESTED,
   IDENTITY_REQUEST_SUCCESS,
   IDENTITY_REQUEST_FAILED,
   IDENTITY_RESET,
+  SET_NEXT,
+  CLEAR_NEXT,
 } from '../actions';
 
 
@@ -20,21 +19,15 @@ const initialState = fromJS({
   id: null,
   username: null,
   accessToken: null,
-  refreshToken: null, // todo: move to local storage
+  refreshToken: null,
   issued: null,
   expires: null,
 
-  nextUrl: null,
+  next: null,
 });
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case SET_NEXT_URL: {
-      return state.set('nextUrl', action.payload.nextUrl);
-    }
-    case CLEAR_NEXT_URL: {
-      return state.set('nextUrl', null);
-    }
     case IDENTITY_REQUESTED: {
       return state.set('isRequesting', true);
     }
@@ -43,17 +36,15 @@ export default function(state = initialState, action) {
         state.set('isRequesting', false);
         state.set('lastRequestDate', action.payload.date);
         state.set('lastRequestError', null);
-        state.set('isAuthenticated', true);
 
         const identity = action.payload.identity;
-        const issued = new Date(identity['.issued']);
-        const expires = new Date(identity['.expires']);
+        state.set('isAuthenticated', true);
         state.set('id', identity.id);
         state.set('username', identity.username);
         state.set('refreshToken', identity.refresh_token);
         state.set('accessToken', identity.access_token);
-        state.set('issued', issued);
-        state.set('expires', expires);
+        state.set('issued', new Date(identity['.issued']));
+        state.set('expires', new Date(identity['.expires']));
         return state;
       });
     }
@@ -67,6 +58,12 @@ export default function(state = initialState, action) {
     }
     case IDENTITY_RESET: {
       return initialState;
+    }
+    case SET_NEXT: {
+      return state.set('next', action.payload.next);
+    }
+    case CLEAR_NEXT: {
+      return state.set('next', null);
     }
     default:
       return state;

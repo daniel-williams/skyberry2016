@@ -10,6 +10,7 @@ import Blog from '../containers/Blog';
 import Portfolio from '../containers/Portfolio';
 import Contact from '../containers/Contact';
 import SignIn from '../containers/SignIn';
+import SignOut from '../containers/SignOut';
 
 // pages
 import About from '../pages/About';
@@ -28,6 +29,7 @@ const routes = (
         </Route>
         <Route path='/contact' component={Contact} />
         <Route path='/dashboard/sign-in' component={SignIn} />
+        <Route path='/dashboard/sign-out' component={SignOut} />
         <Route path='/dashboard' component={requireAuthentication(Dashboard)}>
           <Route path='projects' component={Projects} />
         </Route>

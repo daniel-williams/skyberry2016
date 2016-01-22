@@ -17,8 +17,8 @@ export default React.createClass({
   },
   forwardOnAuth: function(props) {
     if(props.identity.isAuthenticated === true) {
-        this.props.history.pushState(null, props.identity.nextUrl || '/dashboard');
-        this.props.clearNextUrl();
+        this.props.history.pushState(null, props.identity.next || '/dashboard');
+        this.props.clearNext();
     }
   },
   render: function() {

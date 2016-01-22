@@ -11,16 +11,23 @@ import {
 } from '../utils/fetchUtils';
 
 
-export function SignIn(username, password) {
+export function refreshIdentity(token) {
+  return fetch(
+    constants.routes.token,
+    refreshRequestOptions(token)
+  )
+  .then(checkStatus)
+  .then(parseJSON)
+}
+export function signIn(username, password) {
   return fetch(
     constants.routes.token,
     authRequestOptions({username, password})
   )
   .then(checkStatus)
   .then(parseJSON)
-
 }
-export function GetUser(token, id) {
+export function getUser(token, id) {
   return fetch(
     '/api/users/' + id,
     getApiRequestOptions(token)
@@ -28,7 +35,7 @@ export function GetUser(token, id) {
   .then(checkStatus)
   .then(parseJSON)
 }
-export function GetAccounts(token, id) {
+export function getAccounts(token, id) {
   return fetch(
     '/api/users/' + id + '/accounts',
     getApiRequestOptions(token)

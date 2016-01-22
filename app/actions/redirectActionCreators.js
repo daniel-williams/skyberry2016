@@ -1,21 +1,21 @@
 
 import {
-  SET_NEXT_URL,
-  CLEAR_NEXT_URL,
+  SET_NEXT,
+  CLEAR_NEXT,
 } from '.';
 
 
-export function setNextUrl(nextUrl) {
+export function setNext(next) {
   return {
-    type: SET_NEXT_URL,
+    type: SET_NEXT,
     payload: {
-      nextUrl
+      next
     }
   };
 }
 
-export function clearNextUrl(nextUrl) {
+export function clearNext(next) {
   return {
-    type: CLEAR_NEXT_URL,
+    type: CLEAR_NEXT,
   };
 }

@@ -3,13 +3,15 @@ import {connect} from 'react-redux';
 import {toJS} from 'immutable';
 
 import constants from '../constants';
-import * as actions from '../actions/subscribeActionCreators';
+import * as identityActions from '../actions/identityActionCreators';
+import * as subscribeActions from '../actions/subscribeActionCreators';
 import {Subscribe} from '../components';
 
 import Bootstrap from '../../Web/content/styles/bootstrap.min.css';
 require('../site.less');
 require('../utils/FontLoader');
 
+const actions = Object.assign({}, identityActions, subscribeActions);
 
 let subscribeTimer = null;
 const {active, delay} = constants.subscribe;
@@ -17,6 +19,9 @@ const {active, delay} = constants.subscribe;
 const Root = React.createClass({
   displayName: 'Root',
 
+  componentWillMount: function() {
+    this.props.recoverIndentity();
+  },
   componentDidMount: function() {
     if(active) {
       subscribeTimer = setTimeout(this.props.showSubscribe, delay);

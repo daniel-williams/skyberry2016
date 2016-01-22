@@ -10,7 +10,7 @@ export default React.createClass({
     const identity = this.props.identity;
     const errors = {} && identity.lastRequestError && identity.lastRequestError.errors;
     return (
-      <formsy.Form onSubmit={this.props.Login} validationErrors={errors}>
+      <formsy.Form onSubmit={this.props.logOn} validationErrors={errors}>
         <Row>
           <Col xs={12}>
             <SkyInput

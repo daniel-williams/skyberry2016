@@ -17,7 +17,7 @@ export function requireAuthentication(Component) {
     },
     checkAuth: function(props) {
       if (props.identity.isAuthenticated !== true) {
-        props.setNextUrl(props.location.pathname);
+        props.setNext(props.location.pathname);
         props.history.replaceState(null, '/dashboard/sign-in');
       }
     },
