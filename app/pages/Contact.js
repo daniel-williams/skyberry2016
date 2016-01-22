@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
 import {Grid, Row, Col} from 'react-bootstrap';
 
-import {ContactForm, CoverBillboard, IconButtonBar, ModalBox} from '../components';
 import constants from '../constants';
+import {ContactForm, CoverBillboard, IconButtonBar, ModalBox} from '../components';
 
 
 export default React.createClass({
@@ -48,7 +48,7 @@ export default React.createClass({
       <Row>
         <Col xs={12}>
           <h3>Super Fantastic!</h3>
-          <p>We've received your message. If appropriate, we'll get back to you at {this.props.identity.email}, soon. To ensure delivery, please add <a href='mailto:contact@skyberrystudio.com'>contact@skyberrystudio.com</a> to your address book or email whitelist.</p>
+          <p>We've received your message. If appropriate, we'll get back to you at {this.props.contact.email}, soon. To ensure delivery, please add <a href='mailto:contact@skyberrystudio.com'>contact@skyberrystudio.com</a> to your address book or email whitelist.</p>
           <p>Thank you for your interest in Skyberry Studio. We love what we do and wouldn't be here without you!</p>
           <div className='mt'>Have <a href='javascript:void(0)' onClick={this.props.resetContact}>more to say</a>?</div>
         </Col>

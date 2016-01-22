@@ -14,20 +14,19 @@ const initialState = fromJS({
   lastPostDate: null,
   lastPostError: null,
 
+  email: null,
   message: null,
 });
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case CONTACT_RESET: {
-      return state.set('hasPosted', false);
-    }
     case CONTACT_POSTING: {
       return state.withMutations(state => {
         state.set('isPosting', true);
-        state.set('lastPostDate', null);
-        state.set('lastPostError', null);
-        state.set('message', action.payload.form.message);
+
+        const form = action.payload.form;
+        state.set('email', form.email);
+        state.set('message', form.message);
         return state;
       });
     }
@@ -37,6 +36,7 @@ export default function(state = initialState, action) {
         state.set('isPosting', false);
         state.set('lastPostDate', action.payload.date);
         state.set('lastPostError', null);
+
         state.set('message', null);
         return state;
       });
@@ -46,6 +46,17 @@ export default function(state = initialState, action) {
         state.set('isPosting', false);
         state.set('lastPostDate', action.payload.date);
         state.set('lastPostError', action.payload.error);
+        return state;
+      });
+    }
+    case CONTACT_RESET: {
+      return state.withMutations(state => {
+        state.set('hasPosted', false);
+        state.set('isPosting', false);
+        state.set('lastPostDate', null);
+        state.set('lastPostError', null);
+
+        state.set('message', null);
         return state;
       });
     }

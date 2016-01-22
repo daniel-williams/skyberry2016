@@ -1,10 +1,23 @@
+import {getFormErrors} from './FormUtils';
 
 export function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
   } else {
-    let json = response.json();
-    return json.then(err => {throw err;})
+    return Promise.resolve()
+      .then(() => {
+        return response.json()
+          .then(json => {
+            let err = new Error(response.statusText);
+            err.code = response.status;
+            err.formErrors = getFormErrors('contact.', json.errors);
+            return Promise.reject(err);
+          });
+      })
+
+    // return Promise.reject(err);
+    // let json = response.json();
+    // return json.then(err => {throw err;})
   }
 }
 
@@ -55,7 +68,7 @@ export function getApiRequestOptions(token) {
   return options;
 }
 
-export function postApiRequestOptions(access_token, payload) {
+export function postApiRequestOptions(payload, token) {
   let options = {
     method: 'post',
     headers: {
