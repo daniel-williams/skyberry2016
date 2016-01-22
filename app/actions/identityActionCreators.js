@@ -1,94 +1,123 @@
-import fetch from 'isomorphic-fetch';
 
 import constants from '../constants';
 import {
-  checkStatus,
-  parseJSON,
-  createFormPost,
-  createJsonPost,
-} from './fetch-helpers';
+  SignIn,
+  GetUser,
+  GetAccounts
+} from '../services/OAuthService';
 import {
   IDENTITY_REQUESTED,
   IDENTITY_REQUEST_SUCCESS,
   IDENTITY_REQUEST_FAILED,
-  IDENTITY_REFRESH,
-  IDENTITY_REFRESH_SUCCESS,
-  IDENTITY_REFRESH_FAILED,
   IDENTITY_RESET,
+
+  USER_REQUESTED,
+  USER_REQUEST_SUCCESS,
+  USER_REQUEST_FAILED,
+  USER_RESET,
 } from '.';
 
 
 export function Login(formData) {
   return function(dispatch, getState) {
-    dispatch(requestIdentity());
 
     const {username, password} = formData;
-    fetch(
-      constants.routes.token,
-      createFormPost({username, password, 'grant_type': 'password'})
-    )
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(json => dispatch(setIdentity(json)))
-    .catch(error => dispatch(requestIdentityFailed(error)));
+    dispatch(requestIdentity());
+
+    SignIn(username, password)
+      .then(identity => {
+        dispatch(setIdentity(identity));
+
+        const {access_token, userId} = identity;
+        dispatch(requestUser());
+        // dispatch(requestAccounts());
+
+        Promise.all([
+            GetUser(access_token, userId),
+            GetAccounts(access_token, userId)
+          ])
+          .then(res => {
+            dispatch(setUser(res[0]));
+            // dispatch(setAccounts(res[1]));
+          })
+          .catch(error => {
+            dispatch(requestUserFailed(error));
+            // dispatch(requestAccountsFailed(error));
+          });
+      })
+      .catch(error => dispatch(requestIdentityFailed(error)));
   }
 }
+
 export function Logout() {
   return function(dispatch) {
+    dispatch(resetUser());
     dispatch(resetIdentity());
   };
 }
-export function RecoverIdentity(token) {
-  return function(dispatch, getState) {
-    dispatch(requestIdentity());
-
-    fetch(
-      constants.routes.token,
-      createPostOptions({
-        'grant_type': 'refresh_token',
-        'refresh_token': token,
-      })
-    )
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(json => dispatch(setIdentity(json)))
-    .catch(error => dispatch(requestIdentityFailed(error)));
-  }
-}
-
 
 function requestIdentity() {
   return {
     type: IDENTITY_REQUESTED
   };
 }
+function requestUser() {
+  return {
+    type: USER_REQUESTED,
+  };
+}
+
+
 function setIdentity(json) {
   // localStorage.setItem('token', json.refresh_token);
   return {
     type: IDENTITY_REQUEST_SUCCESS,
     payload: {
-      lastRequestDate: new Date(),
-      accessToken: json.access_token,
-      refreshToken: json.refresh_token,
-      expireDate: new Date(json['.expires']),
-      id: json.userId,
-      username: json.userName,
+      date: new Date(),
+      identity: json
     }
   };
 }
+function setUser(json) {
+  return {
+    type: USER_REQUEST_SUCCESS,
+    payload: {
+      date: new Date(),
+      user: json
+    }
+  };
+}
+
+
+function requestIdentityFailed(error) {
+  // localStorage.removeItem('token');
+  return {
+    type: IDENTITY_REQUEST_FAILED,
+    payload: {
+      date: new Date(),
+      error: error,
+    }
+  };
+}
+function requestUserFailed(error) {
+  return {
+    type: USER_REQUEST_FAILED,
+    payload: {
+      date: new Date(),
+      error: error,
+    }
+  };
+}
+
+
 function resetIdentity() {
   // localStorage.removeItem('token');
   return {
     type: IDENTITY_RESET,
   };
 }
-function requestIdentityFailed(error) {
-  // localStorage.removeItem('token');
+function resetUser() {
   return {
-    type: IDENTITY_REQUEST_FAILED,
-    payload: {
-      lastRequestDate: new Date(),
-      lastRequestError: error,
-    }
-  };
+    type: USER_RESET,
+  }
 }

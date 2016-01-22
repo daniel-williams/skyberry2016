@@ -68,7 +68,9 @@ namespace Skyberry.Domain
 
         public SkyberryUser GetUserInfo(string userId)
         {
-            return DbSet.Where(e => e.Id == userId).Select(e => e).First();
+            return DbSet.Where(e => e.Id == userId)
+                .Select(e => e)
+                .First();
         }
     }
 

@@ -13,6 +13,7 @@ namespace Skyberry.Domain
         IPagedList<Project> GetAllPaged(PageSortCriteria pageSortCriteria, ProjectSearchCriteria searchCriteria);
 
         List<Project> GetByAccount(Guid accountId);
+
         Project GetProjectById(Guid projectId);
     }
 
@@ -54,7 +55,11 @@ namespace Skyberry.Domain
 
         public override List<Project> GetAll()
         {
-            List<Project> query = DbSet.Include(e => e.Account).OrderBy(e => e.Account.Name).ThenBy(e => e.Name).ToList();
+            List<Project> query = DbSet
+                .Include(e => e.Account)
+                .OrderBy(e => e.Account.Name)
+                .ThenBy(e => e.Name)
+                .ToList();
 
             return query;
         }
@@ -78,26 +83,35 @@ namespace Skyberry.Domain
 
         public override List<Project> GetSetByIds(List<Guid> ids)
         {
-            var query = DbSet.Where(e => ids.Contains(e.Id)).Select(e => e).Include(e => e.Account).ToList();
+            var query = DbSet
+                .Where(e => ids.Contains(e.Id))
+                .Select(e => e)
+                .Include(e => e.Account)
+                .ToList();
 
             return query;
         }
-
 
         public List<Project> GetByAccount(Guid accountId)
         {
-            List<Project> query = DbSet.Where(e => e.AccountId == accountId).Select(e => e).Include(e => e.DesignReviews).Include("DesignReviews.ReviewDocuments").Include(e => e.Contracts).Include("Contracts.ContractDocuments").Include(e => e.ProjectDocuments).ToList();
+            List<Project> query = DbSet
+                .Where(e => e.AccountId == accountId)
+                .Select(e => e)
+                .Include(e => e.DesignReviews)
+                .Include("DesignReviews.ReviewDocuments")
+                .Include(e => e.Contracts)
+                .Include("Contracts.ContractDocuments")
+                .Include(e => e.ProjectDocuments)
+                .ToList();
 
             return query;
         }
 
-        
     }
 
     public class ProjectSearchCriteria
     {
         public string Name { get; set; }
         public string Description { get; set; }
-
     }
 }

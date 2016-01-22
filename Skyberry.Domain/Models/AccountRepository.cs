@@ -12,6 +12,8 @@ namespace Skyberry.Domain
         IPagedList<Account> GetAllPaged(PageSortCriteria pageSortCriteria);
         IPagedList<Account> GetAllPaged(PageSortCriteria pageSortCriteria, AccountSearchCriteria searchCriteria);
 
+        List<Account> GetOwn(string userId);
+
         List<Account> GetByUserId(string userId);
         List<Project> GetProjects(Guid accountId);
         List<Project> GetOwnAccountProjects(string userId, Guid accountId);
@@ -36,12 +38,25 @@ namespace Skyberry.Domain
 
         public List<Project> GetProjects(Guid accountId)
         {
-            return Context.Projects.Where(e => e.AccountId == accountId).ToList();
+            return Context.Projects
+                .Where(e => e.AccountId == accountId)
+                .ToList();
         }
 
         public override Account GetById(object id)
         {
-            Account query = DbSet.Where(e => e.Id == (Guid)id).Select(e => e).Include(e => e.SkyberryUsers).Include(e => e.Contacts).Include(e => e.Addresses).Include(e => e.Accolades).Include(e => e.Testimonials).Include(e => e.Invoices).Include(e => e.Payments).Include(e => e.Projects).FirstOrDefault();
+            Account query = DbSet
+                .Where(e => e.Id == (Guid)id)
+                .Select(e => e)
+                .Include(e => e.SkyberryUsers)
+                .Include(e => e.Contacts)
+                .Include(e => e.Addresses)
+                .Include(e => e.Accolades)
+                .Include(e => e.Testimonials)
+                .Include(e => e.Invoices)
+                .Include(e => e.Payments)
+                .Include(e => e.Projects)
+                .FirstOrDefault();
 
             return query;
         }
@@ -80,8 +95,17 @@ namespace Skyberry.Domain
 
         public List<Account> GetByUserId(string userId)
         {
-            var accounts = DbSet.Where(a => a.SkyberryUsers.Any(u => u.Id == userId)).Include(e => e.Projects).OrderBy(e => e.Name).ToList();
-            return accounts;
+            return DbSet.Where(a => a.SkyberryUsers.Any(u => u.Id == userId))
+                .Include(e => e.Projects)
+                .OrderBy(e => e.Name)
+                .ToList();
+        }
+
+        public List<Account> GetOwn(string userId)
+        {
+            return DbSet.Where(a => a.SkyberryUsers.Any(u => u.Id == userId))
+                .OrderBy(e => e.Name)
+                .ToList();
         }
 
     }

@@ -7,6 +7,7 @@ import featured from './featured';
 import portfolio from './portfolio';
 import subscribe from './subscribe';
 import testimonials from './testimonials';
+import user from './user';
 
 
 const initialState = Map({});
@@ -20,5 +21,6 @@ export default function(state = initialState, action) {
     portfolio: portfolio(state.get('portfolio'), action),
     subscribe: subscribe(state.get('subscribe'), action),
     testimonials: testimonials(state.get('testimonials'), action),
+    user: user(state.get('user'), action),
   });
 }
