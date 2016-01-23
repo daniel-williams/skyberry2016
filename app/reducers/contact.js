@@ -14,6 +14,7 @@ const initialState = fromJS({
   lastPostDate: null,
   lastPostError: null,
 
+  name: null,
   email: null,
   message: null,
 });
@@ -25,6 +26,7 @@ export default function(state = initialState, action) {
         state.set('isPosting', true);
 
         const form = action.payload.form;
+        state.set('name', form.name);
         state.set('email', form.email);
         state.set('message', form.message);
         return state;

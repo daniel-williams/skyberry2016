@@ -9,6 +9,7 @@ import {
 
 
 export function handleSubmit(formData) {
+  console.log('handleSubmit', formData);
   return function(dispatch) {
     dispatch(postingContact(formData));
 

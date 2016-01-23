@@ -7,7 +7,7 @@ import {SkyInput, SkyTextArea} from './sky';
 
 export default React.createClass({
   getName: function() {
-    return (this.props.user.firstName || '') + ' ' + (this.props.user.lastName || '')
+    return this.props.contact.name || (this.props.user.firstName || '') + ' ' + (this.props.user.lastName || '')
   },
   getEmail: function() {
     return this.props.contact.email || this.props.user.email || '';
@@ -43,7 +43,7 @@ export default React.createClass({
               value={this.getEmail()}
               required
               validations="isEmail"
-              validationError="A valid email address is required."
+              validationError="Email address is required."
               className='form-control' />
           </Col>
         </Row>
@@ -53,6 +53,8 @@ export default React.createClass({
               name='message'
               label={'What is on your mind?'}
               value={this.getMessage()}
+              required
+              validationError="Message is required."
               className='form-control' />
           </Col>
         </Row>

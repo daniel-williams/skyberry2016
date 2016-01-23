@@ -13,7 +13,7 @@ namespace Web.Controllers.api
         [Route("")]
         [HttpPost]
         [ValidateModel]
-        public IHttpActionResult Index([FromBody]ContactBM contact)
+        public IHttpActionResult Index(ContactBM contact)
         {
             if (contact == null) {
                 return BadRequest("No data was supplied.");

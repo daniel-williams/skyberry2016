@@ -7,7 +7,7 @@ using System.Linq;
 using Newtonsoft.Json;
 
 using ModelBinding = System.Web.Http.ModelBinding;
-
+using System.Text;
 
 namespace Web.Filters
 {
@@ -22,7 +22,7 @@ namespace Web.Filters
                 {
                     code = HttpStatusCode.BadRequest,
                     errors = actionContext.ModelState.ToErrorDictionary()
-                }));
+                }), Encoding.UTF8, "application/json");
             }
         }
     }
@@ -37,15 +37,21 @@ namespace Web.Filters
             var errors = modelState
                 .Where(x => x.Value.Errors.Any())
                 .ToDictionary(
-                    kvp => CamelCasePropNames(kvp.Key),
+                    kvp => StripModelStateKeys(kvp.Key),
                     kvp => kvp.Value.Errors.Select(e => e.ErrorMessage)
                 );
 
             return errors;
         }
 
+        private static string StripModelStateKeys(string propName)
+        {
+            return propName.IndexOf('.') >=0 ? propName.Substring(propName.LastIndexOf('.') + 1) : propName;
+            
+        }
         private static string CamelCasePropNames(string propName)
         {
+            System.Diagnostics.Debug.Write(propName);
             var array = propName.Split('.');
             var camelCaseList = new string[array.Length];
             for (var i = 0; i < array.Length; i++)
