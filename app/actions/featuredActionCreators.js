@@ -1,6 +1,4 @@
-import fetch from 'isomorphic-fetch';
-import {checkStatus, parseJSON} from './fetch-helpers';
-import store from '../store';
+import {getJson} from '../services/FetchService';
 
 import {
   FEATURED_FETCHING,
@@ -11,29 +9,35 @@ import {
 
 export function fetchFeatured() {
   return function(dispatch) {
-    dispatch({
-      type: FEATURED_FETCHING,
-    });
+    dispatch(fetchingFeatured());
 
-    fetch('/api/portfolio')
-    .then(checkStatus)
-    .then(parseJSON)
-    .then((data) => dispatch({
-      type: FEATURED_FETCH_SUCCESS,
-      payload: {
-        date: new Date(),
-        items: data,
-      }
-    }))
-    .catch(err => {
-      console.log('err', err);
-      dispatch({
-        type: FEATURED_FETCH_FAILED,
-        payload: {
-          date: new Date(),
-          err: err
-        }
-      });
-    });
+    getJson('/api/portfolio')
+      .then(json => dispatch(fetchFeaturedSuccess(json)))
+      .catch(error => dispatch(fetchFeaturedFailed(error)));
   }
+}
+
+
+export function fetchingFeatured() {
+  return {
+    type: FEATURED_FETCHING,
+  };
+}
+export function fetchFeaturedSuccess(json) {
+  return {
+    type: FEATURED_FETCH_SUCCESS,
+    payload: {
+      date: new Date(),
+      items: json,
+    }
+  };
+}
+export function fetchFeaturedFailed(error) {
+  return {
+    type: FEATURED_FETCH_FAILED,
+    payload: {
+      date: new Date(),
+      err: error
+    }
+  };
 }

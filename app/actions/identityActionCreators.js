@@ -109,6 +109,7 @@ export function setIdentity(json) {
 }
 
 export function requestIdentityFailed(error) {
+  clearToken();
   return {
     type: IDENTITY_REQUEST_FAILED,
     payload: {
