@@ -1,15 +1,51 @@
-import fetch from 'isomorphic-fetch';
-import {checkStatus, toJSON} from './fetch-helpers';
-import store from '../store';
-
+import {postJson} from '../services/FetchService';
 import {
-  SUBSCRIBE_SHOW,
-  SUBSCRIBE_HIDE,
   SUBSCRIBE_POSTING,
   SUBSCRIBE_POST_SUCCESS,
-  SUBSCRIBE_POST_FAILED
+  SUBSCRIBE_POST_FAILED,
+  SUBSCRIBE_SHOW,
+  SUBSCRIBE_HIDE,
 } from '.';
 
+
+export function submitSubscribe(formData) {
+  return function(dispatch) {
+    dispatch(postingSubscribe(formData));
+
+    postJson('/api/subscribe', formData)
+      .then(() => dispatch(postSubscribeSuccess()))
+      .catch(error => dispatch(postSubscribeFailed(error)));
+  }
+}
+
+
+export function postingSubscribe(formData) {
+  return {
+    type: SUBSCRIBE_POSTING,
+    payload: {
+      form: formData
+    }
+  };
+}
+
+export function postSubscribeSuccess() {
+  return {
+    type: SUBSCRIBE_POST_SUCCESS,
+    payload: {
+      date: new Date()
+    }
+  };
+}
+
+export function postSubscribeFailed(error) {
+  return {
+    type: SUBSCRIBE_POST_FAILED,
+    payload: {
+      date: new Date(),
+      error: error
+    }
+  };
+}
 
 export function showSubscribe() {
   return {
@@ -21,38 +57,4 @@ export function hideSubscribe() {
   return {
     type: SUBSCRIBE_HIDE
   };
-}
-
-export function submitSubscribe(formData) {
-  return function(dispatch) {
-    dispatch({
-      type: SUBSCRIBE_POSTING,
-      payload: {
-        identity: formData
-      }
-    });
-
-    fetch('/api/subscribe', {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData),
-    })
-    .then(checkStatus)
-    .then(() => dispatch({
-      type: SUBSCRIBE_POST_SUCCESS,
-      payload: {
-        date: new Date()
-      }
-    }))
-    .catch((err) => dispatch({
-      type: SUBSCRIBE_POST_FAILED,
-      payload: {
-        date: new Date(),
-        err: err
-      }
-    }));
-  }
 }

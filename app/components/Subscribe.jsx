@@ -74,8 +74,8 @@ export default React.createClass({
     return (
       <Row>
         <Col xs={12} className='mb'>
-          <h4>Hooray!</h4>
-          <p>You will occasionally receive news and announcements at <span className='b'>{this.props.email}</span>. Thank you for your interest in Anna Lancaster Fine Art.</p>
+          <h3>Okeydoke!</h3>
+          <p>You will occasionally receive news and announcements at <span className='b'>{this.props.subscribe.email}</span>. Thank you for your interest in Skyberry Studio. We love what we do and would be here without you!</p>
         </Col>
         <Col xs={12}>
           <button type='button' className='btn btn-default' onClick={this.handleClose}>Close</button>

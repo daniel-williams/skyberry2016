@@ -46,7 +46,6 @@ const Root = React.createClass({
 function mapStateToProps(state) {
   return {
     subscribe: state.get('subscribe').toJS(),
-    email: state.getIn(['identity', 'email']),
   };
 }
 

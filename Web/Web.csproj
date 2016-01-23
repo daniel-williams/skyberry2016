@@ -208,6 +208,7 @@
     <Compile Include="Controllers\api\TestimonialsController.cs" />
     <Compile Include="Controllers\api\UserController.cs" />
     <Compile Include="Controllers\api\_BaseApiController.cs" />
+    <Compile Include="Controllers\api\SubscribeController.cs" />
     <Compile Include="Filters\ValidateModelAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -272,6 +273,7 @@
     <Folder Include="content\scripts\" />
     <Folder Include="content\styles\" />
     <Folder Include="Views\Contact\" />
+    <Folder Include="Views\Subscribe\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -7,32 +7,26 @@ using System.Net.Http;
 
 namespace Web.Controllers.api
 {
-    [RoutePrefix("api/contact")]
-    public class ContactController : _BaseApiController
+    [RoutePrefix("api/subscribe")]
+    public class SubscribeController : _BaseApiController
     {
         [Route("")]
         [HttpPost]
         [ValidateModel]
-        public IHttpActionResult Index(ContactBM contact)
+        public IHttpActionResult Index([FromBody]SubscribeBM subscribe)
         {
-            if (contact == null) {
+            if (subscribe == null)
+            {
                 return BadRequest("No data was supplied.");
             }
             return Ok(new { code = 200, description = "okeydoke" });
         }
     }
 
-    public class ContactBM
+    public class SubscribeBM
     {
-        public string Name { get; set; }
-
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
         public string email { get; set; }
-
-        [Required]
-        public string message { get; set; }
     }
-
-
 }
