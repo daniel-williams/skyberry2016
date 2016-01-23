@@ -1,9 +1,9 @@
 import {fromJS, List} from 'immutable';
 
 import {
-  USER_REQUESTED,
-  USER_REQUEST_SUCCESS,
-  USER_REQUEST_FAILED,
+  USER_FETCHING,
+  USER_FETCH_SUCCESS,
+  USER_FETCH_FAILED,
   USER_RESET,
 } from '../actions';
 
@@ -26,12 +26,12 @@ const initialState = fromJS({
 });
 
 export default function(state = initialState, action) {
-  console.log('user reducer:', action);
+  console.log(action);
   switch(action.type) {
-    case USER_REQUESTED: {
+    case USER_FETCHING: {
       return state.set('isRequesting', true);
     }
-    case USER_REQUEST_SUCCESS: {
+    case USER_FETCH_SUCCESS: {
       return state.withMutations(state => {
         state.set('isRequesting', false);
         state.set('lastRequestDate', action.payload.date);
@@ -51,7 +51,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case USER_REQUEST_FAILED: {
+    case USER_FETCH_FAILED: {
       return state.withMutations(state => {
         state.set('isRequesting', false);
         state.set('lastRequestDate', action.payload.date);

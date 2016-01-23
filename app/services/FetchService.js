@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 
 import constants from '../constants';
+import {getAccessToken, getRefreshToken} from './TokenService';
 import {
   checkStatus,
   parseJSON,
@@ -11,14 +12,24 @@ import {
 } from '../utils/fetchUtils';
 
 
-export function refreshIdentity(token) {
+export function getJson(route, withCredentials = false) {
   return fetch(
-    constants.routes.token,
-    refreshRequestOptions(token)
+    route,
+    getApiRequestOptions(withCredentials === true && getAccessToken())
   )
   .then(checkStatus)
   .then(parseJSON)
 }
+export function postJson(route) {
+  return fetch(
+    route,
+    postApiRequestOptions(withCredentials === true && getAccessToken())
+  )
+  .then(checkStatus)
+  .then(parseJSON)
+}
+
+
 export function signIn(username, password) {
   return fetch(
     constants.routes.token,
@@ -27,34 +38,28 @@ export function signIn(username, password) {
   .then(checkStatus)
   .then(parseJSON)
 }
-export function getUser(token, id) {
+export function refreshIdentity() {
+  return fetch(
+    constants.routes.token,
+    refreshRequestOptions(getRefreshToken())
+  )
+  .then(checkStatus)
+  .then(parseJSON)
+}
+
+
+export function getUser(id) {
   return fetch(
     '/api/users/' + id,
-    getApiRequestOptions(token)
+    getApiRequestOptions(getAccessToken())
   )
   .then(checkStatus)
   .then(parseJSON)
 }
-export function getAccounts(token, id) {
+export function getAccounts(id) {
   return fetch(
     '/api/users/' + id + '/accounts',
-    getApiRequestOptions(token)
-  )
-  .then(checkStatus)
-  .then(parseJSON)
-}
-export function getJson(route, token) {
-  return fetch(
-    route,
-    getApiRequestOptions(token)
-  )
-  .then(checkStatus)
-  .then(parseJSON)
-}
-export function postJson(route, token) {
-  return fetch(
-    route,
-    postApiRequestOptions(token)
+    getApiRequestOptions(getAccessToken())
   )
   .then(checkStatus)
   .then(parseJSON)

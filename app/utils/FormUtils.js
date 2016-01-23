@@ -1,6 +1,5 @@
 
 export function getFormErrors(errors) {
-  console.log('getFormErrors', errors);
   return Object.keys(errors).reduce((accum, item) => {
     accum[item] = errors[item].join(' ');
     return accum;

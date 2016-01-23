@@ -1,21 +1,21 @@
 
 import {
-  USER_REQUESTED,
-  USER_REQUEST_SUCCESS,
-  USER_REQUEST_FAILED,
+  USER_FETCHING,
+  USER_FETCH_SUCCESS,
+  USER_FETCH_FAILED,
   USER_RESET,
 } from '.';
 
 
-export function requestUser() {
+export function fetchingUser() {
   return {
-    type: USER_REQUESTED,
+    type: USER_FETCHING,
   };
 }
 
-export function setUser(json) {
+export function fetchUserSuccess(json) {
   return {
-    type: USER_REQUEST_SUCCESS,
+    type: USER_FETCH_SUCCESS,
     payload: {
       date: new Date(),
       user: json
@@ -23,9 +23,9 @@ export function setUser(json) {
   };
 }
 
-export function requestUserFailed(error) {
+export function fetchUserFailed(error) {
   return {
-    type: USER_REQUEST_FAILED,
+    type: USER_FETCH_FAILED,
     payload: {
       date: new Date(),
       error: error,

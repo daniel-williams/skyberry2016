@@ -1,5 +1,6 @@
 
 import constants from '../constants';
+import {setTokens, getTokens, clearTokens} from '../services/TokenService';
 import {
   refreshIdentity,
   signIn,
@@ -7,9 +8,9 @@ import {
   getAccounts
 } from '../services/FetchService';
 import {
-  requestUser,
-  setUser,
-  requestUserFailed,
+  fetchingUser,
+  fetchUserSuccess,
+  fetchUserFailed,
   resetUser,
 } from './userActionCreators';
 import {
@@ -23,29 +24,27 @@ import {
 export function recoverIndentity() {
   return function(dispatch, getState) {
 
-    const token = getToken();
-    if(!token) return;
+    const {accessToken, refreshToken} = getTokens();
+    if(!accessToken && !refreshToken) return;
 
     dispatch(requestIdentity());
 
-    refreshIdentity(token)
+    refreshIdentity(refreshToken)
       .then(identity => {
         dispatch(setIdentity(identity));
-
-        const {access_token, userId} = identity;
-        dispatch(requestUser());
+        dispatch(fetchingUser());
         // dispatch(requestAccounts());
 
         Promise.all([
-            getUser(access_token, userId),
-            getAccounts(access_token, userId)
+            getUser(identity.userId),
+            getAccounts(identity.userId)
           ])
           .then(res => {
-            dispatch(setUser(res[0]));
+            dispatch(fetchUserSuccess(res[0]));
             // dispatch(setAccounts(res[1]));
           })
           .catch(error => {
-            dispatch(requestUserFailed(error));
+            dispatch(fetchUserFailed(error));
             // dispatch(requestAccountsFailed(error));
           });
       })
@@ -62,22 +61,20 @@ export function logOn(formData) {
     signIn(username, password)
       .then(identity => {
         dispatch(setIdentity(identity));
-
-        const {access_token, userId} = identity;
-        dispatch(requestUser());
-        // dispatch(requestAccounts());
+        dispatch(fetchingUser());
+        // dispatch(fetchingAccounts());
 
         Promise.all([
-            getUser(access_token, userId),
-            getAccounts(access_token, userId)
+            getUser(identity.userId),
+            getAccounts(identity.userId)
           ])
           .then(res => {
-            dispatch(setUser(res[0]));
-            // dispatch(setAccounts(res[1]));
+            dispatch(fetchUserSuccess(res[0]));
+            // dispatch(fetchAccountsSuccess(res[1]));
           })
           .catch(error => {
-            dispatch(requestUserFailed(error));
-            // dispatch(requestAccountsFailed(error));
+            dispatch(fetchUserFailed(error));
+            // dispatch(fetchAccountsFailed(error));
           });
       })
       .catch(error => dispatch(requestIdentityFailed(error)));
@@ -98,7 +95,7 @@ export function requestIdentity() {
 }
 
 export function setIdentity(json) {
-  storeToken(json.refresh_token);
+  setTokens(json.access_token, json.refresh_token);
   return {
     type: IDENTITY_REQUEST_SUCCESS,
     payload: {
@@ -109,7 +106,7 @@ export function setIdentity(json) {
 }
 
 export function requestIdentityFailed(error) {
-  clearToken();
+  clearTokens();
   return {
     type: IDENTITY_REQUEST_FAILED,
     payload: {
@@ -120,27 +117,8 @@ export function requestIdentityFailed(error) {
 }
 
 export function resetIdentity() {
-  clearToken();
+  clearTokens();
   return {
     type: IDENTITY_RESET,
   };
-}
-
-
-
-function hasStorage() {
-  return window && typeof(window.localStorage) !== 'undefined';
-}
-function storeToken(token) {
-  if(hasStorage()) {
-    window.localStorage.setItem('token', token);
-  }
-}
-function clearToken() {
-  if(hasStorage()) {
-    window.localStorage.removeItem('token');
-  }
-}
-export function getToken() {
-  return hasStorage() ? window.localStorage.getItem('token') : undefined;
 }

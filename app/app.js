@@ -8,6 +8,7 @@ import {Provider} from 'react-redux';
 import store from './store';
 import history from './routes/history';
 import routes from './routes';
+require('./services/TokenService');
 
 
 ReactDom.render(

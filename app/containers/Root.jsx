@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {toJS} from 'immutable';
 
 import constants from '../constants';
+// import tokenService from '../services/TokenService';
 import * as identityActions from '../actions/identityActionCreators';
 import * as subscribeActions from '../actions/subscribeActionCreators';
 import {Subscribe} from '../components';
