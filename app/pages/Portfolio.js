@@ -11,10 +11,11 @@ export default React.createClass({
   isFetching: function() {
     return this.props.portfolio.isFetching;
   },
-  componentDidMount: function() {
-    this.props.switchPortfolio(constants.portfolio.default);
+  componentWillMount: function() {
+    if(!this.props.portfolio.key) {
+      this.props.switchPortfolio(constants.portfolio.default);
+    }
   },
-
   render: function () {
     return (
       <div id='portfolio'>
@@ -28,6 +29,7 @@ export default React.createClass({
             <Col md={4} sm={3} className='hidden-xs'></Col>
             <Select
               options={constants.portfolio.options}
+              selected={this.props.portfolio.key}
               className='col-md-4 col-sm-6 col-xs-12'
               onChange={this.handleChange} />
             <Col md={4} sm={3} className='hidden-xs'></Col>

@@ -13,15 +13,13 @@ let initialState = fromJS({
   isFetching: false,
   lastFetchDate: null,
   lastFetchError: null,
+
   key: null,
   collections: new Map(),
 });
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case PORTFOLIO_SET: {
-      return state.set('key', action.payload.key);
-    }
     case PORTFOLIO_FETCHING: {
       return state.set('isFetching', true);
     }
@@ -41,6 +39,9 @@ export default function(state = initialState, action) {
         state.set('lastFetchError', action.payload.error);
         return state;
       });
+    }
+    case PORTFOLIO_SET: {
+      return state.set('key', action.payload.key);
     }
     default:
       return state;

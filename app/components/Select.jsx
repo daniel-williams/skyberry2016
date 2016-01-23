@@ -9,10 +9,12 @@ export default React.createClass({
 
   propTypes: {
     options: PropTypes.array,
+    selected: PropTypes.string,
   },
   getDefaultProps: function() {
     return {
       options: [{label: 'choose', value: ''}],
+      selected: null,
     };
   },
   render: function() {
@@ -23,8 +25,9 @@ export default React.createClass({
     );
   },
   renderSelect: function() {
+    const selected = this.props.selected;
     return (
-      <select className='form-control sky select'>
+      <select className='form-control sky select' defaultValue={selected}>
         {this.props.options.map((item, i) => <option value={item.value} key={i}>{item.label}</option>)}
       </select>
     );

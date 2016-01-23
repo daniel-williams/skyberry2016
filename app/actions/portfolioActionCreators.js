@@ -1,7 +1,4 @@
-import fetch from 'isomorphic-fetch';
-import {checkStatus, parseJSON} from './fetch-helpers';
-import store from '../store';
-
+import {getJson} from '../services/FetchService';
 import {
   PORTFOLIO_SET,
   PORTFOLIO_FETCHING,
@@ -17,41 +14,53 @@ export function switchPortfolio(key) {
     if(!tgtCollection) {
       fetchPortfolio(key)(dispatch, getState);
     }
-
-    dispatch({
-      type: PORTFOLIO_SET,
-      payload: {
-        key: key
-      }
-    });
+    dispatch(setPortfolio(key));
   }
 }
 
 export function fetchPortfolio(key) {
   return function(dispatch) {
-    dispatch({
-      type: PORTFOLIO_FETCHING,
-    });
+    dispatch(fetchingPortfolio());
 
-    fetch('/api/portfolio?c=' + key)
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(json => dispatch({
-      type: PORTFOLIO_FETCH_SUCCESS,
-      payload: {
-        date: new Date(),
-        key: key,
-        images: json,
-      }
-    }))
-    .catch(error => {
-      dispatch({
-        type: PORTFOLIO_FETCH_FAILED,
-        payload: {
-          date: new Date(),
-          error: error
-        }
-      });
-    });
+    getJson('/api/portfolio?c=' + key)
+    .then(json => dispatch(fetchPortfolioSuccess(key, json)))
+    .catch(error => dispatch(fetchPortfolioFailed(error)));
   }
+}
+
+
+export function fetchingPortfolio() {
+  return {
+    type: PORTFOLIO_FETCHING,
+  };
+}
+
+export function fetchPortfolioSuccess(key, json) {
+  return {
+    type: PORTFOLIO_FETCH_SUCCESS,
+    payload: {
+      date: new Date(),
+      key: key,
+      images: json,
+    }
+  };
+}
+
+export function fetchPortfolioFailed(error) {
+  return {
+    type: PORTFOLIO_FETCH_FAILED,
+    payload: {
+      date: new Date(),
+      error: error
+    }
+  };
+}
+
+export function setPortfolio(key) {
+  return {
+    type: PORTFOLIO_SET,
+    payload: {
+      key: key
+    }
+  };
 }
