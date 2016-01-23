@@ -1,4 +1,4 @@
-import {Map, List, fromJS} from 'immutable';
+import {fromJS} from 'immutable';
 
 import {
     TESTIMONIALS_FETCHING,
@@ -8,27 +8,25 @@ import {
 
 const initialState = fromJS({
   isFetching: false,
-  hasFetched: false,
   lastFetchDate: null,
   lastFetchError: null,
-  items: [],
+  hasFetched: false,
+  testimonials: [],
 });
 
 export default function(state = initialState, action) {
   switch(action.type) {
     case TESTIMONIALS_FETCHING: {
-      return state.withMutations(state => {
-        state.set('isFetching', true);
-        return state;
-      });
+      return state.set('isFetching', true);
     }
     case TESTIMONIALS_FETCH_SUCCESS: {
       return state.withMutations(state => {
         state.set('isFetching', false);
-        state.set('hasFetched', true);
-        state.set('items', fromJS(action.payload.items));
         state.set('lastFetchDate', action.payload.date);
         state.set('lastFetchError', null);
+
+        state.set('hasFetched', true);
+        state.set('testimonials', fromJS(action.payload.testimonials));
         return state;
       });
     }
@@ -36,7 +34,7 @@ export default function(state = initialState, action) {
       return state.withMutations(state => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
-        state.set('lastFetchError', action.payload.err);
+        state.set('lastFetchError', action.payload.error);
         return state;
       });
     }

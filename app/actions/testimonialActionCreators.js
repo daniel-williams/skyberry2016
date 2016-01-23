@@ -1,6 +1,4 @@
-import fetch from 'isomorphic-fetch';
-import {checkStatus, parseJSON} from './fetch-helpers';
-import store from '../store';
+import {getJson} from '../services/FetchService';
 
 import {
   TESTIMONIALS_FETCHING,
@@ -11,26 +9,37 @@ import {
 
 export function fetchTestimonials() {
   return function(dispatch) {
-    dispatch({
-      type: TESTIMONIALS_FETCHING,
-    });
+    dispatch(fetchingTestimonials());
 
-    fetch('/api/portfolio')
-    .then(checkStatus)
-    .then(parseJSON)
-    .then((data) => dispatch({
-      type: TESTIMONIALS_FETCH_SUCCESS,
-      payload: {
-        date: new Date(),
-        items: data,
-      }
-    }))
-    .catch((err) => dispatch({
-      type: TESTIMONIALS_FETCH_FAILED,
-      payload: {
-        date: new Date(),
-        err: err
-      }
-    }));
+    getJson('/api/portfolio')
+    .then(json => dispatch(fetchTestimonialsSuccess(json)))
+    .catch(error => dispatch(fetchTestimonialsFailed(error)));
   }
+}
+
+
+export function fetchingTestimonials() {
+  return {
+    type: TESTIMONIALS_FETCHING,
+  };
+}
+
+export function fetchTestimonialsSuccess(json) {
+  return {
+    type: TESTIMONIALS_FETCH_SUCCESS,
+    payload: {
+      date: new Date(),
+      testimonials: json,
+    }
+  };
+}
+
+export function fetchTestimonialsFailed(error) {
+  return {
+    type: TESTIMONIALS_FETCH_FAILED,
+    payload: {
+      date: new Date(),
+      error: error
+    }
+  };
 }
