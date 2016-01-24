@@ -5,8 +5,8 @@ import {
   IDENTITY_REQUEST_SUCCESS,
   IDENTITY_REQUEST_FAILED,
   IDENTITY_RESET,
-  SET_NEXT,
-  CLEAR_NEXT,
+  NEXT_SET,
+  NEXT_CLEAR,
 } from '../actions';
 
 
@@ -32,7 +32,6 @@ export default function(state = initialState, action) {
       return state.set('isRequesting', true);
     }
     case IDENTITY_REQUEST_SUCCESS: {
-
       return state.withMutations(state => {
         state.set('isRequesting', false);
         state.set('lastRequestDate', action.payload.date);
@@ -60,10 +59,10 @@ export default function(state = initialState, action) {
     case IDENTITY_RESET: {
       return initialState;
     }
-    case SET_NEXT: {
+    case NEXT_SET: {
       return state.set('next', action.payload.next);
     }
-    case CLEAR_NEXT: {
+    case NEXT_CLEAR: {
       return state.set('next', null);
     }
     default:

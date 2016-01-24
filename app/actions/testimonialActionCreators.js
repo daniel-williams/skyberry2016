@@ -29,7 +29,7 @@ export function fetchTestimonialsSuccess(json) {
     type: TESTIMONIALS_FETCH_SUCCESS,
     payload: {
       date: new Date(),
-      testimonials: json,
+      items: json,
     }
   };
 }

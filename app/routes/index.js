@@ -11,10 +11,10 @@ import Portfolio from '../containers/Portfolio';
 import Contact from '../containers/Contact';
 import SignIn from '../containers/SignIn';
 import SignOut from '../containers/SignOut';
+import Dashboard from '../containers/Dashboard';
 
 // pages
 import About from '../pages/About';
-import Dashboard from '../pages/Dashboard';
 import Projects from '../pages/Projects';
 
 

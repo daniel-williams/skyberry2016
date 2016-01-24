@@ -1,13 +1,13 @@
 
 import {
-  SET_NEXT,
-  CLEAR_NEXT,
+  NEXT_SET,
+  NEXT_CLEAR,
 } from '.';
 
 
 export function setNext(next) {
   return {
-    type: SET_NEXT,
+    type: NEXT_SET,
     payload: {
       next
     }
@@ -16,6 +16,6 @@ export function setNext(next) {
 
 export function clearNext(next) {
   return {
-    type: CLEAR_NEXT,
+    type: NEXT_CLEAR,
   };
 }

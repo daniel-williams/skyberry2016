@@ -1,5 +1,6 @@
 import {Map} from 'immutable';
 
+import accounts from './accounts';
 import blog from './blog';
 import contact from './contact';
 import identity from './identity';
@@ -14,6 +15,7 @@ const initialState = Map({});
 
 export default function(state = initialState, action) {
   return Map({
+    accounts: accounts(state.get('accounts'), action),
     blog: blog(state.get('blog'), action),
     contact: contact(state.get('contact'), action),
     featured: featured(state.get('featured'), action),

@@ -37,7 +37,7 @@ export function fetchFeaturedFailed(error) {
     type: FEATURED_FETCH_FAILED,
     payload: {
       date: new Date(),
-      err: error
+      error: error
     }
   };
 }

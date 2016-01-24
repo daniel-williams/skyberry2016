@@ -5,7 +5,7 @@ import {
   refreshIdentity,
   signIn,
   getUser,
-  getAccounts
+  getAccounts,
 } from '../services/FetchService';
 import {
   fetchingUser,
@@ -13,6 +13,12 @@ import {
   fetchUserFailed,
   resetUser,
 } from './userActionCreators';
+import {
+  fetchingAccounts,
+  fetchAccountsSuccess,
+  fetchAccountsFailed,
+  clearAccounts,
+} from './accountsActionCreators';
 import {
   IDENTITY_REQUESTED,
   IDENTITY_REQUEST_SUCCESS,
@@ -33,7 +39,7 @@ export function recoverIndentity() {
       .then(identity => {
         dispatch(setIdentity(identity));
         dispatch(fetchingUser());
-        // dispatch(requestAccounts());
+        dispatch(fetchingAccounts());
 
         Promise.all([
             getUser(identity.userId),
@@ -41,11 +47,11 @@ export function recoverIndentity() {
           ])
           .then(res => {
             dispatch(fetchUserSuccess(res[0]));
-            // dispatch(setAccounts(res[1]));
+            dispatch(fetchAccountsSuccess(res[1]));
           })
           .catch(error => {
             dispatch(fetchUserFailed(error));
-            // dispatch(requestAccountsFailed(error));
+            dispatch(fetchAccountsFailed(error));
           });
       })
       .catch(error => dispatch(requestIdentityFailed(error)));
@@ -62,7 +68,7 @@ export function logOn(formData) {
       .then(identity => {
         dispatch(setIdentity(identity));
         dispatch(fetchingUser());
-        // dispatch(fetchingAccounts());
+        dispatch(fetchingAccounts());
 
         Promise.all([
             getUser(identity.userId),
@@ -70,11 +76,11 @@ export function logOn(formData) {
           ])
           .then(res => {
             dispatch(fetchUserSuccess(res[0]));
-            // dispatch(fetchAccountsSuccess(res[1]));
+            dispatch(fetchAccountsSuccess(res[1]));
           })
           .catch(error => {
             dispatch(fetchUserFailed(error));
-            // dispatch(fetchAccountsFailed(error));
+            dispatch(fetchAccountsFailed(error));
           });
       })
       .catch(error => dispatch(requestIdentityFailed(error)));
