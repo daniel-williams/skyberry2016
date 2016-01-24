@@ -2,7 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {toJS} from 'immutable';
 
-import Dashboard from '../pages/Dashboard';
+import * as actions from '../actions/dashboardActionCreators';
+import Dashboard from '../pages/dashboard/Dashboard';
 
 
 function mapStateToProps(state) {
@@ -12,4 +13,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps, actions)(Dashboard);

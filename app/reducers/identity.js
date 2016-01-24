@@ -18,8 +18,6 @@ const initialState = fromJS({
   isAuthenticated: false,
   id: null,
   username: null,
-  // accessToken: null,
-  // refreshToken: null,
   issued: null,
   expires: null,
 
@@ -41,8 +39,6 @@ export default function(state = initialState, action) {
         state.set('isAuthenticated', true);
         state.set('id', identity.id);
         state.set('username', identity.username);
-        // state.set('refreshToken', identity.refresh_token);
-        // state.set('accessToken', identity.access_token);
         state.set('issued', new Date(identity['.issued']));
         state.set('expires', new Date(identity['.expires']));
         return state;

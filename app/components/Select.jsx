@@ -8,27 +8,24 @@ export default React.createClass({
   mixins: [PureRender],
 
   propTypes: {
-    options: PropTypes.array,
+    options: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string,
+      value: PropTypes.string
+    })),
     selected: PropTypes.string,
+    onChange: PropTypes.func,
   },
   getDefaultProps: function() {
     return {
-      options: [{label: 'choose', value: ''}],
+      options: [{name: 'choose', value: ''}],
       selected: null,
+      onChange: function() {},
     };
   },
   render: function() {
     return (
-      <div {...this.props}>
-        {this.renderSelect()}
-      </div>
-    );
-  },
-  renderSelect: function() {
-    const selected = this.props.selected;
-    return (
-      <select className='form-control sky select' defaultValue={selected}>
-        {this.props.options.map((item, i) => <option value={item.value} key={i}>{item.label}</option>)}
+      <select {...this.props} defaultValue={this.props.selected} onChange={this.props.onChange}>
+        {this.props.options.map((item, i) => <option value={item.value} key={i}>{item.name}</option>)}
       </select>
     );
   },

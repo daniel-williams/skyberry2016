@@ -5,6 +5,7 @@ import {
   ACCOUNTS_FETCH_SUCCESS,
   ACCOUNTS_FETCH_FAILED,
   ACCOUNTS_CLEAR,
+  ACCOUNTS_SET_SELECTED,
 } from '../actions';
 
 const initialState = fromJS({
@@ -14,6 +15,7 @@ const initialState = fromJS({
 
   hasFetched: false,
   items: [],
+  selected: null,
 });
 
 
@@ -43,6 +45,9 @@ export default function(state = initialState, action) {
         state.set('lastFetchError', action.payload.error);
         return state;
       });
+    }
+    case ACCOUNTS_SET_SELECTED: {
+      return state.set('selected', action.payload.selected);
     }
     case ACCOUNTS_CLEAR: {
       return initialState;
