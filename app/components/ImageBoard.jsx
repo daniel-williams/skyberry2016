@@ -2,19 +2,20 @@ import React, {PropTypes} from 'react';
 import {Row, Col} from 'react-bootstrap';
 
 import {getBootstrapBreakpoint} from '../utils/BootstrapUtils';
-import constants from '../constants';
+// import constants from '../constants';
 
 import ImageLoader from './ImageLoader';
 require('./ImageBoard.less');
 
 
 const DEFAULT_COLUMNS = {
-  xs: 1,
-  sm: 2,
-  md: 3,
+  xxs: 1,
+  xs: 2,
+  sm: 3,
+  md: 4,
   lg: 4,
 };
-const DEFAULT_IMAGES = Array(9).fill({src: constants.porfolioSlug});
+const DEFAULT_IMAGES = []; //Array(9).fill({src: constants.portfolio.placeholder || ''});
 
 export default React.createClass({
   displayName: 'ImageBoard',
@@ -34,8 +35,9 @@ export default React.createClass({
     return {};
   },
   setBreakpoint: function() {
-    let currentBreakpoint = getBootstrapBreakpoint(true);
+    let currentBreakpoint = getBootstrapBreakpoint(true, true);
     if(currentBreakpoint != this.state.breakpoint) {
+      console.log('bs:', currentBreakpoint);
       this.state.breakpoint = currentBreakpoint;
       this.forceUpdate();
     }
@@ -91,29 +93,32 @@ export default React.createClass({
   },
 
   render: function() {
-    let frameClasses = this.getFrameClasses();
-    let frameStyle = this.getFrameStyle();
-    let imageClasses = this.getImageClasses();
-    let imageStyle = this.getImageStyle();
-    let rowCount = this.getRowCount();
-    let colCount = this.props.columns[this.state.breakpoint];
-    let rows = [];
-    for(let i = 1; i <= rowCount; i++) {
-      rows.push(
-        <Row key={i}>
-          {this.renderRow(i, colCount, frameClasses, frameStyle, imageClasses)}
-        </Row>
-      );
-    }
-
     return (
-      <div className='sky image-board mt-dbl'>
-        {rows}
+      <div className='sky-image-board'>
+        {this.renderRows()}
       </div>
     );
   },
 
-  renderRow: function(rowIndex, colCount, frameClasses, frameStyle, imageClasses) {
+  renderRows: function() {
+    const frameClasses = this.getFrameClasses();
+    const frameStyle = this.getFrameStyle();
+    const imageClasses = this.getImageClasses();
+    const imageStyle = this.getImageStyle();
+    const rowCount = this.getRowCount();
+    const colCount = this.props.columns[this.state.breakpoint];
+    let rows = [];
+    for(let i = 1; i <= rowCount; i++) {
+      rows.push(
+        <Row key={i}>
+          {this.renderCols(i, colCount, frameClasses, frameStyle, imageClasses)}
+        </Row>
+      );
+    }
+    return rows;
+  },
+
+  renderCols: function(rowIndex, colCount, frameClasses, frameStyle, imageClasses) {
     let itemOffset = (rowIndex * colCount) - colCount;
     let cols = [];
     for(let i = 0; i < colCount; i++) {

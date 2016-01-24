@@ -17,13 +17,13 @@ export default {
   },
 
   portfolio: {
-    default: 'print',
     options: [
-        { value: 'print', label: 'Print & Graphic Design' },
-        { value: 'logo', label: 'Brand & Identity' },
-        { value: 'web', label: 'Web & Apps' },
+        {name: 'Print & Graphic Design', value: 'print'},
+        {name: 'Brand & Identity', value: 'logo'},
+        {name: 'Web & Apps', value: 'web'},
     ],
-    slug: '/content/images/portfolio-slug.png',
+    selected: 'print',
+    placeholder: '/content/images/portfolio-slug.png',
   },
 
   links: {

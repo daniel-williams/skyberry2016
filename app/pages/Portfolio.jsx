@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react';
 import {Grid, Row, Col} from 'react-bootstrap';
 
-import constants from '../constants';
 import {Fetching, ImageBoard, Select} from '../components';
 require('./Portfolio.less');
 
@@ -12,9 +11,12 @@ export default React.createClass({
     return this.props.portfolio.isFetching;
   },
   componentWillMount: function() {
-    if(!this.props.portfolio.key) {
-      this.props.switchPortfolio(constants.portfolio.default);
+    if(!this.getImages()) {
+      this.props.switchPortfolio(this.props.portfolio.selected);
     }
+  },
+  getImages: function() {
+    return this.props.portfolio.collections[this.props.portfolio.selected];
   },
   render: function () {
     return (
@@ -27,15 +29,17 @@ export default React.createClass({
           </Row>
           <Row>
             <Col md={4} sm={3} className='hidden-xs'></Col>
-            <Select
-              options={constants.portfolio.options}
-              selected={this.props.portfolio.key}
-              className='col-md-4 col-sm-6 col-xs-12'
-              onChange={this.handleChange} />
+            <Col md={4} sm={6} xs={12}>
+              <Select
+                options={this.props.portfolio.options}
+                selected={this.props.portfolio.selected}
+                onChange={this.handleChange}
+                className='form-control'  />
+            </Col>
             <Col md={4} sm={3} className='hidden-xs'></Col>
           </Row>
           <Row>
-            <Col xs={12}>
+            <Col xs={12} className='mt'>
               {this.isFetching() && <Fetching /> || this.renderPortfolio()}
             </Col>
           </Row>
@@ -45,16 +49,15 @@ export default React.createClass({
   },
 
   renderPortfolio: function() {
-    const images = this.props.portfolio.collections[this.props.portfolio.key];
+    const images = this.getImages();
     if(images) {
-      return <ImageBoard images={images} columns={{xxs:1,xs:2,sm:2,md:3,lg:4}} />;
+      return <ImageBoard images={images} columns={{xxs:1,xs:2,sm:3,md:4,lg:4}} />;
     }
   },
 
   handleChange: function(event)  {
-    var key = event.target.value;
-    if(key != this.props.portfolio.key) {
-      this.props.switchPortfolio(key);
+    if(event.target.value != this.props.portfolio.selected) {
+      this.props.switchPortfolio(event.target.value);
     }
   },
 

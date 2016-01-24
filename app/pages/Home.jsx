@@ -47,19 +47,12 @@ export default React.createClass({
 
   renderFeaturedItems : function() {
     if(!this.hasFeaturedItems()) { return false; }
-    const columns = {
-      xs: 1,
-      sm: 2,
-      md: 3,
-      lg: 4,
-    };
 
     return (
-      <Grid fluid={false} className='mb-trpl'>
+      <Grid fluid={false} className='mt mb-dbl'>
         <ImageBoard
           images={this.getFeaturedItems()}
-          headline='Full Service From Print to Web'
-          columns={columns}/>
+          headline='Full Service From Print to Web' />
       </Grid>
     );
   },

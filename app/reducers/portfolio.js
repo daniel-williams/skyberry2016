@@ -1,20 +1,21 @@
-import {Record, Map, fromJS} from 'immutable';
+import {Map, fromJS} from 'immutable';
 
+import constants from '../constants';
 import {
-  PORTFOLIO_SET,
   PORTFOLIO_FETCHING,
   PORTFOLIO_FETCH_SUCCESS,
   PORTFOLIO_FETCH_FAILED,
+  PORTFOLIO_SET_SELECTED,
 } from '../actions';
 
-let PortfolioRecord = new Record({key: '0', images: []});
 
 let initialState = fromJS({
   isFetching: false,
   lastFetchDate: null,
   lastFetchError: null,
 
-  key: null,
+  options: constants.portfolio.options,
+  selected: constants.portfolio.selected,
   collections: new Map(),
 });
 
@@ -28,7 +29,8 @@ export default function(state = initialState, action) {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
         state.set('lastFetchError', null);
-        state.setIn(['collections', action.payload.key], fromJS(action.payload.images));
+
+        state.setIn(['collections', action.payload.selected], fromJS(action.payload.items));
         return state;
       });
     }
@@ -40,8 +42,8 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case PORTFOLIO_SET: {
-      return state.set('key', action.payload.key);
+    case PORTFOLIO_SET_SELECTED: {
+      return state.set('selected', action.payload.selected);
     }
     default:
       return state;

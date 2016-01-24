@@ -1,30 +1,30 @@
 import {getJson} from '../services/FetchService';
 import {
-  PORTFOLIO_SET,
+  PORTFOLIO_SET_SELECTED,
   PORTFOLIO_FETCHING,
   PORTFOLIO_FETCH_SUCCESS,
   PORTFOLIO_FETCH_FAILED
 } from '.';
 
 
-export function switchPortfolio(key) {
+export function switchPortfolio(selected) {
   return function(dispatch, getState) {
-    const tgtCollection = getState().getIn(['portfolio', 'collections', key]);
-
-    if(!tgtCollection) {
-      fetchPortfolio(key)(dispatch, getState);
+    const hasCollection = getState().getIn(['portfolio', 'collections']).has(selected);
+console.log('hasCollection', selected, hasCollection);
+    if(!hasCollection) {
+      fetchPortfolio(selected)(dispatch, getState);
     }
-    dispatch(setPortfolio(key));
+    dispatch(setSelectedPortfolio(selected));
   }
 }
 
-export function fetchPortfolio(key) {
+export function fetchPortfolio(selected) {
   return function(dispatch) {
     dispatch(fetchingPortfolio());
 
-    getJson('/api/portfolio?c=' + key)
-    .then(json => dispatch(fetchPortfolioSuccess(key, json)))
-    .catch(error => dispatch(fetchPortfolioFailed(error)));
+    getJson('/api/portfolio?c=' + selected)
+      .then(json => dispatch(fetchPortfolioSuccess(selected, json)))
+      .catch(error => dispatch(fetchPortfolioFailed(error)));
   }
 }
 
@@ -35,13 +35,13 @@ export function fetchingPortfolio() {
   };
 }
 
-export function fetchPortfolioSuccess(key, json) {
+export function fetchPortfolioSuccess(selected, json) {
   return {
     type: PORTFOLIO_FETCH_SUCCESS,
     payload: {
       date: new Date(),
-      key: key,
-      images: json,
+      selected: selected,
+      items: json,
     }
   };
 }
@@ -56,11 +56,11 @@ export function fetchPortfolioFailed(error) {
   };
 }
 
-export function setPortfolio(key) {
+export function setSelectedPortfolio(selected) {
   return {
-    type: PORTFOLIO_SET,
+    type: PORTFOLIO_SET_SELECTED,
     payload: {
-      key: key
+      selected: selected
     }
   };
 }
