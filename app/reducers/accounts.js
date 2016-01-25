@@ -1,5 +1,6 @@
 import {fromJS} from 'immutable';
 
+import {NameValueMap, ToKeyMap} from '../utils/CollectionUtils';
 import {
   ACCOUNTS_FETCHING,
   ACCOUNTS_FETCH_SUCCESS,
@@ -8,24 +9,24 @@ import {
   ACCOUNTS_SET_SELECTED,
 } from '../actions';
 
+
 const initialState = fromJS({
   isFetching: false,
   lastFetchDate: null,
   lastFetchError: null,
 
   hasFetched: false,
-  items: [],
-  selected: null,
+  accounts: {},
+  selectedKey: null,
+  accountOptions: [],
+  projectOptions: [],
 });
 
 
 export default function(state = initialState, action) {
   switch(action.type) {
     case ACCOUNTS_FETCHING: {
-      return state.withMutations(state => {
-        state.set('isFetching', true);
-        return state;
-      });
+      return state.set('isFetching', true);
     }
     case ACCOUNTS_FETCH_SUCCESS: {
       return state.withMutations(state => {
@@ -34,7 +35,8 @@ export default function(state = initialState, action) {
         state.set('lastFetchError', null);
 
         state.set('hasFetched', true);
-        state.set('items', fromJS(action.payload.items));
+        state.set('accounts', fromJS(ToKeyMap(action.payload.accounts)));
+        state.set('accountOptions', fromJS(NameValueMap(action.payload.accounts)));
         return state;
       });
     }
@@ -47,7 +49,17 @@ export default function(state = initialState, action) {
       });
     }
     case ACCOUNTS_SET_SELECTED: {
-      return state.set('selected', action.payload.selected);
+      console.log('ACCOUNTS_SET_SELECTED');
+      const selectedAccount = state.getIn(['accounts', action.payload.key]);
+      if(!selectedAccount) {
+        return state;
+      }
+      return state.withMutations(state => {
+        state.set('selectedKey', selectedAccount.id);
+        state.set('projectOptions', fromJS(NameValueMap(selectedAccount.projects)));
+        console.log('wtf');
+        return state;
+      });
     }
     case ACCOUNTS_CLEAR: {
       return initialState;

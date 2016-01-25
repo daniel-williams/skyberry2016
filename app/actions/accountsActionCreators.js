@@ -18,7 +18,7 @@ export function fetchAccountsSuccess(json) {
     type: ACCOUNTS_FETCH_SUCCESS,
     payload: {
       date: new Date(),
-      items: json,
+      accounts: json,
     }
   };
 }

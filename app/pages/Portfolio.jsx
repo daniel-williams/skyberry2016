@@ -16,7 +16,7 @@ export default React.createClass({
     }
   },
   getImages: function() {
-    return this.props.portfolio.collections[this.props.portfolio.selected];
+    return this.props.portfolio.items[this.props.portfolio.selected];
   },
   render: function () {
     return (

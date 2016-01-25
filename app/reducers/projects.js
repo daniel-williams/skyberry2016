@@ -1,40 +1,38 @@
 import {fromJS} from 'immutable';
 
-import constants from '../constants';
 import {
-  PORTFOLIO_FETCHING,
-  PORTFOLIO_FETCH_SUCCESS,
-  PORTFOLIO_FETCH_FAILED,
-  PORTFOLIO_SET_SELECTED,
+  PROJECT_FETCHING,
+  PROJECT_FETCH_SUCCESS,
+  PROJECT_FETCH_FAILED,
+  PROJECT_SET_SELECTED,
 } from '../actions';
 
-
-let initialState = fromJS({
+const initialState = fromJS({
   isFetching: false,
   lastFetchDate: null,
   lastFetchError: null,
 
-  options: constants.portfolio.options,
-  items: {},
-  selected: constants.portfolio.selected,
+  projects: {},
+  selectedKey: null,
 });
+
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case PORTFOLIO_FETCHING: {
+    case PROJECT_FETCHING: {
       return state.set('isFetching', true);
     }
-    case PORTFOLIO_FETCH_SUCCESS: {
+    case PROJECT_FETCH_SUCCESS: {
       return state.withMutations(state => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
         state.set('lastFetchError', null);
 
-        state.setIn(['items', action.payload.key], fromJS(action.payload.images));
+        state.setIn(['projects', action.payload.key], fromJS(action.payload.project));
         return state;
       });
     }
-    case PORTFOLIO_FETCH_FAILED: {
+    case PROJECT_FETCH_FAILED: {
       return state.withMutations(state => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
@@ -42,10 +40,11 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case PORTFOLIO_SET_SELECTED: {
-      return state.set('selected', action.payload.key);
+    case PROJECT_SET_SELECTED: {
+      return state.set('selectedKey', action.payload.key);
     }
-    default:
+    default: {
       return state;
+    }
   }
 }

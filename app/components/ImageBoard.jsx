@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 import {Row, Col} from 'react-bootstrap';
 
 import {getBootstrapBreakpoint} from '../utils/BootstrapUtils';
-// import constants from '../constants';
 
 import ImageLoader from './ImageLoader';
 require('./ImageBoard.less');
@@ -15,7 +14,7 @@ const DEFAULT_COLUMNS = {
   md: 4,
   lg: 4,
 };
-const DEFAULT_IMAGES = []; //Array(9).fill({src: constants.portfolio.placeholder || ''});
+const DEFAULT_IMAGES = [];
 
 export default React.createClass({
   displayName: 'ImageBoard',
@@ -37,7 +36,6 @@ export default React.createClass({
   setBreakpoint: function() {
     let currentBreakpoint = getBootstrapBreakpoint(true, true);
     if(currentBreakpoint != this.state.breakpoint) {
-      console.log('bs:', currentBreakpoint);
       this.state.breakpoint = currentBreakpoint;
       this.forceUpdate();
     }

@@ -9,7 +9,11 @@ import Dashboard from '../pages/dashboard/Dashboard';
 function mapStateToProps(state) {
   return {
     user: state.get('user').toJS(),
-    accounts: state.get('accounts').toJS(),
+    hasFetchedAccounts: state.getIn(['accounts', 'hasFetched']),
+    accountOptions: state.getIn(['accounts', 'accountOptions']).toJS(),
+    selectedAccount: state.getIn(['accounts', 'selectedKey']),
+    projectOptions: state.getIn(['accounts', 'projectOptions']).toJS(),
+    selectedProject: state.getIn(['projects', 'selectedKey']),
   };
 }
 
