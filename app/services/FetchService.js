@@ -47,7 +47,7 @@ export function refreshIdentity() {
   .then(parseJSON)
 }
 
-
+// TODO: reuse getJson with credentials
 export function getUser(id) {
   return fetch(
     '/api/users/' + id,
@@ -63,4 +63,14 @@ export function getAccounts(id) {
   )
   .then(checkStatus)
   .then(parseJSON)
+}
+
+
+export default {
+  getJson,
+  postJson,
+  refreshIdentity,
+  signIn,
+  getUser,
+  getAccounts,
 }

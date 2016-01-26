@@ -1,0 +1,44 @@
+
+#dashboard {
+
+  .controls {
+
+    label {
+      text-align: right;
+      min-width: 100px;
+      margin-right: 15px;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  #dashboard {
+
+    .controls {
+
+      select {
+        width: 100%;
+      }
+      .control-label {
+        text-align: left;
+      }
+    }
+
+  }
+}
+@media (min-width: 768px) {
+  #dashboard {
+
+    .controls {
+
+      select {
+        width: 350px;
+      }
+      .control-label {
+        margin-bottom: 0;
+        vertical-align: middle;
+      }
+    }
+
+  }
+}

@@ -4,6 +4,7 @@ import {
   PROJECT_FETCHING,
   PROJECT_FETCH_SUCCESS,
   PROJECT_FETCH_FAILED,
+  PROJECT_RESET,
   PROJECT_SET_SELECTED,
 } from '../actions';
 
@@ -42,6 +43,9 @@ export default function(state = initialState, action) {
     }
     case PROJECT_SET_SELECTED: {
       return state.set('selectedKey', action.payload.key);
+    }
+    case PROJECT_RESET: {
+      return initialState;
     }
     default: {
       return state;

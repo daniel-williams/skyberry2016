@@ -1,27 +1,9 @@
-// import {toJS} from 'immutable';
 import Cookies from 'cookies-js'
-
-// import store from '../store';
-
 
 const accessKey = 'access_token';
 const refreshKey = 'refresh_token';
 const hasStorage = checkStorage();
 const hasCookies = checkCookies();
-// const unsubscribe = hasStorage || hasCookies ? subscribe() : null;
-//
-// function subscribe() {
-//   return store.subscribe(function(){
-//     const identity = store.getState().get('identity').toJS();
-//     // avoid nulling tokens on app startup
-//     if(!!identity.refreshToken) {
-//       let tokens = getTokens();
-//       if(tokens.refresh_token !== identity.refreshToken) {
-//         storeTokens(identity.accessToken, identity.refreshToken);
-//       }
-//     }
-//   });
-// }
 
 function checkStorage() {
   return window && typeof(window.localStorage) !== 'undefined';
@@ -69,4 +51,12 @@ export function getTokens() {
     accessToken: getAccessToken(),
     refreshToken: getRefreshToken(),
   };
+}
+
+export default {
+  setTokens,
+  getTokens,
+  getAccessToken,
+  getRefreshToken,
+  clearTokens,
 }

@@ -2,11 +2,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {toJS} from 'immutable';
 
-import * as identityActions from '../actions/identityActionCreators';
-import * as redirectActions from '../actions/redirectActionCreators';
+import * as identityAC from '../actions/identityActionCreators';
+import * as redirectAC from '../actions/redirectActions';
 import SignIn from '../pages/SignIn';
 
-const actions = Object.assign({}, identityActions, redirectActions);
+const actions = Object.assign({}, identityAC, redirectAC);
 
 function mapStateToProps(state) {
   return {

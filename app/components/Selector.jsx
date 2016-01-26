@@ -31,7 +31,7 @@ export default React.createClass({
   render: function() {
     return (
       <div {...this.props}>
-        {this.hasLabel() && <name className='control-label'>{this.props.label}</name>}
+        {this.hasLabel() && <label className='control-label'>{this.props.label}</label>}
         <Select className='form-control'
           options={this.props.options}
           selected={this.props.selected}

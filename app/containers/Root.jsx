@@ -3,16 +3,15 @@ import {connect} from 'react-redux';
 import {toJS} from 'immutable';
 
 import constants from '../constants';
-// import tokenService from '../services/TokenService';
-import * as identityActions from '../actions/identityActionCreators';
-import * as subscribeActions from '../actions/subscribeActionCreators';
+import * as identityAC from '../actions/identityActionCreators';
+import * as subscribeAC from '../actions/subscribeActionCreators';
 import {Subscribe} from '../components';
 
 import Bootstrap from '../../Web/content/styles/bootstrap.min.css';
 require('../site.less');
 require('../utils/FontLoader');
 
-const actions = Object.assign({}, identityActions, subscribeActions);
+const actions = Object.assign({}, identityAC, subscribeAC);
 
 let subscribeTimer = null;
 const {active, delay} = constants.subscribe;

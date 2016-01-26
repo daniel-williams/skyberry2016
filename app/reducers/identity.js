@@ -5,9 +5,11 @@ import {
   IDENTITY_REQUEST_SUCCESS,
   IDENTITY_REQUEST_FAILED,
   IDENTITY_RESET,
+} from '../actions/identityActions';
+import {
   NEXT_SET,
   NEXT_CLEAR,
-} from '../actions';
+} from '../actions/redirectActions';
 
 
 const initialState = fromJS({

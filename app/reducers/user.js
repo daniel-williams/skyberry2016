@@ -5,7 +5,7 @@ import {
   USER_FETCH_SUCCESS,
   USER_FETCH_FAILED,
   USER_RESET,
-} from '../actions';
+} from '../actions/userActions';
 
 
 const initialState = fromJS({

@@ -10,7 +10,9 @@ export function NameValueMap(items, name = 'name', value = 'id') {
 }
 
 export function ToKeyMap(items, key = 'id') {
-  return items.reduce((accum, item) => {
-    return accum[item.id] = item;
+  const result = items.reduce((accum, item) => {
+    accum[item.id] = item;
+    return accum;
   }, {});
+  return result;
 }

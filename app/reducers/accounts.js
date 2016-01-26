@@ -5,9 +5,9 @@ import {
   ACCOUNTS_FETCHING,
   ACCOUNTS_FETCH_SUCCESS,
   ACCOUNTS_FETCH_FAILED,
-  ACCOUNTS_CLEAR,
   ACCOUNTS_SET_SELECTED,
-} from '../actions';
+  ACCOUNTS_RESET,
+} from '../actions/accountActions';
 
 
 const initialState = fromJS({
@@ -35,8 +35,13 @@ export default function(state = initialState, action) {
         state.set('lastFetchError', null);
 
         state.set('hasFetched', true);
-        state.set('accounts', fromJS(ToKeyMap(action.payload.accounts)));
-        state.set('accountOptions', fromJS(NameValueMap(action.payload.accounts)));
+        console.log('todo: moving projects stuff outa accounts');
+        const accountKeyMap = ToKeyMap(action.payload.accounts);
+        const accountOptions = NameValueMap(action.payload.accounts);
+        const projectOptions = action.payload.accounts.length ? NameValueMap(action.payload.accounts[0].projects) : [];
+        state.set('accounts', fromJS(accountKeyMap));
+        state.set('accountOptions', fromJS(accountOptions));
+        state.set('projectOptions', fromJS(projectOptions))
         return state;
       });
     }
@@ -49,19 +54,16 @@ export default function(state = initialState, action) {
       });
     }
     case ACCOUNTS_SET_SELECTED: {
-      console.log('ACCOUNTS_SET_SELECTED');
-      const selectedAccount = state.getIn(['accounts', action.payload.key]);
-      if(!selectedAccount) {
-        return state;
+      if(state.get('accounts').has(action.payload.key)) {
+        const selectedAccount = state.getIn(['accounts', action.payload.key]).toJS();
+        return state.withMutations(state => {
+          state.set('selectedKey', selectedAccount.id);
+          state.set('projectOptions', fromJS(NameValueMap(selectedAccount.projects)));
+          return state;
+        });
       }
-      return state.withMutations(state => {
-        state.set('selectedKey', selectedAccount.id);
-        state.set('projectOptions', fromJS(NameValueMap(selectedAccount.projects)));
-        console.log('wtf');
-        return state;
-      });
     }
-    case ACCOUNTS_CLEAR: {
+    case ACCOUNTS_RESET: {
       return initialState;
     }
     default: {

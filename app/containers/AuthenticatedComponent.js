@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Location} from 'react-router';
 import {toJS} from 'immutable';
 
-import * as actions from '../actions/redirectActionCreators';
+import * as actions from '../actions/redirectActions';
 
 
 export function requireAuthentication(Component) {

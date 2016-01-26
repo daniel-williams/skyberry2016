@@ -1,10 +1,7 @@
-
-import {
-  USER_FETCHING,
-  USER_FETCH_SUCCESS,
-  USER_FETCH_FAILED,
-  USER_RESET,
-} from '.';
+export const USER_FETCHING = 'USER_FETCHING';
+export const USER_FETCH_SUCCESS = 'USER_FETCH_SUCCESS';
+export const USER_FETCH_FAILED = 'USER_FETCH_FAILED';
+export const USER_RESET = 'USER_RESET';
 
 
 export function fetchingUser() {
@@ -37,4 +34,12 @@ export function resetUser() {
   return {
     type: USER_RESET,
   }
+}
+
+
+export default {
+  fetchingUser,
+  fetchUserSuccess,
+  fetchUserFailed,
+  resetUser,
 }
