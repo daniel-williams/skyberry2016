@@ -19,26 +19,95 @@ import {
   fetchAccountsFailed,
   resetAccounts,
 } from '../actions/accountActions';
-
+import {
+  fetchingProject,
+  fetchProjectSuccess,
+  fetchProjectFailed,
+  resetProject,
+} from '../actions/projectActions';
 
 export function recoverIndentity() {
-  return function(dispatch, getState) {
+  return function(dispatch) {
 
-    const {accessToken, refreshToken} = TokenService.getTokens();
-    if(!accessToken && !refreshToken) return;
+    const refreshToken = TokenService.getRefreshToken();
+    if(!refreshToken) return;
 
     dispatch(fetchingIdentity());
-    return loadAccountData(dispatch, getState)(FetchService.refreshIdentity(refreshToken));
+    return FetchService.refreshIdentity(refreshToken)
+      .then(identity => {
+        TokenService.setTokens(identity.access_token, identity.refresh_token);
+        dispatch(fetchIdentitySuccess(identity));
+        return identity.userId;
+      })
+      .then(
+        userId => loadUserAndAccountData(userId)(dispatch),
+        error => {
+          TokenService.clearTokens();
+          dispatch(fetchIdentityFailed(error));
+          return Promise.reject(error);
+        }
+      );
   }
 }
 
-export function logOn(formData) {
+export function logOn(username, password) {
   return function(dispatch, getState) {
 
-    const {username, password} = formData;
     dispatch(fetchingIdentity());
+    FetchService.signIn(username, password)
+      .then(identity => {
+        TokenService.setTokens(identity.access_token, identity.refresh_token);
+        dispatch(fetchIdentitySuccess(identity));
+        return identity.userId;
+      })
+      .then(
+        userId => loadUserAndAccountData(userId)(dispatch),
+        error => {
+          // TODO: return form errors
+          TokenService.clearTokens();
+          dispatch(fetchIdentityFailed(error));
+          return Promise.reject(error);
+        }
+      );
+  }
+}
 
-    return loadAccountData(dispatch, getState)(FetchService.signIn(username, password));
+export function loadUserAndAccountData(userId) {
+  return function(dispatch) {
+    dispatch(fetchingUser());
+    dispatch(fetchingAccounts());
+    return Promise.all([
+      FetchService.getUser(userId),
+      FetchService.getAccounts(userId),
+    ])
+    .then(res => {
+      dispatch(fetchUserSuccess(res[0]));
+      dispatch(fetchAccountsSuccess(res[1]));
+      // TODO: dispatch projectOptions
+      // TODO: dispatch fetchProject
+      return Promise.resolve(res);
+    })
+    .catch(error => {
+      dispatch(fetchUserFailed(error));
+      dispatch(fetchAccountsFailed(error));
+      return Promise.reject(error);
+    });
+  }
+};
+
+
+export function loadProjectData(projectId) {
+  return function(dispatch) {
+    dispatch(fetchingProject());
+    return FetchService.getProject(projectId)
+      .then(project => {
+        dispatch(fetchProjectSuccess(project));
+        return Promise.resolve(project);
+      })
+      .catch(error => {
+        dispatch(fetchProjectFailed(error))
+        return Promise.reject(error);
+      });
   }
 }
 
@@ -48,37 +117,8 @@ export function logOff() {
     dispatch(resetUser());
     dispatch(resetIdentity());
     dispatch(resetAccounts());
+    dispatch(resetProject());
   };
-}
-
-
-const loadAccountData = (dispatch, getState) => (promise) => {
-  return promise.then(identity => {
-    TokenService.setTokens(identity.access_token, identity.refresh_token);
-    dispatch(fetchIdentitySuccess(identity));
-    dispatch(fetchingUser());
-    dispatch(fetchingAccounts());
-
-    return Promise.all([
-        FetchService.getUser(identity.userId),
-        FetchService.getAccounts(identity.userId)
-      ])
-      .then(res => {
-        dispatch(fetchUserSuccess(res[0]));
-        dispatch(fetchAccountsSuccess(res[1]));
-      })
-      .catch(error => {
-        dispatch(fetchUserFailed(error));
-        dispatch(fetchAccountsFailed(error));
-        return Promise.reject(error);
-      });
-  })
-  .catch(error => {
-    TokenService.clearTokens();
-    dispatch(fetchIdentityFailed(error));
-    console.log('error@loadAccountData:', error);
-    return Promise.reject(error);
-  });
 }
 
 

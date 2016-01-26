@@ -1,18 +1,18 @@
-export const IDENTITY_REQUESTED = 'IDENTITY_REQUESTED';
-export const IDENTITY_REQUEST_SUCCESS = 'IDENTITY_REQUEST_SUCCESS';
-export const IDENTITY_REQUEST_FAILED = 'IDENTITY_REQUEST_FAILED';
+export const IDENTITY_FETCHING = 'IDENTITY_FETCHING';
+export const IDENTITY_FETCH_SUCCESS = 'IDENTITY_FETCH_SUCCESS';
+export const IDENTITY_FETCH_FAILED = 'IDENTITY_FETCH_FAILED';
 export const IDENTITY_RESET = 'IDENTITY_RESET';
 
 
 export function fetchingIdentity() {
   return {
-    type: IDENTITY_REQUESTED
+    type: IDENTITY_FETCHING
   };
 }
 
 export function fetchIdentitySuccess(json) {
   return {
-    type: IDENTITY_REQUEST_SUCCESS,
+    type: IDENTITY_FETCH_SUCCESS,
     payload: {
       date: new Date(),
       identity: json
@@ -22,7 +22,7 @@ export function fetchIdentitySuccess(json) {
 
 export function fetchIdentityFailed(error) {
   return {
-    type: IDENTITY_REQUEST_FAILED,
+    type: IDENTITY_FETCH_FAILED,
     payload: {
       date: new Date(),
       error: error,

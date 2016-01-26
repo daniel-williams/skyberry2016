@@ -3,7 +3,7 @@ import {
 } from './accountActions';
 import {
   PROJECT_SET_SELECTED,
-} from './'
+} from './projectActions';
 
 
 export function setSelectedAccount(key) {

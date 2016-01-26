@@ -62,9 +62,16 @@ export function getAccounts(id) {
     getApiRequestOptions(getAccessToken())
   )
   .then(checkStatus)
-  .then(parseJSON)
+  .then(parseJSON);
 }
-
+export function getProject(id) {
+  return fetch(
+    '/api/project/' + id,
+    getApiRequestOptions(getAccessToken())
+  )
+  .then(checkStatus)
+  .then(parseJSON);
+}
 
 export default {
   getJson,

@@ -1,9 +1,9 @@
 import {fromJS} from 'immutable';
 
 import {
-  IDENTITY_REQUESTED,
-  IDENTITY_REQUEST_SUCCESS,
-  IDENTITY_REQUEST_FAILED,
+  IDENTITY_FETCHING,
+  IDENTITY_FETCH_SUCCESS,
+  IDENTITY_FETCH_FAILED,
   IDENTITY_RESET,
 } from '../actions/identityActions';
 import {
@@ -28,10 +28,10 @@ const initialState = fromJS({
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case IDENTITY_REQUESTED: {
+    case IDENTITY_FETCHING: {
       return state.set('isRequesting', true);
     }
-    case IDENTITY_REQUEST_SUCCESS: {
+    case IDENTITY_FETCH_SUCCESS: {
       return state.withMutations(state => {
         state.set('isRequesting', false);
         state.set('lastRequestDate', action.payload.date);
@@ -46,7 +46,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case IDENTITY_REQUEST_FAILED: {
+    case IDENTITY_FETCH_FAILED: {
       return state.withMutations(state => {
         state.set('isRequesting', false);
         state.set('lastRequestDate', action.payload.date);
