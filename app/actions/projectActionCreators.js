@@ -1,4 +1,5 @@
 import FetchService from '../services/FetchService';
+import {AddSlug} from '../utils/CollectionUtils';
 import {
   fetchingProject,
   fetchProjectSuccess,
@@ -26,13 +27,12 @@ export function getProject(id) {
     dispatch(fetchingProject());
 
     return FetchService.getProject(id)
-      .then(project => {
+      .then(res => {
+        const project = AddSlug(res);
         dispatch(fetchProjectSuccess(id, project));
-        return Promise.resolve(project);
       })
       .catch(error => {
         dispatch(fetchProjectFailed(error));
-        return Promise.reject(error);
       });
   }
 }

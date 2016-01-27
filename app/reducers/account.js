@@ -1,6 +1,6 @@
 import {fromJS} from 'immutable';
 
-import {NameValueMap, ToKeyMap} from '../utils/CollectionUtils';
+import {NameValueMap, ToKeyMap, AddSlug} from '../utils/CollectionUtils';
 import {
   ACCOUNTS_FETCHING,
   ACCOUNTS_FETCH_SUCCESS,
@@ -33,10 +33,11 @@ export default function(state = initialState, action) {
         state.set('lastFetchDate', action.payload.date);
         state.set('lastFetchError', null);
 
-        const accounts = ToKeyMap(action.payload.accounts);
-        const accountOptions = NameValueMap(action.payload.accounts);
+        const accounts = action.payload.accounts;
+        const accountsKeyMap = ToKeyMap(accounts, 'slug');
+        const accountOptions = NameValueMap(accounts, 'name', 'slug');
         state.set('hasFetched', true);
-        state.set('accounts', fromJS(accounts));
+        state.set('accounts', fromJS(accountsKeyMap));
         state.set('accountOptions', fromJS(accountOptions));
         return state;
       });

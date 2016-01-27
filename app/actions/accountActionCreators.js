@@ -3,22 +3,22 @@ import {setSelectedProject} from './projectActions';
 import {getProject} from './projectActionCreators';
 
 
-export function switchAccount(accountId) {
+export function switchAccount(acountKey) {
   return function(dispatch, getState) {
-    dispatch(setSelectedAccount(accountId));
+    dispatch(setSelectedAccount(acountKey));
     const state = getState();
-    let projectId = null;
+    let projectKey = null;
     try {
-      projectId = state.getIn(['project', 'projectOptionsMap', accountId]).toJS()[0].value;
+      projectKey = state.getIn(['project', 'projectOptionsMap', acountKey]).toJS()[0].value;
     } catch(e) {}
 
-    if(projectId !== null) {
-      const hasFetched = state.getIn(['project', 'projects']).has(projectId);
+    if(projectKey !== null) {
+      const hasFetched = state.getIn(['project', 'projects']).has(projectKey);
 
       if(!hasFetched) {
-        getProject(projectId)(dispatch, getState);
+        getProject(projectKey)(dispatch, getState);
       }
-      dispatch(setSelectedProject(projectId));
+      dispatch(setSelectedProject(projectKey));
     }
   }
 }

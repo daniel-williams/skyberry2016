@@ -112,6 +112,12 @@ namespace Skyberry.Domain
         {
             return DbSet
                 .Where(e => e.Id == projectId && e.Account.SkyberryUsers.Any(u => u.Id == userId))
+                .Include(e => e.Contracts)
+                .Include("Contracts.ContractDocuments")
+                .Include(e => e.ProjectDocuments)
+                .Include(e => e.DesignReviews)
+                .Include("DesignReviews.ReviewComments")
+                .Include("DesignReviews.ReviewDocuments")
                 .SingleOrDefault();
         }
     }

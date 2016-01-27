@@ -1,7 +1,8 @@
 import {toJS} from 'immutable';
+
 import TokenService from '../services/TokenService';
 import FetchService from '../services/FetchService';
-
+import {AddSlug} from '../utils/CollectionUtils';
 import {
   fetchingIdentity,
   fetchIdentitySuccess,
@@ -50,10 +51,8 @@ export function recoverIndentity() {
       .then(
         user_id => loadUserAndAccountData(user_id)(dispatch),
         error => {
-          console.log('ident', error);
           TokenService.clearTokens();
           dispatch(fetchIdentityFailed(error));
-          // return Promise.reject(error);
         }
       );
   }
@@ -75,7 +74,6 @@ export function logOn(username, password) {
           // TODO: return form errors
           TokenService.clearTokens();
           dispatch(fetchIdentityFailed(error));
-          return Promise.reject(error);
         }
       );
   }
@@ -91,11 +89,12 @@ export function loadUserAndAccountData(user_id) {
     ])
     .then(res => {
       const user = res[0];
-      const accounts = res[1];
+      // add Slug to accounts
+      const accounts = AddSlug(res[1]);
       dispatch(fetchUserSuccess(user));
       dispatch(fetchAccountsSuccess(accounts));
       if(accounts.length) {
-        dispatch(setSelectedAccount(accounts[0].id));
+        dispatch(setSelectedAccount(accounts[0].slug));
         dispatch(setProjectOptionsMap(buildProjectOptionsMap(accounts)));
         if(accounts[0].projects.length) {
           return accounts[0].projects[0];
@@ -108,7 +107,6 @@ export function loadUserAndAccountData(user_id) {
       error => {
         dispatch(fetchUserFailed(error));
         dispatch(fetchAccountsFailed(error));
-        return Promise.reject(error);
       }
     )
   }
@@ -118,18 +116,17 @@ export function loadUserAndAccountData(user_id) {
 export function loadProjectData(id) {
   return function(dispatch) {
     if(!id) {
-      return Promise.reject(new Error('No project id was provided.'));
+      return Promise.reject(new Error('No project key was provided.'));
     }
     dispatch(fetchingProject());
     return FetchService.getProject(id)
-      .then(project => {
-        dispatch(fetchProjectSuccess(id, project));
-        dispatch(setSelectedProject(id));
-        return Promise.resolve(project);
+      .then(res => {
+        const project = AddSlug(res, 'name');
+        dispatch(fetchProjectSuccess(project.id, project));
+        dispatch(setSelectedProject(project.id));
       })
       .catch(error => {
         dispatch(fetchProjectFailed(error))
-        return Promise.reject(error);
       });
   }
 }
@@ -161,7 +158,8 @@ export default {
 
 function buildProjectOptionsMap(accounts) {
   const projectOptionsMap = accounts.reduce((accountMap, account) => {
-    accountMap[account.id] = account.projects.reduce((projectOptions, project) => {
+    const projects = AddSlug(account.projects);
+    accountMap[account.slug] = projects.reduce((projectOptions, project) => {
       projectOptions.push({
         name: project.name,
         value: project.id,

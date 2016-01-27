@@ -8,13 +8,16 @@ export default React.createClass({
   isFetching: function() {
     return this.props.isFetching;
   },
+  hasFetched: function() {
+    return this.props.project !== null;
+  },
   render: function() {
     return (
       <div id='project' className='mt'>
         <Grid fluid={true}>
           <Row>
             <Col xs={12}>
-              {this.isFetching() ? <Fetching /> : this.renderProjectInfo()}
+              {this.isFetching() ? <Fetching /> : this.hasFetched() && this.renderProjectInfo()}
             </Col>
           </Row>
         </Grid>
@@ -28,5 +31,6 @@ export default React.createClass({
         <p>{this.props.project.description}</p>
       </div>
     );
-  }
+  },
+  
 });
