@@ -87,7 +87,7 @@ export default React.createClass({
   renderSocialIcons: function() {
     return (
       <div className='social-icons'>
-        <IconButtonBar links={constants.links.skyberry} size={48} />
+        <IconButtonBar links={constants.links.skyberry} />
       </div>
     );
   },

@@ -66,7 +66,7 @@ export function getAccounts(id) {
 }
 export function getProject(id) {
   return fetch(
-    '/api/project/' + id,
+    '/api/projects/' + id,
     getApiRequestOptions(getAccessToken())
   )
   .then(checkStatus)
@@ -80,4 +80,5 @@ export default {
   signIn,
   getUser,
   getAccounts,
+  getProject,
 }

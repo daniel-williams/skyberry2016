@@ -1,23 +1,33 @@
+import FetchService from '../services/FetchService';
+import {
+  fetchingProject,
+  fetchProjectSuccess,
+  fetchProjectFailed,
+  setSelectedProject,
+} from './projectActions';
 
 
-export function switchProject(key) {
+
+
+export function switchProject(id) {
   return function(dispatch, getState) {
-    const hasCollection = getState().getIn(['projects', 'items']).has(key);
+    const hasFetched = getState().getIn(['project', 'projects']).has(id);
 
-    if(!hasCollection) {
-      fetchProject(key)(dispatch, getState);
+    if(!hasFetched) {
+      getProject(id)(dispatch, getState);
     }
-    dispatch(setSelectedProject(key));
+    dispatch(setSelectedProject(id));
   }
 }
 
-export function getProject(key) {
+
+export function getProject(id) {
   return function(dispatch) {
     dispatch(fetchingProject());
 
-    return FetchService.getProject(key)
+    return FetchService.getProject(id)
       .then(project => {
-        dispatch(fetchProjectSuccess(key, project));
+        dispatch(fetchProjectSuccess(id, project));
         return Promise.resolve(project);
       })
       .catch(error => {

@@ -12,10 +12,10 @@ import Contact from '../containers/Contact';
 import SignIn from '../containers/SignIn';
 import SignOut from '../containers/SignOut';
 import Dashboard from '../containers/Dashboard';
+import Project from '../containers/Project';
 
 // pages
 import About from '../pages/About';
-import Projects from '../pages/Projects';
 
 
 const routes = (
@@ -31,7 +31,7 @@ const routes = (
         <Route path='/dashboard/sign-in' component={SignIn} />
         <Route path='/dashboard/sign-out' component={SignOut} />
         <Route path='/dashboard' component={requireAuthentication(Dashboard)}>
-          <Route path='projects' component={Projects} />
+          <Route path='project' component={Project} />
         </Route>
       </Route>
     </Route>

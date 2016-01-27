@@ -39,8 +39,8 @@ export default React.createClass({
           selectedAccount={this.props.selectedAccount}
           projectOptions={this.props.projectOptions}
           selectedProject={this.props.selectedProject}
-          setAccount={this.props.setSelectedAccount}
-          setProject={this.props.setSelectedProject} />
+          setAccount={this.props.switchAccount}
+          setProject={this.props.switchProject} />
         {this.props.children}
       </Grid>
     );

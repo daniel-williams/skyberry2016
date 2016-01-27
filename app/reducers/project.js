@@ -6,7 +6,8 @@ import {
   PROJECT_FETCH_FAILED,
   PROJECT_RESET,
   PROJECT_SET_SELECTED,
-} from '../actions';
+  SET_PROJECT_OPTIONS_MAP,
+} from '../actions/projectActions';
 
 const initialState = fromJS({
   isFetching: false,
@@ -15,6 +16,7 @@ const initialState = fromJS({
 
   projects: {},
   selectedKey: null,
+  projectOptionsMap: {},
 });
 
 
@@ -46,6 +48,9 @@ export default function(state = initialState, action) {
     }
     case PROJECT_RESET: {
       return initialState;
+    }
+    case SET_PROJECT_OPTIONS_MAP: {
+      return state.set('projectOptionsMap', fromJS(action.payload.projectOptionsMap))
     }
     default: {
       return state;

@@ -19,7 +19,6 @@ const initialState = fromJS({
 
   isAuthenticated: false,
   id: null,
-  username: null,
   issued: null,
   expires: null,
 
@@ -39,8 +38,7 @@ export default function(state = initialState, action) {
 
         const identity = action.payload.identity;
         state.set('isAuthenticated', true);
-        state.set('id', identity.id);
-        state.set('username', identity.username);
+        state.set('id', identity.user_id);
         state.set('issued', new Date(identity['.issued']));
         state.set('expires', new Date(identity['.expires']));
         return state;

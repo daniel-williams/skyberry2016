@@ -17,5 +17,18 @@ namespace Web.Controllers
             return this.ModelFactory.CreateProjectVM(UOW.Projects.GetProjectById(new Guid(id)));
         }
 
+        [Route("{id}")]
+        public IHttpActionResult GetProject(Guid id)
+        {
+            Project project = UOW.Projects.GetOwnById(UserIdentityId, id);
+            if(project == null)
+            {
+                return NotFound();
+            }
+
+            ProjectVM projectVM = ModelFactory.CreateProjectVM(project);
+            return Ok(projectVM);
+        }
+
     }
 }

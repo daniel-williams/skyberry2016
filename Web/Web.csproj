@@ -201,7 +201,6 @@
     <Compile Include="Controllers\api\AccountsController.cs" />
     <Compile Include="Controllers\api\ContactController.cs" />
     <Compile Include="Controllers\api\ReviewsController.cs" />
-    <Compile Include="Controllers\api\TestController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\api\PortfolioController.cs" />
     <Compile Include="Controllers\api\ProjectsController.cs" />

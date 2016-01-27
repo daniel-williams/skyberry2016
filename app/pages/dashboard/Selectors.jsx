@@ -1,10 +1,17 @@
 import React, {PropTypes} from 'react';
+import PureRender from 'react-addons-pure-render-mixin';
 import {Row, Col} from 'react-bootstrap';
 
 import {Fetching, Selector} from '../../components';
 
 
+const NO_PROJECTS_FOUND = [
+  {name: 'No projects found.', value: ''}
+];
+
 export default React.createClass({
+  displayName: 'Selectors',
+  mixins: [PureRender],
   propTypes: {
     hasFetched: PropTypes.bool,
     accountOptions: PropTypes.array,
@@ -19,18 +26,29 @@ export default React.createClass({
       projectOptions: [],
     }
   },
+  getProjectOptions: function() {
+    return this.props.projectOptions.length > 0 ?
+      this.props.projectOptions :
+      NO_PROJECTS_FOUND;
+  },
 
   render: function() {
     return this.props.hasFetched ? this.renderSelectors()
                                  : <Fetching />;
   },
-
   renderSelectors: function() {
     return (
       <div className='controls'>
         {this.props.accountOptions.length > 1 && this.renderAccountSelector()}
-        {this.props.projectOptions.length > 0 ? this.renderProjectSelector()
-                                              : this.renderNoProjects()}
+        <Row>
+          <div className='form-inline col col-xs-12  mb-half'>
+            <Selector
+              label='Projects'
+              options={this.getProjectOptions()}
+              selected={this.props.selectedProject}
+              onChange={this.props.setProject} />
+          </div>
+        </Row>
       </div>
     );
   },
@@ -47,23 +65,6 @@ export default React.createClass({
         </div>
       </Row>
     );
-  },
-
-  renderProjectSelector: function() {
-    return (
-      <Row>
-        <div className='form-inline col col-xs-12 mb-half'>
-          <Selector
-            label='Projects'
-            options={this.props.projectOptions}
-            selected={this.props.selectedProject}
-            onChange={this.props.setProject} />
-        </div>
-      </Row>
-    );
-  },
-  renderNoProjects: function() {
-    return <h3>Project not found</h3>;
   },
 
 });

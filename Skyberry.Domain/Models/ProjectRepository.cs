@@ -15,6 +15,7 @@ namespace Skyberry.Domain
         List<Project> GetByAccount(Guid accountId);
 
         Project GetProjectById(Guid projectId);
+        Project GetOwnById(string userId, Guid projectId);
     }
 
     public class ProjectRepository : RepositoryBase<Project>, IProjectRepository
@@ -107,6 +108,12 @@ namespace Skyberry.Domain
             return query;
         }
 
+        public Project GetOwnById(string userId, Guid projectId)
+        {
+            return DbSet
+                .Where(e => e.Id == projectId && e.Account.SkyberryUsers.Any(u => u.Id == userId))
+                .SingleOrDefault();
+        }
     }
 
     public class ProjectSearchCriteria

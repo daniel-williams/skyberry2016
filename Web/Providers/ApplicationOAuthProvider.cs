@@ -41,7 +41,8 @@ namespace Web.Providers
 
                 if (user == null)
                 {
-                    context.SetError("invalid_grant", "The user name or password is incorrect.");
+                    context.Rejected();
+                    context.SetError("invalid_grant");
                     return;
                 }
 
@@ -108,10 +109,10 @@ namespace Web.Providers
         {
             IDictionary<string, string> data = new Dictionary<string, string>
             {
-                {"userName", user.UserName},
+                //{"userName", user.UserName},
                 //{"email", user.Email},
-                {"userId", user.Id},
-                {"userRoles", String.Join(",", roles)}
+                {"user_id", user.Id},
+                //{"userRoles", String.Join(",", roles)}
             };
             return new AuthenticationProperties(data);
         }

@@ -1,7 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
+import {dump} from '../actions/identityActionCreators';
 import Main from '../pages/Main';
+
+
+const actions = {
+  dump,
+};
 
 function mapStateToProps(state) {
   return {
@@ -9,4 +15,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Main);
+export default connect(mapStateToProps, actions)(Main);

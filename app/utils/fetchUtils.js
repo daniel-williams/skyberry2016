@@ -10,7 +10,7 @@ export function checkStatus(response) {
           .then(json => {
             let err = new Error(response.statusText);
             err.code = response.status;
-            err.formErrors = getFormErrors(json.errors);
+            err.formErrors = getFormErrors(json.errors || {});
             return Promise.reject(err);
           });
       })

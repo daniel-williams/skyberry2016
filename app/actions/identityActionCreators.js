@@ -1,3 +1,4 @@
+import {toJS} from 'immutable';
 import TokenService from '../services/TokenService';
 import FetchService from '../services/FetchService';
 
@@ -18,13 +19,20 @@ import {
   fetchAccountsSuccess,
   fetchAccountsFailed,
   resetAccounts,
+  setSelectedAccount,
 } from '../actions/accountActions';
 import {
   fetchingProject,
   fetchProjectSuccess,
   fetchProjectFailed,
   resetProject,
+  setProjectOptionsMap,
+  setSelectedProject,
 } from '../actions/projectActions';
+import {
+  switchProject,
+} from '../actions/projectActionCreators';
+
 
 export function recoverIndentity() {
   return function(dispatch) {
@@ -37,14 +45,15 @@ export function recoverIndentity() {
       .then(identity => {
         TokenService.setTokens(identity.access_token, identity.refresh_token);
         dispatch(fetchIdentitySuccess(identity));
-        return identity.userId;
+        return identity.user_id;
       })
       .then(
-        userId => loadUserAndAccountData(userId)(dispatch),
+        user_id => loadUserAndAccountData(user_id)(dispatch),
         error => {
+          console.log('ident', error);
           TokenService.clearTokens();
           dispatch(fetchIdentityFailed(error));
-          return Promise.reject(error);
+          // return Promise.reject(error);
         }
       );
   }
@@ -58,10 +67,10 @@ export function logOn(username, password) {
       .then(identity => {
         TokenService.setTokens(identity.access_token, identity.refresh_token);
         dispatch(fetchIdentitySuccess(identity));
-        return identity.userId;
+        return identity.user_id;
       })
       .then(
-        userId => loadUserAndAccountData(userId)(dispatch),
+        user_id => loadUserAndAccountData(user_id)(dispatch),
         error => {
           // TODO: return form errors
           TokenService.clearTokens();
@@ -72,36 +81,50 @@ export function logOn(username, password) {
   }
 }
 
-export function loadUserAndAccountData(userId) {
+export function loadUserAndAccountData(user_id) {
   return function(dispatch) {
     dispatch(fetchingUser());
     dispatch(fetchingAccounts());
     return Promise.all([
-      FetchService.getUser(userId),
-      FetchService.getAccounts(userId),
+      FetchService.getUser(user_id),
+      FetchService.getAccounts(user_id),
     ])
     .then(res => {
-      dispatch(fetchUserSuccess(res[0]));
-      dispatch(fetchAccountsSuccess(res[1]));
-      // TODO: dispatch projectOptions
-      // TODO: dispatch fetchProject
-      return Promise.resolve(res);
+      const user = res[0];
+      const accounts = res[1];
+      dispatch(fetchUserSuccess(user));
+      dispatch(fetchAccountsSuccess(accounts));
+      if(accounts.length) {
+        dispatch(setSelectedAccount(accounts[0].id));
+        dispatch(setProjectOptionsMap(buildProjectOptionsMap(accounts)));
+        if(accounts[0].projects.length) {
+          return accounts[0].projects[0];
+        }
+      }
+      return {};
     })
-    .catch(error => {
-      dispatch(fetchUserFailed(error));
-      dispatch(fetchAccountsFailed(error));
-      return Promise.reject(error);
-    });
+    .then(
+      project => loadProjectData(project.id)(dispatch),
+      error => {
+        dispatch(fetchUserFailed(error));
+        dispatch(fetchAccountsFailed(error));
+        return Promise.reject(error);
+      }
+    )
   }
 };
 
 
-export function loadProjectData(projectId) {
+export function loadProjectData(id) {
   return function(dispatch) {
+    if(!id) {
+      return Promise.reject(new Error('No project id was provided.'));
+    }
     dispatch(fetchingProject());
-    return FetchService.getProject(projectId)
+    return FetchService.getProject(id)
       .then(project => {
-        dispatch(fetchProjectSuccess(project));
+        dispatch(fetchProjectSuccess(id, project));
+        dispatch(setSelectedProject(id));
         return Promise.resolve(project);
       })
       .catch(error => {
@@ -121,9 +144,31 @@ export function logOff() {
   };
 }
 
+export function dump() {
+  return function(dispatch, getState) {
+    console.log('App State:', getState().toJS());
+  }
+}
+
 
 export default {
   recoverIndentity,
   logOn,
   logOff,
+  dump,
+}
+
+
+function buildProjectOptionsMap(accounts) {
+  const projectOptionsMap = accounts.reduce((accountMap, account) => {
+    accountMap[account.id] = account.projects.reduce((projectOptions, project) => {
+      projectOptions.push({
+        name: project.name,
+        value: project.id,
+      });
+      return projectOptions;
+    }, []);
+    return accountMap;
+  }, {})
+  return projectOptionsMap;
 }

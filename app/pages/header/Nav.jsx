@@ -26,7 +26,8 @@ export default React.createClass({
               src="/content/images/logo.png"
               title='Skyberry Logo'
               id='sky-logo'
-              className={this.state.inDashboard} />
+              className={this.state.inDashboard}
+              onClick={this.props.dump} />
           </Navbar.Brand>
           <Navbar.Toggle/>
         </Navbar.Header>
@@ -55,7 +56,7 @@ export default React.createClass({
       <NavDropdown eventKey={6} title="Dashboard" id='dashboard-ddl' className={this.inDash()}>
         <LinkContainer to='/dashboard/sign-out'><MenuItem eventKey={6.1}>Sign Out</MenuItem></LinkContainer>
         <MenuItem divider />
-        <LinkContainer to='/dashboard/projects'><MenuItem eventKey={6.2}>Projects</MenuItem></LinkContainer>
+        <LinkContainer to='/dashboard/project'><MenuItem eventKey={6.2}>Project</MenuItem></LinkContainer>
         <LinkContainer to='/dashboard/billing'><MenuItem eventKey={6.3}>Billing</MenuItem></LinkContainer>
         <LinkContainer to='/dashboard/settings'><MenuItem eventKey={6.4}>Settings</MenuItem></LinkContainer>
       </NavDropdown>

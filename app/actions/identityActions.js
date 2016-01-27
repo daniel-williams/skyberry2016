@@ -10,12 +10,12 @@ export function fetchingIdentity() {
   };
 }
 
-export function fetchIdentitySuccess(json) {
+export function fetchIdentitySuccess(identity) {
   return {
     type: IDENTITY_FETCH_SUCCESS,
     payload: {
       date: new Date(),
-      identity: json
+      identity: identity
     }
   };
 }

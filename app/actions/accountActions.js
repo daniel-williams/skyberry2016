@@ -10,12 +10,12 @@ export function fetchingAccounts() {
     type: ACCOUNTS_FETCHING,
   };
 }
-export function fetchAccountsSuccess(json) {
+export function fetchAccountsSuccess(accounts) {
   return {
     type: ACCOUNTS_FETCH_SUCCESS,
     payload: {
       date: new Date(),
-      accounts: json,
+      accounts: accounts,
     }
   };
 }
@@ -34,10 +34,20 @@ export function resetAccounts() {
   };
 }
 
+export function setSelectedAccount(key) {
+  return {
+    type: ACCOUNTS_SET_SELECTED,
+    payload: {
+      key: key,
+    }
+  };
+}
+
 
 export default {
   fetchingAccounts,
   fetchAccountsSuccess,
   fetchAccountsFailed,
   resetAccounts,
+  setSelectedAccount,
 }
