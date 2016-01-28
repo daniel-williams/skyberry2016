@@ -1,12 +1,14 @@
 import {fromJS} from 'immutable';
 
-import {NameValueMap, ToKeyMap, AddSlug} from '../utils/CollectionUtils';
+import {toNameValueMap, toKeyMap, addSlug} from '../utils/CollectionUtils';
 import {
   ACCOUNTS_FETCHING,
   ACCOUNTS_FETCH_SUCCESS,
   ACCOUNTS_FETCH_FAILED,
   ACCOUNTS_SET_SELECTED,
   ACCOUNTS_RESET,
+  ACCOUNTS_SET_MAP,
+  ACCOUNTS_SET_OPTIONS,
 } from '../actions/accountActions';
 
 
@@ -33,12 +35,8 @@ export default function(state = initialState, action) {
         state.set('lastFetchDate', action.payload.date);
         state.set('lastFetchError', null);
 
-        const accounts = action.payload.accounts;
-        const accountsKeyMap = ToKeyMap(accounts, 'slug');
-        const accountOptions = NameValueMap(accounts, 'name', 'slug');
         state.set('hasFetched', true);
-        state.set('accounts', fromJS(accountsKeyMap));
-        state.set('accountOptions', fromJS(accountOptions));
+        state.set('accounts', fromJS(action.payload.accounts));
         return state;
       });
     }
@@ -52,6 +50,12 @@ export default function(state = initialState, action) {
     }
     case ACCOUNTS_SET_SELECTED: {
       return state.set('selectedKey', action.payload.key);
+    }
+    case ACCOUNTS_SET_MAP: {
+      return state.set('accountMap', fromJS(action.payload.accountMap));
+    }
+    case ACCOUNTS_SET_OPTIONS: {
+      return state.set('accountOptions', fromJS(action.payload.accountOptions));
     }
     case ACCOUNTS_RESET: {
       return initialState;

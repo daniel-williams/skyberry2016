@@ -31,7 +31,9 @@ const routes = (
         <Route path='/dashboard/sign-in' component={SignIn} />
         <Route path='/dashboard/sign-out' component={SignOut} />
         <Route path='/dashboard' component={requireAuthentication(Dashboard)}>
-          <Route path='project' component={Project} />
+          <Route path='projects' component={Project}>
+            <Route path="(:aSlug)/(:pSlug)" component={Project}/>
+          </Route>
         </Route>
       </Route>
     </Route>

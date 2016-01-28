@@ -2,7 +2,7 @@ import {toJS} from 'immutable';
 
 import TokenService from '../services/TokenService';
 import FetchService from '../services/FetchService';
-import {AddSlug} from '../utils/CollectionUtils';
+import {clone, addSlug, toKeyMap, toNameValueMap} from '../utils/CollectionUtils';
 import {
   fetchingIdentity,
   fetchIdentitySuccess,
@@ -19,24 +19,15 @@ import {
   fetchingAccounts,
   fetchAccountsSuccess,
   fetchAccountsFailed,
-  resetAccounts,
-  setSelectedAccount,
+  setAccountMap,
+  setAccountOptions,
 } from '../actions/accountActions';
-import {
-  fetchingProject,
-  fetchProjectSuccess,
-  fetchProjectFailed,
-  resetProject,
-  setProjectOptionsMap,
-  setSelectedProject,
-} from '../actions/projectActions';
-import {
-  switchProject,
-} from '../actions/projectActionCreators';
+import {setProjectOptionsMap} from '../actions/projectActions';
+import {changeAccount, changeProject} from '../actions/dashboardActionCreators';
 
 
 export function recoverIndentity() {
-  return function(dispatch) {
+  return function(dispatch, getState) {
 
     const refreshToken = TokenService.getRefreshToken();
     if(!refreshToken) return;
@@ -49,7 +40,7 @@ export function recoverIndentity() {
         return identity.user_id;
       })
       .then(
-        user_id => loadUserAndAccountData(user_id)(dispatch),
+        user_id => loadUserAndAccountData(user_id)(dispatch, getState),
         error => {
           TokenService.clearTokens();
           dispatch(fetchIdentityFailed(error));
@@ -69,65 +60,13 @@ export function logOn(username, password) {
         return identity.user_id;
       })
       .then(
-        user_id => loadUserAndAccountData(user_id)(dispatch),
+        user_id => loadUserAndAccountData(user_id)(dispatch, getState),
         error => {
           // TODO: return form errors
           TokenService.clearTokens();
           dispatch(fetchIdentityFailed(error));
         }
       );
-  }
-}
-
-export function loadUserAndAccountData(user_id) {
-  return function(dispatch) {
-    dispatch(fetchingUser());
-    dispatch(fetchingAccounts());
-    return Promise.all([
-      FetchService.getUser(user_id),
-      FetchService.getAccounts(user_id),
-    ])
-    .then(res => {
-      const user = res[0];
-      // add Slug to accounts
-      const accounts = AddSlug(res[1]);
-      dispatch(fetchUserSuccess(user));
-      dispatch(fetchAccountsSuccess(accounts));
-      if(accounts.length) {
-        dispatch(setSelectedAccount(accounts[0].slug));
-        dispatch(setProjectOptionsMap(buildProjectOptionsMap(accounts)));
-        if(accounts[0].projects.length) {
-          return accounts[0].projects[0];
-        }
-      }
-      return {};
-    })
-    .then(
-      project => loadProjectData(project.id)(dispatch),
-      error => {
-        dispatch(fetchUserFailed(error));
-        dispatch(fetchAccountsFailed(error));
-      }
-    )
-  }
-};
-
-
-export function loadProjectData(id) {
-  return function(dispatch) {
-    if(!id) {
-      return Promise.reject(new Error('No project key was provided.'));
-    }
-    dispatch(fetchingProject());
-    return FetchService.getProject(id)
-      .then(res => {
-        const project = AddSlug(res, 'name');
-        dispatch(fetchProjectSuccess(project.id, project));
-        dispatch(setSelectedProject(project.id));
-      })
-      .catch(error => {
-        dispatch(fetchProjectFailed(error))
-      });
   }
 }
 
@@ -156,17 +95,69 @@ export default {
 }
 
 
-function buildProjectOptionsMap(accounts) {
-  const projectOptionsMap = accounts.reduce((accountMap, account) => {
-    const projects = AddSlug(account.projects);
-    accountMap[account.slug] = projects.reduce((projectOptions, project) => {
-      projectOptions.push({
-        name: project.name,
-        value: project.id,
-      });
-      return projectOptions;
-    }, []);
+function loadUserAndAccountData(user_id) {
+  return function(dispatch, getState) {
+    dispatch(fetchingUser());
+    dispatch(fetchingAccounts());
+    return Promise.all([
+      FetchService.getUser(user_id),
+      FetchService.getAccounts(user_id),
+    ])
+    .then(res => {
+      const user = res[0];
+      const accounts = res[1];
+      dispatch(fetchUserSuccess(user));
+      dispatch(fetchAccountsSuccess(accounts));
+
+      const accountMap = buildAccountOptionMap(accounts);
+
+      const accountKeyMap = toKeyMap(accountMap, 'slug');
+      dispatch(setAccountMap(accountKeyMap))
+
+      const accountOptions = toNameValueMap(accountMap, 'name', 'slug');
+      dispatch(setAccountOptions(accountOptions));
+
+      if(accounts.length) {
+        const projectOptionsMap = buildProjectOptionsMap(accountMap);
+        dispatch(setProjectOptionsMap(projectOptionsMap));
+      }
+      return accountOptions[0].value;
+    })
+    .then(
+      accountSlug => changeAccount(accountSlug)(dispatch, getState),
+      error => {
+        dispatch(fetchUserFailed(error));
+        dispatch(fetchAccountsFailed(error));
+      }
+    )
+  }
+};
+
+function buildAccountOptionMap(accounts) {
+  const copy = clone(accounts);
+  return copy.reduce((accountMap, account) => {
+    addSlug(account, 'name');
+    const projects = account.projects.map(project => {
+      addSlug(project, 'name');
+      return project;
+    });
+    account.projects = toKeyMap(projects, 'slug');
+    accountMap.push(account);
     return accountMap;
-  }, {})
+  }, []);
+}
+
+function buildProjectOptionsMap(accounts) {
+  const copy = clone(accounts);
+  const projectOptionsMap = accounts.reduce((accountMap, account) => {
+    const projects = account.projects;
+    accountMap[account.slug] = Object.keys(projects).map(key => {
+      return {
+        name: projects[key].name,
+        value: account.slug + '/' + projects[key].slug
+      };
+    });
+    return accountMap;
+  }, {});
   return projectOptionsMap;
 }

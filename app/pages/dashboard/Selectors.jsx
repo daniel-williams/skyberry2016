@@ -46,7 +46,7 @@ export default React.createClass({
               label='Projects'
               options={this.getProjectOptions()}
               selected={this.props.selectedProject}
-              onChange={this.props.setProject} />
+              onChange={this.props.changeProject} />
           </div>
         </Row>
       </div>
@@ -61,7 +61,7 @@ export default React.createClass({
             label='Accounts'
             options={this.props.accountOptions}
             selected={this.props.selectedAccount}
-            onChange={this.props.setAccount} />
+            onChange={this.props.changeAccount} />
         </div>
       </Row>
     );

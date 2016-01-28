@@ -39,10 +39,11 @@ export default React.createClass({
           selectedAccount={this.props.selectedAccount}
           projectOptions={this.props.projectOptions}
           selectedProject={this.props.selectedProject}
-          setAccount={this.props.switchAccount}
-          setProject={this.props.switchProject} />
+          changeAccount={this.props.changeAccount}
+          changeProject={this.props.changeProject} />
         {this.props.children}
       </Grid>
     );
   },
+
 });

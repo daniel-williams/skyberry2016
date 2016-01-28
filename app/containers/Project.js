@@ -7,11 +7,11 @@ import Project from '../pages/dashboard/Project';
 
 
 function mapStateToProps(state) {
-  const selectedProject = state.getIn(['project', 'selectedKey']);
+  const projectKey = state.getIn(['project', 'selectedKey']);
   let project = null;
-  if(selectedProject) {
+  if(projectKey) {
     try {
-      project = state.getIn(['project', 'projects', selectedProject]).toJS();
+      project = state.getIn(['project', 'projects', projectKey]).toJS();
     } catch(e) {}
   }
   return {

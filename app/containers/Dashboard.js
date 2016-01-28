@@ -2,33 +2,27 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {toJS} from 'immutable';
 
-import {switchProject} from '../actions/projectActionCreators';
-import {switchAccount} from '../actions/accountActionCreators';
+import * as actions from '../actions/dashboardActionCreators';
 import Dashboard from '../pages/dashboard/Dashboard';
 
 
-const actions = {
-  switchAccount,
-  switchProject,
-};
-
-function mapStateToProps(state) {
-  const selectedAccount = state.getIn(['account', 'selectedKey']);
-  const selectedProject = state.getIn(['project', 'selectedKey']);
+function mapStateToProps(state, ownProps) {
+  const accountOptions = state.getIn(['account', 'accountOptions']).toJS();
+  const accountSlug = ownProps.params.aSlug || state.getIn(['account', 'selectedKey']) || (accountOptions.length ? accountOptions[0].value : null);
   let projectOptions = [];
-  if(selectedAccount) {
+  if(accountSlug) {
     try {
-      projectOptions = state.getIn(['project', 'projectOptionsMap', selectedAccount]).toJS();
+      projectOptions = state.getIn(['project', 'projectOptionsMap', accountSlug]).toJS();
     } catch(e) {}
   }
+  const projectSlug = ownProps.params.pSlug || state.getIn(['project', 'selectedKey']) || (projectOptions.length ? projectOptions[0].value : null);
 
   return {
-    //user: state.get('user').toJS(),
     hasFetchedAccounts: state.getIn(['account', 'hasFetched']),
-    accountOptions: state.getIn(['account', 'accountOptions']).toJS(),
-    selectedAccount: selectedAccount,
+    accountOptions: accountOptions,
+    selectedAccount: accountSlug,
     projectOptions: projectOptions,
-    selectedProject: selectedProject,
+    selectedProject: projectSlug,
   };
 }
 

@@ -4,6 +4,8 @@ export const ACCOUNTS_FETCH_FAILED = 'ACCOUNTS_FETCH_FAILED';
 export const ACCOUNTS_RESET = 'ACCOUNTS_RESET';
 export const ACCOUNTS_SET_SELECTED = 'ACCOUNTS_SET_SELECTED';
 
+export const ACCOUNTS_SET_MAP = 'ACCOUNTS_SET_MAP';
+export const ACCOUNTS_SET_OPTIONS = 'ACCOUNTS_SET_OPTIONS';
 
 export function fetchingAccounts() {
   return {
@@ -43,6 +45,23 @@ export function setSelectedAccount(key) {
   };
 }
 
+export function setAccountMap(accountMap) {
+  return {
+    type: ACCOUNTS_SET_MAP,
+    payload: {
+      accountMap: accountMap,
+    }
+  };
+}
+export function setAccountOptions(accountOptions) {
+  return {
+    type: ACCOUNTS_SET_OPTIONS,
+    payload: {
+      accountOptions: accountOptions,
+    }
+  };
+}
+
 
 export default {
   fetchingAccounts,
@@ -50,4 +69,6 @@ export default {
   fetchAccountsFailed,
   resetAccounts,
   setSelectedAccount,
+  setAccountMap,
+  setAccountOptions,
 }

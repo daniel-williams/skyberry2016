@@ -1,7 +1,7 @@
 import {toSlug} from '../utils/SlugUtils';
 
 
-export function NameValueMap(items, name = 'name', value = 'id') {
+export function toNameValueMap(items, name = 'name', value = 'id') {
   return items.map(item => {
     return {
       name: item[name],
@@ -10,7 +10,7 @@ export function NameValueMap(items, name = 'name', value = 'id') {
   });
 }
 
-export function ToKeyMap(items, key = 'id') {
+export function toKeyMap(items, key = 'id') {
   const result = items.reduce((accum, item) => {
     accum[item[key]] = item;
     return accum;
@@ -18,7 +18,7 @@ export function ToKeyMap(items, key = 'id') {
   return result;
 }
 
-export function AddSlug(target, key = 'name') {
+export function addSlug(target, key = 'name') {
   if(Array.isArray(target)) {
     return target.map(item => {
       if(!!item[key] && typeof item[key] === 'string') {
@@ -30,4 +30,8 @@ export function AddSlug(target, key = 'name') {
     target.slug = toSlug(target[key]);
   }
   return target;
+}
+
+export function clone(original) {
+  return JSON.parse(JSON.stringify(original));
 }
