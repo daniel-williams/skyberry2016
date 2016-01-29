@@ -10,6 +10,8 @@ import history from './routes/history';
 import routes from './routes';
 require('./services/TokenService');
 
+// When the route changes, dispatch that information to the store.
+// history.listen(location => console.log('Location Change:', location, Router));
 
 ReactDom.render(
     <Provider store={store}>

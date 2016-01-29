@@ -7,22 +7,39 @@ import Dashboard from '../pages/dashboard/Dashboard';
 
 
 function mapStateToProps(state, ownProps) {
-  const accountOptions = state.getIn(['account', 'accountOptions']).toJS();
-  const accountSlug = ownProps.params.aSlug || state.getIn(['account', 'selectedKey']) || (accountOptions.length ? accountOptions[0].value : null);
-  let projectOptions = [];
-  if(accountSlug) {
+  let {aSlug: accountSlug, pSlug: projectSlug} = ownProps.params,
+    compositeSlug,
+    accountOptions = [],
+    projectOptions = [];
+
+  const hasFetched = state.getIn(['account', 'hasFetched']);
+  if(hasFetched) {
     try {
-      projectOptions = state.getIn(['project', 'projectOptionsMap', accountSlug]).toJS();
+      accountOptions = state.getIn(['account', 'accountOptions']).toJS();
     } catch(e) {}
+
+    if(!accountOptions.find(item => item.value === accountSlug)) {
+      accountSlug = accountOptions.length ? accountOptions[0].value : null;
+    }
+
+    if(accountSlug) {
+      try {
+        projectOptions = state.getIn(['project', 'projectOptionsMap', accountSlug]).toJS();
+      } catch(e) {}
+    }
+
+    compositeSlug = accountSlug + '/' + projectSlug;
+    if(!projectOptions.find(item => item.value === compositeSlug)) {
+      compositeSlug = projectOptions.length ? projectOptions[0].value : null;
+    }
   }
-  const projectSlug = ownProps.params.pSlug || state.getIn(['project', 'selectedKey']) || (projectOptions.length ? projectOptions[0].value : null);
 
   return {
-    hasFetchedAccounts: state.getIn(['account', 'hasFetched']),
+    hasFetchedAccounts: hasFetched,
     accountOptions: accountOptions,
     selectedAccount: accountSlug,
     projectOptions: projectOptions,
-    selectedProject: projectSlug,
+    selectedProject: compositeSlug,
   };
 }
 

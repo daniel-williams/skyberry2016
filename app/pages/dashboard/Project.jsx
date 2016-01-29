@@ -9,7 +9,7 @@ export default React.createClass({
     return this.props.isFetching;
   },
   hasFetched: function() {
-    return this.props.project !== null;
+    return this.props.hasFetched === true;
   },
   render: function() {
     return (
@@ -32,5 +32,5 @@ export default React.createClass({
       </div>
     );
   },
-  
+
 });

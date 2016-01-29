@@ -6,21 +6,19 @@ import {
   fetchProjectFailed,
   setSelectedProject
 } from './projectActions';
+import history from '../routes/history';
 
 
 export function changeAccount(accountSlug) {
   return function(dispatch, getState) {
-    dispatch(setSelectedAccount(accountSlug));
-    const state = getState();
+    // dispatch(setSelectedAccount(accountSlug));
     let compositeSlug = null;
     try {
-      compositeSlug = state.getIn(['project', 'projectOptionsMap', accountSlug]).toJS()[0].value;
+      compositeSlug = getState().getIn(['project', 'projectOptionsMap', accountSlug]).toJS()[0].value;
     } catch(e) {}
 
     if(compositeSlug !== null) {
-      return changeProject(compositeSlug)(dispatch, getState);
-    } else {
-      return Promise.resolve();
+      changeProject(compositeSlug)(dispatch, getState);
     }
   }
 }
@@ -35,17 +33,13 @@ export function changeProject(compositeSlug) {
     } catch(e) {}
 
     if(projectId) {
-      dispatch(setSelectedProject(compositeSlug));
+      // dispatch(setSelectedProject(compositeSlug));
       const hasFetched = state.getIn(['project', 'projects']).has(compositeSlug);
       if(!hasFetched) {
-        return getProject(projectId, compositeSlug)(dispatch, getState);
-      } else {
-        return Promise.resolve();
+        getProject(projectId, compositeSlug)(dispatch, getState);
       }
-    } else {
-      return Promise.reject(new Error(`Project id was not found @ ${slugs[0]}, ${slugs[1]}`));
     }
-
+    history.pushState(null, '/dashboard/projects/' + compositeSlug);
   }
 }
 

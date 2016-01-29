@@ -107,13 +107,10 @@ function loadUserAndAccountData(user_id) {
       const user = res[0];
       const accounts = res[1];
       dispatch(fetchUserSuccess(user));
-      dispatch(fetchAccountsSuccess(accounts));
 
       const accountMap = buildAccountOptionMap(accounts);
-
       const accountKeyMap = toKeyMap(accountMap, 'slug');
       dispatch(setAccountMap(accountKeyMap))
-
       const accountOptions = toNameValueMap(accountMap, 'name', 'slug');
       dispatch(setAccountOptions(accountOptions));
 
@@ -121,15 +118,12 @@ function loadUserAndAccountData(user_id) {
         const projectOptionsMap = buildProjectOptionsMap(accountMap);
         dispatch(setProjectOptionsMap(projectOptionsMap));
       }
-      return accountOptions[0].value;
+      dispatch(fetchAccountsSuccess(accounts));
     })
-    .then(
-      accountSlug => changeAccount(accountSlug)(dispatch, getState),
-      error => {
-        dispatch(fetchUserFailed(error));
-        dispatch(fetchAccountsFailed(error));
-      }
-    )
+    .catch(error => {
+      dispatch(fetchUserFailed(error));
+      dispatch(fetchAccountsFailed(error));
+    });
   }
 };
 
