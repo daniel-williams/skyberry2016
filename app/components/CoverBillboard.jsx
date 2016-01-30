@@ -18,7 +18,7 @@ export default React.createClass({
 
     return (
       <div className='sky cover-billboard' style={style}>
-        <Grid fluid={false} className='mb-trpl'>
+        <Grid fluid={false}>
           {this.props.children}
         </Grid>
       </div>

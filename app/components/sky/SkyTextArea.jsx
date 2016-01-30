@@ -15,11 +15,11 @@ export default React.createClass({
     this.autoGrow(this.refs.el);
   },
   render: function () {
-    var className = this.showError() ? 'error' : null;
-    var errorMessage = this.showError() ? <span>{this.getErrorMessage()}</span> : null;
+    var cssNames = this.showError() ? ' has-error' : '';
+    var errorMessage = this.showError() ? <span className='help-block'>{this.getErrorMessage()}</span> : null;
 
     return (
-      <div className='form-group'>
+      <div className={'form-group' + cssNames}>
         {this.props.label && <label className='control-label'>{this.props.label}</label>}
         <textarea
           {...this.props}

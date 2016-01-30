@@ -5,6 +5,18 @@ import {Fetching} from '../../components';
 
 
 export default React.createClass({
+  componentWillMount: function() {
+    this.fetchAsNeeded();
+  },
+  componentWillReceiveProps(nextProps) {
+    if(!nextProps.isFetching) {
+      this.fetchAsNeeded(nextProps);
+    }
+  },
+  fetchAsNeeded: function(specificProps) {
+    const props = specificProps || this.props;
+    props.fetchProjectAsNeeded(props.compositeSlug);
+  },
   isFetching: function() {
     return this.props.isFetching;
   },

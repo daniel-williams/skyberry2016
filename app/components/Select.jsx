@@ -24,8 +24,10 @@ export default React.createClass({
   },
   render: function() {
     return (
-      <select {...this.props} defaultValue={this.props.selected} onChange={this.props.onChange}>
-        {this.props.options.map((item, i) => <option value={item.value} key={item.value}>{item.name}</option>)}
+      <select {...this.props} value={this.props.selected} onChange={this.props.onChange}>
+        {this.props.options.map((item, i) => {
+          return <option value={item.value} key={item.value}>{item.name}</option>
+        })}
       </select>
     );
   },

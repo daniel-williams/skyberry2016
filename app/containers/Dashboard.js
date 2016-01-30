@@ -30,7 +30,7 @@ function mapStateToProps(state, ownProps) {
 
     compositeSlug = accountSlug + '/' + projectSlug;
     if(!projectOptions.find(item => item.value === compositeSlug)) {
-      compositeSlug = projectOptions.length ? projectOptions[0].value : null;
+      compositeSlug = projectOptions.length ? projectOptions[0].value : compositeSlug;
     }
   }
 

@@ -62,3 +62,36 @@
     margin-right: ~"@{size}px"
   }
 }
+
+.define-header-size(@base-size, @h1, @h2, @h3, @h4) {
+  h1 {
+    font-size: @base-size * @h1;
+    line-height: @base-size * @h1 * 1.1;
+    & > .accent {
+      font-size: @base-size * @h1 * 0.5;
+      line-height: @base-size * @h1;
+    }
+  }
+  h2 {
+    font-size: @base-size * @h2;
+    line-height: @base-size * @h2 * 1.1;
+  }
+  h3 {
+    font-size: @base-size * @h3;
+    line-height: @base-size * @h3 * 1.1;
+  }
+  h4 {
+    font-size: @base-size * @h4;
+    line-height: @base-size * @h4 * 1.1;
+  }
+}
+.define-header-size-min(@min-width, @base-size, @h1, @h2, @h3, @h4) {
+  @media (min-width: @min-width) {
+    .define-header-size(@base-size, @h1, @h2, @h3, @h4)
+  }
+}
+.define-header-size-max(@max-width, @base-size, @h1, @h2, @h3, @h4) {
+  @media (max-width: @max-width) {
+    .define-header-size(@base-size, @h1, @h2, @h3, @h4)
+  }
+}

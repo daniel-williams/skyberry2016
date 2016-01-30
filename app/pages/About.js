@@ -33,7 +33,7 @@ export default React.createClass({
 
     return (
       <Grid>
-        <Row className='mv'>
+        <Row className='mt-dbl'>
           <Col xs={12}>
             <h1>Skyberry Studio is</h1>
           </Col>
@@ -46,7 +46,7 @@ export default React.createClass({
               <p>When she's not in the studio designing, you might find Lacey swimming at the local gym, working with paper crafts, golfing, cooking, or gaming.</p>
             </Staff>
           </Col>
-          <Col xs={12} align='center' className='mb-dbl visible-xs xs-center'>
+          <Col xs={12} className='staff-connect visible-xs xs-center'>
             <h4>Connect with Lacey</h4>
             <IconButtonBar links={linksForLacey} size={48} />
           </Col>
@@ -56,12 +56,12 @@ export default React.createClass({
               <p>Daniel is a Microsoft Certified Professional (MCP) & Certified Solutions Expert (MCSE+I). At Oregon Institute of Technology, he studied Laser Electro-Optical Technology. He enjoys cooking, reading, gaming, and oh yes, coffee.</p>
             </Staff>
           </Col>
-          <Col xs={12} className='mb-dbl visible-xs xs-center'>
+          <Col xs={12} className='staff-connect visible-xs xs-center'>
             <h4>Connect with Daniel</h4>
             <IconButtonBar links={linksForDaniel} size={48} />
           </Col>
         </Row>
-        <Row className='mb-dbl hidden-xs'>
+        <Row className='hidden-xs'>
           <Col sm={6} xs={12} className='staff-connect'>
             <h4>Connect with Lacey</h4>
             <IconButtonBar links={linksForLacey} size={48} />
@@ -79,17 +79,17 @@ export default React.createClass({
       <Grid className='choose-skyberry'>
         <Row>
           <Col xs={12}>
-            <h1 className='xs-center'>Be successful. Be carefree. <span className='xl'>Call Skyberry</span>.</h1>
+            <h1>Be successful. Be carefree. <span className='bold'>Call Skyberry!</span></h1>
           </Col>
         </Row>
-        <Row className='mt'>
+        <Row className='mt-half'>
           <Col md={6} sm={12}>
             <Row>
-              <Col sm={6} xs={12}>
+              <Col sm={6} xs={12} className='mb'>
                 <h3>We are here for you</h3>
                 <p>Skyberry has chosen to remain small so we can provide the personal attention you'll appreciate. We are responsive, friendly, experienced and are continually searching for ways to make you successful. Best of all, we are always here for you when you need us.</p>
               </Col>
-              <Col sm={6} xs={12}>
+              <Col sm={6} xs={12} className='mb'>
                 <h3>Awards &amp; Publications</h3>
                 <p>Our work has been published in industry books, magazines and newspapers. We've won over a dozen awards for web design, including being selected amoung the "Top Web Design Firms of 2012" by the International Business Times.</p>
               </Col>
@@ -97,18 +97,18 @@ export default React.createClass({
           </Col>
           <Col md={6} sm={12}>
             <Row>
-              <Col sm={6} xs={12}>
+              <Col sm={6} xs={12} className='mb'>
                 <h3>The Great Northwest</h3>
                 <p>Founded in Portland Oregon in 2006, Skyberry moved to the Seattle area in 2014. Our studio is located in Bothell, overlooking the wildlife preserve at North Creek. We support local organizations whenever we can. We also believe in the power of office pets!</p>
               </Col>
-              <Col sm={6} xs={12}>
+              <Col sm={6} xs={12} className='mb'>
                 <h3>Focused &amp; Experienced</h3>
                 <p>For over 10 years, team Skyberry has been helping clients with brand identity and graphic design needs. Skyberry has almost 20 years of experience developing mission critial apps and websites!</p>
               </Col>
             </Row>
           </Col>
         </Row>
-        <Row className='mt mb-trpl'>
+        <Row className='mt'>
           <Col xs={12} align='center'>
             <button className='btn btn-sky'>Get your Free Project Consultation</button>
           </Col>

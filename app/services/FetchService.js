@@ -20,10 +20,10 @@ export function getJson(route, withCredentials = false) {
   .then(checkStatus)
   .then(parseJSON)
 }
-export function postJson(route) {
+export function postJson(route, payload, withCredentials = false) {
   return fetch(
     route,
-    postApiRequestOptions(withCredentials === true && getAccessToken())
+    postApiRequestOptions(payload, withCredentials === true && getAccessToken())
   )
   .then(checkStatus)
   .then(parseJSON)

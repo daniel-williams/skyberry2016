@@ -1,4 +1,4 @@
-import {postJson} from '../services/FetchService';
+import FetchService from '../services/FetchService';
 import {getFormErrors} from '../utils/FormUtils';
 import {
   CONTACT_RESET,
@@ -12,7 +12,7 @@ export function handleSubmit(formData) {
   return function(dispatch) {
     dispatch(postingContact(formData));
 
-    postJson('/api/contact', formData)
+    FetchService.postJson('/api/contact', formData)
       .then(() => dispatch(postContactSuccess()))
       .catch(error => dispatch(postContactFailed(error)));
   }

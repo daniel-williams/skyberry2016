@@ -2,13 +2,14 @@ import React, {PropTypes} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import formsy from 'formsy-react';
 
-import {SkyInput} from './sky';
+import {SkyCheckbox, SkyInput} from './';
 
 export default React.createClass({
 
   render: function() {
     const identity = this.props.identity;
     const errors = {} && identity.lastRequestError && identity.lastRequestError.errors;
+
     return (
       <formsy.Form onSubmit={this.handleSignIn} validationErrors={errors}>
         <Row>
@@ -36,12 +37,15 @@ export default React.createClass({
         </Row>
         <Row>
           <Col xs={12}>
-            <SkyInput
-              type='checkbox'
+            <SkyCheckbox
               name='remember'
               label='Remember me'
-              value={false}
-              className='form-control' />
+              value={false} />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12} className='help-block'>
+            <SkyInput type='hidden' name='error' value='' />
           </Col>
         </Row>
         <Row>

@@ -11,7 +11,7 @@ import ModalBox from './ModalBox';
 import Select from './Select';
 import Selector from './Selector';
 import SignInForm from './SignInForm';
-import {SkyInput, SkyPager, SkyPlayer, SkyTextArea} from './sky';
+import {SkyCheckbox, SkyInput, SkyPager, SkyPlayer, SkyTextArea} from './sky';
 import Spinner from './Spinner';
 import Staff from './Staff';
 import Subscribe from './Subscribe';
@@ -30,6 +30,7 @@ export {
   Select,
   Selector,
   SignInForm,
+  SkyCheckbox,
   SkyInput,
   SkyPager,
   SkyPlayer,

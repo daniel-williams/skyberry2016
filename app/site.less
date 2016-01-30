@@ -18,6 +18,7 @@
 @base-font-size: 14px;
 @grid-float-breakpoint: 700px;
 
+
 html, body {
   min-height: 100%;
   height: auto !important;
@@ -41,55 +42,28 @@ h1, h2, h3, h4, h5, h6 {
   color: @medium-gray;
   margin-top: 0;
   margin-bottom: 10px;
-
 }
+.define-header-size(40px, 1.0, 0.8, 0.7, 0.6);
+.define-header-size-max(1199px, 36px, 1.0, 0.8, 0.7, 0.6);
+.define-header-size-max(991px, 32px, 1.0, 0.8, 0.7, 0.6);
+.define-header-size-max(767px, 36px, 1.0, 0.8, 0.7, 0.6);
+.define-header-size-max(479px, 32px, 1.0, 0.8, 0.7, 0.6);
 
-h1 { font-size: 48px; line-height: 48px; }
-h2 { font-size: 36px; line-height: 36px; }
-h3 { font-size: 28px; line-height: 28px; }
-h4 { font-size: 22px; line-height: 22px; }
-h1 > .accent {
+.accent {
   display: inline;
   font-family: proxima-nova-alt, sans-serif;
   font-style: italic;
-  font-size: 22px;
-  line-height: 48px;
   vertical-align: top;
 }
+
 button.btn { font-size: 24px; }
-
-
 @media (max-width: 991px) {
-  h1 { font-size: 40px; line-height: 40px; }
-  h2 { font-size: 32px; line-height: 32px; }
-  h3 { font-size: 24px; line-height: 24px; }
-  h4 { font-size: 20px; line-height: 20px; }
-  h1 > .accent {
-    font-size: 20px;
-    line-height: 40px;
-  }
   button.btn { font-size: 20px; }
 }
 @media (max-width: 767px) {
-  h1 { font-size: 34px; line-height: 34px; }
-  h2 { font-size: 26px; line-height: 26px; }
-  h3 { font-size: 20px; line-height: 20px; }
-  h4 { font-size: 16px; line-height: 16px; }
-  h1 > .accent {
-    font-size: 16px;
-    line-height: 34px;
-  }
   button.btn { font-size: 16px; }
 }
 @media (max-width: 479px) {
-  h1 { font-size: 28px; line-height: 28px; }
-  h2 { font-size: 22px; line-height: 22px; }
-  h3 { font-size: 18px; line-height: 18px; }
-  h4 { font-size: 16px; line-height: 16px; }
-  h1 > .accent {
-    font-size: 16px;
-    line-height: 28px;
-  }
   button.btn { font-size: 14px; }
 
   .col-xxs-12 {
@@ -171,6 +145,7 @@ label {
   margin-right: auto;
   margin-left: auto;
 }
+
 
 
 
@@ -280,33 +255,6 @@ fieldset[disabled] .btn-sky.active {
 }
 
 
-
-
-
-// TODO: move cta styles out
-.cta-block {
-    margin: 75px auto;
-    color: #222;
-}
-.cta-ttl {
-    text-align: center;
-    color: #333;
-}
-p.cta-txt {
-    text-align: center;
-}
-@media (max-width:767px) {
-    h1, .cta-ttl {
-        font-size: 30px;
-    }
-        margin: 50px auto;
-        .cta-block {
-    }
-}
-.cta-ttl {
-    text-transform: uppercase;
-    font-weight: 700;
-}
 
 
 .as-bg {

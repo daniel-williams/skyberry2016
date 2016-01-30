@@ -62,8 +62,8 @@ export function logOn(username, password) {
       .then(
         user_id => loadUserAndAccountData(user_id)(dispatch, getState),
         error => {
-          // TODO: return form errors
           TokenService.clearTokens();
+          error.errors = {'error':'The username or password are incorrect.'}
           dispatch(fetchIdentityFailed(error));
         }
       );
@@ -106,19 +106,20 @@ function loadUserAndAccountData(user_id) {
     .then(res => {
       const user = res[0];
       const accounts = res[1];
-      dispatch(fetchUserSuccess(user));
-
       const accountMap = buildAccountOptionMap(accounts);
       const accountKeyMap = toKeyMap(accountMap, 'slug');
-      dispatch(setAccountMap(accountKeyMap))
       const accountOptions = toNameValueMap(accountMap, 'name', 'slug');
+
+      // TODO: shouldn't we combine these dispatches?
+      dispatch(fetchUserSuccess(user));
       dispatch(setAccountOptions(accountOptions));
+      dispatch(setAccountMap(accountKeyMap));
+      dispatch(fetchAccountsSuccess(accounts));
 
       if(accounts.length) {
         const projectOptionsMap = buildProjectOptionsMap(accountMap);
         dispatch(setProjectOptionsMap(projectOptionsMap));
       }
-      dispatch(fetchAccountsSuccess(accounts));
     })
     .catch(error => {
       dispatch(fetchUserFailed(error));
@@ -128,8 +129,7 @@ function loadUserAndAccountData(user_id) {
 };
 
 function buildAccountOptionMap(accounts) {
-  const copy = clone(accounts);
-  return copy.reduce((accountMap, account) => {
+  return clone(accounts).reduce((accountMap, account) => {
     addSlug(account, 'name');
     const projects = account.projects.map(project => {
       addSlug(project, 'name');

@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import {Link} from 'react-router';
 import {Grid, Row, Col} from 'react-bootstrap';
 
 import {IconButtonBar} from '../../components';
@@ -12,7 +13,7 @@ export default React.createClass({
   render: function () {
     return (
       <section id='footer'>
-        <Grid fluid={true}>
+        <Grid fluid={false}>
           {this.renderFooterTitle()}
           {this.renderColumns()}
           {this.renderFooterNav()}
@@ -32,17 +33,15 @@ export default React.createClass({
   renderColumns: function() {
     return (
       <Row className='mt'>
-        <Col lg={2} sm={1} className='hidden-xs'></Col>
-        <Col lg={2} sm={3} xs={12}>
+        <Col lg={4} sm={3} xs={12}>
           {this.renderLeftColumn()}
         </Col>
-        <Col lg={4} sm={4} xs={12}>
+        <Col lg={4} sm={6} xs={12}>
           {this.renderCenterColumn()}
         </Col>
-        <Col lg={2} sm={3} xs={12}>
+        <Col lg={4} sm={3} xs={12}>
           {this.renderRightColumn()}
         </Col>
-        <Col lg={2} sm={1} className='hidden-xs'></Col>
       </Row>
     );
   },
@@ -97,12 +96,12 @@ export default React.createClass({
       <Row className='footer-nav'>
         <Col xs={12} align='center'>
           <span style={{display:'inline-block'}}>
-            <ul className='nav'>
-              <li><a href='#/'>Home</a></li>
-              <li><a href='#/about'>About</a></li>
-              <li><a href='#/portfolio'>Portfolio</a></li>
-              <li><a href='#/blog'>Blog</a></li>
-              <li><a href='#/contact'>Contact</a></li>
+            <ul className='nav' onClick={this.scrollTop}>
+              <li><Link to='/'>Home</Link></li>
+              <li><Link to='/about'>About</Link></li>
+              <li><Link to='/portfolio'>Portfolio</Link></li>
+              <li><Link to='/blog'>Blog</Link></li>
+              <li><Link to='/contact'>Contact</Link></li>
             </ul>
           </span>
         </Col>
@@ -121,4 +120,7 @@ export default React.createClass({
     );
   },
 
+  scrollTop: function() {
+    window && window.scrollTo(0,0);
+  }
 });
