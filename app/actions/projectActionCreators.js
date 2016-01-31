@@ -1,10 +1,35 @@
 import FetchService from '../services/FetchService';
+import {setSelectedAccount} from './accountActions';
 import {
   fetchingProject,
   fetchProjectSuccess,
   fetchProjectFailed,
+  setSelectedProject
 } from './projectActions';
+import history from '../routes/history';
 
+
+export function changeAccount(accountSlug) {
+  return function(dispatch, getState) {
+    dispatch(setSelectedAccount(accountSlug));
+    let compositeSlug = null;
+    try {
+      compositeSlug = getState().getIn(['project', 'projectOptionsMap', accountSlug]).toJS()[0].value;
+    } catch(e) {}
+
+    if(compositeSlug !== null) {
+      changeProject(compositeSlug)(dispatch, getState);
+    }
+  }
+}
+
+export function changeProject(compositeSlug) {
+  return function(dispatch, getState) {
+    dispatch(setSelectedProject(compositeSlug));
+    // fetchProjectAsNeeded(compositeSlug)(dispatch, getState);
+    history.pushState(null, '/dashboard/projects/' + compositeSlug);
+  };
+}
 
 
 export function fetchProjectAsNeeded(compositeSlug) {

@@ -251,7 +251,6 @@
     <Content Include="content\fonts\icomoon.eot" />
     <Content Include="content\fonts\icomoon.ttf" />
     <Content Include="content\fonts\icomoon.woff" />
-    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

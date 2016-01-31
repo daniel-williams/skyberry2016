@@ -11,8 +11,10 @@ export default {
 
   blog: {
       host: 'https://www.googleapis.com/blogger/v3/blogs/',
-      id: '863617363126956700',
-      apiKey: 'AIzaSyCBrVr_qmMkn__DOgWIlMvGY7hOI0WEv_o',
+      // id: '863617363126956700',
+      // apiKey: 'AIzaSyCBrVr_qmMkn__DOgWIlMvGY7hOI0WEv_o',
+      id: '8039519640908438770',
+      apiKey: 'AIzaSyC3eV5-8-NLP0B3KQRAPi5dYxUShRhDs2c',
       itemsPerPage: 5,
   },
 

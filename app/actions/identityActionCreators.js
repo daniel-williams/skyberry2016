@@ -19,6 +19,7 @@ import {
   fetchingAccounts,
   fetchAccountsSuccess,
   fetchAccountsFailed,
+  resetAccounts,
   setAccountMap,
   setAccountOptions,
 } from '../actions/accountActions';
@@ -76,7 +77,6 @@ export function logOff() {
     dispatch(resetUser());
     dispatch(resetIdentity());
     dispatch(resetAccounts());
-    dispatch(resetProject());
   };
 }
 

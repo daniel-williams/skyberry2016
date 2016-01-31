@@ -1,7 +1,12 @@
 import fetch from 'isomorphic-fetch';
 
 import constants from '../constants';
-import {getAccessToken, getRefreshToken} from './TokenService';
+import store from '../store';
+import TokenService from './TokenService';
+import {resetUser} from '../actions/userActions';
+import {resetIdentity} from '../actions/identityActions';
+import {resetAccounts} from '../actions/accountActions';
+import {projectActions} from '../actions/projectActions';
 import {
   checkStatus,
   parseJSON,
@@ -15,17 +20,30 @@ import {
 export function getJson(route, withCredentials = false) {
   return fetch(
     route,
-    getApiRequestOptions(withCredentials === true && getAccessToken())
+    getApiRequestOptions(withCredentials === true && TokenService.getAccessToken())
   )
   .then(checkStatus)
+  .catch(error => {
+    if(error.code === 401) {
+      console.log('401 -> logOff');
+      logOff();
+    }
+    return Promise.reject(error);
+  })
   .then(parseJSON)
 }
 export function postJson(route, payload, withCredentials = false) {
   return fetch(
     route,
-    postApiRequestOptions(payload, withCredentials === true && getAccessToken())
+    postApiRequestOptions(payload, withCredentials === true && TokenService.getAccessToken())
   )
   .then(checkStatus)
+  .catch(error => {
+    if(error.code === 401) {
+      logOff();
+    }
+    return Promise.reject(error);
+  })
   .then(parseJSON)
 }
 
@@ -41,7 +59,7 @@ export function signIn(username, password) {
 export function refreshIdentity() {
   return fetch(
     constants.routes.token,
-    refreshRequestOptions(getRefreshToken())
+    refreshRequestOptions(TokenService.getRefreshToken())
   )
   .then(checkStatus)
   .then(parseJSON)
@@ -49,28 +67,13 @@ export function refreshIdentity() {
 
 // TODO: reuse getJson with credentials
 export function getUser(id) {
-  return fetch(
-    '/api/users/' + id,
-    getApiRequestOptions(getAccessToken())
-  )
-  .then(checkStatus)
-  .then(parseJSON)
+  return getJson('/api/users/' + id, true);
 }
 export function getAccounts(id) {
-  return fetch(
-    '/api/users/' + id + '/accounts',
-    getApiRequestOptions(getAccessToken())
-  )
-  .then(checkStatus)
-  .then(parseJSON);
+  return getJson('/api/users/' + id + '/accounts', true);
 }
 export function getProject(id) {
-  return fetch(
-    '/api/projects/' + id,
-    getApiRequestOptions(getAccessToken())
-  )
-  .then(checkStatus)
-  .then(parseJSON);
+  return getJson('/api/projects/' + id, true);
 }
 
 export default {
@@ -81,4 +84,14 @@ export default {
   getUser,
   getAccounts,
   getProject,
+}
+
+
+
+
+export function logOff() {
+  TokenService.clearTokens();
+  store.dispatch(resetUser());
+  store.dispatch(resetIdentity());
+  store.dispatch(resetAccounts());
 }

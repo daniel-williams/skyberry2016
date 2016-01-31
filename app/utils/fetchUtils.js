@@ -3,21 +3,28 @@ import {getFormErrors} from './FormUtils';
 export function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
+  } else if(response.status === 401) {
+    let err = new Error(response.statusText);
+    err.code = response.status;
+    return Promise.reject(err);
   } else {
-    return Promise.resolve()
-      .then(() => {
-        return response.json()
-          .then(json => {
-            let err = new Error(response.statusText);
-            err.code = response.status;
-            err.formErrors = getFormErrors(json.errors || {});
-            return Promise.reject(err);
-          });
-      })
-
-    // return Promise.reject(err);
-    // let json = response.json();
-    // return json.then(err => {throw err;})
+    return response.json()
+      .then(json => {
+        let err = new Error(response.statusText);
+        err.code = response.status;
+        err.formErrors = json.errors ? getFormErrors(json.errors) : {};
+        return Promise.reject(err);
+      });
+    // return Promise.resolve()
+    //   .then(() => {
+    //     return response.json()
+    //       .then(json => {
+    //         let err = new Error(response.statusText);
+    //         err.code = response.status;
+    //         err.formErrors = getFormErrors(json.errors || {});
+    //         return Promise.reject(err);
+    //       });
+    //   });
   }
 }
 

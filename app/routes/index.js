@@ -12,7 +12,10 @@ import Contact from '../containers/Contact';
 import SignIn from '../containers/SignIn';
 import SignOut from '../containers/SignOut';
 import Dashboard from '../containers/Dashboard';
-import Project from '../containers/Project';
+import Projects from '../containers/Projects';
+import Billing from '../containers/Billing';
+import Preferences from '../containers/Preferences';
+import Summary from '../containers/Summary';
 
 // pages
 import About from '../pages/About';
@@ -31,9 +34,10 @@ const routes = (
         <Route path='/dashboard/sign-in' component={SignIn} />
         <Route path='/dashboard/sign-out' component={SignOut} />
         <Route path='/dashboard' component={requireAuthentication(Dashboard)}>
-          <Route path='projects' component={Project}>
-            <Route path="(:aSlug)/(:pSlug)" component={Project}/>
-          </Route>
+          <IndexRoute component={Summary} />
+          <Route path='billing(/:aSlug)' component={Billing} />
+          <Route path='projects(/:aSlug)(/:pSlug)' component={Projects} />
+          <Route path='preferences' component={Preferences} />
         </Route>
       </Route>
     </Route>
