@@ -1,5 +1,6 @@
 import Article from './Article';
 import ArticleList from './ArticleList';
+import Brick from './Brick';
 import ContactForm from './ContactForm';
 import CoverBillboard from './CoverBillboard';
 import Fetching from './Fetching';
@@ -19,6 +20,7 @@ import Subscribe from './Subscribe';
 export {
   Article,
   ArticleList,
+  Brick,
   ContactForm,
   CoverBillboard,
   Fetching,
