@@ -15,6 +15,7 @@ import Projects from '../containers/Projects';
 import Billing from '../containers/Billing';
 import Preferences from '../containers/Preferences';
 import Summary from '../containers/Summary';
+import DesignReview from '../containers/DesignReview';
 
 // pages
 import Dashboard from '../pages/dashboard/Dashboard';
@@ -36,7 +37,10 @@ const routes = (
         <Route path='/dashboard' component={requireAuthentication(Dashboard)}>
           <IndexRoute component={Summary} />
           <Route path='billing(/:aSlug)' component={Billing} />
-          <Route path='projects(/:aSlug)(/:pSlug)' component={Projects} />
+          <Route path='projects' component={Projects} />
+          <Route path='projects/:aSlug/:pSlug' component={Projects}>
+            <Route path=':rSlug' component={DesignReview} />
+          </Route>
           <Route path='preferences' component={Preferences} />
         </Route>
       </Route>

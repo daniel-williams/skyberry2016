@@ -9,6 +9,9 @@ import {
   fetchProjectFailed,
   setSelectedProject
 } from './projectActions';
+import {
+  addReviews,
+} from './reviewActions';
 
 
 export function changeAccount(accountSlug) {
@@ -59,10 +62,20 @@ function getProject(projectId, compositeSlug) {
 
     return FetchService.getProject(projectId)
       .then(project => {
+        const reviewMap = buildReviewMap(compositeSlug, project);
+        dispatch(addReviews(compositeSlug, reviewMap));
         dispatch(fetchProjectSuccess(compositeSlug, project));
       })
       .catch(error => {
         dispatch(fetchProjectFailed(error));
       });
   };
+}
+
+function buildReviewMap(compositeSlug, project) {
+  console.log('wtf');
+  return project.reviews.reduce((reviewMap, review) => {
+    reviewMap[compositeSlug + '/' + review.slug] = review;
+    return reviewMap;
+  }, {});
 }

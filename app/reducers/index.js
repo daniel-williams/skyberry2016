@@ -7,6 +7,7 @@ import identity from './identity';
 import featured from './featured';
 import portfolio from './portfolio';
 import project from './project';
+import review from './review';
 import subscribe from './subscribe';
 import testimonial from './testimonial';
 import user from './user';
@@ -23,6 +24,7 @@ export default function(state = initialState, action) {
     identity: identity(state.get('identity'), action),
     portfolio: portfolio(state.get('portfolio'), action),
     project: project(state.get('project'), action),
+    review: review(state.get('review'), action),
     subscribe: subscribe(state.get('subscribe'), action),
     testimonial: testimonial(state.get('testimonial'), action),
     user: user(state.get('user'), action),

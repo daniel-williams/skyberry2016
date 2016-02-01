@@ -8,6 +8,7 @@ import ProjectSelector from './ProjectSelector';
 import Deliverables from './Deliverables';
 import Contracts from './Contracts';
 import Documents from './Documents';
+import Reviews from './Reviews';
 
 
 export default React.createClass({
@@ -33,6 +34,9 @@ export default React.createClass({
   getSelectedAccountName: function() {
     return 'TODO';
   },
+  getRootUrl: function() {
+    return '/' + this.props.params.aSlug + '/' + this.props.params.pSlug + '/';
+  },
   hasAccountOptions: function() {
     return this.props.accountOptions.length > 1;
   },
@@ -53,6 +57,7 @@ export default React.createClass({
             </Col>
           </Row>
         </Grid>
+        {this.props.children}
       </div>
     );
   },
@@ -106,7 +111,7 @@ export default React.createClass({
         <Col sm={6} xs={12}>
           <Row>
             <Col md={6} xs={12} className='mb'>
-              TODO: design review list
+              <Reviews items={p.reviews} rootUrl={this.getRootUrl()} />
             </Col>
             <Col md={6} xs={12} className='mb'>
               <Deliverables items={p.docs} />
