@@ -11,7 +11,7 @@ function mapStateToProps(state, ownProps) {
     accountOptions = [],
     hasFetchedAccounts = state.getIn(['account', 'hasFetched']),
     accountSlug,
-    projectOptions = [],
+    options = [],
     hasFetchedProject = false,
     projectSlug,
     compositeSlug,
@@ -30,12 +30,12 @@ function mapStateToProps(state, ownProps) {
 
     if(accountSlug) {
       try {
-        projectOptions = state.getIn(['project', 'projectOptionsMap', accountSlug]).toJS();
+        options = state.getIn(['project', 'projectLookup', accountSlug, 'options']).toJS();
       } catch(e) {}
 
       compositeSlug = accountSlug + '/' + pSlug;
-      if(!projectOptions.find(item => item.value === compositeSlug)) {
-        compositeSlug = projectOptions.length ? projectOptions[0].value : null;
+      if(!options.find(item => item.value === compositeSlug)) {
+        compositeSlug = options.length ? options[0].value : null;
       }
 
       hasFetchedProject = state.getIn(['project', 'projects']).has(compositeSlug);
@@ -53,7 +53,7 @@ function mapStateToProps(state, ownProps) {
     accountOptions: accountOptions,
     accountSlug: accountSlug,
     hasFetchedProject: hasFetchedProject,
-    projectOptions: projectOptions,
+    options: options,
     projectSlug: projectSlug,
     compositeSlug: compositeSlug,
     project: project,

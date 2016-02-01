@@ -11,13 +11,13 @@ import Portfolio from '../containers/Portfolio';
 import Contact from '../containers/Contact';
 import SignIn from '../containers/SignIn';
 import SignOut from '../containers/SignOut';
-import Dashboard from '../containers/Dashboard';
 import Projects from '../containers/Projects';
 import Billing from '../containers/Billing';
 import Preferences from '../containers/Preferences';
 import Summary from '../containers/Summary';
 
 // pages
+import Dashboard from '../pages/dashboard/Dashboard';
 import About from '../pages/About';
 
 

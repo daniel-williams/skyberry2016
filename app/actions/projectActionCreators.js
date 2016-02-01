@@ -1,12 +1,14 @@
 import FetchService from '../services/FetchService';
 import {setSelectedAccount} from './accountActions';
+import history from '../routes/history';
+import {addSlug} from '../utils/CollectionUtils';
+
 import {
   fetchingProject,
   fetchProjectSuccess,
   fetchProjectFailed,
   setSelectedProject
 } from './projectActions';
-import history from '../routes/history';
 
 
 export function changeAccount(accountSlug) {
@@ -14,7 +16,7 @@ export function changeAccount(accountSlug) {
     dispatch(setSelectedAccount(accountSlug));
     let compositeSlug = null;
     try {
-      compositeSlug = getState().getIn(['project', 'projectOptionsMap', accountSlug]).toJS()[0].value;
+      compositeSlug = getState().getIn(['project', 'projectLookup', accountSlug, 'options']).first().toJS().value;
     } catch(e) {}
 
     if(compositeSlug !== null) {
@@ -38,11 +40,12 @@ export function fetchProjectAsNeeded(compositeSlug) {
     const slugs = compositeSlug.split('/');
     let projectId = null;
     try {
-      projectId = state.getIn(['account', 'accountMap', slugs[0], 'projects', slugs[1], 'id']);
+      projectId = state.getIn(['project', 'projectLookup', slugs[0], 'slugMap', slugs[1], 'id']);
     } catch(e) {}
 
     if(projectId) {
       const hasFetched = state.getIn(['project', 'projects']).has(compositeSlug);
+      // TODO: determine when and where to check/break on fetch error
       if(!hasFetched) {
         getProject(projectId, compositeSlug)(dispatch, getState);
       }

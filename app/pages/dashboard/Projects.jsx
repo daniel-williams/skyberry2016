@@ -1,9 +1,13 @@
 import React, {PropTypes} from 'react';
 import {Grid, Row, Col} from 'react-bootstrap';
 
-import {Fetching} from '../../components';
+import {formatDate} from '../../utils/DateUtils';
+import {Brick, Fetching} from '../../components';
 import AccountSelector from './AccountSelector';
 import ProjectSelector from './ProjectSelector';
+import Deliverables from './Deliverables';
+import Contracts from './Contracts';
+import Documents from './Documents';
 
 
 export default React.createClass({
@@ -44,7 +48,7 @@ export default React.createClass({
           {this.hasAccountOptions() && this.renderAccountSelector()}
           {this.renderProjectSelector()}
           <Row>
-            <Col xs={12}>
+            <Col xs={12} className='mt'>
               {this.isFetching() ? <Fetching /> : this.props.hasFetchedProject && this.renderProjectInfo()}
             </Col>
           </Row>
@@ -65,17 +69,61 @@ export default React.createClass({
     return (
       <ProjectSelector
         hasFetched={this.props.hasFetchedAccounts}
-        projectOptions={this.props.projectOptions}
+        options={this.props.options}
         projectSlug={this.props.compositeSlug}
         changeProject={this.props.changeProject} />
     );
   },
   renderProjectInfo: function() {
+    let p = this.props.project;
+    let now = Date.now();
+    let start = new Date(p.startDate);
+    let est = new Date(p.estimatedCompletionDate);
+    let completed = new Date(p.completionDate);
+    let begin;
+    let done;
+
+    if(now < start) {
+      begin = (<Brick>starting: {formatDate(start)}</Brick>);
+    } else {
+      begin = (<Brick>started: {formatDate(start)}</Brick>);
+    }
+    if(completed) {
+      done = (<Brick>Completed: {formatDate(completed)}</Brick>);
+    } else {
+      done = (<Brick>Completion: {formatDate(completed)} (estimated)</Brick>);
+    }
+
     return (
-      <div>
-        <h3>{this.props.project.name}</h3>
-        <p>{this.props.project.description}</p>
-      </div>
+      <Row id='project-details'>
+        <Col xs={12}><h2>{p.name}</h2></Col>
+        <Col xs={12} className='mb'>
+            <Row className='dates'>
+                {begin}
+                {done}
+            </Row>
+        </Col>
+        <Col sm={6} xs={12}>
+          <Row>
+            <Col md={6} xs={12} className='mb'>
+              TODO: design review list
+            </Col>
+            <Col md={6} xs={12} className='mb'>
+              <Deliverables items={p.docs} />
+            </Col>
+          </Row>
+        </Col>
+        <Col sm={6} xs={12} className='mb'>
+          <Row>
+            <Col md={6} xs={12} className='mb'>
+              <Documents items={p.docs} />
+            </Col>
+            <Col md={6} xs={12} className='mb'>
+              <Contracts items={p.contracts} />
+            </Col>
+          </Row>
+        </Col>
+      </Row>
     );
   },
 

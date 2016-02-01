@@ -3,7 +3,7 @@ export const PROJECT_FETCH_SUCCESS = 'PROJECT_FETCH_SUCCESS';
 export const PROJECT_FETCH_FAILED = 'PROJECT_FETCH_FAILED';
 export const PROJECT_RESET = 'PROJECT_RESET';
 export const PROJECT_SET_SELECTED = 'PROJECT_SET_SELECTED';
-export const SET_PROJECT_OPTIONS_MAP = 'SET_PROJECT_OPTIONS_MAP';
+export const SET_PROJECT_LOOKUP = 'SET_PROJECT_LOOKUP';
 
 
 export function fetchingProject() {
@@ -48,11 +48,11 @@ export function setSelectedProject(key) {
   };
 }
 
-export function setProjectOptionsMap(projectOptionsMap) {
+export function setProjectLookupData(projectLookup) {
   return {
-    type: SET_PROJECT_OPTIONS_MAP,
+    type: SET_PROJECT_LOOKUP,
     payload: {
-      projectOptionsMap: projectOptionsMap,
+      projectLookup: projectLookup,
     }
   }
 }
@@ -64,5 +64,5 @@ export default {
   fetchProjectFailed,
   resetProject,
   setSelectedProject,
-  setProjectOptionsMap,
+  setProjectLookupData,
 }

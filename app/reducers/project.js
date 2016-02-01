@@ -6,8 +6,9 @@ import {
   PROJECT_FETCH_FAILED,
   PROJECT_RESET,
   PROJECT_SET_SELECTED,
-  SET_PROJECT_OPTIONS_MAP,
+  SET_PROJECT_LOOKUP,
 } from '../actions/projectActions';
+
 
 const initialState = fromJS({
   isFetching: false,
@@ -16,9 +17,8 @@ const initialState = fromJS({
 
   projects: {},
   selectedKey: null,
-  projectOptionsMap: {},
+  projectLookup: {},
 });
-
 
 export default function(state = initialState, action) {
   switch(action.type) {
@@ -46,11 +46,11 @@ export default function(state = initialState, action) {
     case PROJECT_SET_SELECTED: {
       return state.set('selectedKey', action.payload.key);
     }
+    case SET_PROJECT_LOOKUP: {
+      return state.set('projectLookup', fromJS(action.payload.projectLookup))
+    }
     case PROJECT_RESET: {
       return initialState;
-    }
-    case SET_PROJECT_OPTIONS_MAP: {
-      return state.set('projectOptionsMap', fromJS(action.payload.projectOptionsMap))
     }
     default: {
       return state;

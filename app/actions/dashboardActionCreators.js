@@ -8,7 +8,7 @@ export function changeAccount(accountSlug) {
     dispatch(setSelectedAccount(accountSlug));
     let compositeSlug = null;
     try {
-      compositeSlug = getState().getIn(['project', 'projectOptionsMap', accountSlug]).toJS()[0].value;
+      compositeSlug = getState().getIn(['project', 'projectLookup', accountSlug]).toJS()[0].value;
     } catch(e) {}
 
     if(compositeSlug !== null) {

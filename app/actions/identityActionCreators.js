@@ -23,7 +23,7 @@ import {
   setAccountMap,
   setAccountOptions,
 } from '../actions/accountActions';
-import {setProjectOptionsMap} from '../actions/projectActions';
+import {setProjectLookupData} from '../actions/projectActions';
 import {changeAccount, changeProject} from '../actions/dashboardActionCreators';
 
 
@@ -106,7 +106,7 @@ function loadUserAndAccountData(user_id) {
     .then(res => {
       const user = res[0];
       const accounts = res[1];
-      const accountMap = buildAccountOptionMap(accounts);
+      const accountMap = buildAccountOptions(accounts);
       const accountKeyMap = toKeyMap(accountMap, 'slug');
       const accountOptions = toNameValueMap(accountMap, 'name', 'slug');
 
@@ -117,8 +117,7 @@ function loadUserAndAccountData(user_id) {
       dispatch(fetchAccountsSuccess(accounts));
 
       if(accounts.length) {
-        const projectOptionsMap = buildProjectOptionsMap(accountMap);
-        dispatch(setProjectOptionsMap(projectOptionsMap));
+        dispatch(setProjectLookupData(buildProjectLookupData(accounts)));
       }
     })
     .catch(error => {
@@ -128,30 +127,25 @@ function loadUserAndAccountData(user_id) {
   }
 };
 
-function buildAccountOptionMap(accounts) {
-  return clone(accounts).reduce((accountMap, account) => {
-    addSlug(account, 'name');
-    const projects = account.projects.map(project => {
-      addSlug(project, 'name');
-      return project;
-    });
-    account.projects = toKeyMap(projects, 'slug');
-    accountMap.push(account);
-    return accountMap;
+function buildAccountOptions(accounts) {
+  return clone(accounts).reduce((accountOptions, account) => {
+    delete account.projects;
+    accountOptions.push(account);
+    return accountOptions;
   }, []);
 }
 
-function buildProjectOptionsMap(accounts) {
-  const copy = clone(accounts);
-  const projectOptionsMap = accounts.reduce((accountMap, account) => {
-    const projects = account.projects;
-    accountMap[account.slug] = Object.keys(projects).map(key => {
+function buildProjectLookupData(accounts) {
+  return clone(accounts).reduce((projectLookup, account) => {
+    projectLookup[account.slug] = {};
+    projectLookup[account.slug].slugMap = toKeyMap(account.projects, 'slug');
+    const slugMap = projectLookup[account.slug].slugMap;
+    projectLookup[account.slug].options = Object.keys(slugMap).map(key => {
       return {
-        name: projects[key].name,
-        value: account.slug + '/' + projects[key].slug
+        name: slugMap[key].name,
+        value: account.slug + '/' + slugMap[key].slug
       };
     });
-    return accountMap;
+    return projectLookup;
   }, {});
-  return projectOptionsMap;
 }
