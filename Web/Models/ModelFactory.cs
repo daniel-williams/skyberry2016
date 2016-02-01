@@ -1,10 +1,10 @@
-﻿using Skyberry.Domain;
+﻿using Skyberry.Core;
+using Skyberry.Domain;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using System.Net.Http;
 using System.Web.Http.Routing;
-using System.Linq;
-using System.Data.Entity;
-using System;
-using System.Collections.Generic;
 
 namespace Web.Models
 {
@@ -46,41 +46,45 @@ namespace Web.Models
             };
         }
 
-        public AccountVM CreateAccountVM(Account acct)
+        public AccountVM CreateAccountVM(Account item)
         {
             return new AccountVM
             {
-                Id = acct.Id,
-                Name = acct.Name,
-                Projects = acct.Projects.Select(e => this.CreateProjectListVM(e)).ToList()
+                Id = item.Id,
+                Name = item.Name,
+                Slug = SlugUtils.ToSlug(item.Name),
+
+                Projects = item.Projects.OrderByDescending(e => e.CreatedDate).Select(e => this.CreateProjectListVM(e)).ToList()
             };
         }
 
-        public ProjectListVM CreateProjectListVM(Project prj)
+        public ProjectListVM CreateProjectListVM(Project item)
         {
             return new ProjectListVM
             {
-                Id = prj.Id,
-                Name = prj.Name,
-                Status = prj.Status,
+                Id = item.Id,
+                Name = item.Name,
+                Slug = SlugUtils.ToSlug(item.Name),
+                Status = item.Status,
             };
         }
 
-        public ProjectVM CreateProjectVM(Project prj)
+        public ProjectVM CreateProjectVM(Project item)
         {
             return new ProjectVM
             {
-                Id = prj.Id,
-                Name = prj.Name,
-                Description = prj.Description,
-                Status = prj.Status,
-                EstimatedCompletionDate = prj.EstimatedCompletionDate,
-                CompletionDate = prj.CompletionDate,
-                AccountId = prj.AccountId,
+                Id = item.Id,
+                Name = item.Name,
+                Slug = SlugUtils.ToSlug(item.Name),
+                Description = item.Description,
+                Status = item.Status,
+                EstimatedCompletionDate = item.EstimatedCompletionDate,
+                CompletionDate = item.CompletionDate,
+                AccountId = item.AccountId,
 
-                Contracts = prj.Contracts.Select(e => this.CreateContractVM(e)).ToList(),
-                Reviews = prj.DesignReviews.Select(e => this.createDesignReviewVM(e)).ToList(),
-                Docs = prj.ProjectDocuments.Select(e=>this.createProjectDocumentVM(e)).ToList(),
+                Contracts = item.Contracts.OrderByDescending(e=>e.CreatedDate).Select(e => this.CreateContractVM(e)).ToList(),
+                Reviews = item.DesignReviews.OrderByDescending(e=>e.CreatedDate).Select(e => this.createDesignReviewVM(e)).ToList(),
+                Docs = item.ProjectDocuments.OrderByDescending(e=>e.CreatedDate).Select(e=>this.createProjectDocumentVM(e)).ToList(),
             };
         }
 
@@ -90,6 +94,7 @@ namespace Web.Models
             {
                 Id = item.Id,
                 Title = item.Title,
+                Slug = SlugUtils.ToSlug(item.Title),
                 Number = item.Number,
                 CreatedDate = item.CreatedDate,
 
@@ -138,15 +143,16 @@ namespace Web.Models
             {
                 Id = item.Id,
                 Title = item.Title,
+                Slug = SlugUtils.ToSlug(item.Title),
                 Description = item.Description,
                 CreatedDate = item.CreatedDate,
-                Docs = item.ReviewDocuments.Select(e=>this.createReviewDocumentVM(e)).ToList(),
+                Docs = item.ReviewDocuments.OrderByDescending(e => e.CreatedDate).Select(e => this.createReviewDocumentVM(e)).ToList(),
                 IsActive = item.IsActive,
 
                 SelectedId = item.SelectedReviewDocumentId,
                 SelectedComment = item.SelectedComment,
                 AdditionalComment = item.AdditionalComment,
-                Comments = item.ReviewComments.Select(e=>this.createReviewCommmentVM(e)).ToList(),
+                Comments = item.ReviewComments.OrderByDescending(e => e.Created).Select(e => this.createReviewCommmentVM(e)).ToList(),
 
                 RequestById = item.RequestById,
                 RequestByName = item.RequestByName,
@@ -158,7 +164,6 @@ namespace Web.Models
                 ApprovedDate = item.ApprovedDate,
 
                 AcceptedDate = item.AcceptedDate,
-
             };
         }
 
