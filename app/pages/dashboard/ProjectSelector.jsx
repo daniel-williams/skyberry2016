@@ -16,21 +16,21 @@ export default React.createClass({
 
   propTypes: {
     hasFetched: PropTypes.bool,
-    projectOptions: PropTypes.array,
+    options: PropTypes.array,
     projectSlug: PropTypes.string,
     changeProject: PropTypes.func,
   },
   getDefaultProps: function() {
     return {
       hasFetched: false,
-      projectOptions: [],
+      options: [],
       projectSlug: '',
       changeProject: function() {},
     }
   },
   getProjectOptions: function() {
-    return this.props.projectOptions.length > 0 ?
-      this.props.projectOptions :
+    return this.props.options.length > 0 ?
+      this.props.options :
       NO_PROJECTS_FOUND;
   },
 
@@ -44,7 +44,7 @@ export default React.createClass({
         <div className='form-inline col col-xs-12  mb-half'>
           <Selector
             label='Projects'
-            options={this.props.projectOptions}
+            options={this.props.options}
             selected={this.props.projectSlug}
             onChange={this.props.changeProject} />
         </div>
