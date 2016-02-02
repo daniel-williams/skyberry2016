@@ -133,6 +133,33 @@ label {
 }
 
 
+.modal {
+
+  .modal-dialog {
+    width: 90%;
+  }
+
+  button + button {
+    margin-left: 5px;
+  }
+
+  img {
+    border: 1px solid #e5e5e5;
+  }
+
+  .modal-header {
+    h1 {
+      margin-bottom: 0;
+    }
+  }
+}
+@media (max-width: 767px) {
+  .modal {
+    .modal-dialog {
+      width: auto;
+    }
+  }
+}
 
 // extend bootstrap col styles
 .col {

@@ -8,12 +8,22 @@ import DesignReview from '../pages/dashboard/review/DesignReview';
 
 function mapStateToProps(state, ownProps) {
   const {aSlug, pSlug, rSlug} = ownProps.params;
-  const compositeSlug = aSlug + '/' + pSlug + '/' + rSlug;
-  const review = state.getIn(['review', 'reviews', compositeSlug]).toJS();
+  const projectSlug = aSlug + '/' + pSlug;
+  const reviewSlug = projectSlug + '/' + rSlug;
+  const showComments = state.getIn(['review', 'showComments']);
+  const toggleReviewComments = showComments ? actions.hideReviewComments : actions.showReviewComments;
+  let project, review;
+  try {
+    project = state.getIn(['project', 'projects', projectSlug]).toJS();
+    review = state.getIn(['review', 'reviews', reviewSlug]).toJS();
+  } catch(e) {}
 
   return {
-    show: state.getIn(['review', 'isActive']),
+    accountSlug: aSlug,
+    showComments: showComments,
+    project: project,
     review: review,
+    toggleReviewComments: toggleReviewComments,
   };
 }
 
