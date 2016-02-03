@@ -11,6 +11,13 @@ export default React.createClass({
   // shared by ReviewFeedback & ReviewApproval
   mixins: [ReviewShared],
 
+  getProjectRoot: function() {
+    let root = '/dashboard/projects';
+    if(this.props.account && this.props.project) {
+      root = root + '/' + this.props.account.slug + '/' + this.props.project.slug;
+    }
+    return root;
+  },
   render: function() {
     return (
       <Modal id='review-feedback' ref='modal' show={this.props.showFeedback} backdrop='static'>
@@ -19,7 +26,7 @@ export default React.createClass({
           {this.renderClose()}
         </Modal.Header>
         <Modal.Body>
-
+          <button type='button' className='btn btn-sky-primary' onClick={this.props.showApprovalForm}>Show Approval</button>
         </Modal.Body>
         <Modal.Footer>
           {this.renderClose()}
@@ -30,7 +37,14 @@ export default React.createClass({
 
   // handlers
   close: function() {
-    this.props.closeFeedback();
+    this.props.hideFeedback();
+    const id = setTimeout(
+      this.goBack,
+      500
+    );
+  },
+  goBack: function() {
+    this.props.history.pushState(null, this.getProjectRoot());
   },
 
 });

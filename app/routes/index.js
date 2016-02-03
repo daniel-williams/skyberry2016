@@ -21,6 +21,9 @@ import DesignReview from '../containers/DesignReview';
 import Dashboard from '../pages/dashboard/Dashboard';
 import About from '../pages/About';
 
+import store from '../store';
+import {resetReview} from '../actions/reviewActions';
+
 
 const routes = (
     <Route component={Root}>
@@ -39,7 +42,7 @@ const routes = (
           <Route path='billing(/:aSlug)' component={Billing} />
           <Route path='projects' component={Projects} />
           <Route path='projects/:aSlug/:pSlug' component={Projects}>
-            <Route path=':rSlug' component={DesignReview} />
+            <Route path=':rSlug' component={DesignReview} onEnter={() => store.dispatch(resetReview())} />
           </Route>
           <Route path='preferences' component={Preferences} />
         </Route>

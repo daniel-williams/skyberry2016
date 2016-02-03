@@ -13,7 +13,7 @@ export default React.createClass({
 
   render: function() {
     return (
-      <Modal id='review-feedback' ref='modal' show={this.props.showFeedback} backdrop='static'>
+      <Modal id='review-feedback' ref='modal' show={this.props.showApproval} backdrop='static'>
         <Modal.Header>
           <h1>Project Approval<span className='accent'> for </span><span className='nowrap'>{this.getProjectName()}</span></h1>
           {this.renderClose()}
@@ -30,7 +30,8 @@ export default React.createClass({
 
   // handlers
   close: function() {
-    this.props.closeApproval();
+    console.log('WTF!');
+    this.props.hideApprovalForm();
   },
 
 });

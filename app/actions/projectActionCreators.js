@@ -73,7 +73,6 @@ function getProject(projectId, compositeSlug) {
 }
 
 function buildReviewMap(compositeSlug, project) {
-  console.log('wtf');
   return project.reviews.reduce((reviewMap, review) => {
     reviewMap[compositeSlug + '/' + review.slug] = review;
     return reviewMap;
