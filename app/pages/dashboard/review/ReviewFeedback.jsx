@@ -3,7 +3,7 @@ import {Modal, Row, Col} from 'react-bootstrap';
 import classnames from 'classnames';
 
 import ReviewShared from './ReviewShared';
-
+import Directions from './directions';
 
 export default React.createClass({
   displayName: 'ReviewFeedback',
@@ -26,6 +26,7 @@ export default React.createClass({
           {this.renderClose()}
         </Modal.Header>
         <Modal.Body>
+          <Directions {...this.props}/>
           <button type='button' className='btn btn-sky-primary' onClick={this.props.showApprovalForm}>Show Approval</button>
         </Modal.Body>
         <Modal.Footer>

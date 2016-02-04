@@ -16,6 +16,8 @@ import {SkyCheckbox, SkyInput, SkyPager, SkyPlayer, SkyTextArea} from './sky';
 import Spinner from './Spinner';
 import Staff from './Staff';
 import Subscribe from './Subscribe';
+import StatusBox from './StatusBox';
+import TitleDrawer from './TitleDrawer';
 
 export {
   Article,
@@ -40,4 +42,6 @@ export {
   Spinner,
   Staff,
   Subscribe,
+  StatusBox,
+  TitleDrawer,
 }

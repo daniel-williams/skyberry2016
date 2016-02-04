@@ -10,6 +10,9 @@
 @charcoal: #222;
 @gravel: #333;
 
+@attention: #dc3c3c;
+@ok: #3cdc3c;
+
 
 // sizing
 @base-space: 20;
@@ -174,10 +177,20 @@ label {
   }
   &.inline {
     float: none;
-    display: inlihe-block;
+    display: inline-block;
   }
 }
 
+.stack {
+  & > div, & > span, & > i, & > a {
+    position: relative;
+    display: inline-block;
+    margin-left: 0;
+    margin-right: 10px;
+    font-size: inherit;
+    line-height: inherit;
+  }
+}
 
 
 .fetching-widget {
@@ -200,6 +213,26 @@ label {
     background-color: #999;
   }
 }
+
+.status-box {
+  text-align: center;
+
+  .cbx {
+    // width: 24px;
+    // height: 24px;
+    // font-size: 20px;
+    // line-height: 24px;
+    border: 1px solid #aaa;
+
+    &.active {
+      background-color: fadeout(@attention, 70%);
+    }
+    &.completed {
+      background-color: fadeout(@ok, 70%);
+    }
+  }
+}
+
 
 .icon-button-bar {
   & > a + a {
