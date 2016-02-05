@@ -30,6 +30,7 @@ function mapStateToProps(state, ownProps) {
     showApproval: showApproval,
     showComments: showComments,
     toggleComments: toggleComments,
+    steps: state.getIn(['review', 'steps']).toJS(),
   };
 }
 

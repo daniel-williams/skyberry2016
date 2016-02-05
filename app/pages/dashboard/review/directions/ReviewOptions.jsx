@@ -12,42 +12,46 @@ export default React.createClass({
   mixins: [PureRender, StepStatus],
 
   propTypes: {
-    open: PropTypes.bool,
-    toggle: PropTypes.bool,
-    hasProofs: PropTypes.bool,
     status: PropTypes.string,
+    open: PropTypes.bool,
+    onClick: PropTypes.func,
+
+    hasProofs: PropTypes.bool,
   },
   getDefaultProps: function() {
     return {
-      open: true,
-      toggle: true,
-      hasProofs: false,
       status: StepStatus.TODO,
+      open: true,
+      onClick: this.onClick,
+
+      hasProofs: false,
     };
   },
-
+  isCompleted: function() {
+    return this.props.status === StepStatus.COMPLETED;
+  },
+  
   render: function() {
     return (
       <div className='step'>
-        <TitleDrawer title={this.getTitle()} open={this.props.open} toggle={this.props.toggle} onClick={this.onClick}>
+        <TitleDrawer title={this.renderTitleBlock()} open={this.props.open} onClick={this.props.onClick}>
           <div>Review the designers' notes {this.renderProofVerbiage()} and design options, located below.</div>
         </TitleDrawer>
       </div>
     );
   },
+  renderTitleBlock: function() {
+    return (
+      <h3 className='stack'><StatusBox isCompleted={this.isCompleted()} /><span>Review</span></h3>
+    );
+  },
   renderProofVerbiage: function() {
     return this.props.hasProofs ? ', proofs' : '';
-  },
-  getTitle: function() {
-    const isCompleted = this.props.status === StepStatus.COMPLETED;
-    return (
-      <h3 className='stack'><StatusBox isCompleted={isCompleted} /><span>Review</span></h3>
-    );
   },
 
   onClick: function(e) {
     e.preventDefault();
-    console.log('CLICK: review options');
+    console.log('onClick: not implemented');
   },
 
 });

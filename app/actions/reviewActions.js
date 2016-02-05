@@ -2,6 +2,8 @@ export const REVIEW_ADD_REVIEWS = 'REVIEW_ADD_REVIEWS';
 
 export const REVIEW_RESET_UI = 'REVIEW_RESET_UI';
 
+export const REVIEW_STEP_TOGGLE = 'REVIEW_STEP_TOGGLE';
+
 export const REVIEW_COMMENTS_SHOW = 'REVIEW_COMMENTS_SHOW';
 export const REVIEW_COMMENTS_HIDE = 'REVIEW_COMMENTS_HIDE';
 
@@ -41,6 +43,15 @@ export function resetReview() {
   };
 }
 
+export function toggleStep(key) {
+  return {
+    type: REVIEW_STEP_TOGGLE,
+    payload: {
+      key: key,
+    }
+  };
+}
+
 export function showComments() {
   return {
     type: REVIEW_COMMENTS_SHOW,
@@ -72,11 +83,12 @@ export function selectOption(reviewId, optionId) {
     }
   };
 }
-export function clearSelectedOption(reviewId) {
+export function clearSelectedOption(slug) {
+  console.log('TODO: ReviewActionCreator async call to api/reviews/{rid}/options/clear. returns new review entity.');
   return {
     type: REVIEW_OPTION_CLEAR,
     payload: {
-      reviewId: reviewId,
+      slug: slug,
     }
   };
 }

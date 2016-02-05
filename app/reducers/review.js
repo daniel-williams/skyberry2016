@@ -1,8 +1,9 @@
-import {fromJS} from 'immutable';
+import {fromJS, Map} from 'immutable';
 
 import {
   REVIEW_ADD_REVIEWS,
   REVIEW_RESET_UI,
+  REVIEW_STEP_TOGGLE,
   REVIEW_COMMENTS_SHOW,
   REVIEW_COMMENTS_HIDE,
   REVIEW_FEEDBACK_SHOW,
@@ -21,16 +22,13 @@ import {
   REVIEW_APPROVE_PROJECT,
 } from '../actions/reviewActions';
 
-
-// const REVIEW_STEP = {
-//   REVIEW: 'REVIEW',
-//   FEEDBACK: 'FEEDBACK',
-//   REVISION: 'REVISION',
-//   DELIVERABLES: 'DELIVERABLES',
-//   APPROVAL: 'APPROVAL',
-//   ACCEPTED: 'ACCEPTED',
-// };
-
+const initialStepState = fromJS({
+  review: false,
+  feedback: true,
+  request: false,
+  approval: false,
+  acceptance: false,
+});
 const initialState = fromJS({
   isUpdating: false,
   lastUpdateDate: null,
@@ -39,6 +37,7 @@ const initialState = fromJS({
   showFeedback: true,
   showApproval: false,
   showComments: false,
+  steps: initialStepState,
 
   reviews: [],
 });
@@ -55,13 +54,18 @@ export default function(state = initialState, action) {
       });
     }
     case REVIEW_RESET_UI: {
-      console.log('reset review ui');
       return state.withMutations(state => {
         state.set('showFeedback', true);
         state.set('showApproval', false);
         state.set('showComments', false);
+        state.set('steps', initialStepState);
         return state;
       });
+    }
+    case REVIEW_STEP_TOGGLE: {
+      const key = action.payload.key;
+      const val = !!state.getIn(['steps', key]);
+      return state.setIn(['steps', key], !val);
     }
     case REVIEW_COMMENTS_SHOW: {
       return state.set('showComments', true);
@@ -86,6 +90,24 @@ export default function(state = initialState, action) {
       return state.withMutations(state => {
         state.set('showFeedback', true);
         state.set('showApproval', false);
+        return state;
+      });
+    }
+    case REVIEW_OPTION_CLEAR: {
+      return state.withMutations(state => {
+        const slug = action.payload.slug;
+        const currentReview = state.getIn(['reviews', slug]).toJS();
+        const newReview = Object.assign({}, currentReview, {
+          selectedId: null,
+          requestById: null,
+          requestByName: null,
+          requestDate: null,
+          requestType: 0,
+          ApprovedById: null,
+          ApprovedByName: null,
+          ApprovedDate: null,
+        });
+        state.setIn(['reviews', slug], fromJS(newReview));
         return state;
       });
     }
