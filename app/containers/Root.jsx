@@ -7,6 +7,7 @@ import * as identityAC from '../actions/identityActionCreators';
 import * as subscribeAC from '../actions/subscribeActionCreators';
 import {Subscribe} from '../components';
 
+// import Bootstrap from '../../Web/content/styles/bootstrap.custom.min.css';
 import Bootstrap from '../../Web/content/styles/bootstrap.min.css';
 require('../site.less');
 require('../utils/FontLoader');

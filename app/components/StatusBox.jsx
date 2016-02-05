@@ -26,7 +26,7 @@ export default React.createClass({
   render: function() {
     if(this.props.isHidden) { return; }
 
-    var icon = this.props.isCompleted ? <i className='icon-arrow-up' /> : <i className='icon-arrow-down' />;
+    var icon = this.props.isCompleted ? <i className='glyphicon glyphicon-ok' /> : '';
     var cssNames = classnames('cbx', {
       completed: this.props.isCompleted,
       active: this.props.isCurrent,

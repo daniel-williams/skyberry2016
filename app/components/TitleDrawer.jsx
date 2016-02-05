@@ -14,14 +14,12 @@ export default React.createClass({
   propTypes: {
     title: PropTypes.any,
     open: PropTypes.bool,
-    toggle: PropTypes.bool,
     onClick: PropTypes.func,
   },
   getDefaultProps: function() {
     return {
       title: 'Title',
       open: true,
-      toggle: true,
       onClick: function() {console.log('click');},
     };
   },
@@ -30,9 +28,9 @@ export default React.createClass({
     let drawerCssNames = classnames('drawer', {
         'open': this.props.open,
     });
-    let iconCssNames = classnames('toggle', {
-      'icon-arrow-up': this.props.open,
-      'icon-arrow-down': !this.props.open
+    let iconCssNames = classnames('toggle', 'glyphicon', {
+      'glyphicon-minus': this.props.open,
+      'glyphicon-plus': !this.props.open
     });
 
     return (
