@@ -146,7 +146,9 @@ namespace Web.Models
                 Slug = SlugUtils.ToSlug(item.Title),
                 Description = item.Description,
                 CreatedDate = item.CreatedDate,
-                Docs = item.ReviewDocuments.OrderByDescending(e => e.CreatedDate).Select(e => this.createReviewDocumentVM(e)).ToList(),
+                //Docs = item.ReviewDocuments.OrderByDescending(e => e.CreatedDate).Select(e => this.createReviewDocumentVM(e)).ToList(),
+                Options = item.ReviewDocuments.Where(e=>e.DocType == null).OrderByDescending(e => e.CreatedDate).Select(e => this.createReviewDocumentVM(e)).ToList(),
+                Proofs = item.ReviewDocuments.Where(e => e.DocType == "Proof").OrderByDescending(e => e.CreatedDate).Select(e => this.createReviewDocumentVM(e)).ToList(),
                 IsActive = item.IsActive,
 
                 SelectedId = item.SelectedReviewDocumentId,

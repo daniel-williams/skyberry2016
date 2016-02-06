@@ -50,7 +50,9 @@ namespace Web.Models
         [Display(Name = "Selected ID")]
         public Guid? SelectedId { get; set; }
 
-        public virtual ICollection<ReviewCommentVM> Comments { get; set; }
-        public virtual ICollection<ReviewDocumentVM> Docs { get; set; }
+        public ICollection<ReviewCommentVM> Comments { get; set; }
+        //public ICollection<ReviewDocumentVM> Docs { get; set; }
+        public ICollection<ReviewDocumentVM> Options { get; set; }
+        public ICollection<ReviewDocumentVM> Proofs { get; set; }
     }
 }
