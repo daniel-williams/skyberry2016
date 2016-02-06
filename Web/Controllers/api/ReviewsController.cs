@@ -1,8 +1,10 @@
-﻿using Skyberry.Domain;
+﻿using Newtonsoft.Json;
+using Skyberry.Domain;
 using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web.Http;
 using Web.Models;
 
@@ -12,6 +14,8 @@ namespace Web.Controllers.api
     [RoutePrefix("api/reviews")]
     public class ReviewsController : _BaseApiController
     {
+        [HttpGet]
+        [HttpPost]
         [Route("{rid}/options/{oid}")]
         public IHttpActionResult SelectOption(Guid rid, Guid oid)
         {
@@ -34,12 +38,14 @@ namespace Web.Controllers.api
 
             UOW.Commit();
 
-            return CreatedAtRoute("GetDesignReview", new { rid = review.Id }, ModelFactory.createDesignReviewVM(review));
+            return Ok(new { code = 200, description = "okeydoke" });
         }
 
         // TODO djw: route check (just clearing property on Review)
+        [HttpGet]
+        [HttpPost]
         [Route("{rid}/options/clear")]
-        public IHttpActionResult UnselectOption(Guid rid)
+        public IHttpActionResult ClearOption(Guid rid)
         {
             DesignReview review = this.FindReview(rid);
 
@@ -60,7 +66,7 @@ namespace Web.Controllers.api
 
             UOW.Commit();
 
-            return CreatedAtRoute("GetDesignReview", new { rid = review.Id }, ModelFactory.createDesignReviewVM(review));
+            return Ok(new { code = 200, description = "okeydoke" }); //return CreatedAtRoute("GetDesignReview", new { rid = review.Id }, ModelFactory.createDesignReviewVM(review));
         }
 
 
@@ -240,7 +246,13 @@ namespace Web.Controllers.api
 
             if (review.AcceptedDate != null)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                var resMessage = new HttpResponseMessage(HttpStatusCode.BadRequest);
+                resMessage.Content = new StringContent(JsonConvert.SerializeObject(new
+                {
+                    code = HttpStatusCode.BadRequest,
+                    error = "Review has been accepted and further changes are not permitted."
+                }), Encoding.UTF8, "application/json");
+                throw new HttpResponseException(resMessage);
             }
 
             return review;
