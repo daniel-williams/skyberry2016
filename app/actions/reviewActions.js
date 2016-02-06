@@ -18,8 +18,9 @@ export const REVIEW_UPDATING = 'REVIEW_UPDATING';
 export const REVIEW_UPDATE_SUCCESS = 'REVIEW_UPDATE_SUCCESS';
 export const REVIEW_UPDATE_FAILED = 'REVIEW_UPDATE_FAILED';
 
-export const REVIEW_OPTION_SELECT = 'REVIEW_OPTION_SELECT';
-export const REVIEW_OPTION_CLEAR = 'REVIEW_OPTION_CLEAR';
+export const REVIEW_OPTION_VIEWING = 'REVIEW_OPTION_VIEWING';
+export const REVIEW_OPTION_SELECTED = 'REVIEW_OPTION_SELECTED';
+export const REVIEW_OPTION_CLEARED = 'REVIEW_OPTION_CLEARED';
 export const REVIEW_OPTION_ADD_COMMENT = 'REVIEW_OPTION_ADD_COMMENT';
 
 export const REVIEW_REQUEST_REVISION = 'REVIEW_REQUEST_REVISION';
@@ -74,24 +75,32 @@ export function addOptionComment(reviewId, optionId, comment) {
 }
 
 
-export function selectOption(reviewId, optionId) {
+export function setOptionViewing(optionId) {
   return {
-    type: REVIEW_OPTION_SELECT,
+    type: REVIEW_OPTION_VIEWING,
     payload: {
-      reviewId: reviewId,
       optionId: optionId,
     }
   };
 }
-export function clearSelectedOption(slug) {
-  console.log('TODO: ReviewActionCreator async call to api/reviews/{rid}/options/clear. returns new review entity.');
+export function optionSelected(slug, optionId) {
   return {
-    type: REVIEW_OPTION_CLEAR,
+    type: REVIEW_OPTION_SELECTED,
+    payload: {
+      slug: slug,
+      optionId: optionId,
+    }
+  };
+}
+export function optionCleared(slug) {
+  return {
+    type: REVIEW_OPTION_CLEARED,
     payload: {
       slug: slug,
     }
   };
 }
+
 
 export function hideFeedback() {
   return {
@@ -118,6 +127,31 @@ export function approveProject(reviewId, signature) {
   };
 }
 
+export function updatingReview() {
+  return {
+    type: REVIEW_UPDATING,
+  };
+}
+
+export function updateReviewSuccess(slug, review) {
+  return {
+    type: REVIEW_UPDATE_SUCCESS,
+    payload: {
+      date: new Date(),
+      slug: slug,
+      review: review,
+    },
+  };
+}
+export function updateReviewFailed(error) {
+  return {
+    type: REVIEW_UPDATE_FAILED,
+    payload: {
+      date: new Date(),
+      error: error,
+    }
+  };
+}
 
 
 export default {
@@ -128,10 +162,15 @@ export default {
   hideComments,
   addOptionComment,
 
-  selectOption,
-  clearSelectedOption,
+  setOptionViewing,
+  optionSelected,
+  optionCleared,
 
   showApprovalForm,
   hideApprovalForm,
   approveProject,
+
+  updatingReview,
+  updateReviewSuccess,
+  updateReviewFailed,
 };

@@ -2,9 +2,12 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {toJS} from 'immutable';
 
-import * as actions from '../actions/reviewActions';
+import * as reviewActions from '../actions/reviewActions';
+import * as reviewActionCreators from '../actions/reviewActionCreators';
 import Review from '../pages/dashboard/review';
 
+
+const actions = Object.assign({}, reviewActions, reviewActionCreators);
 
 function mapStateToProps(state, ownProps) {
   const {aSlug, pSlug, rSlug} = ownProps.params;
@@ -31,6 +34,7 @@ function mapStateToProps(state, ownProps) {
     showComments: showComments,
     toggleComments: toggleComments,
     steps: state.getIn(['review', 'steps']).toJS(),
+    optionViewing: state.getIn(['review', 'optionViewing']),
   };
 }
 
