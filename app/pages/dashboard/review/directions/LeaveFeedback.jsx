@@ -41,7 +41,7 @@ export default React.createClass({
       <div className='step'>
         <TitleDrawer title={this.renderTitleBlock()} open={this.props.open} onClick={this.props.onClick}>
           {this.renderStepVerbiage()}
-          {this.renderOptionInfo()}
+          {this.props.hasMultipleOptions && this.renderOptionInfo()}
         </TitleDrawer>
       </div>
     );
@@ -56,7 +56,7 @@ export default React.createClass({
       <div className='sel-opt mt-half' ref='selectedOption'>
         <span className='lbl'>Selected Option:</span>
         <span className='val'>{this.renderOptionTitle()}</span>
-        {this.renderOptionAction()}
+        {this.props.hasMultipleOptions && this.renderOptionAction()}
       </div>
     );
   },
@@ -68,7 +68,7 @@ export default React.createClass({
   renderOptionAction: function() {
     return !!this.props.selectedOption && this.props.isEditable && (
       <span className='mb-half' style={{marginLeft:'15px'}}>
-        <button className='btn btn-default' onClick={this.props.clearSelectedOption}>Clear</button>
+        <button className='btn btn-default' onClick={this.props.clearOption}>Clear</button>
       </span>
     );
   },

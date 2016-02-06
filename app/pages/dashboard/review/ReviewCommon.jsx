@@ -175,26 +175,10 @@ resetStatus: function(item) {
 
 
   getOptions: function() {
-    var ret = [];
-    if(this.props.review) {
-      var docs = this.props.review.docs;
-      if(docs && docs.length) {
-        ret = docs.filter(function(item) {
-          return item.docType !== 'Proof';
-        });
-        ret = ret.sort(function(a, b) {
-          if (a.createdDate === b.createdDate) {
-            return (a.title < b.title) ? -1 : (a.title > b.title) ? 1 : 0;
-          } else {
-            return (a.createdDate < b.createdDate) ? -1 : 1;
-          }
-        });
-      }
-    }
-    return ret;
+    return this.props.review.options || [];
   },
   getOption: function(id) {
-    return this.props.review.docs.find(function(item) {
+    return this.props.review.options.find(function(item) {
       return item.id === id;
     });
   },
@@ -209,28 +193,15 @@ resetStatus: function(item) {
     return this.getCurrentOptId() === id;
   },
   getDefaultOpt: function() {
-    var ret = null;
-    if(this.props.review) {
-      var docs = this.props.review.docs;
-      if(docs && docs.length > 0) {
-        ret = docs[0];
-      }
-    }
-    return ret;
+    return this.props.review.options && this.props.review.options[0];
   },
   getDefaultOptId: function() {
     var opt = this.getDefaultOpt();
     return !!opt ? opt.id : null;
   },
   getSelectedOpt: function() {
-    var ret = null;
-    var id = this.getSelectedOptId();
-    if(id) {
-      ret = this.props.review.docs.find(function(item) {
-        return item.id === id;
-      });
-    }
-    return ret;
+    const id = this.getSelectedOptId();
+    return this.props.review.options.find(item => item.id === id);
   },
   getSelectedOptId: function() {
     return this.props.review.selectedId;
@@ -243,14 +214,7 @@ resetStatus: function(item) {
     return this.getSelectedOptId() === id;
   },
   getProofs: function() {
-    var ret = [];
-    var proofs =  this.props.review.docs.filter(function(item) {
-      return item.docType === 'Proof';
-    });
-    if(proofs && proofs.length) {
-      ret = proofs;
-    }
-    return ret;
+    return this.props.review.proofs || [];
   },
   getComments: function() {
     var r = this.props.review;

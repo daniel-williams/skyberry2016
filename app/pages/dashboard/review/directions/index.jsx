@@ -20,11 +20,11 @@ export default React.createClass({
   },
 
   hasProofs: function() {
-    return this.props.review.proofs && this.props.review.proofs.length;
+    return this.props.review.proofs && this.props.review.proofs.length > 0;
   },
 
   hasMultipleOptions: function() {
-    return this.props.review.docs && this.props.review.docs.length > 1;
+    return this.props.review.options && this.props.review.options.length > 1;
   },
   hasSelectedOption: function() {
     return !!this.props.review.selectedId;
@@ -33,7 +33,7 @@ export default React.createClass({
     let option = null;
     let id = this.props.review.selectedId;
     if(id) {
-      option = this.props.review.docs.find(item=>item.id === id);
+      option = this.props.review.options.find(item=>item.id === id);
     }
     return option;
   },
@@ -43,9 +43,9 @@ export default React.createClass({
 
   render: function() {
     return (
-      <Row id='directions'>
+      <Row id='directions' className='mb'>
         <Col xs={12}>
-          <h2>Directions</h2>
+          <h2 className='ttl'>Directions</h2>
         </Col>
         <Col xs={12}>
           <ReviewOptions
@@ -63,7 +63,7 @@ export default React.createClass({
 
             hasMultipleOptions={this.hasMultipleOptions()}
             selectedOption={this.getSelectedOption()}
-            clearSelectedOption={() => this.hasSelectedOption() && this.props.clearSelectedOption(this.getReviewSlug())} />
+            clearOption={() => this.hasSelectedOption() && this.props.clearOption(this.getReviewSlug())} />
         </Col>
       </Row>
     );
