@@ -7,6 +7,7 @@ import Directions from './directions';
 
 import OptionNavigator from './OptionNavigator';
 import OptionImage from './OptionImage';
+import OptionComments from './OptionComments';
 import OptionSelector from './OptionSelector';
 
 
@@ -54,8 +55,12 @@ export default React.createClass({
     return option;
   },
 
+  getComments: function(viewingId) {
+    return this.props.review.comments.filter(item=>item.oId === viewingId);
+  },
+
   getViewingId: function() {
-    return this.props.optionViewing || this.props.review.selectedId;
+    return this.props.optionViewing || this.props.review.selectedId || this.getSelectedOption().id;
   },
   isViewingSelected: function() {
     return !!this.props.review.selectedId &&
@@ -77,6 +82,12 @@ export default React.createClass({
     );
   },
   renderModalBody: function() {
+    const selectedOption = this.getSelectedOption();
+    const reviewSlug = this.getReviewSlug();
+    const viewingId = this.getViewingId();
+    const isViewingSelected = this.isViewingSelected();
+    const showComments = this.props.showComments;
+
     return (
       <Modal.Body>
 
@@ -85,18 +96,25 @@ export default React.createClass({
         <OptionNavigator
           items={this.getOptionList()}
           selectedId={this.props.review.selectedId}
-          viewingId={this.getViewingId()}
+          viewingId={viewingId}
           onClick={this.props.setOptionViewing} />
-
-        <OptionImage option={this.getSelectedOption()} />
 
         {this.hasMultipleOptions() &&
           <OptionSelector
-            isSelected={this.isViewingSelected()}
-            onClick={this.isViewingSelected()
-              ? () => this.props.clearOption(this.getReviewSlug())
-              : () => this.props.selectOption(this.getReviewSlug(), this.getViewingId())} />
+            isSelected={isViewingSelected}
+            onSelectionClick={isViewingSelected
+              ? () => this.props.clearOption(reviewSlug)
+              : () => this.props.selectOption(reviewSlug, viewingId)}
+            showComments={showComments}
+            onCommentsClick={this.props.toggleComments} />
         }
+
+        <Row className={'image-wrap mb' + (showComments ? ' open' : '')}>
+          <Col xs={12}>
+            <OptionImage option={selectedOption} />
+            {showComments && <OptionComments items={this.getComments(viewingId)} />}
+          </Col>
+        </Row>
 
         <div className='mt-dbl'>
           <button type='button' className='btn btn-sky-primary' onClick={this.props.showApprovalForm}>Show Approval</button>

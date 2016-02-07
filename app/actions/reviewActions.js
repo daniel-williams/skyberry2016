@@ -4,8 +4,7 @@ export const REVIEW_RESET_UI = 'REVIEW_RESET_UI';
 
 export const REVIEW_STEP_TOGGLE = 'REVIEW_STEP_TOGGLE';
 
-export const REVIEW_COMMENTS_SHOW = 'REVIEW_COMMENTS_SHOW';
-export const REVIEW_COMMENTS_HIDE = 'REVIEW_COMMENTS_HIDE';
+export const REVIEW_COMMENTS_TOGGLE = 'REVIEW_COMMENTS_TOGGLE';
 
 export const REVIEW_FEEDBACK_SHOW = 'REVIEW_FEEDBACK_SHOW';
 export const REVIEW_FEEDBACK_HIDE = 'REVIEW_FEEDBACK_HIDE';
@@ -53,14 +52,9 @@ export function toggleStep(key) {
   };
 }
 
-export function showComments() {
+export function toggleComments() {
   return {
-    type: REVIEW_COMMENTS_SHOW,
-  };
-}
-export function hideComments() {
-  return {
-    type: REVIEW_COMMENTS_HIDE,
+    type: REVIEW_COMMENTS_TOGGLE,
   };
 }
 export function addOptionComment(reviewId, optionId, comment) {
@@ -158,8 +152,7 @@ export default {
   resetReview,
   addReviews,
 
-  showComments,
-  hideComments,
+  toggleComments,
   addOptionComment,
 
   setOptionViewing,

@@ -234,6 +234,47 @@ label {
 }
 
 
+
+.image-wrap {
+  .opt-img {
+    display: inline-block;
+    width: 100%;
+    transition-property: width;
+    transition-duration: 0.3s;
+  }
+  .comment-wrap {
+    position: relative;
+    display: inline-block;
+    padding: 0;
+    width: 0;
+    height: 0;
+    vertical-align: top;
+    overflow: hidden;
+    transition-property: all;
+    transition-duration: 0.3s;
+  }
+  &.open {
+    .opt-img {
+      width: 50%;
+    }
+    .comment-wrap {
+      width: 50%;
+      height: 100%;
+      transition-property: all;
+      transition-duration: 0.3s;
+
+      .comment {
+        margin-bottom: 5px;
+
+        .byline {
+          font-style: italic;
+          right-margin: 10px;
+        }
+      }
+    }
+  }
+}
+
 .icon-button-bar {
   & > a + a {
     margin-left: 5px;

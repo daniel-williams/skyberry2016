@@ -11,28 +11,42 @@ export default React.createClass({
 
   propTypes: {
     isSelected: PropTypes.bool,
-    onClick: PropTypes.func,
+    onSelectionClick: PropTypes.func,
+    showComments: PropTypes.bool,
+    onCommentsClick: PropTypes.func,
   },
   getDefaultProps: function() {
     return {
       isSelected: false,
-      onClick: function() {},
+      onSelectionClick: function() {},
+      showComments: false,
+      onCommentsClick: function() {},
     };
   },
 
   render: function() {
     return (
-      <Row className='mb'>
+      <Row className='mb-half'>
         <Col xs={12}>
-          <button className='btn btn-primary' onClick={this.props.onClick}>{this.renderButtonText()}</button>
+          <button
+            className='btn btn-primary'
+            onClick={this.props.onSelectionClick}>{this.renderSelectionText()}</button>
+          <button
+            className='btn btn-default'
+            onClick={this.props.onCommentsClick}>{this.renderCommentText()}</button>
         </Col>
       </Row>
     );
   },
-  renderButtonText: function() {
+  renderSelectionText: function() {
     return this.props.isSelected
       ? 'Unselect'
       : 'Select';
+  },
+  renderCommentText: function() {
+    return this.props.showComments
+      ? 'Hide Comments'
+      : 'Show Comments';
   }
 
 });

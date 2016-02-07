@@ -4,8 +4,7 @@ import {
   REVIEW_ADD_REVIEWS,
   REVIEW_RESET_UI,
   REVIEW_STEP_TOGGLE,
-  REVIEW_COMMENTS_SHOW,
-  REVIEW_COMMENTS_HIDE,
+  REVIEW_COMMENTS_TOGGLE,
   REVIEW_FEEDBACK_SHOW,
   REVIEW_FEEDBACK_HIDE,
   REVIEW_APPROVAL_SHOW,
@@ -70,11 +69,8 @@ export default function(state = initialState, action) {
       const val = !!state.getIn(['steps', key]);
       return state.setIn(['steps', key], !val);
     }
-    case REVIEW_COMMENTS_SHOW: {
-      return state.set('showComments', true);
-    }
-    case REVIEW_COMMENTS_HIDE: {
-      return state.set('showComments', false);
+    case REVIEW_COMMENTS_TOGGLE: {
+      return state.set('showComments', !state.get('showComments'));
     }
     case REVIEW_FEEDBACK_SHOW: {
       return state.set('showFeedback', true);

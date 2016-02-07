@@ -26,11 +26,9 @@ export default React.createClass({
 
   render: function() {
     return this.hasOption() && (
-      <Row className='opt-img mb center'>
-        <Col xs={12}>
-          <ImageLoader src={constants.routes.files + this.props.option.filename} className='img-responsive' />
-        </Col>
-      </Row>
+      <div className='opt-img'>
+        <ImageLoader src={constants.routes.files + this.props.option.filename} className='img-responsive' />
+      </div>
     );
   },
 

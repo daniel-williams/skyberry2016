@@ -1,5 +1,24 @@
 #directions {
 
+  .sel-opt {
+    margin-left: 25px;
+    font-size: 18px;
+    line-height: 20px;
+    .val {
+      display: inline-block;
+      padding: 5px 15px;
+      min-height: 34px;
+      min-width: 100px;
+      font-size: 20px;
+      line-height: 20px;
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+      & .invalid {
+        color: rgba(220,60,60, 0.7);
+      }
+    }
+  }
+  
   .ttl {
     margin-bottom: 0;
   }
@@ -72,52 +91,7 @@
     }
   }
 }
-#design-review {
-  .opt-img {
-    width: 100%;
-    transition-property: width;
-    transition-duration: 0.3s;
-  }
-  .comment-wrap {
-    position: relative;
-    padding: 0;
-    width: 0;
-    height: 0;
-    vertical-align: top;
-    overflow: hidden;
-    transition-property: all;
-    transition-duration: 0.3s;
-  }
-  .open {
-    .opt-img {
-      width: 50%;
-    }
-    .comment-wrap {
-      width: 50%;
-      height: 100%;
-      transition-property: all;
-      transition-duration: 0.3s;
-    }
-  }
-  .sel-opt {
-    margin-left: 25px;
-    font-size: 18px;
-    line-height: 20px;
-    .val {
-      display: inline-block;
-      padding: 5px 15px;
-      min-height: 34px;
-      min-width: 100px;
-      font-size: 20px;
-      line-height: 20px;
-      text-align: center;
-      border-bottom: 1px solid #ccc;
-      & .invalid {
-        color: rgba(220,60,60, 0.7);
-      }
-    }
-  }
-}
+
 .option-controls {
   & > div {
     float: none;
