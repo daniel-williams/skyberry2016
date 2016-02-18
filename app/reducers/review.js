@@ -16,8 +16,7 @@ import {
   REVIEW_OPTION_SELECTED,
   REVIEW_OPTION_CLEARED,
   REVIEW_OPTION_ADD_COMMENT,
-  REVIEW_REQUEST_REVISION,
-  REVIEW_REQUEST_DELIVERABLES,
+  REVIEW_REQUESTED,
   REVIEW_REQUEST_CLEAR,
   REVIEW_APPROVE_PROJECT,
 } from '../actions/reviewActions';
@@ -155,6 +154,32 @@ export default function(state = initialState, action) {
         state.set('lastUpdateError', action.payload.error);
         return state;
       });
+    }
+    case REVIEW_REQUESTED: {
+      const slug = action.payload.slug;
+      const currentReview = state.getIn(['reviews', slug]).toJS();
+      const newReview = Object.assign({}, currentReview, action.payload.result);
+      return state.setIn(['reviews', slug], fromJS(newReview));
+    }
+    case REVIEW_REQUEST_CLEAR: {
+      const slug = action.payload.slug;
+      const currentReview = state.getIn(['reviews', slug]).toJS();
+      console.log('before clear:', currentReview);
+      const newReview = Object.assign({}, currentReview, {
+        requestById: null,
+        requestByName: null,
+        requestByIp: null,
+        requestType: null,
+        requestDate: null,
+
+        approvedById: null,
+        approvedByName: null,
+        approvedByIp: null,
+        approvedType: null,
+        approvedDate: null,
+      });
+      console.log('after clear:', newReview);
+      return state.setIn(['reviews', slug], fromJS(newReview));
     }
     default: {
       return state;

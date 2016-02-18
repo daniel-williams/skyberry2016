@@ -22,10 +22,27 @@ export const REVIEW_OPTION_SELECTED = 'REVIEW_OPTION_SELECTED';
 export const REVIEW_OPTION_CLEARED = 'REVIEW_OPTION_CLEARED';
 export const REVIEW_OPTION_ADD_COMMENT = 'REVIEW_OPTION_ADD_COMMENT';
 
-export const REVIEW_REQUEST_REVISION = 'REVIEW_REQUEST_REVISION';
-export const REVIEW_REQUEST_DELIVERABLES = 'REVIEW_REQUEST_DELIVERABLES';
+export const REVIEW_REQUESTED = 'REVIEW_REQUESTED';
 export const REVIEW_REQUEST_CLEAR = 'REVIEW_REQUEST_CLEAR';
 
+
+export function requestSuccess(slug, result) {
+  return {
+    type: REVIEW_REQUESTED,
+    payload: {
+      slug: slug,
+      result: result,
+    }
+  }
+}
+export function clearRequest(slug) {
+  return {
+    type: REVIEW_REQUEST_CLEAR,
+    payload: {
+      slug: slug,
+    }
+  }
+}
 
 export function addReviews(compositeSlug, reviews) {
   return {
@@ -149,6 +166,9 @@ export function updateReviewFailed(error) {
 
 
 export default {
+  requestSuccess,
+  clearRequest,
+
   resetReview,
   addReviews,
 

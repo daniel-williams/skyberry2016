@@ -2,14 +2,15 @@ import React, {PropTypes} from 'react';
 import PureRender from 'react-addons-pure-render-mixin';
 import {Row, Col} from 'react-bootstrap';
 
-import {StatusBox, TitleDrawer} from '../../../../components';
+import {TitleDrawer} from '../../../../components';
+import StatusBox from './StatusBox';
 import StepStatus from './StepStatus';
 
 
 export default React.createClass({
   displayName: 'ReviewOptions',
 
-  mixins: [PureRender, StepStatus],
+  mixins: [PureRender],
 
   propTypes: {
     status: PropTypes.string,
@@ -28,9 +29,10 @@ export default React.createClass({
     };
   },
   isCompleted: function() {
+    console.log('WTF?', this.props.status, StepStatus.COMPLETED);
     return this.props.status === StepStatus.COMPLETED;
   },
-  
+
   render: function() {
     return (
       <div className='step'>
@@ -42,7 +44,7 @@ export default React.createClass({
   },
   renderTitleBlock: function() {
     return (
-      <h3 className='stack'><StatusBox isCompleted={this.isCompleted()} /><span>Review</span></h3>
+      <h3 className='stack'><StatusBox status={this.props.status} /><span>Review</span></h3>
     );
   },
   renderProofVerbiage: function() {
