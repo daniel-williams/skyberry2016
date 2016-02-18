@@ -41,7 +41,6 @@ namespace Web.Controllers.api
             return Ok(new { code = 200, description = "okeydoke" });
         }
 
-        // TODO djw: route check (just clearing property on Review)
         [HttpGet]
         [HttpPost]
         [Route("{rid}/options/clear")]
@@ -69,7 +68,8 @@ namespace Web.Controllers.api
             return Ok(new { code = 200, description = "okeydoke" }); //return CreatedAtRoute("GetDesignReview", new { rid = review.Id }, ModelFactory.createDesignReviewVM(review));
         }
 
-
+        [HttpGet]
+        [HttpPost]
         [Route("{rid}/revision")]
         public IHttpActionResult RequestRevision(Guid rid)
         {
@@ -91,10 +91,20 @@ namespace Web.Controllers.api
             review.RequestDate = DateTime.UtcNow;
 
             UOW.Commit();
-
-            return CreatedAtRoute("GetDesignReview", new { rid = review.Id }, ModelFactory.createDesignReviewVM(review));
+            var result = new
+            {
+                requestById = review.RequestById,
+                requestByName = review.RequestByName,
+                requestByIp = review.RequestByIp,
+                requestType = review.RequestType,
+                requestDate = review.RequestDate,
+            };
+            return Ok(new { code = 200, description = "okeydoke", result = result});
+            //return CreatedAtRoute("GetDesignReview", new { rid = review.Id }, ModelFactory.createDesignReviewVM(review));
         }
 
+        [HttpGet]
+        [HttpPost]
         [Route("{rid}/deliverables")]
         public IHttpActionResult RequestDeliverables(Guid rid)
         {
@@ -116,8 +126,16 @@ namespace Web.Controllers.api
             review.RequestDate = DateTime.UtcNow;
 
             UOW.Commit();
-
-            return CreatedAtRoute("GetDesignReview", new { rid = review.Id }, ModelFactory.createDesignReviewVM(review));
+            var result = new
+            {
+                requestById = review.RequestById,
+                requestByName = review.RequestByName,
+                requestByIp = review.RequestByIp,
+                requestType = review.RequestType,
+                requestDate = review.RequestDate,
+            };
+            return Ok(new { code = 200, description = "okeydoke", result = result });
+            //return CreatedAtRoute("GetDesignReview", new { rid = review.Id }, ModelFactory.createDesignReviewVM(review));
         }
 
         [Route("{rid}/approve-project")]
@@ -144,8 +162,10 @@ namespace Web.Controllers.api
             return CreatedAtRoute("GetDesignReview", new { rid = review.Id }, ModelFactory.createDesignReviewVM(review));
         }
 
+        [HttpGet]
+        [HttpPost]
         [Route("{rid}/clear-request")]
-        public HttpResponseMessage ClearRequest(Guid rid)
+        public IHttpActionResult ClearRequest(Guid rid)
         {
             DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
             if (review == null)
@@ -171,9 +191,7 @@ namespace Web.Controllers.api
 
             UOW.Commit();
 
-            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
-
-            return response;
+            return Ok(new { code = 200, description = "okeydoke" });
         }
 
         [Route("{rid}/comments/{cid}", Name ="GetComment")]
