@@ -15,7 +15,7 @@ export default React.createClass({
   propTypes: {
     status: PropTypes.string,
     open: PropTypes.bool,
-    onClick: PropTypes.func,
+    stepClick: PropTypes.func,
 
     hasProofs: PropTypes.bool,
   },
@@ -23,7 +23,7 @@ export default React.createClass({
     return {
       status: StepStatus.TODO,
       open: true,
-      onClick: this.onClick,
+      stepClick: this.onClick,
 
       hasProofs: false,
     };
@@ -36,7 +36,7 @@ export default React.createClass({
   render: function() {
     return (
       <div className='step'>
-        <TitleDrawer title={this.renderTitleBlock()} open={this.props.open} onClick={this.props.onClick}>
+        <TitleDrawer title={this.renderTitleBlock()} open={this.props.open} onClick={this.props.stepClick}>
           <div>Review the designers' notes {this.renderProofVerbiage()} and design options, located below.</div>
         </TitleDrawer>
       </div>

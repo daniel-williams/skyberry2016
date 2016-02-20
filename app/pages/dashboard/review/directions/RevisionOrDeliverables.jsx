@@ -15,7 +15,7 @@ export default React.createClass({
   propTypes: {
     status: PropTypes.string,
     open: PropTypes.bool,
-    onClick: PropTypes.func,
+    stepClick: PropTypes.func,
 
     hasRequest: PropTypes.bool,
     requestType: PropTypes.oneOf([0,1,2]),
@@ -24,13 +24,13 @@ export default React.createClass({
 
     requestRevision: PropTypes.func,
     requestDeliverables: PropTypes.func,
-    requestClear: PropTypes.func,
+    clearRequest: PropTypes.func,
   },
   getDefaultProps: function() {
     return {
       status: StepStatus.TODO,
       open: true,
-      onClick: this.onClick,
+      stepClick: this.onClick,
 
       hasRequest: false,
       requestType: 0,
@@ -39,14 +39,14 @@ export default React.createClass({
 
       requestRevision: function() {},
       requestDeliverables: function() {},
-      requestClear: function() {},
+      clearRequest: function() {},
     };
   },
 
   render: function() {
     return (
       <div className='step'>
-        <TitleDrawer title={this.renderTitleBlock()} open={this.props.open} onClick={this.props.onClick}>
+        <TitleDrawer title={this.renderTitleBlock()} open={this.props.open} onClick={this.props.stepClick}>
           <div>
             <p>Let us know if you need a Revision or final Deliverables. Request a Revision when you need additional changes. Request Deliverables when no changes are needed and you are ready to take ownership of production files.</p>
           </div>
@@ -107,7 +107,7 @@ export default React.createClass({
       <span className='mb-half' style={{marginLeft:'15px'}}>
         <button
           className='btn btn-default'
-          onClick={this.props.requestClear}>Cancel Request</button>
+          onClick={this.props.clearRequest}>Cancel Request</button>
       </span>
     );
   },

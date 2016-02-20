@@ -30,8 +30,7 @@ export default React.createClass({
 
   // handlers
   close: function() {
-    console.log('WTF!');
-    this.props.hideApprovalForm();
+    this.props.reviewHideApproval();
   },
 
 });

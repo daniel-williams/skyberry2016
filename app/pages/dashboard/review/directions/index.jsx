@@ -94,7 +94,6 @@ export default React.createClass({
   },
 
   render: function() {
-    console.log('request cancelable:', this.isRequestCancelable());
     return (
       <Row id='directions' className='mb'>
         <Col xs={12}>
@@ -104,7 +103,7 @@ export default React.createClass({
           <ReviewOptions
             status={this.getReviewStatus()}
             open={this.props.steps.review}
-            onClick={() => this.props.toggleStep('review')}
+            stepClick={() => this.props.reviewStepToggled('review')}
 
             hasProofs={this.hasProofs()} />
         </Col>
@@ -112,25 +111,25 @@ export default React.createClass({
           <LeaveFeedback
             status={this.getFeedbackStatus()}
             open={this.props.steps.feedback}
-            onClick={() => this.props.toggleStep('feedback')}
+            stepClick={() => this.props.reviewStepToggled('feedback')}
 
             hasMultipleOptions={this.hasMultipleOptions()}
             selectedOption={this.getSelectedOption()}
-            clearOption={() => this.hasSelectedOption() && this.props.clearOption(this.getReviewSlug())} />
+            clearOption={() => this.hasSelectedOption() && this.props.reviewOptionClearSelected(this.getReviewSlug())} />
         </Col>
         <Col xs={12}>
           <RevisionOrDeliverables
             status={this.getRequestStatus()}
             open={this.props.steps.request}
-            onClick={() => this.props.toggleStep('request')}
+            stepClick={() => this.props.reviewStepToggled('request')}
 
             hasRequest={this.hasRequest()}
             requestType={this.getRequestType()}
             isDisabled={this.hasMultipleOptions() && !this.hasSelectedOption()}
             isCancelable={this.isRequestCancelable()}
-            requestRevision={()=>this.props.requestRevision(this.getReviewSlug())}
-            requestDeliverables={()=>this.props.requestDeliverables(this.getReviewSlug())}
-            requestClear={()=>this.props.requestClear(this.getReviewSlug())}
+            requestRevision={()=>this.props.reviewRequestRevision(this.getReviewSlug())}
+            requestDeliverables={()=>this.props.reviewRequestDeliverables(this.getReviewSlug())}
+            clearRequest={()=>this.props.reviewRequestCanceled(this.getReviewSlug())}
             />
         </Col>
       </Row>

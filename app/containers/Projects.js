@@ -30,7 +30,7 @@ function mapStateToProps(state, ownProps) {
 
     if(accountSlug) {
       try {
-        options = state.getIn(['project', 'projectLookup', accountSlug, 'options']).toJS();
+        options = state.getIn(['project', 'projectDirectory', accountSlug, 'options']).toJS();
       } catch(e) {}
 
       compositeSlug = accountSlug + '/' + pSlug;

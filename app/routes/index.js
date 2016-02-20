@@ -22,7 +22,7 @@ import Dashboard from '../pages/dashboard/Dashboard';
 import About from '../pages/About';
 
 import store from '../store';
-import {resetReview} from '../actions/reviewActions';
+import {reviewResetUi} from '../actions/reviewActionCreators';
 
 
 const routes = (
@@ -42,7 +42,7 @@ const routes = (
           <Route path='billing(/:aSlug)' component={Billing} />
           <Route path='projects' component={Projects} />
           <Route path='projects/:aSlug/:pSlug' component={Projects}>
-            <Route path=':rSlug' component={DesignReview} onEnter={() => store.dispatch(resetReview())} />
+            <Route path=':rSlug' component={DesignReview} onEnter={() => store.dispatch(reviewResetUi())} />
           </Route>
           <Route path='preferences' component={Preferences} />
         </Route>

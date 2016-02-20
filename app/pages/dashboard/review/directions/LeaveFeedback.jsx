@@ -15,7 +15,7 @@ export default React.createClass({
   propTypes: {
     status: PropTypes.string,
     open: PropTypes.bool,
-    onClick: PropTypes.func,
+    stepClick: PropTypes.func,
 
     hasMultipleOptions: PropTypes.bool,
     selectedOption: PropTypes.any,
@@ -25,7 +25,7 @@ export default React.createClass({
     return {
       status: StepStatus.TODO,
       open: true,
-      onClick: this.onClick,
+      stepClick: this.onClick,
 
       hasMultipleOptions: true,
       selectedOption: null,
@@ -40,7 +40,7 @@ export default React.createClass({
 
     return (
       <div className='step'>
-        <TitleDrawer title={this.renderTitleBlock()} open={this.props.open} onClick={this.props.onClick}>
+        <TitleDrawer title={this.renderTitleBlock()} open={this.props.open} onClick={this.props.stepClick}>
           {this.renderStepVerbiage()}
           {this.props.hasMultipleOptions && this.renderOptionInfo()}
         </TitleDrawer>
@@ -69,7 +69,9 @@ export default React.createClass({
   renderOptionAction: function() {
     return !!this.props.selectedOption && this.props.isEditable && (
       <span className='mb-half' style={{marginLeft:'15px'}}>
-        <button className='btn btn-default' onClick={this.props.clearOption}>Clear</button>
+        <button
+          className='btn btn-default'
+          onClick={this.props.clearOption}>Clear</button>
       </span>
     );
   },

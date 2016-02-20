@@ -97,16 +97,16 @@ export default React.createClass({
           items={this.getOptionList()}
           selectedId={this.props.review.selectedId}
           viewingId={viewingId}
-          onClick={this.props.setOptionViewing} />
+          onClick={this.props.reviewOptionSetViewing} />
 
         {this.hasMultipleOptions() &&
           <OptionSelector
             isSelected={isViewingSelected}
-            onSelectionClick={isViewingSelected
-              ? () => this.props.clearOption(reviewSlug)
-              : () => this.props.selectOption(reviewSlug, viewingId)}
             showComments={showComments}
-            onCommentsClick={this.props.toggleComments} />
+            selectionClick={isViewingSelected
+              ? () => this.props.reviewOptionClearSelected(reviewSlug)
+              : () => this.props.reviewOptionSetSelected(reviewSlug, viewingId)}
+            commentsClick={this.props.reviewCommmentsToggled} />
         }
 
         <Row className={'image-wrap mb' + (showComments ? ' open' : '')}>
@@ -117,7 +117,10 @@ export default React.createClass({
         </Row>
 
         <div className='mt-dbl'>
-          <button type='button' className='btn btn-sky-primary' onClick={this.props.showApprovalForm}>Show Approval</button>
+          <button
+            type='button'
+            className='btn btn-sky-primary'
+            onClick={this.props.reviewShowApproval}>Show Approval</button>
         </div>
 
       </Modal.Body>
@@ -127,7 +130,7 @@ export default React.createClass({
 
   // handlers
   close: function() {
-    this.props.hideFeedback();
+    this.props.reviewHideFeedback();
     const id = setTimeout(
       this.goBack,
       500

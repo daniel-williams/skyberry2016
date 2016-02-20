@@ -3,10 +3,10 @@ import fetch from 'isomorphic-fetch';
 import constants from '../constants';
 import store from '../store';
 import TokenService from './TokenService';
-import {resetUser} from '../actions/userActions';
-import {resetIdentity} from '../actions/identityActions';
-import {resetAccounts} from '../actions/accountActions';
-import {projectActions} from '../actions/projectActions';
+import {resetUser} from '../actions/userActionCreators';
+import {resetIdentity} from '../actions/identityActionCreators';
+import {resetAccounts} from '../actions/accountActionCreators';
+import {resetProjects} from '../actions/projectActionCreators';
 import {
   checkStatus,
   parseJSON,
@@ -66,13 +66,13 @@ export function refreshIdentity() {
 }
 
 // TODO: reuse getJson with credentials
-export function getUser(id) {
+export function loadUser(id) {
   return getJson('/api/users/' + id, true);
 }
-export function getAccounts(id) {
+export function loadAccounts(id) {
   return getJson('/api/users/' + id + '/accounts', true);
 }
-export function getProject(id) {
+export function loadProject(id) {
   return getJson('/api/projects/' + id, true);
 }
 
@@ -81,9 +81,9 @@ export default {
   postJson,
   refreshIdentity,
   signIn,
-  getUser,
-  getAccounts,
-  getProject,
+  loadUser,
+  loadAccounts,
+  loadProject,
 }
 
 
@@ -94,4 +94,5 @@ export function logOff() {
   store.dispatch(resetUser());
   store.dispatch(resetIdentity());
   store.dispatch(resetAccounts());
+  store.dispatch(resetProjects());
 }

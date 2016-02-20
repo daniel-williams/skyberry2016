@@ -11,16 +11,18 @@ export default React.createClass({
 
   propTypes: {
     isSelected: PropTypes.bool,
-    onSelectionClick: PropTypes.func,
     showComments: PropTypes.bool,
-    onCommentsClick: PropTypes.func,
+
+    selectionClick: PropTypes.func,
+    commentsClick: PropTypes.func,
   },
   getDefaultProps: function() {
     return {
       isSelected: false,
-      onSelectionClick: function() {},
       showComments: false,
-      onCommentsClick: function() {},
+
+      selectionClick: function() {},
+      commentsClick: function() {},
     };
   },
 
@@ -30,10 +32,10 @@ export default React.createClass({
         <Col xs={12}>
           <button
             className='btn btn-primary'
-            onClick={this.props.onSelectionClick}>{this.renderSelectionText()}</button>
+            onClick={this.props.selectionClick}>{this.renderSelectionText()}</button>
           <button
             className='btn btn-default'
-            onClick={this.props.onCommentsClick}>{this.renderCommentText()}</button>
+            onClick={this.props.commentsClick}>{this.renderCommentText()}</button>
         </Col>
       </Row>
     );
