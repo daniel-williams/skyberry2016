@@ -1,10 +1,6 @@
 import {Map, List, fromJS} from 'immutable';
 
-import {
-    FEATURED_FETCHING,
-    FEATURED_FETCH_SUCCESS,
-    FEATURED_FETCH_FAILED
-} from '../actions';
+import * as featuredActions from '../actions/featuredActions';
 
 const initialState = fromJS({
   isFetching: false,
@@ -17,13 +13,13 @@ const initialState = fromJS({
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case FEATURED_FETCHING: {
+    case featuredActions.FEATURED_FETCHING: {
       return state.withMutations(state => {
         state.set('isFetching', true);
         return state;
       });
     }
-    case FEATURED_FETCH_SUCCESS: {
+    case featuredActions.FEATURED_FETCH_SUCCESS: {
       return state.withMutations(state => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
@@ -34,7 +30,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case FEATURED_FETCH_FAILED: {
+    case featuredActions.FEATURED_FETCH_FAILED: {
       return state.withMutations(state => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);

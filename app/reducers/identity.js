@@ -1,15 +1,7 @@
 import {fromJS} from 'immutable';
 
-import {
-  IDENTITY_FETCHING,
-  IDENTITY_FETCH_SUCCESS,
-  IDENTITY_FETCH_FAILED,
-  IDENTITY_RESET,
-} from '../actions/identityActions';
-import {
-  NEXT_SET,
-  NEXT_CLEAR,
-} from '../actions/redirectActions';
+import * as identityActions from '../actions/identityActions';
+import * as redirectActions from '../actions/redirectActions';
 
 
 const initialState = fromJS({
@@ -27,10 +19,10 @@ const initialState = fromJS({
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case IDENTITY_FETCHING: {
+    case identityActions.FETCH_IDENTITY: {
       return state.set('isRequesting', true);
     }
-    case IDENTITY_FETCH_SUCCESS: {
+    case identityActions.FETCH_IDENTITY_SUCCESS: {
       return state.withMutations(state => {
         state.set('isRequesting', false);
         state.set('lastRequestDate', action.payload.date);
@@ -44,7 +36,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case IDENTITY_FETCH_FAILED: {
+    case identityActions.FETCH_IDENTITY_FAILED: {
       return state.withMutations(state => {
         state.set('isRequesting', false);
         state.set('lastRequestDate', action.payload.date);
@@ -52,13 +44,13 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case IDENTITY_RESET: {
+    case identityActions.RESET_IDENTITY: {
       return initialState;
     }
-    case NEXT_SET: {
+    case redirectActions.NEXT_SET: {
       return state.set('next', action.payload.next);
     }
-    case NEXT_CLEAR: {
+    case redirectActions.NEXT_CLEAR: {
       return state.set('next', null);
     }
     default:

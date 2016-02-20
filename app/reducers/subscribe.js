@@ -1,12 +1,6 @@
 import {Map, List, fromJS} from 'immutable';
 
-import {
-    SUBSCRIBE_POSTING,
-    SUBSCRIBE_POST_SUCCESS,
-    SUBSCRIBE_POST_FAILED,
-    SUBSCRIBE_SHOW,
-    SUBSCRIBE_HIDE,
-} from '../actions';
+import * as subscribeActions from '../actions/subscribeActions';
 
 const initialState = fromJS({
   isPosting: false,
@@ -20,7 +14,7 @@ const initialState = fromJS({
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case SUBSCRIBE_POSTING: {
+    case subscribeActions.SUBSCRIBE_POSTING: {
       return state.withMutations(state => {
         state.set('isPosting', true);
         state.set('lastPostDate', null);
@@ -30,7 +24,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case SUBSCRIBE_POST_SUCCESS: {
+    case subscribeActions.SUBSCRIBE_POST_SUCCESS: {
       return state.withMutations(state => {
         state.set('isPosting', false);
         state.set('lastPostDate', action.payload.date);
@@ -40,7 +34,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case SUBSCRIBE_POST_FAILED: {
+    case subscribeActions.SUBSCRIBE_POST_FAILED: {
       return state.withMutations(state => {
         state.set('isPosting', false);
         state.set('lastPostDate', action.payload.date);
@@ -48,10 +42,10 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case SUBSCRIBE_SHOW: {
+    case subscribeActions.SUBSCRIBE_SHOW: {
       return state.set('showSubscribe', true);
     }
-    case SUBSCRIBE_HIDE: {
+    case subscribeActions.SUBSCRIBE_HIDE: {
       return state.set('showSubscribe', false);
     }
     default: {

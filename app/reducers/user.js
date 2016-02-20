@@ -1,11 +1,6 @@
 import {fromJS, List} from 'immutable';
 
-import {
-  USER_FETCHING,
-  USER_FETCH_SUCCESS,
-  USER_FETCH_FAILED,
-  USER_RESET,
-} from '../actions/userActions';
+import * as userActions from '../actions/userActions';
 
 
 const initialState = fromJS({
@@ -28,10 +23,10 @@ const initialState = fromJS({
 export default function(state = initialState, action) {
   console.log(action);
   switch(action.type) {
-    case USER_FETCHING: {
+    case userActions.USER_FETCHING: {
       return state.set('isRequesting', true);
     }
-    case USER_FETCH_SUCCESS: {
+    case userActions.USER_FETCH_SUCCESS: {
       return state.withMutations(state => {
         state.set('isRequesting', false);
         state.set('lastRequestDate', action.payload.date);
@@ -51,7 +46,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case USER_FETCH_FAILED: {
+    case userActions.USER_FETCH_FAILED: {
       return state.withMutations(state => {
         state.set('isRequesting', false);
         state.set('lastRequestDate', action.payload.date);
@@ -59,7 +54,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case USER_RESET: {
+    case userActions.USER_RESET: {
       return initialState;
     }
     default:

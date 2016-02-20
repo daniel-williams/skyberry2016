@@ -2,22 +2,7 @@ import {Map, List, fromJS} from 'immutable';
 
 import {mapPosts} from '../utils/BloggerUtils';
 import constants from '../constants';
-import {
-  BLOG_FETCHING,
-  BLOG_FETCH_SUCCESS,
-  BLOG_FETCH_FAILED,
-
-  BLOG_PAGE_NEXT,
-  BLOG_PAGE_PREV,
-
-  POSTS_FETCHING,
-  POSTS_FETCH_SUCCESS,
-  POSTS_FETCH_FAILED,
-
-  POST_FETCHING,
-  POST_FETCH_SUCCESS,
-  POST_FETCH_FAILED,
-} from '../actions';
+import * as blogActions from '../actions/blogActions';
 
 
 // TODO djw: break this into two sub reducers, blog/paging, posts
@@ -40,10 +25,10 @@ const initialState = fromJS({
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case BLOG_FETCHING: {
+    case blogActions.BLOG_FETCHING: {
       return state.set('isFetching', true);
     }
-    case BLOG_FETCH_SUCCESS: {
+    case blogActions.BLOG_FETCH_SUCCESS: {
       const blog = action.payload.blog;
       const totalPostCount = blog.posts.totalItems;
       const totalPages = Math.floor(totalPostCount / state.get('itemsPerPage')) + 1;
@@ -59,7 +44,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case BLOG_FETCH_FAILED: {
+    case blogActions.BLOG_FETCH_FAILED: {
       return state.withMutations((state) => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
@@ -67,21 +52,21 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case BLOG_PAGE_NEXT: {
+    case blogActions.BLOG_PAGE_NEXT: {
       const totalPages = state.get('totalPages');
       const activePage = state.get('activePage') ;
       return state.set('activePage', activePage < totalPages ? activePage + 1
                                                              : activePage);
     }
-    case BLOG_PAGE_PREV: {
+    case blogActions.BLOG_PAGE_PREV: {
       const activePage = state.get('activePage') ;
       return state.set('activePage', activePage > 1 ? activePage - 1
                                                     : activePage);
     }
-    case POSTS_FETCHING: {
+    case blogActions.POSTS_FETCHING: {
       return state.set('isFetching', true);
     }
-    case POSTS_FETCH_SUCCESS: {
+    case blogActions.POSTS_FETCH_SUCCESS: {
       return state.withMutations((state) => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
@@ -92,7 +77,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case POSTS_FETCH_FAILED: {
+    case blogActions.POSTS_FETCH_FAILED: {
       return state.withMutations((state) => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
@@ -100,10 +85,10 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case POST_FETCHING: {
+    case blogActions.POST_FETCHING: {
       return state.set('isFetching', true);
     }
-    case POST_FETCH_SUCCESS: {
+    case blogActions.POST_FETCH_SUCCESS: {
       return state.withMutations((state) => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
@@ -112,7 +97,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case POST_FETCH_FAILED: {
+    case blogActions.POST_FETCH_FAILED: {
       return state.withMutations((state) => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);

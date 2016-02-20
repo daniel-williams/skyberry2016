@@ -1,13 +1,6 @@
 import {fromJS} from 'immutable';
 
-import {
-  PROJECT_FETCHING,
-  PROJECT_FETCH_SUCCESS,
-  PROJECT_FETCH_FAILED,
-  PROJECT_RESET,
-  PROJECT_SET_SELECTED,
-  SET_PROJECT_LOOKUP,
-} from '../actions/projectActions';
+import * as projectActions from '../actions/projectActions';
 
 
 const initialState = fromJS({
@@ -15,17 +8,16 @@ const initialState = fromJS({
   lastFetchDate: null,
   lastFetchError: null,
 
+  projectDirectory: {},
   projects: {},
-  selectedKey: null,
-  projectLookup: {},
 });
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case PROJECT_FETCHING: {
+    case projectActions.FETCH_PROJECT: {
       return state.set('isFetching', true);
     }
-    case PROJECT_FETCH_SUCCESS: {
+    case projectActions.FETCH_PROJECT_SUCCESS: {
       return state.withMutations(state => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
@@ -35,7 +27,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case PROJECT_FETCH_FAILED: {
+    case projectActions.FETCH_PROJECT_FAILED: {
       return state.withMutations(state => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
@@ -43,13 +35,10 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case PROJECT_SET_SELECTED: {
-      return state.set('selectedKey', action.payload.key);
+    case projectActions.SET_PROJECT_DIRECTORY: {
+      return state.set('projectDirectory', fromJS(action.payload.projectDirectory))
     }
-    case SET_PROJECT_LOOKUP: {
-      return state.set('projectLookup', fromJS(action.payload.projectLookup))
-    }
-    case PROJECT_RESET: {
+    case projectActions.RESET_PROJECTS: {
       return initialState;
     }
     default: {

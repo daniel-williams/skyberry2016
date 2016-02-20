@@ -1,26 +1,22 @@
 import {fromJS} from 'immutable';
 
-import {
-    TESTIMONIALS_FETCHING,
-    TESTIMONIALS_FETCH_SUCCESS,
-    TESTIMONIALS_FETCH_FAILED
-} from '../actions';
+import * as testimonialActions from '../actions/testimonialActions';
 
 const initialState = fromJS({
   isFetching: false,
   lastFetchDate: null,
   lastFetchError: null,
-  
+
   hasFetched: false,
   items: [],
 });
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case TESTIMONIALS_FETCHING: {
+    case testimonialActions.TESTIMONIALS_FETCHING: {
       return state.set('isFetching', true);
     }
-    case TESTIMONIALS_FETCH_SUCCESS: {
+    case testimonialActions.TESTIMONIALS_FETCH_SUCCESS: {
       return state.withMutations(state => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
@@ -31,7 +27,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case TESTIMONIALS_FETCH_FAILED: {
+    case testimonialActions.TESTIMONIALS_FETCH_FAILED: {
       return state.withMutations(state => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);

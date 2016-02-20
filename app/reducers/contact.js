@@ -1,11 +1,6 @@
 import {fromJS} from 'immutable';
 
-import {
-    CONTACT_RESET,
-    CONTACT_POSTING,
-    CONTACT_POST_SUCCESS,
-    CONTACT_POST_FAILED
-} from '../actions';
+import * as contactActions from '../actions/contactActions';
 
 
 const initialState = fromJS({
@@ -21,7 +16,7 @@ const initialState = fromJS({
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case CONTACT_POSTING: {
+    case contactActions.CONTACT_POSTING: {
       return state.withMutations(state => {
         state.set('isPosting', true);
 
@@ -32,7 +27,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case CONTACT_POST_SUCCESS: {
+    case contactActions.CONTACT_POST_SUCCESS: {
       return state.withMutations(state => {
         state.set('hasPosted', true);
         state.set('isPosting', false);
@@ -43,7 +38,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case CONTACT_POST_FAILED: {
+    case contactActions.CONTACT_POST_FAILED: {
       return state.withMutations(state => {
         state.set('isPosting', false);
         state.set('lastPostDate', action.payload.date);
@@ -51,7 +46,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case CONTACT_RESET: {
+    case contactActions.CONTACT_RESET: {
       return state.withMutations(state => {
         state.set('hasPosted', false);
         state.set('isPosting', false);
