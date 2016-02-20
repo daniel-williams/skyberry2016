@@ -1,10 +1,6 @@
 import {getJson} from '../services/FetchService';
 
-import {
-  FEATURED_FETCHING,
-  FEATURED_FETCH_SUCCESS,
-  FEATURED_FETCH_FAILED
-} from '.';
+import * as featuredActions from './featuredActions';
 
 
 export function fetchFeatured() {
@@ -20,12 +16,12 @@ export function fetchFeatured() {
 
 export function fetchingFeatured() {
   return {
-    type: FEATURED_FETCHING,
+    type: featuredActions.FEATURED_FETCHING,
   };
 }
 export function fetchFeaturedSuccess(json) {
   return {
-    type: FEATURED_FETCH_SUCCESS,
+    type: featuredActions.FEATURED_FETCH_SUCCESS,
     payload: {
       date: new Date(),
       items: json,
@@ -34,7 +30,7 @@ export function fetchFeaturedSuccess(json) {
 }
 export function fetchFeaturedFailed(error) {
   return {
-    type: FEATURED_FETCH_FAILED,
+    type: featuredActions.FEATURED_FETCH_FAILED,
     payload: {
       date: new Date(),
       error: error

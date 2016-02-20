@@ -1,10 +1,5 @@
 import {getJson} from '../services/FetchService';
-import {
-  PORTFOLIO_FETCHING,
-  PORTFOLIO_FETCH_SUCCESS,
-  PORTFOLIO_FETCH_FAILED,
-  PORTFOLIO_SET_SELECTED,
-} from '.';
+import * as portfolioActions from './portfolioActions';
 
 
 export function switchPortfolio(key) {
@@ -31,13 +26,13 @@ export function fetchPortfolio(key) {
 
 export function fetchingPortfolio() {
   return {
-    type: PORTFOLIO_FETCHING,
+    type: portfolioActions.PORTFOLIO_FETCHING,
   };
 }
 
 export function fetchPortfolioSuccess(key, json) {
   return {
-    type: PORTFOLIO_FETCH_SUCCESS,
+    type: portfolioActions.PORTFOLIO_FETCH_SUCCESS,
     payload: {
       date: new Date(),
       key: key,
@@ -48,7 +43,7 @@ export function fetchPortfolioSuccess(key, json) {
 
 export function fetchPortfolioFailed(error) {
   return {
-    type: PORTFOLIO_FETCH_FAILED,
+    type: portfolioActions.PORTFOLIO_FETCH_FAILED,
     payload: {
       date: new Date(),
       error: error
@@ -58,7 +53,7 @@ export function fetchPortfolioFailed(error) {
 
 export function setSelectedPortfolio(key) {
   return {
-    type: PORTFOLIO_SET_SELECTED,
+    type: portfolioActions.PORTFOLIO_SET_SELECTED,
     payload: {
       key: key
     }

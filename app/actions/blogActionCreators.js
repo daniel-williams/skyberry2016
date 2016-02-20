@@ -2,22 +2,7 @@ import {getJson} from '../services/FetchService';
 
 import constants from '../constants';
 import {getSlugFromUrl} from '../utils/BloggerUtils';
-import {
-  BLOG_FETCHING,
-  BLOG_FETCH_SUCCESS,
-  BLOG_FETCH_FAILED,
-  BLOG_PAGE_NEXT,
-  BLOG_PAGE_PREV,
-
-  POSTS_FETCHING,
-  POSTS_FETCH_SUCCESS,
-  POSTS_FETCH_FAILED,
-
-  POST_FETCHING,
-  POST_FETCH_SUCCESS,
-  POST_FETCH_FAILED,
-} from '.';
-
+import * as blogActions from './blogActions';
 
 
 const {host, id, apiKey, itemsPerPage} = constants.blog;
@@ -112,12 +97,12 @@ export function fetchAsNeeded(slug) {
 
 export function fetchingBlog() {
   return {
-    type: BLOG_FETCHING,
+    type: blogActions.BLOG_FETCHING,
   };
 }
 export function fetchBlogSuccess(json) {
   return {
-    type: BLOG_FETCH_SUCCESS,
+    type: blogActions.BLOG_FETCH_SUCCESS,
     payload: {
       blog: json
     },
@@ -125,7 +110,7 @@ export function fetchBlogSuccess(json) {
 }
 export function fetchBlogFailed(error) {
   return {
-    type: BLOG_FETCH_FAILED,
+    type: blogActions.BLOG_FETCH_FAILED,
     payload: {
       date: new Date(),
       error: error
@@ -135,13 +120,13 @@ export function fetchBlogFailed(error) {
 
 export function fetchingPosts() {
   return {
-    type: POSTS_FETCHING
+    type: blogActions.POSTS_FETCHING
   };
 }
 // TODO:  losing some data by plucking from json... review to persist or optimize request
 export function fetchPostsSuccess(json) {
   return {
-    type: POSTS_FETCH_SUCCESS,
+    type: blogActions.POSTS_FETCH_SUCCESS,
     payload: {
       date: new Date(),
       posts: json.items,
@@ -151,7 +136,7 @@ export function fetchPostsSuccess(json) {
 }
 export function fetchPostsFailed(error) {
   return {
-    type: POSTS_FETCH_FAILED,
+    type: blogActions.POSTS_FETCH_FAILED,
     payload: {
       date: new Date(),
       error: error
@@ -162,12 +147,12 @@ export function fetchPostsFailed(error) {
 
 export function fetchingPost() {
   return {
-    type: POST_FETCHING,
+    type: blogActions.POST_FETCHING,
   };
 }
 export function fetchPostSuccess(json) {
   return {
-    type: POST_FETCH_SUCCESS,
+    type: blogActions.POST_FETCH_SUCCESS,
     payload: {
       date: new Date(),
       post: json
@@ -176,7 +161,7 @@ export function fetchPostSuccess(json) {
 }
 export function fetchPostFailed(error) {
   return {
-    type: POST_FETCH_FAILED,
+    type: blogActions.POST_FETCH_FAILED,
     payload: {
       date: new Date(),
       error: error
@@ -186,11 +171,11 @@ export function fetchPostFailed(error) {
 
 export function blogPageNext() {
   return {
-    type: BLOG_PAGE_NEXT
+    type: blogActions.BLOG_PAGE_NEXT
   };
 }
 export function blogPagePrev() {
   return {
-    type: BLOG_PAGE_PREV
+    type: blogActions.BLOG_PAGE_PREV
   };
 }

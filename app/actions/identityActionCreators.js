@@ -4,27 +4,22 @@ import TokenService from '../services/TokenService';
 import FetchService from '../services/FetchService';
 import {clone, addSlug, toKeyMap, toNameValueMap} from '../utils/CollectionUtils';
 import {
-  fetchingIdentity,
-  fetchIdentitySuccess,
-  fetchIdentityFailed,
-  resetIdentity,
-} from '../actions/identityActions';
-import {
   fetchingUser,
   fetchUserSuccess,
   fetchUserFailed,
   resetUser,
-} from '../actions/userActions';
+} from '../actions/userActionCreators';
 import {
-  fetchingAccounts,
+  fetchAccounts,
   fetchAccountsSuccess,
   fetchAccountsFailed,
   resetAccounts,
   setAccountMap,
   setAccountOptions,
-} from '../actions/accountActions';
-import {setProjectLookupData} from '../actions/projectActions';
+} from '../actions/accountActionCreators';
+import {setProjectDirectory} from '../actions/projectActionCreators';
 import {changeAccount, changeProject} from '../actions/dashboardActionCreators';
+import * as identityActions from './identityActions';
 
 
 export function recoverIndentity() {
@@ -89,8 +84,10 @@ export function dump() {
 
 export default {
   recoverIndentity,
+  resetIdentity,
   logOn,
   logOff,
+
   dump,
 }
 
@@ -98,10 +95,10 @@ export default {
 function loadUserAndAccountData(user_id) {
   return function(dispatch, getState) {
     dispatch(fetchingUser());
-    dispatch(fetchingAccounts());
+    dispatch(fetchAccounts());
     return Promise.all([
-      FetchService.getUser(user_id),
-      FetchService.getAccounts(user_id),
+      FetchService.loadUser(user_id),
+      FetchService.loadAccounts(user_id),
     ])
     .then(res => {
       const user = res[0];
@@ -117,7 +114,7 @@ function loadUserAndAccountData(user_id) {
       dispatch(fetchAccountsSuccess(accounts));
 
       if(accounts.length) {
-        dispatch(setProjectLookupData(buildProjectLookupData(accounts)));
+        dispatch(setProjectDirectory(buildProjectDirectory(accounts)));
       }
     })
     .catch(error => {
@@ -135,17 +132,49 @@ function buildAccountOptions(accounts) {
   }, []);
 }
 
-function buildProjectLookupData(accounts) {
-  return clone(accounts).reduce((projectLookup, account) => {
-    projectLookup[account.slug] = {};
-    projectLookup[account.slug].slugMap = toKeyMap(account.projects, 'slug');
-    const slugMap = projectLookup[account.slug].slugMap;
-    projectLookup[account.slug].options = Object.keys(slugMap).map(key => {
+function buildProjectDirectory(accounts) {
+  return clone(accounts).reduce((projectDirectory, account) => {
+    projectDirectory[account.slug] = {};
+    projectDirectory[account.slug].slugMap = toKeyMap(account.projects, 'slug');
+    const slugMap = projectDirectory[account.slug].slugMap;
+    projectDirectory[account.slug].options = Object.keys(slugMap).map(key => {
       return {
         name: slugMap[key].name,
         value: account.slug + '/' + slugMap[key].slug
       };
     });
-    return projectLookup;
+    return projectDirectory;
   }, {});
+}
+
+export function fetchingIdentity() {
+  return {
+    type: identityActions.FETCH_IDENTITY
+  };
+}
+
+export function fetchIdentitySuccess(identity) {
+  return {
+    type: identityActions.FETCH_IDENTITY_SUCCESS,
+    payload: {
+      date: new Date(),
+      identity: identity
+    }
+  };
+}
+
+export function fetchIdentityFailed(error) {
+  return {
+    type: identityActions.FETCH_IDENTITY_FAILED,
+    payload: {
+      date: new Date(),
+      error: error,
+    }
+  };
+}
+
+export function resetIdentity() {
+  return {
+    type: identityActions.RESET_IDENTITY,
+  };
 }

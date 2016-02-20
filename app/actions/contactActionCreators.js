@@ -1,11 +1,6 @@
 import FetchService from '../services/FetchService';
 import {getFormErrors} from '../utils/FormUtils';
-import {
-  CONTACT_RESET,
-  CONTACT_POSTING,
-  CONTACT_POST_SUCCESS,
-  CONTACT_POST_FAILED
-} from '.';
+import * as contactActions from './contactActions';
 
 
 export function handleSubmit(formData) {
@@ -20,7 +15,7 @@ export function handleSubmit(formData) {
 
 export function postingContact(formData){
   return {
-    type: CONTACT_POSTING,
+    type: contactActions.CONTACT_POSTING,
     payload: {
       form: formData
     }
@@ -28,7 +23,7 @@ export function postingContact(formData){
 }
 export function postContactSuccess() {
   return {
-    type: CONTACT_POST_SUCCESS,
+    type: contactActions.CONTACT_POST_SUCCESS,
     payload: {
       date: new Date()
     }
@@ -36,7 +31,7 @@ export function postContactSuccess() {
 }
 export function postContactFailed(error) {
   return {
-    type: CONTACT_POST_FAILED,
+    type: contactActions.CONTACT_POST_FAILED,
     payload: {
       date: new Date(),
       error: error,
@@ -45,6 +40,6 @@ export function postContactFailed(error) {
 }
 export function resetContact() {
   return {
-    type: CONTACT_RESET
+    type: contactActions.CONTACT_RESET
   };
 }

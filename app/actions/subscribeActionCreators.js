@@ -1,11 +1,5 @@
 import {postJson} from '../services/FetchService';
-import {
-  SUBSCRIBE_POSTING,
-  SUBSCRIBE_POST_SUCCESS,
-  SUBSCRIBE_POST_FAILED,
-  SUBSCRIBE_SHOW,
-  SUBSCRIBE_HIDE,
-} from '.';
+import * as subscribeActions from './subscribeActions';
 
 
 export function submitSubscribe(formData) {
@@ -21,7 +15,7 @@ export function submitSubscribe(formData) {
 
 export function postingSubscribe(formData) {
   return {
-    type: SUBSCRIBE_POSTING,
+    type: subscribeActions.SUBSCRIBE_POSTING,
     payload: {
       form: formData
     }
@@ -30,7 +24,7 @@ export function postingSubscribe(formData) {
 
 export function postSubscribeSuccess() {
   return {
-    type: SUBSCRIBE_POST_SUCCESS,
+    type: subscribeActions.SUBSCRIBE_POST_SUCCESS,
     payload: {
       date: new Date()
     }
@@ -39,7 +33,7 @@ export function postSubscribeSuccess() {
 
 export function postSubscribeFailed(error) {
   return {
-    type: SUBSCRIBE_POST_FAILED,
+    type: subscribeActions.SUBSCRIBE_POST_FAILED,
     payload: {
       date: new Date(),
       error: error
@@ -49,12 +43,12 @@ export function postSubscribeFailed(error) {
 
 export function showSubscribe() {
   return {
-    type: SUBSCRIBE_SHOW
+    type: subscribeActions.SUBSCRIBE_SHOW
   };
 }
 
 export function hideSubscribe() {
   return {
-    type: SUBSCRIBE_HIDE
+    type: subscribeActions.SUBSCRIBE_HIDE
   };
 }
