@@ -1,0 +1,69 @@
+#approval-form {
+  .sec label {
+    font-size: 18px;
+  }
+  .term {
+    text-transform: uppercase;
+  }
+  .lookup {
+    .lbl, .val {
+      float: left;
+    }
+    .lbl {
+      white-space: nowrap;
+      margin-right: 30px;
+      min-width: 80px;
+    }
+    .val {
+
+    }
+  }
+  .info .lookup .lbl {
+    text-transform: capitalize;
+  }
+  .terms .lookup .lbl {
+    text-transform: uppercase;
+    &::after {
+      content: ':';
+    }
+  }
+  .sel-opt {
+    font-size: 18px;
+    line-height: 20px;
+    .lbl {
+
+    }
+    .val {
+      display: inline-block;
+      padding: 5px 15px;
+      min-height: 34px;
+      min-width: 250px;
+      font-size: 20px;
+      line-height: 20px;
+      white-space: nowrap;
+      border-bottom: 1px solid #ccc;
+      & .invalid {
+        color: rgba(220,60,60, 0.7);
+      }
+    }
+  }
+}
+.uc {
+  text-transform: uppercase;
+}
+.lookup {
+  > .row + .row {
+    .hr {
+      margin-top: 5px;
+
+      // margin-bottom: 5px;
+      // border-top: 1px solid #ddd;
+    }
+  }
+  .lbl {
+    font-weight: normal;
+  }
+  .val {
+    font-weight: bold;
+  }
+}
