@@ -138,6 +138,8 @@ namespace Web.Controllers.api
             //return CreatedAtRoute("GetDesignReview", new { rid = review.Id }, ModelFactory.createDesignReviewVM(review));
         }
 
+        [HttpGet]
+        [HttpPost]
         [Route("{rid}/approve-project")]
         public IHttpActionResult ApproveProject(Guid rid)
         {
@@ -158,8 +160,15 @@ namespace Web.Controllers.api
             review.ApprovedDate = DateTime.UtcNow;
 
             UOW.Commit();
-
-            return CreatedAtRoute("GetDesignReview", new { rid = review.Id }, ModelFactory.createDesignReviewVM(review));
+            var result = new
+            {
+                ApprovedById = review.ApprovedById,
+                ApprovedByName = review.ApprovedByName,
+                ApprovedByIp = review.ApprovedByIp,
+                ApprovedDate = review.ApprovedDate,
+            };
+            return Ok(new { code = 200, description = "okeydoke", result = result });
+            //return CreatedAtRoute("GetDesignReview", new { rid = review.Id }, ModelFactory.createDesignReviewVM(review));
         }
 
         [HttpGet]
