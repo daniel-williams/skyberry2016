@@ -35,7 +35,7 @@ export function reviewOptionClearSelected(slug) {
 
     return FetchService.getJson('/api/reviews/' + id + '/options/clear', true)
       .then(() => {
-        dispatch(optionCleared(slug));
+        dispatch(clearSelected(slug));
         dispatch(updateReviewSuccess());
       })
       .catch(error => {
@@ -43,14 +43,14 @@ export function reviewOptionClearSelected(slug) {
       });
   };
 }
-export function reviewOptionSetViewing(optionId) {
-  return {
-    type: reviewActions.REVIEW_OPTION_SET_VIEWING,
-    payload: {
-      optionId: optionId,
-    }
-  };
-}
+// export function reviewOptionSetViewing(optionId) {
+//   return {
+//     type: reviewActions.REVIEW_OPTION_SET_VIEWING,
+//     payload: {
+//       optionId: optionId,
+//     }
+//   };
+// }
 
 export function reviewRequestRevision(slug) {
   return function(dispatch, getState) {
@@ -92,7 +92,7 @@ export function reviewRequestCanceled(slug) {
 
     return FetchService.getJson('/api/reviews/' + id + '/clear-request', true)
       .then(() => {
-        dispatch(requestCleared(slug));
+        dispatch(requestCanceled(slug));
         dispatch(updateReviewSuccess());
       })
       .catch(error => {
@@ -101,19 +101,36 @@ export function reviewRequestCanceled(slug) {
   };
 }
 
-export function reviewStepToggled(key) {
-  return {
-    type: reviewActions.REVIEW_STEP_TOGGLED,
-    payload: {
-      key: key,
-    }
+export function reviewApproveProject(slug) {
+  return function(dispatch, getState) {
+    dispatch(updateReview());
+
+    const id = getState().getIn(['review', 'reviews', slug, 'id']);
+
+    return FetchService.getJson('/api/reviews/' + id + '/approve-project', true)
+      .then((json) => {
+        dispatch(approveProject(slug, json.result));
+        dispatch(updateReviewSuccess());
+      })
+      .catch(error => {
+        dispatch(updateReviewFailed(error));
+      });
   };
 }
-export function reviewCommmentsToggled() {
-  return {
-    type: reviewActions.REVIEW_COMMENTS_TOGGLED,
-  };
-}
+
+// export function reviewStepToggled(key) {
+//   return {
+//     type: reviewActions.REVIEW_STEP_TOGGLED,
+//     payload: {
+//       key: key,
+//     }
+//   };
+// }
+// export function reviewCommmentsToggled() {
+//   return {
+//     type: reviewActions.REVIEW_COMMENTS_TOGGLED,
+//   };
+// }
 
 export function reviewHideFeedback() {
   return {
@@ -144,14 +161,16 @@ export default {
 
   reviewOptionSetSelected,
   reviewOptionClearSelected,
-  reviewOptionSetViewing,
+  // reviewOptionSetViewing,
+
+  reviewApproveProject,
 
   reviewRequestRevision,
   reviewRequestDeliverables,
   reviewRequestCanceled,
 
-  reviewStepToggled,
-  reviewCommmentsToggled,
+  // reviewStepToggled,
+  // reviewCommmentsToggled,
 
   reviewHideFeedback,
   reviewShowApproval,
@@ -172,7 +191,7 @@ function setSelected(slug, optionId) {
     }
   };
 }
-function optionCleared(slug) {
+function clearSelected(slug) {
   return {
     type: reviewActions.REVIEW_OPTION_CLEAR_SELECTED,
     payload: {
@@ -199,11 +218,21 @@ function requestDeliverables(slug, result) {
     }
   }
 }
-function requestCleared(slug) {
+function requestCanceled(slug) {
   return {
     type: reviewActions.REVIEW_REQUEST_CANCELED,
     payload: {
       slug: slug,
+    }
+  }
+}
+
+function approveProject(slug, result) {
+  return {
+    type: reviewActions.REVIEW_APPROVE_PROJECT,
+    payload: {
+      slug: slug,
+      result: result,
     }
   }
 }

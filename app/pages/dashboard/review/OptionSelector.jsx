@@ -31,7 +31,7 @@ export default React.createClass({
       <Row className='mb-half'>
         <Col xs={12}>
           <button
-            className='btn btn-primary'
+            className={this.props.isSelected ? 'btn btn-default' : 'btn btn-sky'} 
             onClick={this.props.selectionClick}>{this.renderSelectionText()}</button>
           <button
             className='btn btn-default'

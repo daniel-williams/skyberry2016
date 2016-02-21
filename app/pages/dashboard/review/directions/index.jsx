@@ -82,10 +82,24 @@ export default React.createClass({
     return status;
   },
   getApprovalStatus: function() {
-    return StepStatus.COMPLETED;
+    let status = StepStatus.HIDDEN;
+    const review = this.props.review;
+    if(review.requestType === 2) {
+      status = this.isApproved()
+        ? StepStatus.COMPLETED
+        : StepStatus.CURRENT;
+    }
+    return status;
   },
   getAcceptanceStatus: function() {
-    return StepStatus.COMPLETED;
+    let status = StepStatus.HIDDEN;
+    const review = this.props.review;
+    if(review.requestType === 1 || (review.requestType === 2 && this.isApproved())) {
+      status = this.isAccepted()
+        ? StepStatus.COMPLETED
+        : StepStatus.CURRENT;
+    }
+    return status;
   },
 
 
@@ -102,17 +116,11 @@ export default React.createClass({
         <Col xs={12}>
           <ReviewOptions
             status={this.getReviewStatus()}
-            open={this.props.steps.review}
-            stepClick={() => this.props.reviewStepToggled('review')}
-
             hasProofs={this.hasProofs()} />
         </Col>
         <Col xs={12}>
           <LeaveFeedback
             status={this.getFeedbackStatus()}
-            open={this.props.steps.feedback}
-            stepClick={() => this.props.reviewStepToggled('feedback')}
-
             hasMultipleOptions={this.hasMultipleOptions()}
             selectedOption={this.getSelectedOption()}
             clearOption={() => this.hasSelectedOption() && this.props.reviewOptionClearSelected(this.getReviewSlug())} />
@@ -120,9 +128,6 @@ export default React.createClass({
         <Col xs={12}>
           <RevisionOrDeliverables
             status={this.getRequestStatus()}
-            open={this.props.steps.request}
-            stepClick={() => this.props.reviewStepToggled('request')}
-
             hasRequest={this.hasRequest()}
             requestType={this.getRequestType()}
             isDisabled={this.hasMultipleOptions() && !this.hasSelectedOption()}
@@ -132,7 +137,37 @@ export default React.createClass({
             clearRequest={()=>this.props.reviewRequestCanceled(this.getReviewSlug())}
             />
         </Col>
+        {this.renderProjectApproval()}
+        {this.renderSkyberryAcceptance()}
       </Row>
+    );
+  },
+  renderProjectApproval: function() {
+    if(this.getApprovalStatus() === StepStatus.HIDDEN) { return; }
+
+    return (
+      <Col xs={12}>
+        <ProjectApproval
+          status={this.getApprovalStatus()}
+
+          isApproved={this.isApproved()}
+          approvedByName={this.props.review.approvedByName}
+          approvedDate={this.props.review.approvedDate}
+          showApproval={this.props.reviewShowApproval}
+          />
+      </Col>
+    );
+  },
+  renderSkyberryAcceptance: function() {
+    if(this.getAcceptanceStatus() === StepStatus.HIDDEN) { return; }
+
+    return (
+      <Col xs={12}>
+        <SkyberryAcceptance
+          status={this.getAcceptanceStatus()}
+          isEditable={this.props.review.requestType === 1}
+          />
+      </Col>
     );
   },
 

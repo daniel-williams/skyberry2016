@@ -38,20 +38,20 @@ export default function(state = initialState, action) {
       return state.withMutations(state => {
         state.set('showFeedback', true);
         state.set('showApproval', false);
-        state.set('showComments', false);
-        state.set('optionViewing', false);
-        state.set('steps', initialStepState);
+        // state.set('showComments', false);
+        // state.set('optionViewing', false);
+        // state.set('steps', initialStepState);
         return state;
       });
     }
-    case reviewActions.REVIEW_STEP_TOGGLED: {
-      const key = action.payload.key;
-      const val = !!state.getIn(['steps', key]);
-      return state.setIn(['steps', key], !val);
-    }
-    case reviewActions.REVIEW_COMMENTS_TOGGLED: {
-      return state.set('showComments', !state.get('showComments'));
-    }
+    // case reviewActions.REVIEW_STEP_TOGGLED: {
+    //   const key = action.payload.key;
+    //   const val = !!state.getIn(['steps', key]);
+    //   return state.setIn(['steps', key], !val);
+    // }
+    // case reviewActions.REVIEW_COMMENTS_TOGGLED: {
+    //   return state.set('showComments', !state.get('showComments'));
+    // }
     case reviewActions.REVIEW_SHOW_FEEDBACK: {
       return state.set('showFeedback', true);
     }
@@ -81,10 +81,12 @@ export default function(state = initialState, action) {
           selectedId: action.payload.optionId,
           requestById: null,
           requestByName: null,
+          requestByIp: null,
           requestDate: null,
           requestType: 0,
           ApprovedById: null,
           ApprovedByName: null,
+          ApprovedByIp: null,
           ApprovedDate: null,
         });
         state.setIn(['reviews', slug], fromJS(newReview));
@@ -99,19 +101,21 @@ export default function(state = initialState, action) {
           selectedId: null,
           requestById: null,
           requestByName: null,
+          requestByIp: null,
           requestDate: null,
           requestType: 0,
           ApprovedById: null,
           ApprovedByName: null,
+          ApprovedByIp: null,
           ApprovedDate: null,
         });
         state.setIn(['reviews', slug], fromJS(newReview));
         return state;
       });
     }
-    case reviewActions.REVIEW_OPTION_SET_VIEWING: {
-      return state.set('optionViewing', action.payload.optionId);
-    }
+    // case reviewActions.REVIEW_OPTION_SET_VIEWING: {
+    //   return state.set('optionViewing', action.payload.optionId);
+    // }
     case reviewActions.UPDATE_REVIEW: {
       return state.set('isUpdating', true);
     }
@@ -164,6 +168,12 @@ export default function(state = initialState, action) {
         approvedType: null,
         approvedDate: null,
       });
+      return state.setIn(['reviews', slug], fromJS(newReview));
+    }
+    case reviewActions.REVIEW_APPROVE_PROJECT: {
+      const slug = action.payload.slug;
+      const currentReview = state.getIn(['reviews', slug]).toJS();
+      const newReview = Object.assign({}, currentReview, action.payload.result);
       return state.setIn(['reviews', slug], fromJS(newReview));
     }
     default: {

@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import PureRender from 'react-addons-pure-render-mixin';
 import {Row, Col} from 'react-bootstrap';
 
 import {TitleDrawer} from '../../../../components';
@@ -10,12 +9,10 @@ import StepStatus from './StepStatus';
 export default React.createClass({
   displayName: 'LeaveFeedback',
 
-  mixins: [PureRender],
+  mixins: [],
 
   propTypes: {
     status: PropTypes.string,
-    open: PropTypes.bool,
-    stepClick: PropTypes.func,
 
     hasMultipleOptions: PropTypes.bool,
     selectedOption: PropTypes.any,
@@ -24,23 +21,31 @@ export default React.createClass({
   getDefaultProps: function() {
     return {
       status: StepStatus.TODO,
-      open: true,
-      stepClick: this.onClick,
 
       hasMultipleOptions: true,
       selectedOption: null,
       isEditable: true,
     };
   },
-  isCompleted: function() {
-    return this.props.status === StepStatus.COMPLETED;
+  getInitialState: function() {
+    return {
+      open: this.props.status === StepStatus.CURRENT,
+    };
+  },
+
+  componentWillReceiveProps: function(nextProps) {
+    if(nextProps.status !== this.props.status) {
+      this.setState({
+        open: nextProps.status === StepStatus.CURRENT,
+      });
+    }
   },
 
   render: function() {
 
     return (
       <div className='step'>
-        <TitleDrawer title={this.renderTitleBlock()} open={this.props.open} onClick={this.props.stepClick}>
+        <TitleDrawer title={this.renderTitleBlock()} open={this.state.open} onClick={this.toggleOpen}>
           {this.renderStepVerbiage()}
           {this.props.hasMultipleOptions && this.renderOptionInfo()}
         </TitleDrawer>
@@ -83,9 +88,10 @@ export default React.createClass({
     return <div>{optionsVerviage}Leave feedback, special directions, or anything else you'd like to communicate, using comments.</div>
   },
 
-  onClick: function(e) {
-    e.preventDefault();
-    console.log('onClick: not implemented');
+  toggleOpen: function() {
+    this.setState({
+      open: !this.state.open,
+    });
   },
 
 });

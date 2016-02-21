@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import PureRender from 'react-addons-pure-render-mixin';
 import {Row, Col} from 'react-bootstrap';
 
 import {TitleDrawer} from '../../../../components';
@@ -10,33 +9,39 @@ import StepStatus from './StepStatus';
 export default React.createClass({
   displayName: 'ReviewOptions',
 
-  mixins: [PureRender],
+  mixins: [],
 
   propTypes: {
     status: PropTypes.string,
-    open: PropTypes.bool,
-    stepClick: PropTypes.func,
 
     hasProofs: PropTypes.bool,
   },
   getDefaultProps: function() {
     return {
       status: StepStatus.TODO,
-      open: true,
-      stepClick: this.onClick,
 
       hasProofs: false,
     };
   },
-  isCompleted: function() {
-    console.log('WTF?', this.props.status, StepStatus.COMPLETED);
-    return this.props.status === StepStatus.COMPLETED;
+
+  getInitialState: function() {
+    return {
+      open: this.props.status === StepStatus.CURRENT,
+    };
+  },
+
+  componentWillReceiveProps: function(nextProps) {
+    if(nextProps.status !== this.props.status) {
+      this.setState({
+        open: nextProps.status === StepStatus.CURRENT,
+      });
+    }
   },
 
   render: function() {
     return (
       <div className='step'>
-        <TitleDrawer title={this.renderTitleBlock()} open={this.props.open} onClick={this.props.stepClick}>
+        <TitleDrawer title={this.renderTitleBlock()} open={this.state.open} onClick={this.toggleOpen}>
           <div>Review the designers' notes {this.renderProofVerbiage()} and design options, located below.</div>
         </TitleDrawer>
       </div>
@@ -51,9 +56,10 @@ export default React.createClass({
     return this.props.hasProofs ? ', proofs' : '';
   },
 
-  onClick: function(e) {
-    e.preventDefault();
-    console.log('onClick: not implemented');
+  toggleOpen: function() {
+    this.setState({
+      open: !this.state.open,
+    });
   },
 
 });
