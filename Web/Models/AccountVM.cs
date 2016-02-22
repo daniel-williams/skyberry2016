@@ -13,4 +13,12 @@ namespace Web.Models
 
         public virtual ICollection<ProjectListVM> Projects { get; set; }
     }
+
+    public class AccountDetailsVM
+    {
+        public Guid Id { get; set; }
+
+        public virtual ICollection<InvoiceListVM> Invoices { get; set; }
+        public virtual ICollection<PaymentListVM> Payments { get; set; }
+    }
 }

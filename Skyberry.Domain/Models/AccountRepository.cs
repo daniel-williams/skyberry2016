@@ -17,6 +17,8 @@ namespace Skyberry.Domain
         List<Account> GetByUserId(string userId);
         List<Project> GetProjects(Guid accountId);
         List<Project> GetOwnAccountProjects(string userId, Guid accountId);
+
+        Account GetBillingDetailsById(Guid id);
     }
 
     public class AccountRepository : RepositoryBase<Account>, IAccountRepository
@@ -108,6 +110,10 @@ namespace Skyberry.Domain
                 .ToList();
         }
 
+        public Account GetBillingDetailsById(Guid id)
+        {
+            return DbSet.Where(e => e.Id == id).Include(e => e.Invoices).Include(e => e.Payments).SingleOrDefault();
+        }
     }
 
     public class AccountSearchCriteria

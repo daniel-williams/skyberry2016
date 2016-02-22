@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNet.Identity;
-using Skyberry.Domain;
+﻿using Skyberry.Domain;
 using System;
 using System.Collections.Generic;
-using System.Web.Http;
 using System.Linq;
-using System.Data.Entity;
+using System.Net;
+using System.Web.Http;
 using Web.Models;
 
 namespace Web.Controllers.api
@@ -13,14 +12,28 @@ namespace Web.Controllers.api
     [RoutePrefix("api/accounts")]
     public class AccountsController : _BaseApiController
     {
-        [Route("")]
-        public List<AccountVM> GetAll()
+        [HttpGet]
+        [HttpPost]
+        [Route("{id}")]
+        public IHttpActionResult Get(string id)
         {
-            List<Account> accounts = UOW.Accounts.GetByUserId(this.UserIdentityId);
-            List<AccountVM> accountList = accounts.Select(e => ModelFactory.CreateAccountVM(e)).ToList();
+            var account = this.ModelFactory.CreateAccountDetailsVM(UOW.Accounts.GetBillingDetailsById(new Guid(id)));
 
-            return accountList;
+            if(account == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+            return Ok(new { code = 200, description = "okeydoke", account = account });
         }
+
+        //[Route("")]
+        //public List<AccountVM> GetAll()
+        //{
+        //    List<Account> accounts = UOW.Accounts.GetByUserId(this.UserIdentityId);
+        //    List<AccountVM> accountList = accounts.Select(e => ModelFactory.CreateAccountVM(e)).ToList();
+
+        //    return accountList;
+        //}
 
         // TODO djw: move parameter into route
         [Route("projects")]

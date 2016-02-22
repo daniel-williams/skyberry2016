@@ -54,7 +54,42 @@ namespace Web.Models
                 Name = item.Name,
                 Slug = SlugUtils.ToSlug(item.Name),
 
-                Projects = item.Projects.OrderByDescending(e => e.CreatedDate).Select(e => this.CreateProjectListVM(e)).ToList()
+                Projects = item.Projects.OrderByDescending(e => e.CreatedDate).Select(e => this.CreateProjectListVM(e)).ToList(),
+            };
+        }
+
+        public AccountDetailsVM CreateAccountDetailsVM(Account item)
+        {
+            return new AccountDetailsVM
+            {
+                Id = item.Id,
+
+                Invoices = item.Invoices.OrderByDescending(e => e.CreatedDate).Select(e => this.CreateInvoiceListVM(e)).ToList(),
+                Payments = item.Payments.OrderByDescending(e => e.CreatedDate).Select(e => this.CreatePaymentListVM(e)).ToList(),
+            };
+        }
+        public InvoiceListVM CreateInvoiceListVM(Invoice item)
+        {
+            return new InvoiceListVM
+            {
+                Id = item.Id,
+
+                InvoiceNumber = item.InvoiceNumber,
+                Amount = item.Amount,
+                SentDate = item.SentDate,
+                DueDate = item.DueDate,
+                IsEstimate = item.IsEstimate,
+            };
+        }
+        public PaymentListVM CreatePaymentListVM(Payment item)
+        {
+            return new PaymentListVM
+            {
+                Id = item.Id,
+
+                Amount = item.Amount,
+                PaymentType = item.PaymentType,
+                PaymentDate = item.PaymentDate,
             };
         }
 
@@ -82,9 +117,9 @@ namespace Web.Models
                 CompletionDate = item.CompletionDate,
                 AccountId = item.AccountId,
 
-                Contracts = item.Contracts.OrderByDescending(e=>e.CreatedDate).Select(e => this.CreateContractVM(e)).ToList(),
-                Reviews = item.DesignReviews.OrderByDescending(e=>e.CreatedDate).Select(e => this.createDesignReviewVM(e)).ToList(),
-                Docs = item.ProjectDocuments.OrderByDescending(e=>e.CreatedDate).Select(e=>this.createProjectDocumentVM(e)).ToList(),
+                Contracts = item.Contracts.OrderByDescending(e => e.CreatedDate).Select(e => this.CreateContractVM(e)).ToList(),
+                Reviews = item.DesignReviews.OrderByDescending(e => e.CreatedDate).ThenByDescending(e => e.Title).Select(e => this.createDesignReviewVM(e)).ToList(),
+                Docs = item.ProjectDocuments.OrderByDescending(e => e.CreatedDate).Select(e => this.createProjectDocumentVM(e)).ToList(),
             };
         }
 
