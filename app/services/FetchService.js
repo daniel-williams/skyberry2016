@@ -72,6 +72,9 @@ export function loadUser(id) {
 export function loadAccounts(id) {
   return getJson('/api/users/' + id + '/accounts', true);
 }
+export function loadAccount(id) {
+  return getJson('/api/accounts/' + id, true);
+}
 export function loadProject(id) {
   return getJson('/api/projects/' + id, true);
 }
@@ -83,6 +86,7 @@ export default {
   signIn,
   loadUser,
   loadAccounts,
+  loadAccount,
   loadProject,
 }
 

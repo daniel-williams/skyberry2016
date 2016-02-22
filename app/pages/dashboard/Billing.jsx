@@ -11,8 +11,27 @@ export default React.createClass({
 
   mixins: [PureRender],
 
+  componentWillMount: function() {
+    this.fetchAsNeeded();
+  },
+  componentWillReceiveProps(nextProps) {
+    if(!nextProps.isFetching) {
+      this.fetchAsNeeded(nextProps);
+    }
+  },
+  fetchAsNeeded: function(useProps) {
+    const props = useProps || this.props;
+    if(!props.isFetching && !props.hasFetchedProject && !!props.accountSlug) {
+      props.fetchAccountAsNeeded(props.accountSlug);
+    }
+  },
+  isFetching: function() {
+    return this.props.isFetching || this.props.isFetchingDetails;
+  },
   getSelectedAccountName: function() {
-    return 'TODO';
+    return this.props.account
+      ? this.props.account.name
+      : '';
   },
   hasAccountOptions: function() {
     return this.props.accountOptions.length > 1;
