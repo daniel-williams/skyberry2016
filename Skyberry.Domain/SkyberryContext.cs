@@ -8,7 +8,7 @@ namespace Skyberry.Domain
     public class SkyberryContext : IdentityDbContext<SkyberryUser>
     {
         public SkyberryContext()
-            : base("Skyberry2015")
+            : base("skyberry2016")
         {
         }
 

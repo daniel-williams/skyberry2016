@@ -200,6 +200,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\api\AccountsController.cs" />
     <Compile Include="Controllers\api\ContactController.cs" />
+    <Compile Include="Controllers\api\DocumentsController.cs" />
     <Compile Include="Controllers\api\ReviewsController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\api\PortfolioController.cs" />
@@ -220,6 +221,8 @@
     <Compile Include="Models\ContractVM.cs" />
     <Compile Include="Models\DesignReviewVM.cs" />
     <Compile Include="Models\ImageVM.cs" />
+    <Compile Include="Models\PaymentVM.cs" />
+    <Compile Include="Models\InvoiceVM.cs" />
     <Compile Include="Models\ModelFactory.cs" />
     <Compile Include="Models\ProjectDocumentVM.cs" />
     <Compile Include="Models\ProjectVM.cs" />
@@ -271,6 +274,7 @@
     <Folder Include="content\scripts\" />
     <Folder Include="content\styles\" />
     <Folder Include="Views\Contact\" />
+    <Folder Include="Views\MyAccount\" />
     <Folder Include="Views\Subscribe\" />
   </ItemGroup>
   <ItemGroup>
