@@ -32,7 +32,9 @@ export default React.createClass({
     return this.props.isFetching;
   },
   getSelectedAccountName: function() {
-    return 'TODO';
+    return this.props.account
+      ? this.props.account.name
+      : '';
   },
   getRootUrl: function() {
     return '/' + this.props.params.aSlug + '/' + this.props.params.pSlug + '/';
@@ -40,6 +42,31 @@ export default React.createClass({
   hasAccountOptions: function() {
     return this.props.accountOptions.length > 1;
   },
+
+  getProjectDocs: function() {
+    return this.props.project.docs.reduce((accum, d) => {
+      if(d.docType !== 'Final Deliverables') {
+        accum.push(d);
+      }
+      return accum;
+    }, []);
+  },
+  getFinalDeliverables: function() {
+    return this.props.project.docs.reduce((accum, d) => {
+      if(d.docType === 'Final Deliverables') {
+        accum.push(d);
+      }
+      return accum;
+    }, []);
+  },
+  getContractDocs: function() {
+    let docs = [];
+    this.props.project.contracts.forEach(c => {
+      c.docs.forEach(d => docs.push(d));
+    });
+    return docs;
+  },
+
   render: function() {
     return (
       <div id='project' className='mt'>
@@ -114,17 +141,17 @@ export default React.createClass({
               <Reviews items={p.reviews} rootUrl={this.getRootUrl()} />
             </Col>
             <Col md={6} xs={12} className='mb'>
-              <Deliverables items={p.docs} />
+              <Deliverables items={this.getFinalDeliverables()} />
             </Col>
           </Row>
         </Col>
         <Col sm={6} xs={12} className='mb'>
           <Row>
             <Col md={6} xs={12} className='mb'>
-              <Documents items={p.docs} />
+              <Documents items={this.getProjectDocs()} />
             </Col>
             <Col md={6} xs={12} className='mb'>
-              <Contracts items={p.contracts} />
+              <Contracts items={this.getContractDocs()} />
             </Col>
           </Row>
         </Col>
