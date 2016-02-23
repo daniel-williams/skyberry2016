@@ -9,6 +9,9 @@ namespace Web.Models
     {
         public Guid Id { get; set; }
 
+        [Display(Name = "Original Filename")]
+        public string FilenameOriginal { get; set; }
+
         [Display(Name = "Number")]
         public string InvoiceNumber { get; set; }
 

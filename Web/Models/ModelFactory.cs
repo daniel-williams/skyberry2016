@@ -74,6 +74,7 @@ namespace Web.Models
             {
                 Id = item.Id,
 
+                FilenameOriginal = item.FilenameOriginal,
                 InvoiceNumber = item.InvoiceNumber,
                 Amount = item.Amount,
                 SentDate = item.SentDate,

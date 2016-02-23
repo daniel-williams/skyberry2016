@@ -250,6 +250,8 @@ namespace Web.Controllers.api
             return CreatedAtRoute("GetComment", new { rid = item.DesignReviewId, cid = item.Id }, ModelFactory.createReviewCommmentVM(item));
         }
 
+        [HttpGet]
+        [HttpPost]
         [Route("{rid}", Name = "GetDesignReview")]
         public DesignReviewVM GetDesignReview(Guid rid)
         {
