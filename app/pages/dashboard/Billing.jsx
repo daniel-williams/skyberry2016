@@ -93,35 +93,32 @@ export default React.createClass({
   renderBillingContent: function() {
     return (
 
-      <Row className='mt'>
+      <Row>
         <Col xs={12}>
           {this.renderBillingSummary()}
         </Col>
         <Col xs={12}>
-          <Row className='mt'>
-            <Col xs={12}>
-              <h2>Payments</h2>
-            </Col>
-            <Col xs={12}>
-              {this.hasPayments() ? this.renderPayments() : this.renderNoPaymentsFound()}
-            </Col>
-          </Row>
+          {this.renderPaymentSummary()}
         </Col>
         <Col xs={12}>
-          <Row className='mt'>
-            <Col xs={12}>
-              <h2>Invoices</h2>
-            </Col>
-            <Col xs={12}>
-              {this.hasInvoices() ? this.renderInvoices() : this.renderNoInvoicesFound()}
-            </Col>
-          </Row>
+          {this.renderInvoiceSummary()}
         </Col>
       </Row>
 
     );
   },
 
+  renderPaymentSummary: function() {
+    return (
+      <fieldset className='mt'>
+        <legend><h2>Payments</h2></legend>
+        {this.hasPayments()
+          ? this.renderPayments()
+          : this.renderNoPaymentsFound()
+        }
+      </fieldset>
+    );
+  },
   renderPayments: function() {
     const payments = this.props.account.payments.map(item => {
       return (
@@ -134,30 +131,33 @@ export default React.createClass({
     });
 
     return (
-      <Row>
-        <Col xs={12}>
-          <div className='tbl'>
-            <div className='tbl-row head'>
-              <div>Amount</div>
-              <div>Payment&nbsp;Type</div>
-              <div className='date'>Payment&nbsp;Date</div>
-            </div>
-            {payments}
-          </div>
-        </Col>
-      </Row>
+      <div className='tbl'>
+        <div className='tbl-row head'>
+          <div>Amount</div>
+          <div>Payment&nbsp;Type</div>
+          <div className='date'>Payment&nbsp;Date</div>
+        </div>
+        {payments}
+      </div>
     );
   },
   renderNoPaymentsFound: function() {
     return (
-      <Row>
-        <Col xs={12}>
-          <p>no payments found...</p>
-        </Col>
-      </Row>
+      <p>no payments found...</p>
     )
   },
 
+  renderInvoiceSummary: function() {
+    return (
+      <fieldset className='mt'>
+        <legend><h2>Invoices</h2></legend>
+        {this.hasInvoices()
+          ? this.renderInvoices()
+          : this.renderNoInvoicesFound()
+        }
+      </fieldset>
+    );
+  },
   renderInvoices: function() {
     const invoices = this.props.account.invoices.map(item => {
       return (
@@ -172,29 +172,21 @@ export default React.createClass({
     });
 
     return (
-      <Row>
-        <Col xs={12}>
-          <div className='tbl'>
-            <div className='tbl-row head'>
-              <div className='id'>#</div>
-              <div>Amount</div>
-              <div className='date'>Invoice&nbsp;Date</div>
-              <div className='date'>Due&nbsp;Date</div>
-              <div></div>
-            </div>
-            {invoices}
-          </div>
-        </Col>
-      </Row>
+      <div className='tbl'>
+        <div className='tbl-row head'>
+          <div className='id'>#</div>
+          <div>Amount</div>
+          <div className='date'>Invoice&nbsp;Date</div>
+          <div className='date'>Due&nbsp;Date</div>
+          <div></div>
+        </div>
+        {invoices}
+      </div>
     );
   },
   renderNoInvoicesFound: function() {
     return (
-      <Row>
-        <Col xs={12}>
-          <p>no invoices found...</p>
-        </Col>
-      </Row>
+      <p>no invoices found...</p>
     )
   },
 
@@ -204,20 +196,20 @@ export default React.createClass({
     const amountDue = formatMoney(balance);
 
     return (
-      <Row>
-        <Col xs={12}>
-          <h2>Billing Summary</h2>
-          <div className="d_item">Account Balance</div>
-        </Col>
-        <Col xs={12}>
-          <div className="d_data">{amountDue}</div>
-        </Col>
-        <Col xs={12}>
-          {hasBalance
-            ? this.renderPaymentOptions(balance)
-            : this.renderNoBlance()}
-        </Col>
-      </Row>
+      <fieldset className='mt'>
+        <legend><h2>Billing Summary</h2></legend>
+        <div className='tbl'>
+          <div className='tbl-row'>
+            <div className="d_item">Balance</div>
+            <div className="d_data">{amountDue}</div>
+            <div>
+              {hasBalance
+                ? this.renderPaymentOptions(balance)
+                : this.renderNoBlance()}
+            </div>
+          </div>
+        </div>
+        </fieldset>
     );
   },
   renderNoBlance: function() {
@@ -229,35 +221,30 @@ export default React.createClass({
   },
   renderPaymentOptions: function(balance) {
     return (
-      <div id="pay_wrap">
-        <div className="d_item">Payment Options</div>
-        <div className="d_data">
-          <div id="paypal_wrap">
-            <div className="row-paypal">
-              <img src="/content/images/paypal-payments.png?mode=crop&width=350" alt="PayPal payment options" />
-            </div>
-            <div className="row-paypal">
-              <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="frm-paypal">
-                <input type="hidden" name="cmd" value="_xclick" />
-                <input type="hidden" name="business" value="lacey@skyberrystudio.com" />
-                <input type="hidden" name="amount" value={balance} />
-                <input type="hidden" name="item_name" value="Payment via www.skyberrystudio.com website for @Model.User.FirstName @Model.User.LastName, account #@Model.Account.Number." />
-                <input type="hidden" name="custom" value={balance} />
-                <input type="hidden" name="invoice" value="" />
-                <input type="hidden" name="image_url" value="https://skyberrystudio.com/images/skyberry_logo_190x50.png" />
-                <input type="hidden" name="cpp_header_image" value="https://skyberrystudio.com/images/skyberry_logo_750x50.png" />
-                <input type="hidden" name="cpp_headerback_color" value="e6e6e6" />
-                <input type="hidden" name="cpp_headerborder_color" value="e6e6e6" />
-                <input type="hidden" name="no_note" value="1" />
-                <input type="hidden" name="no_shipping" value="1" />
-                <input type="hidden" name="return" value="https://skyberrystudio.com/my-account/summary" />
-                <input type="hidden" name="cancel_return" value="https://skyberrystudio.com/my-account/summary" />
-                <input type="hidden" name="rm" value="2" />
-                <input type="hidden" name="cbt" value="Return to Skyberry Studio&trade;." />
-                <button id="btn-paypal" type="submit" className="btn btn-default">Pay Now</button>
-              </form>
-            </div>
-          </div>
+      <div className="paypal-wrap">
+        <div className="paypal">
+          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="frm-paypal">
+            <input type="hidden" name="cmd" value="_xclick" />
+            <input type="hidden" name="business" value="lacey@skyberrystudio.com" />
+            <input type="hidden" name="amount" value={balance} />
+            <input type="hidden" name="item_name" value="Payment via www.skyberrystudio.com website for @Model.User.FirstName @Model.User.LastName, account #@Model.Account.Number." />
+            <input type="hidden" name="custom" value={balance} />
+            <input type="hidden" name="invoice" value="" />
+            <input type="hidden" name="image_url" value="https://skyberrystudio.com/images/skyberry_logo_190x50.png" />
+            <input type="hidden" name="cpp_header_image" value="https://skyberrystudio.com/images/skyberry_logo_750x50.png" />
+            <input type="hidden" name="cpp_headerback_color" value="e6e6e6" />
+            <input type="hidden" name="cpp_headerborder_color" value="e6e6e6" />
+            <input type="hidden" name="no_note" value="1" />
+            <input type="hidden" name="no_shipping" value="1" />
+            <input type="hidden" name="return" value="https://skyberrystudio.com/my-account/summary" />
+            <input type="hidden" name="cancel_return" value="https://skyberrystudio.com/my-account/summary" />
+            <input type="hidden" name="rm" value="2" />
+            <input type="hidden" name="cbt" value="Return to Skyberry Studio&trade;." />
+            <button type="submit" className="btn btn-sky mv-half">Pay Now</button>
+          </form>
+        </div>
+        <div className="pay-now">
+          <img src="/content/images/paypal-payments.png" className='img-responsive' alt="PayPal payment options" />
         </div>
       </div>
     );
