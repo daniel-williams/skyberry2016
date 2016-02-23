@@ -23,10 +23,10 @@ const initialState = fromJS({
 export default function(state = initialState, action) {
   console.log(action);
   switch(action.type) {
-    case userActions.USER_FETCHING: {
+    case userActions.FETCH_USER: {
       return state.set('isRequesting', true);
     }
-    case userActions.USER_FETCH_SUCCESS: {
+    case userActions.FETCH_USER_SUCCESS: {
       return state.withMutations(state => {
         state.set('isRequesting', false);
         state.set('lastRequestDate', action.payload.date);
@@ -46,7 +46,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case userActions.USER_FETCH_FAILED: {
+    case userActions.FETCH_USER_FAILED: {
       return state.withMutations(state => {
         state.set('isRequesting', false);
         state.set('lastRequestDate', action.payload.date);
@@ -54,7 +54,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case userActions.USER_RESET: {
+    case userActions.RESET_USER: {
       return initialState;
     }
     default:

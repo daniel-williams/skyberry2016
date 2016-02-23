@@ -5,6 +5,7 @@ import * as accountActions from '../actions/accountActions';
 
 const initialState = fromJS({
   isFetching: false,
+  isFetchingDetails: false,
   lastFetchDate: null,
   lastFetchError: null,
 
@@ -16,6 +17,31 @@ const initialState = fromJS({
 
 export default function(state = initialState, action) {
   switch(action.type) {
+    case accountActions.FETCH_ACCOUNT: {
+      return state.set('isFetchingDetails', true);
+    }
+    case accountActions.FETCH_ACCOUNT_SUCCESS: {
+      return state.withMutations(state => {
+        state.set('isFetchingDetails', false);
+        state.set('lastFetchDate', action.payload.date);
+        state.set('lastFetchError', null);
+
+        const slug = action.payload.slug;
+        const account = state.getIn(['accountMap', slug]).toJS();
+        const newAccount = Object.assign({}, account, action.payload.account, {loaded:true});
+        state.setIn(['accountMap', slug], fromJS(newAccount));
+        return state;
+      });
+    }
+    case accountActions.FETCH_ACCOUNT_FAILED: {
+      return state.withMutations(state => {
+        state.set('isFetchingDetails', false);
+        state.set('lastFetchDate', action.payload.date);
+        state.set('lastFetchError', action.payload.error);
+        return state;
+      });
+    }
+
     case accountActions.FETCH_ACCOUNTS: {
       return state.set('isFetching', true);
     }
