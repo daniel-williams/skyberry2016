@@ -19,15 +19,18 @@ export default React.createClass({
       items: [],
     };
   },
-
   hasItems: function() {
     return !!this.props.items.length;
   },
+
   render: function() {
     return (
       <div {...this.props} className='design-reviews link-set'>
         <h4 className='title'>Design Reviews</h4>
-        {this.hasItems() ? this.renderItems() : NO_ITEMS}
+        {this.hasItems()
+          ? this.renderItems()
+          : NO_ITEMS
+        }
       </div>
     );
   },

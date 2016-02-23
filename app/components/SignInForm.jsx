@@ -36,14 +36,6 @@ export default React.createClass({
           </Col>
         </Row>
         <Row>
-          <Col xs={12}>
-            <SkyCheckbox
-              name='remember'
-              label='Remember me'
-              value={false} />
-          </Col>
-        </Row>
-        <Row>
           <Col xs={12} className='help-block'>
             <SkyInput type='hidden' name='error' value='' />
           </Col>

@@ -37,7 +37,7 @@ export default React.createClass({
       : '';
   },
   getRootUrl: function() {
-    return '/' + this.props.params.aSlug + '/' + this.props.params.pSlug + '/';
+    return '/' + this.props.account.slug + '/' + this.props.project.slug + '/';
   },
   hasAccountOptions: function() {
     return this.props.accountOptions.length > 1;
@@ -107,24 +107,17 @@ export default React.createClass({
     );
   },
   renderProjectInfo: function() {
-    let p = this.props.project;
-    let now = Date.now();
-    let start = new Date(p.startDate);
-    let est = new Date(p.estimatedCompletionDate);
-    let completed = new Date(p.completionDate);
-    let begin;
-    let done;
-
-    if(now < start) {
-      begin = (<Brick>starting: {formatDate(start)}</Brick>);
-    } else {
-      begin = (<Brick>started: {formatDate(start)}</Brick>);
-    }
-    if(completed) {
-      done = (<Brick>Completed: {formatDate(completed)}</Brick>);
-    } else {
-      done = (<Brick>Completion: {formatDate(completed)} (estimated)</Brick>);
-    }
+    const p = this.props.project;
+    const now = Date.now();
+    const start = new Date(p.startDate);
+    const est = new Date(p.estimatedCompletionDate);
+    const completed = new Date(p.completionDate);
+    const begin = now < start
+      ? <Brick>starting: {formatDate(start)}</Brick>
+      : <Brick>started: {formatDate(start)}</Brick>;
+    const done = !!completed
+      ? <Brick>Completed: {formatDate(completed)}</Brick>
+      : <Brick>Completion: {formatDate(completed)} (estimated)</Brick>;
 
     return (
       <Row id='project-details'>
