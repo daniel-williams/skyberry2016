@@ -9,9 +9,9 @@ export default {
 
   renderClose: function() {
     return (
-      <Col className='pull-right'>
+      <div className='col pull-right'>
         <button className='btn btn-default' onClick={this.close}>Close</button>
-      </Col>
+      </div>
     );
   },
 

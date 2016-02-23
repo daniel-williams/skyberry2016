@@ -12,7 +12,8 @@ export default React.createClass({
   propTypes: {
     isSelected: PropTypes.bool,
     showComments: PropTypes.bool,
-
+    isEditable: PropTypes.bool,
+    isLegacyProject: PropTypes.bool,
     selectionClick: PropTypes.func,
     commentsClick: PropTypes.func,
   },
@@ -20,7 +21,8 @@ export default React.createClass({
     return {
       isSelected: false,
       showComments: false,
-
+      isEditable: true,
+      isLegacyProject: false,
       selectionClick: function() {},
       commentsClick: function() {},
     };
@@ -30,14 +32,30 @@ export default React.createClass({
     return (
       <Row className='mb-half'>
         <Col xs={12}>
-          <button
-            className={this.props.isSelected ? 'btn btn-default' : 'btn btn-sky'} 
-            onClick={this.props.selectionClick}>{this.renderSelectionText()}</button>
+          {!this.props.isLegacyProject && this.renderSelectionButton()}
           <button
             className='btn btn-default'
             onClick={this.props.commentsClick}>{this.renderCommentText()}</button>
         </Col>
       </Row>
+    );
+  },
+  renderSelectionButton: function() {
+    const selectButtonCssNames = classnames('btn', {
+      'btn-default': this.props.isSelected || !this.props.isEditable,
+      'btn-sky': !this.props.isSelected && this.props.isEditable,
+      'disabled': !this.props.isEditable,
+    });
+    const selectButtonTip = this.props.isEditable
+      ? 'Select this option.'
+      : 'This design review is no longer editable.';
+
+    return (
+      <button
+        className={selectButtonCssNames}
+        disabled={!this.props.isEditable}
+        title={selectButtonTip}
+        onClick={this.props.selectionClick}>{this.renderSelectionText()}</button>
     );
   },
   renderSelectionText: function() {

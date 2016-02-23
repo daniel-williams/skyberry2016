@@ -15,6 +15,7 @@ function mapStateToProps(state, ownProps) {
     hasFetchedProject = false,
     projectSlug,
     compositeSlug,
+    account,
     project;
 
   if(hasFetchedAccounts) {
@@ -29,6 +30,7 @@ function mapStateToProps(state, ownProps) {
     }
 
     if(accountSlug) {
+      account = state.getIn(['account', 'accountMap', accountSlug]).toJS();
       try {
         options = state.getIn(['project', 'projectDirectory', accountSlug, 'options']).toJS();
       } catch(e) {}
@@ -56,6 +58,7 @@ function mapStateToProps(state, ownProps) {
     options: options,
     projectSlug: projectSlug,
     compositeSlug: compositeSlug,
+    account: account,
     project: project,
   };
 }

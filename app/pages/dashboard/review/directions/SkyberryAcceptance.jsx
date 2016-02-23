@@ -14,13 +14,13 @@ export default React.createClass({
   propTypes: {
     status: PropTypes.string,
 
-    isEditable: PropTypes.bool,
+    requestType: PropTypes.number,
   },
   getDefaultProps: function() {
     return {
       status: StepStatus.TODO,
 
-      isEditable: false,
+      requestType: 1,
     };
   },
 
@@ -37,6 +37,9 @@ export default React.createClass({
       });
     }
   },
+  showEditMessage: function() {
+    return this.props.requestType === 1;
+  },
 
   render: function() {
 
@@ -44,7 +47,7 @@ export default React.createClass({
       <div className='step'>
         <TitleDrawer title={this.renderTitleBlock()} open={this.state.open} onClick={this.toggleOpen}>
           <p>Skyberry Studio has been notified that you have completed this design review and are ready to proceed.</p>
-          {this.props.isEditable && this.renderEditMessage()}
+          {this.showEditMessage() && this.renderEditMessage()}
         </TitleDrawer>
       </div>
     );

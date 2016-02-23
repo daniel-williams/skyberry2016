@@ -17,6 +17,14 @@ export default React.createClass({
   mixins: [PureRender, StepStatus],
 
   propTypes: {
+    isEditable: PropTypes.bool,
+    isLegacyProject: PropTypes.bool,
+  },
+  getDefaultProps: function() {
+    return {
+      isEditable: true,
+      isLegacyProject: false,
+    };
   },
 
   hasProofs: function() {
@@ -52,6 +60,7 @@ export default React.createClass({
     return this.props.review.acceptedDate !== null;
   },
   isRequestCancelable: function() {
+    // return this.props.isEditable;
     const requestType = this.getRequestType();
     return ((requestType === 1 && !this.isAccepted()) || (requestType === 2 && !this.isApproved()));
   },
@@ -121,25 +130,31 @@ export default React.createClass({
         <Col xs={12}>
           <LeaveFeedback
             status={this.getFeedbackStatus()}
+            isEditable={this.props.isEditable}
             hasMultipleOptions={this.hasMultipleOptions()}
             selectedOption={this.getSelectedOption()}
             clearOption={() => this.hasSelectedOption() && this.props.reviewOptionClearSelected(this.getReviewSlug())} />
         </Col>
-        <Col xs={12}>
-          <RevisionOrDeliverables
-            status={this.getRequestStatus()}
-            hasRequest={this.hasRequest()}
-            requestType={this.getRequestType()}
-            isDisabled={this.hasMultipleOptions() && !this.hasSelectedOption()}
-            isCancelable={this.isRequestCancelable()}
-            requestRevision={()=>this.props.reviewRequestRevision(this.getReviewSlug())}
-            requestDeliverables={()=>this.props.reviewRequestDeliverables(this.getReviewSlug())}
-            clearRequest={()=>this.props.reviewRequestCanceled(this.getReviewSlug())}
-            />
-        </Col>
+        {!this.props.isLegacyProject && this.renderRevisionOrDeliverables()}
         {this.renderProjectApproval()}
         {this.renderSkyberryAcceptance()}
       </Row>
+    );
+  },
+  renderRevisionOrDeliverables: function() {
+    return (
+      <Col xs={12}>
+        <RevisionOrDeliverables
+          status={this.getRequestStatus()}
+          hasRequest={this.hasRequest()}
+          requestType={this.getRequestType()}
+          isDisabled={this.hasMultipleOptions() && !this.hasSelectedOption()}
+          isCancelable={this.isRequestCancelable()}
+          requestRevision={()=>this.props.reviewRequestRevision(this.getReviewSlug())}
+          requestDeliverables={()=>this.props.reviewRequestDeliverables(this.getReviewSlug())}
+          clearRequest={()=>this.props.reviewRequestCanceled(this.getReviewSlug())}
+          />
+      </Col>
     );
   },
   renderProjectApproval: function() {
@@ -165,7 +180,7 @@ export default React.createClass({
       <Col xs={12}>
         <SkyberryAcceptance
           status={this.getAcceptanceStatus()}
-          isEditable={this.props.review.requestType === 1}
+          requestType={this.props.review.requestType}
           />
       </Col>
     );

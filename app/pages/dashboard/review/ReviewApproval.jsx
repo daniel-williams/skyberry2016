@@ -15,6 +15,10 @@ export default React.createClass({
   getReviewSlug: function() {
     return this.props.account.slug + '/' + this.props.project.slug + '/' + this.props.review.slug;
   },
+  getReviewTitle: function() {
+    return this.props.review && this.props.review.title;
+  },
+
   isApproved: function() {
     return this.props.review.approvedDate != null;
   },
@@ -23,8 +27,13 @@ export default React.createClass({
     return (
       <Modal id='review-feedback' ref='modal' show={this.props.showApproval} backdrop='static'>
         <Modal.Header>
-          <h1>Project Approval<span className='accent'> for </span><span className='nowrap'>{this.getProjectName()}</span></h1>
-          {this.renderClose()}
+          <Row>
+            <div className='col'>
+              <h1>Project Approval<span className='accent'> for </span><span className='nowrap'>{this.getProjectName()}</span></h1>
+              <h3>{this.getReviewTitle()}</h3>
+            </div>
+            {this.renderClose()}
+          </Row>
         </Modal.Header>
         <Modal.Body>
           <div id='approval-form'>
@@ -36,7 +45,9 @@ export default React.createClass({
           </div>
         </Modal.Body>
         <Modal.Footer>
-          {this.renderClose()}
+          <Row>
+            {this.renderClose()}
+          </Row>
         </Modal.Footer>
       </Modal>
     );

@@ -35,6 +35,10 @@ export default React.createClass({
   getReviewSlug: function() {
     return this.props.account.slug + '/' + this.props.project.slug + '/' + this.props.review.slug;
   },
+  getReviewTitle: function() {
+    return this.props.review && this.props.review.title;
+  },
+
   hasNotes: function() {
     return this.props.review.description && this.props.review.description.length > 0;
   },
@@ -63,12 +67,9 @@ export default React.createClass({
         })
       : [];
   },
-
-
   getComments: function(viewingId) {
     return this.props.review.comments.filter(item=>item.oId === viewingId);
   },
-
   getViewingId: function() {
     return this.state.viewingOptionId || this.props.review.selectedId || this.getDefaultOptionId();
   },
@@ -88,16 +89,37 @@ export default React.createClass({
     return this.props.review.selectedId === this.getViewingId();
   },
 
+
+  isApproved: function() {
+    return this.props.review.approvedDate != null;
+  },
+  isAccepted: function() {
+    return this.props.review.acceptedDate !== null;
+  },
+  isEditable: function() {
+    return !(this.isAccepted() || this.isApproved());
+  },
+  isLegacyProject: function() {
+    return (this.isAccepted() && this.props.review.approvedDate === null && this.props.review.requestDate === null);
+  },
+
   render: function() {
     return (
       <Modal id='review-feedback' ref='modal' show={this.props.showFeedback} backdrop='static'>
         <Modal.Header>
-          <h1>Design Review<span className='accent'> for </span><span className='nowrap'>{this.getProjectName()}</span></h1>
-          {this.renderClose()}
+          <Row>
+            <div className='col'>
+              <h1>Design Review<span className='accent'> for </span><span className='nowrap'>{this.getProjectName()}</span></h1>
+              <h3>{this.getReviewTitle()}</h3>
+            </div>
+            {this.renderClose()}
+          </Row>
         </Modal.Header>
         {!!this.props.review && this.renderModalBody()}
         <Modal.Footer>
-          {this.renderClose()}
+          <Row>
+            {this.renderClose()}
+          </Row>
         </Modal.Footer>
       </Modal>
     );
@@ -107,11 +129,16 @@ export default React.createClass({
     const reviewSlug = this.getReviewSlug();
     const isViewingSelected = this.isViewingSelected();
     const showComments = this.state.showComments;
+    const isEditable = this.isEditable();
+    const isLegacyProject = this.isLegacyProject();
 
     return (
       <Modal.Body>
 
-        <Directions {...this.props} />
+        <Directions
+          isEditable={isEditable}
+          isLegacyProject={isLegacyProject}
+          {...this.props} />
 
         <OptionNavigator
           items={this.getOptionList()}
@@ -123,6 +150,8 @@ export default React.createClass({
           <OptionSelector
             isSelected={isViewingSelected}
             showComments={showComments}
+            isEditable={isEditable}
+            isLegacyProject={isLegacyProject}
             selectionClick={isViewingSelected
               ? () => this.props.reviewOptionClearSelected(reviewSlug)
               : () => this.props.reviewOptionSetSelected(reviewSlug, viewingOption.id)}
@@ -132,7 +161,12 @@ export default React.createClass({
         <Row className={'image-wrap mb-half' + (showComments ? ' open' : '')}>
           <Col xs={12}>
             <OptionImage option={viewingOption} />
-            {showComments && <OptionComments items={this.getComments(viewingOption.id)} />}
+            {showComments &&
+              <OptionComments
+                items={this.getComments(viewingOption.id)}
+                isEditable={isEditable}
+                isLegacyProject={isLegacyProject} />
+            }
           </Col>
         </Row>
 

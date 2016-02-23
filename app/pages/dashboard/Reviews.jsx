@@ -41,9 +41,4 @@ export default React.createClass({
     });
   },
 
-  noOp: function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-  },
-
 });
