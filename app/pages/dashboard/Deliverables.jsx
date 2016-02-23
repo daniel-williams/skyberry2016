@@ -31,24 +31,13 @@ export default React.createClass({
       );
     },
     renderItems: function() {
-      return this.props.items.sort((a, b) => {
-        if(a.createdDate == b.createdDate) {
-          return (a.title < b.title) ? -1 : (a.title > b.title) ? 1 : 0;
-        } else {
-          return (a.createdDate < b.createdDate) ? -1 : 1;
-        }
-      }).map((item, i) => {
+      return this.props.items.map((item, i) => {
         return (
           <div key={i} className='item'>
-            <a href="#" onClick={this.noOp}>{item.title}</a>
+            <a href={`/api/documents/${item.id}`}>{item.title}</a>
           </div>
         );
       });
-    },
-
-    noOp: function(e) {
-        e.preventDefault();
-        e.stopPropagation();
     },
 
 });
