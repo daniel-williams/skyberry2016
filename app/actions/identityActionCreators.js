@@ -103,7 +103,7 @@ function loadUserAndAccountData(user_id) {
     .then(res => {
       const user = res[0];
       const accounts = res[1];
-      const accountMap = buildAccountOptions(accounts);
+      const accountMap = buildAccountMap(accounts);
       const accountKeyMap = toKeyMap(accountMap, 'slug');
       const accountOptions = toNameValueMap(accountMap, 'name', 'slug');
 
@@ -124,11 +124,12 @@ function loadUserAndAccountData(user_id) {
   }
 };
 
-function buildAccountOptions(accounts) {
-  return clone(accounts).reduce((accountOptions, account) => {
+function buildAccountMap(accounts) {
+  return clone(accounts).reduce((accum, account) => {
     delete account.projects;
-    accountOptions.push(account);
-    return accountOptions;
+    account.loaded = false;
+    accum.push(account);
+    return accum;
   }, []);
 }
 
