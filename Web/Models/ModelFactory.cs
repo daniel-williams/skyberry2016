@@ -114,6 +114,7 @@ namespace Web.Models
                 Slug = SlugUtils.ToSlug(item.Name),
                 Description = item.Description,
                 Status = item.Status,
+                StartDate = item.StartDate,
                 EstimatedCompletionDate = item.EstimatedCompletionDate,
                 CompletionDate = item.CompletionDate,
                 AccountId = item.AccountId,
