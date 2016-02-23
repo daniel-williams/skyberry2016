@@ -30,7 +30,6 @@ export default React.createClass({
   hasProofs: function() {
     return this.props.review.proofs && this.props.review.proofs.length > 0;
   },
-
   hasMultipleOptions: function() {
     return this.props.review.options && this.props.review.options.length > 1;
   },
@@ -38,12 +37,12 @@ export default React.createClass({
     return !!this.props.review.selectedId;
   },
   getSelectedOption: function() {
-    let option = null;
-    let id = this.props.review.selectedId;
-    if(id) {
-      option = this.props.review.options.find(item=>item.id === id);
-    }
-    return option;
+    return this.props.review.options.find(item => item.id === this.props.review.selectedId) || null;
+  },
+  getRefinementOption: function() {
+    return this.hasMultipleOptions()
+      ? null
+      : this.props.review.options[0];
   },
 
   hasRequest: function() {
@@ -125,6 +124,8 @@ export default React.createClass({
         <Col xs={12}>
           <ReviewOptions
             status={this.getReviewStatus()}
+            notes={this.props.review.description}
+            hasMultipleOptions={this.hasMultipleOptions()}
             hasProofs={this.hasProofs()} />
         </Col>
         <Col xs={12}>
@@ -133,6 +134,7 @@ export default React.createClass({
             isEditable={this.props.isEditable}
             hasMultipleOptions={this.hasMultipleOptions()}
             selectedOption={this.getSelectedOption()}
+            refinementOption={this.getRefinementOption()}
             clearOption={() => this.hasSelectedOption() && this.props.reviewOptionClearSelected(this.getReviewSlug())} />
         </Col>
         {!this.props.isLegacyProject && this.renderRevisionOrDeliverables()}

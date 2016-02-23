@@ -9,22 +9,24 @@ export default React.createClass({
   mixins: [PureRender],
 
   propTypes: {
-    description: PropTypes.string,
+    notes: PropTypes.string,
   },
   getDefaultProps: function() {
     return {
-      description: '',
+      notes: '',
     };
   },
 
   render: function() {
-    if(!this.props.description.length) {
+    if(!this.props.notes.length) {
       return null;
     }
     return (
-      <Row className='mb'>
-        <Col xs={12}><h2>Notes from the designer</h2></Col>
-        <Col xs={12}><div dangerouslySetInnerHTML={{__html: this.props.description}}></div></Col>
+      <Row className='mt'>
+        <Col xs={12}>
+          <label>Designers' note</label>
+        </Col>
+        <Col xs={12}><div dangerouslySetInnerHTML={{__html: this.props.notes}}></div></Col>
       </Row>
     );
   },

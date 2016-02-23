@@ -30,18 +30,18 @@ export default React.createClass({
 
   render: function() {
     return (
-      <Row className='mb-half'>
+      <Row>
         <Col xs={12}>
           {!this.props.isLegacyProject && this.renderSelectionButton()}
           <button
-            className='btn btn-default'
+            className='btn btn-sm btn-default mv-half'
             onClick={this.props.commentsClick}>{this.renderCommentText()}</button>
         </Col>
       </Row>
     );
   },
   renderSelectionButton: function() {
-    const selectButtonCssNames = classnames('btn', {
+    const selectButtonCssNames = classnames('btn', 'mv-half', {
       'btn-default': this.props.isSelected || !this.props.isEditable,
       'btn-sky': !this.props.isSelected && this.props.isEditable,
       'disabled': !this.props.isEditable,

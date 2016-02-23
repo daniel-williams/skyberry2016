@@ -29,19 +29,20 @@ export default React.createClass({
   hasMultipleOptions: function() {
     return this.props.items.length > 1;
   },
-  hasSingleOption: function() {
-    return this.props.items.length === 1;
-  },
   render: function() {
     return (
-      <Row className='mb-half'>
+      <Row>
         <Col xs={12}>
-          <h2>Design Options</h2>
+          <h2 style={{marginBottom:0}}>{this.renderTitle()}</h2>
         </Col>
         {this.hasMultipleOptions() && this.renderOptionNavigator()}
-        {this.hasSingleOption() && this.renderOptionTitle()}
       </Row>
     );
+  },
+  renderTitle: function() {
+    return this.props.items.length > 1
+      ? 'Design Options'
+      : 'Design Refinements'
   },
   renderOptionNavigator: function() {
     const items = this.props.items.map(item => {
@@ -63,8 +64,5 @@ export default React.createClass({
       </Col>
     );
   },
-  renderOptionTitle: function() {
-    return <Col xs={12}>{this.props.items[0].title}</Col>;
-  }
 
 });

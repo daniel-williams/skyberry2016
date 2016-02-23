@@ -8,7 +8,6 @@ import OptionNavigator from './OptionNavigator';
 import OptionImage from './OptionImage';
 import OptionComments from './OptionComments';
 import OptionSelector from './OptionSelector';
-import DesignerNotes from './DesignerNotes';
 import Proofs from './Proofs';
 
 
@@ -39,9 +38,6 @@ export default React.createClass({
     return this.props.review && this.props.review.title;
   },
 
-  hasNotes: function() {
-    return this.props.review.description && this.props.review.description.length > 0;
-  },
   hasProofs: function() {
     return this.props.review.proofs && this.props.review.proofs.length > 0;
   },
@@ -51,9 +47,7 @@ export default React.createClass({
   hasMultipleOptions: function() {
     return this.props.review.options && this.props.review.options.length > 1;
   },
-  getNotes: function() {
-    return this.props.review.description;
-  },
+
   getProofs: function() {
     return this.props.review.proofs || [];
   },
@@ -146,17 +140,15 @@ export default React.createClass({
           viewingId={viewingOption.id}
           onClick={this.setViewingOptionId} />
 
-        {this.hasMultipleOptions() &&
-          <OptionSelector
-            isSelected={isViewingSelected}
-            showComments={showComments}
-            isEditable={isEditable}
-            isLegacyProject={isLegacyProject}
-            selectionClick={isViewingSelected
-              ? () => this.props.reviewOptionClearSelected(reviewSlug)
-              : () => this.props.reviewOptionSetSelected(reviewSlug, viewingOption.id)}
-            commentsClick={this.toggleComments} />
-        }
+        <OptionSelector
+          isSelected={isViewingSelected}
+          showComments={showComments}
+          isEditable={isEditable}
+          isLegacyProject={isLegacyProject}
+          selectionClick={isViewingSelected
+            ? () => this.props.reviewOptionClearSelected(reviewSlug)
+            : () => this.props.reviewOptionSetSelected(reviewSlug, viewingOption.id)}
+          commentsClick={this.toggleComments} />
 
         <Row className={'image-wrap mb-half' + (showComments ? ' open' : '')}>
           <Col xs={12}>
@@ -170,7 +162,6 @@ export default React.createClass({
           </Col>
         </Row>
 
-        {this.hasNotes() && <DesignerNotes description={this.getNotes()} />}
         {this.hasProofs() && <Proofs items={this.getProofs()} />}
 
       </Modal.Body>
