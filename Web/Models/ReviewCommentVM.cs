@@ -4,12 +4,12 @@ namespace Web.Models
 {
     public class ReviewCommentVM
     {
-        public string Id { get; set; }
-        public string Comment { get; set; }
-        public DateTime Created { get; set; }
-        public Guid OId { get; set; }
-        public Guid UId { get; set; }
-        public string UName { get; set; }
-        public Guid RId { get; set; }
+        public string id { get; set; }
+        public string comment { get; set; }
+        public DateTime created { get; set; }
+        public Guid oId { get; set; }
+        public Guid uId { get; set; }
+        public string uName { get; set; }
+        public Guid rId { get; set; }
     }
 }

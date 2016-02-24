@@ -222,23 +222,25 @@ namespace Web.Controllers.api
         }
 
         [Route("{rid}/comments")]
-        public IHttpActionResult AddComment(Guid rid, ReviewCommentBM comment)
+        public IHttpActionResult AddComment(Guid rid, [FromBody]ReviewCommentBM model)
         {
             DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
             if (review == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                //throw new HttpResponseException(HttpStatusCode.NotFound);
+                return new ApiNotFoundResult(Request);
             }
 
             if (review.AcceptedDate != null)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                //throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new ApiBadRequestResult("Review has been accepted and no further changes are allowed.", Request);
             }
 
-            var item = new ReviewComment
+            ReviewComment item = new ReviewComment
             {
-                Comment = comment.Comment,
-                OrderId = new Guid(comment.Oid),
+                Comment = model.comment,
+                OrderId = new Guid(model.oid),
                 DesignReviewId = rid,
                 UserId = new Guid(UserRecord.Id),
                 Username = UserRecord.UserName
@@ -247,7 +249,19 @@ namespace Web.Controllers.api
 
             UOW.Commit();
 
-            return CreatedAtRoute("GetComment", new { rid = item.DesignReviewId, cid = item.Id }, ModelFactory.createReviewCommmentVM(item));
+            ReviewCommentVM payload = ModelFactory.CreateReviewCommentVM(item);
+
+            //HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+            //response.Content = new StringContent(JsonConvert.SerializeObject(new
+            //{
+            //    code = HttpStatusCode.OK,
+            //    description = "okeydoke",
+            //    payload = payload,
+            //}), Encoding.UTF8, "application/json");
+
+            //return response;
+            return new ApiPayloadResult<ReviewCommentVM>(Request, payload);
+            //return CreatedAtRoute("GetComment", new { rid = item.DesignReviewId, cid = item.Id }, ModelFactory.createReviewCommmentVM(item));
         }
 
         [HttpGet]
@@ -261,7 +275,7 @@ namespace Web.Controllers.api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return ModelFactory.createDesignReviewVM(review);
+            return ModelFactory.CreateDesignReviewVM(review);
         }
 
 

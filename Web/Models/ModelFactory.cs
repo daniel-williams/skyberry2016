@@ -120,8 +120,8 @@ namespace Web.Models
                 AccountId = item.AccountId,
 
                 Contracts = item.Contracts.OrderByDescending(e => e.CreatedDate).Select(e => this.CreateContractVM(e)).ToList(),
-                Reviews = item.DesignReviews.OrderByDescending(e => e.CreatedDate).ThenByDescending(e => e.Title).Select(e => this.createDesignReviewVM(e)).ToList(),
-                Docs = item.ProjectDocuments.OrderByDescending(e => e.CreatedDate).Select(e => this.createProjectDocumentVM(e)).ToList(),
+                Reviews = item.DesignReviews.OrderByDescending(e => e.CreatedDate).ThenByDescending(e => e.Title).Select(e => this.CreateDesignReviewVM(e)).ToList(),
+                Docs = item.ProjectDocuments.OrderByDescending(e => e.CreatedDate).Select(e => this.CreateProjectDocumentVM(e)).ToList(),
             };
         }
 
@@ -135,7 +135,7 @@ namespace Web.Models
                 Number = item.Number,
                 CreatedDate = item.CreatedDate,
 
-                Docs = item.ContractDocuments.OrderByDescending(e=>e.CreatedDate).Take(1).Select(e=>this.createContractDocumentVM(e)).ToList(),
+                Docs = item.ContractDocuments.OrderByDescending(e=>e.CreatedDate).Take(1).Select(e=>this.CreateContractDocumentVM(e)).ToList(),
             };
         }
 
@@ -157,7 +157,7 @@ namespace Web.Models
             };
         }
 
-        private ContractDocumentVM createContractDocumentVM(ContractDocument item)
+        private ContractDocumentVM CreateContractDocumentVM(ContractDocument item)
         {
             return new ContractDocumentVM
             {
@@ -174,7 +174,7 @@ namespace Web.Models
             };
         }
 
-        public DesignReviewVM createDesignReviewVM(DesignReview item)
+        public DesignReviewVM CreateDesignReviewVM(DesignReview item)
         {
             return new DesignReviewVM
             {
@@ -184,14 +184,14 @@ namespace Web.Models
                 Description = item.Description,
                 CreatedDate = item.CreatedDate,
                 //Docs = item.ReviewDocuments.OrderByDescending(e => e.CreatedDate).Select(e => this.createReviewDocumentVM(e)).ToList(),
-                Options = item.ReviewDocuments.Where(e=>e.DocType == null).OrderByDescending(e => e.CreatedDate).Select(e => this.createReviewDocumentVM(e)).ToList(),
-                Proofs = item.ReviewDocuments.Where(e => e.DocType == "Proof").OrderByDescending(e => e.CreatedDate).Select(e => this.createReviewDocumentVM(e)).ToList(),
+                Options = item.ReviewDocuments.Where(e=>e.DocType == null).OrderByDescending(e => e.CreatedDate).Select(e => this.CreateReviewDocumentVM(e)).ToList(),
+                Proofs = item.ReviewDocuments.Where(e => e.DocType == "Proof").OrderByDescending(e => e.CreatedDate).Select(e => this.CreateReviewDocumentVM(e)).ToList(),
                 IsActive = item.IsActive,
 
                 SelectedId = item.SelectedReviewDocumentId,
                 SelectedComment = item.SelectedComment,
                 AdditionalComment = item.AdditionalComment,
-                Comments = item.ReviewComments.OrderByDescending(e => e.Created).Select(e => this.createReviewCommmentVM(e)).ToList(),
+                Comments = item.ReviewComments.OrderByDescending(e => e.Created).Select(e => this.CreateReviewCommentVM(e)).ToList(),
 
                 RequestById = item.RequestById,
                 RequestByName = item.RequestByName,
@@ -206,7 +206,7 @@ namespace Web.Models
             };
         }
 
-        public ProjectDocumentVM createProjectDocumentVM(ProjectDocument item)
+        public ProjectDocumentVM CreateProjectDocumentVM(ProjectDocument item)
         {
             return new ProjectDocumentVM
             {
@@ -224,21 +224,21 @@ namespace Web.Models
             };
         }
 
-        public ReviewCommentVM createReviewCommmentVM(ReviewComment item)
+        public ReviewCommentVM CreateReviewCommentVM(ReviewComment item)
         {
             return new ReviewCommentVM
             {
-                Id = item.Id,
-                Comment = item.Comment,
-                Created = item.Created,
-                OId = item.OrderId,
-                RId = item.DesignReviewId,
-                UId = item.UserId,
-                UName = item.Username,
+                id = item.Id,
+                comment = item.Comment,
+                created = item.Created,
+                oId = item.OrderId,
+                rId = item.DesignReviewId,
+                uId = item.UserId,
+                uName = item.Username,
             };
         }
 
-        public ReviewDocumentVM createReviewDocumentVM(ReviewDocument item)
+        public ReviewDocumentVM CreateReviewDocumentVM(ReviewDocument item)
         {
             return new ReviewDocumentVM
             {
