@@ -94,7 +94,7 @@ export default React.createClass({
     return (
       <Row className='sec mt-dbl'>
         <Col xs={12}>
-          <label>2. Spelling and Grammer</label>
+          <label>2. Spelling and Grammar</label>
           <div>
             <span className='term'>Client</span> agrees that all spelling and grammar is correct. Skyberry Studio is at no time responsible for spelling or grammar errors and <span className='term'>Client</span> will hold harmless Skyberry Studio for any loss of funds or claims resulting from spelling, grammar errors and/or reprints.
           </div>

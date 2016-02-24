@@ -62,7 +62,8 @@ export default React.createClass({
       : [];
   },
   getComments: function(viewingId) {
-    return this.props.review.comments.filter(item=>item.oId === viewingId);
+    console.log('you got esplaining todo', this.props.review.comments);
+    return this.props.review.comments.filter(item => item.oId === viewingId);
   },
   getViewingId: function() {
     return this.state.viewingOptionId || this.props.review.selectedId || this.getDefaultOptionId();
@@ -157,7 +158,8 @@ export default React.createClass({
               <OptionComments
                 items={this.getComments(viewingOption.id)}
                 isEditable={isEditable}
-                isLegacyProject={isLegacyProject} />
+                isLegacyProject={isLegacyProject}
+                onSubmit={this.addComment} />
             }
           </Col>
         </Row>
@@ -170,6 +172,11 @@ export default React.createClass({
 
 
   // handlers
+  addComment: function(formData) {
+    formData.rid = this.props.review.id;
+    formData.oid = this.getViewingId();
+    this.props.reviewOptionAddComment(this.getReviewSlug(), formData);
+  },
   close: function() {
     this.props.reviewHideFeedback();
     const id = setTimeout(

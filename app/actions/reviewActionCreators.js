@@ -43,14 +43,17 @@ export function reviewOptionClearSelected(slug) {
       });
   };
 }
-// export function reviewOptionSetViewing(optionId) {
-//   return {
-//     type: reviewActions.REVIEW_OPTION_SET_VIEWING,
-//     payload: {
-//       optionId: optionId,
-//     }
-//   };
-// }
+export function reviewOptionAddComment(slug, formData) {
+  return function(dispatch, getState) {
+    dispatch(postComment(formData));
+
+    const id = getState().getIn(['review', 'reviews', slug, 'id']);
+
+    return FetchService.postJson('/api/reviews/' + id + '/comments', formData, true)
+      .then((json) => dispatch(postCommentSuccess(slug, json.payload)))
+      .catch(error => dispatch(postCommentFailed(error)));
+  }
+}
 
 export function reviewRequestRevision(slug) {
   return function(dispatch, getState) {
@@ -118,19 +121,6 @@ export function reviewApproveProject(slug) {
   };
 }
 
-// export function reviewStepToggled(key) {
-//   return {
-//     type: reviewActions.REVIEW_STEP_TOGGLED,
-//     payload: {
-//       key: key,
-//     }
-//   };
-// }
-// export function reviewCommmentsToggled() {
-//   return {
-//     type: reviewActions.REVIEW_COMMENTS_TOGGLED,
-//   };
-// }
 
 export function reviewHideFeedback() {
   return {
@@ -161,7 +151,7 @@ export default {
 
   reviewOptionSetSelected,
   reviewOptionClearSelected,
-  // reviewOptionSetViewing,
+  reviewOptionAddComment,
 
   reviewApproveProject,
 
@@ -199,6 +189,31 @@ function clearSelected(slug) {
     }
   };
 }
+function postComment() {
+  return {
+    type: reviewActions.REVIEW_OPTION_POST_COMMENT,
+  };
+}
+function postCommentSuccess(slug, comment) {
+  return {
+    type: reviewActions.REVIEW_OPTION_POST_COMMENT_SUCCESS,
+    payload: {
+      date: new Date(),
+      slug: slug,
+      comment: comment,
+    }
+  };
+}
+function postCommentFailed(error) {
+  return {
+    type: reviewActions.REVIEW_OPTION_POST_COMMENT_FAILED,
+    payload: {
+      date: new Date(),
+      error: error,
+    }
+  };
+}
+
 
 function requestRevision(slug, result) {
   return {

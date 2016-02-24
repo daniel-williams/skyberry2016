@@ -2,13 +2,6 @@ import {fromJS, Map} from 'immutable';
 
 import * as reviewActions from '../actions/reviewActions';
 
-const initialStepState = fromJS({
-  review: false,
-  feedback: true,
-  request: false,
-  approval: false,
-  acceptance: false,
-});
 const initialState = fromJS({
   isUpdating: false,
   lastUpdateDate: null,
@@ -17,8 +10,8 @@ const initialState = fromJS({
   showFeedback: true,
   showApproval: false,
   showComments: false,
-  steps: initialStepState,
-  optionViewing: null,
+
+  isPostingComment: false,
 
   reviews: [],
 });
@@ -38,20 +31,9 @@ export default function(state = initialState, action) {
       return state.withMutations(state => {
         state.set('showFeedback', true);
         state.set('showApproval', false);
-        // state.set('showComments', false);
-        // state.set('optionViewing', false);
-        // state.set('steps', initialStepState);
         return state;
       });
     }
-    // case reviewActions.REVIEW_STEP_TOGGLED: {
-    //   const key = action.payload.key;
-    //   const val = !!state.getIn(['steps', key]);
-    //   return state.setIn(['steps', key], !val);
-    // }
-    // case reviewActions.REVIEW_COMMENTS_TOGGLED: {
-    //   return state.set('showComments', !state.get('showComments'));
-    // }
     case reviewActions.REVIEW_SHOW_FEEDBACK: {
       return state.set('showFeedback', true);
     }
@@ -113,9 +95,30 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    // case reviewActions.REVIEW_OPTION_SET_VIEWING: {
-    //   return state.set('optionViewing', action.payload.optionId);
-    // }
+    case reviewActions.REVIEW_OPTION_POST_COMMENT: {
+      return state.set('isPostingComment', true);
+    }
+    case reviewActions.REVIEW_OPTION_POST_COMMENT_SUCCESS: {
+      return state.withMutations(state => {
+        state.set('lastUpdateDate', action.payload.date);
+        state.set('isPostingComment', false);
+
+        const slug = action.payload.slug;
+        let comments = state.getIn(['reviews', slug, 'comments']).toJS();
+        comments.push(action.payload.comment);
+
+        state.setIn(['reviews', slug, 'comments'], fromJS(comments));
+        return state;
+      });
+    }
+    case reviewActions.REVIEW_OPTION_POST_COMMENT_FAILED: {
+      return state.withMutations(state => {
+        state.set('isPostingComment', false);
+        state.set('lastUpdateDate', action.payload.date);
+        state.set('lastUpdateError', action.payload.error);
+        return state;
+      });
+    }
     case reviewActions.UPDATE_REVIEW: {
       return state.set('isUpdating', true);
     }
@@ -124,11 +127,6 @@ export default function(state = initialState, action) {
         state.set('isUpdating', false);
         state.set('lastUpdateDate', action.payload.date);
         state.set('lastUpdateError', null);
-
-        // const slug = action.payload.slug;
-        // const currentReview = state.getIn(['reviews', slug]).toJS();
-        // const newReview = Object.assign({}, currentReview, action.payload.review);
-        // state.setIn(['reviews', slug], fromJS(newReview));
         return state;
       });
     }

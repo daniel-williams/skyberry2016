@@ -59,7 +59,7 @@ export default React.createClass({
   },
   renderTitleBlock: function() {
     return (
-      <h3 className='stack'><StatusBox status={this.props.status} />Feeback</h3>
+      <h3 className='stack'><StatusBox status={this.props.status} />Feedback</h3>
     );
   },
   renderStepVerbiage: function() {

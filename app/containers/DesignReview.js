@@ -28,7 +28,6 @@ function mapStateToProps(state, ownProps) {
     showFeedback: showFeedback,
     showApproval: showApproval,
     showComments: showComments,
-    steps: state.getIn(['review', 'steps']).toJS(),
     optionViewing: state.getIn(['review', 'optionViewing']),
     user: state.get('user').toJS(),
   };

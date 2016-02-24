@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import PureRender from 'react-addons-pure-render-mixin';
+// import PureRender from 'react-addons-pure-render-mixin';
 import {Row, Col} from 'react-bootstrap';
 import formsy from 'formsy-react';
 
@@ -9,7 +9,7 @@ import {SkyTextArea} from '../../../components';
 export default React.createClass({
   displayName: 'OptionComments',
 
-  mixins: [PureRender],
+  // mixins: [PureRender],
 
   propTypes: {
     items: PropTypes.array,
@@ -79,7 +79,13 @@ export default React.createClass({
     );
   },
   renderComments: function() {
-    return this.props.items.map(function(item, i) {
+    return this.props.items.sort((a, b) => {
+      const da = new Date(a.created).getTime();
+      const db = new Date(b.created).getTime();
+      var temp = da < db ? 1 : da > db ? -1 : 0;
+      console.log(temp);
+      return temp;
+    }).map(function(item, i) {
       return (
         <div key={i} className='comment'>
           <span className='byline'>{item.uName}:</span>
