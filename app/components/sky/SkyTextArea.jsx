@@ -14,6 +14,11 @@ export default React.createClass({
   componentDidMount: function() {
     this.autoGrow(this.refs.el);
   },
+  componentWillReceiveProps: function(nextProps) {
+    if(this.getValue() !== nextProps.value) {
+      this.setValue('');
+    }
+  },
   render: function () {
     var cssNames = this.showError() ? ' has-error' : '';
     var errorMessage = this.showError() ? <span className='help-block'>{this.getErrorMessage()}</span> : null;
@@ -34,8 +39,8 @@ export default React.createClass({
   },
 
   autoGrow(el) {
-    el.style.height = '20px';
-    el.style.height = (el.scrollHeight + 20) + 'px';
+    // el.style.height = '20px';
+    // el.style.height = (el.scrollHeight + 20) + 'px';
   },
 
 });
