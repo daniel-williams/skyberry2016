@@ -62,7 +62,6 @@ export default React.createClass({
       : [];
   },
   getComments: function(viewingId) {
-    console.log('you got esplaining todo', this.props.review.comments);
     return this.props.review.comments.filter(item => item.oId === viewingId);
   },
   getViewingId: function() {
@@ -126,6 +125,9 @@ export default React.createClass({
     const showComments = this.state.showComments;
     const isEditable = this.isEditable();
     const isLegacyProject = this.isLegacyProject();
+    const sxsCssNames = classnames('side-by-side', {
+      open: showComments,
+    });
 
     return (
       <Modal.Body>
@@ -151,18 +153,23 @@ export default React.createClass({
             : () => this.props.reviewOptionSetSelected(reviewSlug, viewingOption.id)}
           commentsClick={this.toggleComments} />
 
-        <Row className={'image-wrap mb-half' + (showComments ? ' open' : '')}>
-          <Col xs={12}>
-            <OptionImage option={viewingOption} />
-            {showComments &&
-              <OptionComments
-                items={this.getComments(viewingOption.id)}
-                isEditable={isEditable}
-                isLegacyProject={isLegacyProject}
-                onSubmit={this.addComment} />
-            }
-          </Col>
-        </Row>
+        <div className={sxsCssNames}>
+          <div className='left-side'>
+            <OptionImage
+              className='mb-half'
+              option={viewingOption} />
+          </div>
+          <div className='right-side'>
+            <OptionComments
+              className='mb-half'
+              items={this.getComments(viewingOption.id)}
+              comment={this.props.comment}
+              isPosting={this.props.isPostingComment}
+              isEditable={isEditable}
+              isLegacyProject={isLegacyProject}
+              onSubmit={this.addComment} />
+          </div>
+        </div>
 
         {this.hasProofs() && <Proofs items={this.getProofs()} />}
 

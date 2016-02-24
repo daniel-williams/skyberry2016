@@ -13,7 +13,6 @@ function mapStateToProps(state, ownProps) {
   const reviewSlug = projectSlug + '/' + rSlug;
   const showFeedback = state.getIn(['review', 'showFeedback']);
   const showApproval = state.getIn(['review', 'showApproval']);
-  const showComments = state.getIn(['review', 'showComments']);
   let account, project, review;
   try {
     account = state.getIn(['account', 'accountMap', accountSlug]).toJS();
@@ -27,7 +26,8 @@ function mapStateToProps(state, ownProps) {
     review: review,
     showFeedback: showFeedback,
     showApproval: showApproval,
-    showComments: showComments,
+    isPostingComment: state.getIn(['review', 'isPostingComment']),
+    comment: state.getIn(['review', 'comment']),
     optionViewing: state.getIn(['review', 'optionViewing']),
     user: state.get('user').toJS(),
   };

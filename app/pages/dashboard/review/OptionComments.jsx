@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-// import PureRender from 'react-addons-pure-render-mixin';
+import PureRender from 'react-addons-pure-render-mixin';
 import {Row, Col} from 'react-bootstrap';
 import formsy from 'formsy-react';
 
@@ -9,11 +9,11 @@ import {SkyTextArea} from '../../../components';
 export default React.createClass({
   displayName: 'OptionComments',
 
-  // mixins: [PureRender],
+  mixins: [PureRender],
 
   propTypes: {
     items: PropTypes.array,
-    hasRequest: PropTypes.bool,
+    isEditable: PropTypes.bool,
     isAccepted: PropTypes.bool,
     isPosting: PropTypes.bool,
     onSubmit: PropTypes.func,
@@ -22,46 +22,29 @@ export default React.createClass({
   getDefaultProps: function() {
     return {
       items: [],
-      hasRequest: false,
+      isEditable: true,
       isAccepted: false,
       isPosting: false,
       onSubmit: function() {},
       error: {},
     };
   },
+
+  getComment: function() {
+    const comment = null || this.props.comment;
+    return comment;
+  },
   getFormErrors: function() {
     return this.props.error && this.props.error.formErrors;
   },
 
   render: function() {
-    var isDisabled = this.props.hasRequest;
-    var tip = this.props.isAccepted
-      ? 'This Design Review is locked.'
-      : this.props.hasRequest
-        ? 'Request pending! Edits are not allowed.'
-        : '';
-
     return (
-      <div className='comment-wrap'>
-      <formsy.Form onSubmit={this.props.onSubmit} validationErrors={this.getFormErrors()}>
-        <Row style={{paddingLeft:'15px'}}>
+      <div className='wrap comments-wrap'>
+        {this.props.isEditable && this.renderCommentForm()}
+        <Row>
           <Col xs={12}>
-            <SkyTextArea
-              name='comment'
-              placeholder={'whatdaya think?'}
-              value={null}
-              required
-              validationError="Comment is required."
-              className='form-control'
-              disabled={isDisabled} />
-          </Col>
-          <Col xs={12} className='mv-half right'>
-            <button
-              className='btn btn-sm btn-default'
-              type='submit' disabled={isDisabled || this.props.isPosting} title={tip}>Add Comment</button>
-          </Col>
-          <Col xs={12}>
-            <label>Comments</label>
+            <h4 className='ttl'>Comments</h4>
           </Col>
           <Col xs={12}>
             {this.props.items.length
@@ -69,26 +52,49 @@ export default React.createClass({
               : this.renderNoComments()}
           </Col>
         </Row>
-        </formsy.Form>
       </div>
     );
   },
-  renderNoComments: function() {
+  renderCommentForm: function() {
+    const isDisabled = !this.props.isEditable;
     return (
-      <div className='comment'>none yet...</div>
+      <Row>
+        <formsy.Form onSubmit={this.props.onSubmit} validationErrors={this.getFormErrors()}>
+          <Col xs={12}>
+            <SkyTextArea
+              name='comment'
+              placeholder={'whatdaya think?'}
+              value={this.getComment()}
+              required
+              validationError="Comment is required."
+              className='form-control'
+              disabled={isDisabled} />
+          </Col>
+          <Col xs={12}>
+            <div className='form-group right'>
+              <button
+                type='submit'
+                className='btn btn-sm btn-default'
+                disabled={isDisabled || this.props.isPosting}>Add Comment</button>
+            </div>
+          </Col>
+        </formsy.Form>
+      </Row>
+    );
+  },
+  renderNoComments: function() {
+    const msg = this.props.isEditable
+      ? 'none yet...'
+      : 'no comments were left for this item...';
+    return (
+      <div className='comment'>{msg}</div>
     );
   },
   renderComments: function() {
-    return this.props.items.sort((a, b) => {
-      const da = new Date(a.created).getTime();
-      const db = new Date(b.created).getTime();
-      var temp = da < db ? 1 : da > db ? -1 : 0;
-      console.log(temp);
-      return temp;
-    }).map(function(item, i) {
+    return this.props.items.map(function(item, i) {
       return (
         <div key={i} className='comment'>
-          <span className='byline'>{item.uName}:</span>
+          <span className='byline'>{item.uName}</span>
           {item.comment}
         </div>
       );

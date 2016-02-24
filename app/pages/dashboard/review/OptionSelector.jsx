@@ -34,7 +34,7 @@ export default React.createClass({
         <Col xs={12}>
           {!this.props.isLegacyProject && this.renderSelectionButton()}
           <button
-            className='btn btn-sm btn-default mv-half'
+            className='btn btn-default mv-half'
             onClick={this.props.commentsClick}>{this.renderCommentText()}</button>
         </Col>
       </Row>

@@ -9,8 +9,8 @@ const initialState = fromJS({
 
   showFeedback: true,
   showApproval: false,
-  showComments: false,
 
+  comment: null,
   isPostingComment: false,
 
   reviews: [],
@@ -96,17 +96,27 @@ export default function(state = initialState, action) {
       });
     }
     case reviewActions.REVIEW_OPTION_POST_COMMENT: {
-      return state.set('isPostingComment', true);
+      return state.withMutations(state => {
+        state.set('isPostingComment', true);
+        state.set('comment', action.payload.comment);
+        return state;
+      });
     }
     case reviewActions.REVIEW_OPTION_POST_COMMENT_SUCCESS: {
       return state.withMutations(state => {
         state.set('lastUpdateDate', action.payload.date);
         state.set('isPostingComment', false);
+        state.set('comment', null);
 
         const slug = action.payload.slug;
         let comments = state.getIn(['reviews', slug, 'comments']).toJS();
         comments.push(action.payload.comment);
-
+        comments.sort((a, b) => {
+          const da = new Date(a.created).getTime();
+          const db = new Date(b.created).getTime();
+          var temp = da < db ? 1 : da > db ? -1 : 0;
+          return temp;
+        });
         state.setIn(['reviews', slug, 'comments'], fromJS(comments));
         return state;
       });

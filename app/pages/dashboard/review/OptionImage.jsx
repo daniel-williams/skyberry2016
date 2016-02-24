@@ -26,7 +26,7 @@ export default React.createClass({
 
   render: function() {
     return this.hasOption() && (
-      <div className='opt-img'>
+      <div className='wrap'>
         <ImageLoader src={constants.routes.files + this.props.option.filename} className='img-responsive' />
       </div>
     );

@@ -234,16 +234,15 @@ label {
   }
 }
 
-
-
-.image-wrap {
-  .opt-img {
+.side-by-side {
+  .left-side {
     display: inline-block;
     width: 100%;
-    transition-property: width;
-    transition-duration: 0.3s;
+    max-width: 100%;
+    transition-property: width, max-width;
+    transition-duration: 0.5s;
   }
-  .comment-wrap {
+  .right-side {
     position: relative;
     display: inline-block;
     padding: 0;
@@ -252,25 +251,52 @@ label {
     vertical-align: top;
     overflow: hidden;
     transition-property: all;
-    transition-duration: 0.3s;
+    transition-duration: 0.5s;
+
+    & > .wrap {
+      opacity: 0.0;
+      margin-left: 15px;
+      transition-property: opacity;
+      transition-duration: 0.2s;
+      transition-delay: 0.0s;
+    }
   }
   &.open {
-    .opt-img {
-      width: 50%;
+
+    .left-side {
+      width: auto;
+      max-width: 50%;
     }
-    .comment-wrap {
+    .right-side {
       width: 50%;
       height: 100%;
-      transition-property: all;
-      transition-duration: 0.3s;
+      transition-delay: 0.2s; // wait for opacity transition
 
-      .comment {
-        margin-bottom: 5px;
+      & > .wrap {
+        opacity: 1.0;
+        transition-delay: 0.5s; // wait for resize
+      }
+    }
+  }
+}
 
-        .byline {
-          font-style: italic;
-          right-margin: 10px;
-        }
+.comments-wrap {
+
+  .ttl {
+    border-bottom: 1px solid #e7e7e7;
+  }
+  .comment {
+    margin-bottom: 5px;
+
+    &:nth-child(even) {
+      background-color: #e7e7e7;
+    }
+    .byline {
+      font-style: italic;
+      margin-right: 10px;
+      font-weight: bold;
+      &::after {
+        content: ' said:';
       }
     }
   }

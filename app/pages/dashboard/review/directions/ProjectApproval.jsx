@@ -48,7 +48,7 @@ export default React.createClass({
             ? this.renderApprovalRequiredMessage()
             : this.renderApprovalSummary()
           }
-          <p className='mt'>Requesting changes, after project approval has been given, is possible. We recongnize that this is often times unavoidable. Please note, however, that if Skyberry has already produced final deliverables, or has started the process of creating final deliverables, additional charges may apply.</p>
+          <p className='mt'>Requesting changes after project approval has been given, is possible, and we recongnize that this is oftentimes unavoidable. Please note, however, that if Skyberry has already produced final deliverables or has started the process of creating final deliverables, additional charges may apply.</p>
           {!this.props.isApproved && this.renderActionButtons()}
         </TitleDrawer>
       </div>

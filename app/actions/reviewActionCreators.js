@@ -189,9 +189,12 @@ function clearSelected(slug) {
     }
   };
 }
-function postComment() {
+function postComment(formData) {
   return {
     type: reviewActions.REVIEW_OPTION_POST_COMMENT,
+    payload: {
+      comment: formData.comment,
+    }
   };
 }
 function postCommentSuccess(slug, comment) {
