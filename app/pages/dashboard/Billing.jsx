@@ -51,6 +51,34 @@ export default React.createClass({
   getPayments: function() {
     return [] && this.props.account && this.props.account.payments || [];
   },
+  getCombined: function() {
+    let items = this.getInvoices().reduce((accum, invoice) => {
+      accum.push({
+        id: invoice.id,
+        type: 'invoice',
+        identity: invoice.filenameOriginal,
+        amount: invoice.amount,
+        date: new Date(invoice.sentDate),
+      });
+      return accum;
+    }, []);
+    items = this.getPayments().reduce((accum, payment) => {
+      accum.push({
+        id: payment.id,
+        type: 'payment',
+        subType: payment.paymentType,
+        amount: payment.amount,
+        date: new Date(payment.paymentDate),
+      });
+      return accum;
+    }, items);
+
+    return items.sort((a,b) => {
+      const da = a.date.getTime();
+      const db = b.date.getTime();
+      return db < da ? -1 : db > da ? 1 : 0;
+    });
+  },
   getBalance: function() {
     const invoicesTotal = this.getInvoices().reduce((accum, invoice) => {
       accum += invoice.amount;
@@ -92,20 +120,117 @@ export default React.createClass({
   },
   renderBillingContent: function() {
     return (
-
       <Row>
         <Col xs={12}>
           {this.renderBillingSummary()}
         </Col>
         <Col xs={12}>
-          {this.renderPaymentSummary()}
-        </Col>
-        <Col xs={12}>
-          {this.renderInvoiceSummary()}
+          {this.renderCombinedSummary()}
         </Col>
       </Row>
-
     );
+  },
+
+  renderBillingSummary: function() {
+    const balance = this.getBalance();
+    const hasBalance = balance > 0;
+    const amountDue = formatMoney(balance);
+
+    return (
+      <fieldset className='mt'>
+        <legend><h2>Billing Summary</h2></legend>
+        <div className='tbl'>
+          <div className='tbl-row'>
+            <div className="d_item">Balance</div>
+            <div className="d_data">{amountDue}</div>
+            <div>
+              {hasBalance
+                ? this.renderPaymentOptions(balance)
+                : this.renderNoBlance()}
+            </div>
+          </div>
+        </div>
+        </fieldset>
+    );
+  },
+  renderNoBlance: function() {
+    return (
+      <div id="pay_thankYou">
+        <div className="d_item">Thank you for your business!</div>
+      </div>
+    );
+  },
+  renderPaymentOptions: function(balance) {
+    return (
+      <div className="paypal-wrap">
+        <div className="paypal">
+          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="frm-paypal">
+            <input type="hidden" name="cmd" value="_xclick" />
+            <input type="hidden" name="business" value="lacey@skyberrystudio.com" />
+            <input type="hidden" name="amount" value={balance} />
+            <input type="hidden" name="item_name" value="Payment via www.skyberrystudio.com website for @Model.User.FirstName @Model.User.LastName, account #@Model.Account.Number." />
+            <input type="hidden" name="custom" value={balance} />
+            <input type="hidden" name="invoice" value="" />
+            <input type="hidden" name="image_url" value="https://skyberrystudio.com/images/skyberry_logo_190x50.png" />
+            <input type="hidden" name="cpp_header_image" value="https://skyberrystudio.com/images/skyberry_logo_750x50.png" />
+            <input type="hidden" name="cpp_headerback_color" value="e6e6e6" />
+            <input type="hidden" name="cpp_headerborder_color" value="e6e6e6" />
+            <input type="hidden" name="no_note" value="1" />
+            <input type="hidden" name="no_shipping" value="1" />
+            <input type="hidden" name="return" value="https://skyberrystudio.com/my-account/summary" />
+            <input type="hidden" name="cancel_return" value="https://skyberrystudio.com/my-account/summary" />
+            <input type="hidden" name="rm" value="2" />
+            <input type="hidden" name="cbt" value="Return to Skyberry Studio&trade;." />
+            <button type="submit" className="btn btn-sky mv-half">Pay Now</button>
+          </form>
+        </div>
+        <div className="pay-now">
+          <img src="/content/images/paypal-payments.png" className='img-responsive' alt="PayPal payment options" />
+        </div>
+      </div>
+    );
+  },
+
+  renderCombinedSummary: function() {
+    return (
+      <fieldset className='mt'>
+        <legend><h2>Invoices & Payments</h2></legend>
+        {this.renderCombined()}
+      </fieldset>
+    );
+  },
+  renderCombined: function() {
+    const items = this.getCombined().map(item => {
+      const link = item.type === 'invoice'
+        ? <div className='link'><a href={'/api/documents/' + item.id}>{item.identity}</a></div>
+        : <div className='link'></div>;
+
+      return (
+        <div className='tbl-row' key={item.id}>
+          <div className='type'>{item.type}</div>
+          <div className='money'>{formatMoney(item.amount)}</div>
+          <div className='date'>{formatDate(item.date)}</div>
+          {link}
+        </div>
+      );
+    });
+
+    return (
+      <div className='tbl'>
+        <div className='tbl-row head'>
+          <div>Type</div>
+          <div>Amount</div>
+          <div className='date'>Date</div>
+          <div></div>
+        </div>
+        {items}
+      </div>
+    );
+  },
+  renderNoCombinedItemsFound: function() {
+    return (
+      <p>no items found...</p>
+    )
   },
 
   renderPaymentSummary: function() {
@@ -188,66 +313,6 @@ export default React.createClass({
     return (
       <p>no invoices found...</p>
     )
-  },
-
-  renderBillingSummary: function() {
-    const balance = this.getBalance();
-    const hasBalance = balance > 0;
-    const amountDue = formatMoney(balance);
-
-    return (
-      <fieldset className='mt'>
-        <legend><h2>Billing Summary</h2></legend>
-        <div className='tbl'>
-          <div className='tbl-row'>
-            <div className="d_item">Balance</div>
-            <div className="d_data">{amountDue}</div>
-            <div>
-              {hasBalance
-                ? this.renderPaymentOptions(balance)
-                : this.renderNoBlance()}
-            </div>
-          </div>
-        </div>
-        </fieldset>
-    );
-  },
-  renderNoBlance: function() {
-    return (
-      <div id="pay_thankYou">
-        <div className="d_item">Thank you for your business!</div>
-      </div>
-    );
-  },
-  renderPaymentOptions: function(balance) {
-    return (
-      <div className="paypal-wrap">
-        <div className="paypal">
-          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="frm-paypal">
-            <input type="hidden" name="cmd" value="_xclick" />
-            <input type="hidden" name="business" value="lacey@skyberrystudio.com" />
-            <input type="hidden" name="amount" value={balance} />
-            <input type="hidden" name="item_name" value="Payment via www.skyberrystudio.com website for @Model.User.FirstName @Model.User.LastName, account #@Model.Account.Number." />
-            <input type="hidden" name="custom" value={balance} />
-            <input type="hidden" name="invoice" value="" />
-            <input type="hidden" name="image_url" value="https://skyberrystudio.com/images/skyberry_logo_190x50.png" />
-            <input type="hidden" name="cpp_header_image" value="https://skyberrystudio.com/images/skyberry_logo_750x50.png" />
-            <input type="hidden" name="cpp_headerback_color" value="e6e6e6" />
-            <input type="hidden" name="cpp_headerborder_color" value="e6e6e6" />
-            <input type="hidden" name="no_note" value="1" />
-            <input type="hidden" name="no_shipping" value="1" />
-            <input type="hidden" name="return" value="https://skyberrystudio.com/my-account/summary" />
-            <input type="hidden" name="cancel_return" value="https://skyberrystudio.com/my-account/summary" />
-            <input type="hidden" name="rm" value="2" />
-            <input type="hidden" name="cbt" value="Return to Skyberry Studio&trade;." />
-            <button type="submit" className="btn btn-sky mv-half">Pay Now</button>
-          </form>
-        </div>
-        <div className="pay-now">
-          <img src="/content/images/paypal-payments.png" className='img-responsive' alt="PayPal payment options" />
-        </div>
-      </div>
-    );
   },
 
 });
