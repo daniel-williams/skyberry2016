@@ -199,8 +199,12 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\api\AccountsController.cs" />
+    <Compile Include="Controllers\api\ApiHelpers\ApiPayloadResult.cs" />
+    <Compile Include="Controllers\api\ApiHelpers\ApiOkeyDokeResult.cs" />
+    <Compile Include="Controllers\api\ApiHelpers\ApiBadRequestResult.cs" />
     <Compile Include="Controllers\api\ContactController.cs" />
     <Compile Include="Controllers\api\DocumentsController.cs" />
+    <Compile Include="Controllers\api\ApiHelpers\ApiNotFoundResult.cs" />
     <Compile Include="Controllers\api\ReviewsController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\api\PortfolioController.cs" />
