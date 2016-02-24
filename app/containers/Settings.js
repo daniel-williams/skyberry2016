@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {toJS} from 'immutable';
 
 // import * as actions from '../actions/projectActionCreators';
-import Preferences from '../pages/dashboard/Preferences';
+import Settings from '../pages/dashboard/Settings';
 
 
 function mapStateToProps(state, ownProps) {
@@ -11,4 +11,4 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export default connect(mapStateToProps)(Preferences);
+export default connect(mapStateToProps)(Settings);

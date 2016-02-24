@@ -58,7 +58,7 @@ export default React.createClass({
         <MenuItem divider />
         <LinkContainer to='/dashboard/projects'><MenuItem eventKey={6.3}>Projects</MenuItem></LinkContainer>
         <LinkContainer to='/dashboard/billing'><MenuItem eventKey={6.4}>Billing</MenuItem></LinkContainer>
-        <LinkContainer to='/dashboard/preferences'><MenuItem eventKey={6.5}>Preferences</MenuItem></LinkContainer>
+        <LinkContainer to='/dashboard/settings'><MenuItem eventKey={6.5}>Settings</MenuItem></LinkContainer>
       </NavDropdown>
     );
   },

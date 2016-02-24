@@ -7,11 +7,11 @@ export default React.createClass({
       <Grid fluid={true}>
         <Row>
           <Col xs={12}>
-            <h1>Preferences</h1>
+            <h1>Settings</h1>
           </Col>
         </Row>
       </Grid>
     );
   },
-  
+
 });

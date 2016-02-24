@@ -13,7 +13,7 @@ import SignIn from '../containers/SignIn';
 import SignOut from '../containers/SignOut';
 import Projects from '../containers/Projects';
 import Billing from '../containers/Billing';
-import Preferences from '../containers/Preferences';
+import Settings from '../containers/Settings';
 import DesignReview from '../containers/DesignReview';
 
 // pages
@@ -42,7 +42,7 @@ const routes = (
           <Route path='projects/:aSlug/:pSlug' component={Projects}>
             <Route path=':rSlug' component={DesignReview} onEnter={() => store.dispatch(reviewResetUi())} />
           </Route>
-          <Route path='preferences' component={Preferences} />
+          <Route path='Settings' component={Settings} />
         </Route>
       </Route>
     </Route>
