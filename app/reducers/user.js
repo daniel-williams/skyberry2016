@@ -1,6 +1,7 @@
 import {fromJS, List} from 'immutable';
 
 import * as userActions from '../actions/userActions';
+import * as settingsActions from '../actions/settingsActions';
 
 
 const initialState = fromJS({
@@ -21,7 +22,6 @@ const initialState = fromJS({
 });
 
 export default function(state = initialState, action) {
-  console.log(action);
   switch(action.type) {
     case userActions.FETCH_USER: {
       return state.set('isRequesting', true);
@@ -56,6 +56,12 @@ export default function(state = initialState, action) {
     }
     case userActions.RESET_USER: {
       return initialState;
+    }
+    case settingsActions.SETTINGS_UPDATE_EMAIL_SUCCESS: {
+      return state.set('email', action.payload.email);
+    }
+    case settingsActions.SETTINGS_UPDATE_USERNAME_SUCCESS: {
+      return state.set('username', action.payload.username);
     }
     default:
       return state;

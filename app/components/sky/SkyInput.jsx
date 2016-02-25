@@ -11,6 +11,11 @@ export default React.createClass({
   changeValue: function (event) {
     this.setValue(event.currentTarget.value);
   },
+  // componentWillReceiveProps: function(nextProps) {
+  //   if(this.getValue() !== nextProps.value) {
+  //     this.setValue('');
+  //   }
+  // },
   render: function () {
     const cssNames = this.showError() ? ' has-error' : '';
     const errorMessage = this.showError() ? <span className='help-block'>{this.getErrorMessage()}</span> : null;
