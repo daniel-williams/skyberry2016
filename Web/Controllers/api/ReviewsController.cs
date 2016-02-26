@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 using Web.Models;
+using Web.Extensions;
 
 namespace Web.Controllers.api
 {
@@ -227,14 +228,13 @@ namespace Web.Controllers.api
             DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
             if (review == null)
             {
-                //throw new HttpResponseException(HttpStatusCode.NotFound);
                 return new ApiNotFoundResult(Request);
             }
 
             if (review.AcceptedDate != null)
             {
-                //throw new HttpResponseException(HttpStatusCode.BadRequest);
-                return new ApiBadRequestResult("Review has been accepted and no further changes are allowed.", Request);
+                ModelState.AddModelError("", "Review has been accepted and no further changes are allowed.");
+                return new ApiBadRequestResult(Request, ModelState.ToErrorDictionary());
             }
 
             ReviewComment item = new ReviewComment
@@ -250,18 +250,7 @@ namespace Web.Controllers.api
             UOW.Commit();
 
             ReviewCommentVM payload = ModelFactory.CreateReviewCommentVM(item);
-
-            //HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
-            //response.Content = new StringContent(JsonConvert.SerializeObject(new
-            //{
-            //    code = HttpStatusCode.OK,
-            //    description = "okeydoke",
-            //    payload = payload,
-            //}), Encoding.UTF8, "application/json");
-
-            //return response;
             return new ApiPayloadResult<ReviewCommentVM>(Request, payload);
-            //return CreatedAtRoute("GetComment", new { rid = item.DesignReviewId, cid = item.Id }, ModelFactory.createReviewCommmentVM(item));
         }
 
         [HttpGet]

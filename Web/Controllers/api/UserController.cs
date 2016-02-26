@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Http;
 using Web.Controllers.api;
+using Web.Extensions;
 using Web.Models;
 
 namespace Web.Controllers
@@ -58,11 +59,21 @@ namespace Web.Controllers
             {
                 return new ApiNotFoundResult(Request);
             }
+            if(model.newEmail != model.confirmEmail)
+            {
+                ModelState.AddModelError("confirmEmail", "Confirm Email and New Email must match.");
+                return new ApiBadRequestResult(Request, ModelState.ToErrorDictionary());
+            }
 
-            user.Email = model.email;
+            user.Email = model.newEmail;
             UOW.Commit();
 
-            return new ApiPayloadResult<UpdateEmailBM>(Request, model);
+            UpdateEmailVM payload = new UpdateEmailVM
+            {
+                email = user.Email,
+            };
+
+            return new ApiPayloadResult<UpdateEmailVM>(Request, payload);
         }
 
         [HttpPost]
@@ -75,10 +86,15 @@ namespace Web.Controllers
                 return new ApiNotFoundResult(Request);
             }
 
-            user.UserName = model.username;
+            user.UserName = model.NewUsername;
             UOW.Commit();
 
-            return new ApiPayloadResult<UpdateUsernameBM>(Request, model);
+            UpdateUsernameVM payload = new UpdateUsernameVM
+            {
+                Username = user.UserName,
+            };
+
+            return new ApiPayloadResult<UpdateUsernameVM>(Request, payload);
         }
 
         [HttpPost]
@@ -90,16 +106,18 @@ namespace Web.Controllers
             {
                 return new ApiNotFoundResult(Request);
             }
-            if(!UserManager.CheckPassword(user, model.OldPassword))
+            if(!UserManager.CheckPassword(user, model.OldPass))
             {
-                return new ApiBadRequestResult("Current password is incorrect.", Request);
+                ModelState.AddModelError("oldPass", "Current password is incorrect.");
+                return new ApiBadRequestResult(Request, ModelState.ToErrorDictionary());
             }
-            if(model.NewPassword != model.ConfirmPassword)
+            if(model.NewPass != model.ConfirmPass)
             {
-                return new ApiBadRequestResult("Confirm password does not match new password.", Request);
+                ModelState.AddModelError("confirmPass", "Confirm Password and New Password must match.");
+                return new ApiBadRequestResult(Request, ModelState.ToErrorDictionary());
             }
 
-            user.PasswordHash = UserManager.PasswordHasher.HashPassword(model.NewPassword);
+            user.PasswordHash = UserManager.PasswordHasher.HashPassword(model.NewPass);
             UOW.Commit();
 
             return new ApiOkeyDokeResult(Request);
@@ -108,30 +126,48 @@ namespace Web.Controllers
 
     public class UpdateEmailBM
     {
-        [Required(ErrorMessage = "Email is required.")]
+        [Required(ErrorMessage = "New Email is required.")]
         [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+        public string newEmail { get; set; }
+
+        [Required(ErrorMessage = "Confirm Email is required.")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+        [Compare("NewPass", ErrorMessage = "Confirm Email and New Email must match.")]
+        public string confirmEmail { get; set; }
+    }
+    public class UpdateEmailVM
+    {
         public string email { get; set; }
     }
 
     public class UpdateUsernameBM
     {
         [Required(ErrorMessage = "Username is required.")]
-        public string username { get; set; }
+        public string NewUsername { get; set; }
+
+        [Required(ErrorMessage = "Confirm Username is required.")]
+        [Compare("NewUsername", ErrorMessage = "Confirm Username and New Username must match.")]
+        public string ConfirmUsername { get; set; }
+    }
+
+    public class UpdateUsernameVM
+    {
+        public string Username { get; set; }
     }
 
     public class UpdatePasswordBM
     {
-        [Required(ErrorMessage = "Current password is required.")]
+        [Required(ErrorMessage = "Current Password is required.")]
         [DataType(DataType.Password)]
-        public string OldPassword { get; set; }
+        public string OldPass { get; set; }
 
-        [Required(ErrorMessage = "New password is required.")]
+        [Required(ErrorMessage = "New Password is required.")]
         [DataType(DataType.Password)]
-        public string NewPassword { get; set; }
+        public string NewPass { get; set; }
 
-        [Required(ErrorMessage = "Confirm password is required.")]
+        [Required(ErrorMessage = "Confirm Password is required.")]
         [DataType(DataType.Password)]
-        [Compare("NewPassword", ErrorMessage = "Confirm password does not match new password.")]
-        public string ConfirmPassword { get; set; }
+        [Compare("NewPass", ErrorMessage = "Confirm Password and New Password must match.")]
+        public string ConfirmPass { get; set; }
     }
 }
