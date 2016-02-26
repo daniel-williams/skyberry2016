@@ -1,7 +1,8 @@
 import {fromJS, List} from 'immutable';
 
 import * as userActions from '../actions/userActions';
-import * as settingsActions from '../actions/settingsActions';
+import * as emailActions from '../actions/settings/emailActions';
+import * as usernameActions from '../actions/settings/usernameActions';
 
 
 const initialState = fromJS({
@@ -57,10 +58,10 @@ export default function(state = initialState, action) {
     case userActions.RESET_USER: {
       return initialState;
     }
-    case settingsActions.SETTINGS_UPDATE_EMAIL_SUCCESS: {
+    case emailActions.UPDATE_EMAIL_SUCCESS: {
       return state.set('email', action.payload.email);
     }
-    case settingsActions.SETTINGS_UPDATE_USERNAME_SUCCESS: {
+    case usernameActions.UPDATE_USERNAME_SUCCESS: {
       return state.set('username', action.payload.username);
     }
     default:

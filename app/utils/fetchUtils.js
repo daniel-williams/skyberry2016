@@ -15,16 +15,6 @@ export function checkStatus(response) {
         err.formErrors = json.errors ? getFormErrors(json.errors) : {};
         return Promise.reject(err);
       });
-    // return Promise.resolve()
-    //   .then(() => {
-    //     return response.json()
-    //       .then(json => {
-    //         let err = new Error(response.statusText);
-    //         err.code = response.status;
-    //         err.formErrors = getFormErrors(json.errors || {});
-    //         return Promise.reject(err);
-    //       });
-    //   });
   }
 }
 
