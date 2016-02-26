@@ -1,7 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -10,24 +9,18 @@ namespace Web.Controllers.api
 {
     public class ApiBadRequestResult : IHttpActionResult
     {
-        HttpStatusCode _code = HttpStatusCode.BadRequest;
-        string _description;
-        HttpRequestMessage _request;
+        private HttpRequestMessage Request;
+        public ApiErrors<Dictionary<string, IEnumerable<string>>> ApiErrors;
 
-        public ApiBadRequestResult(string description, HttpRequestMessage request)
+        public ApiBadRequestResult(HttpRequestMessage request, Dictionary<string, IEnumerable<string>> errors)
         {
-            _description = description;
-            _request = request;
+            Request = request;
+            ApiErrors = new ApiErrors<Dictionary<string, IEnumerable<string>>>(HttpStatusCode.BadRequest, "Bad Request", errors);
         }
+
         public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
-            HttpResponseMessage response = _request.CreateResponse(_code);
-            response.Content = new StringContent(JsonConvert.SerializeObject(new
-            {
-                code = _code,
-                description = _description,
-            }), Encoding.UTF8, "application/json");
-
+            HttpResponseMessage response = Request.CreateResponse<ApiErrors<Dictionary<string, IEnumerable<string>>>>(HttpStatusCode.BadRequest, ApiErrors);
             return Task.FromResult(response);
         }
     }

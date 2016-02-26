@@ -6,20 +6,20 @@ using System.Web.Http;
 
 namespace Web.Controllers.api
 {
-    public class ApiPayloadResult<T> : IHttpActionResult
+    public class ApiResult : IHttpActionResult
     {
         private HttpRequestMessage Request;
-        public ApiPayload<T> ApiPayload;
+        public ApiBase ApiBase; 
 
-        public ApiPayloadResult(HttpRequestMessage request, T payload)
+        public ApiResult(HttpRequestMessage request, HttpStatusCode code, string description)
         {
             Request = request;
-            ApiPayload = new ApiPayload<T>(HttpStatusCode.OK, "okeydoke", payload);
+            ApiBase = new ApiBase(code, description);
         }
 
         public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
-            HttpResponseMessage response = Request.CreateResponse<ApiPayload<T>>(HttpStatusCode.OK, ApiPayload);
+            HttpResponseMessage response = Request.CreateResponse<ApiBase>(HttpStatusCode.OK, ApiBase);
             return Task.FromResult(response);
         }
     }

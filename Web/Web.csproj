@@ -199,9 +199,14 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\api\AccountsController.cs" />
+    <Compile Include="Controllers\api\ApiHelpers\ApiBase.cs" />
+    <Compile Include="Controllers\api\ApiHelpers\ApiErrors.cs" />
+    <Compile Include="Controllers\api\ApiHelpers\ApiErrorsResult.cs" />
+    <Compile Include="Controllers\api\ApiHelpers\ApiPayload.cs" />
     <Compile Include="Controllers\api\ApiHelpers\ApiPayloadResult.cs" />
     <Compile Include="Controllers\api\ApiHelpers\ApiOkeyDokeResult.cs" />
     <Compile Include="Controllers\api\ApiHelpers\ApiBadRequestResult.cs" />
+    <Compile Include="Controllers\api\ApiHelpers\ApiResult.cs" />
     <Compile Include="Controllers\api\ContactController.cs" />
     <Compile Include="Controllers\api\DocumentsController.cs" />
     <Compile Include="Controllers\api\ApiHelpers\ApiNotFoundResult.cs" />
@@ -213,6 +218,7 @@
     <Compile Include="Controllers\api\UserController.cs" />
     <Compile Include="Controllers\api\_BaseApiController.cs" />
     <Compile Include="Controllers\api\SubscribeController.cs" />
+    <Compile Include="Extensions\ApiExtensions.cs" />
     <Compile Include="Filters\ValidateModelAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
