@@ -3,37 +3,37 @@ import * as actions from './actions';
 
 export function showChangeEmail() {
   return {
-    type: actions.CHANGE_EMAIL_SHOW
+    type: actions.SHOW_CHANGE_EMAIL
   };
 }
 export function hideChangeEmail() {
   return {
-    type: actions.CHANGE_EMAIL_HIDE
+    type: actions.HIDE_CHANGE_EMAIL
   };
 }
 
-
 export function showChangePassword() {
   return {
-    type: actions.CHANGE_PASSWORD_SHOW
+    type: actions.SHOW_CHANGE_PASSWORD
   };
 }
 export function hideChangePassword() {
   return {
-    type: actions.CHANGE_PASSWORD_HIDE
+    type: actions.HIDE_CHANGE_PASSWORD
   };
 }
 
 export function showChangeUsername() {
   return {
-    type: actions.CHANGE_USERNAME_SHOW
+    type: actions.SHOW_CHANGE_USERNAME
   };
 }
 export function hideChangeUsername() {
   return {
-    type: actions.CHANGE_USERNAME_HIDE
+    type: actions.HIDE_CHANGE_USERNAME
   };
 }
+
 
 export default {
   showChangeEmail,

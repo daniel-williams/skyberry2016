@@ -25,10 +25,10 @@ const initialState = fromJS({
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case blogActions.BLOG_FETCHING: {
+    case blogActions.FETCHING_BLOG: {
       return state.set('isFetching', true);
     }
-    case blogActions.BLOG_FETCH_SUCCESS: {
+    case blogActions.FETCH_BLOG_SUCCESS: {
       const blog = action.payload.blog;
       const totalPostCount = blog.posts.totalItems;
       const totalPages = Math.floor(totalPostCount / state.get('itemsPerPage')) + 1;
@@ -44,7 +44,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case blogActions.BLOG_FETCH_FAILED: {
+    case blogActions.FETCH_BLOG_FAILED: {
       return state.withMutations((state) => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
@@ -63,10 +63,10 @@ export default function(state = initialState, action) {
       return state.set('activePage', activePage > 1 ? activePage - 1
                                                     : activePage);
     }
-    case blogActions.POSTS_FETCHING: {
+    case blogActions.FETCHING_POSTS: {
       return state.set('isFetching', true);
     }
-    case blogActions.POSTS_FETCH_SUCCESS: {
+    case blogActions.FETCH_POSTS_SUCCESS: {
       return state.withMutations((state) => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
@@ -77,7 +77,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case blogActions.POSTS_FETCH_FAILED: {
+    case blogActions.FETCH_POSTS_FAILED: {
       return state.withMutations((state) => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
@@ -85,10 +85,10 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case blogActions.POST_FETCHING: {
+    case blogActions.FETCHING_POST: {
       return state.set('isFetching', true);
     }
-    case blogActions.POST_FETCH_SUCCESS: {
+    case blogActions.FETCH_POST_SUCCESS: {
       return state.withMutations((state) => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
@@ -97,7 +97,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case blogActions.POST_FETCH_FAILED: {
+    case blogActions.FETCH_POST_FAILED: {
       return state.withMutations((state) => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);

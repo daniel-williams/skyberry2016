@@ -13,10 +13,10 @@ const initialState = fromJS({
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case testimonialActions.TESTIMONIALS_FETCHING: {
+    case testimonialActions.FETCHING_TESTIMONIALS: {
       return state.set('isFetching', true);
     }
-    case testimonialActions.TESTIMONIALS_FETCH_SUCCESS: {
+    case testimonialActions.FETCH_TESTIMONIALS_SUCCESS: {
       return state.withMutations(state => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
@@ -27,7 +27,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case testimonialActions.TESTIMONIALS_FETCH_FAILED: {
+    case testimonialActions.FETCH_TESTIMONIALS_FAILED: {
       return state.withMutations(state => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);

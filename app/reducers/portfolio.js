@@ -16,10 +16,10 @@ let initialState = fromJS({
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case portfolioActions.PORTFOLIO_FETCHING: {
+    case portfolioActions.FETCHING_PORTFOLIO: {
       return state.set('isFetching', true);
     }
-    case portfolioActions.PORTFOLIO_FETCH_SUCCESS: {
+    case portfolioActions.FETCH_PORTFOLIO_SUCCESS: {
       return state.withMutations(state => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
@@ -29,7 +29,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case portfolioActions.PORTFOLIO_FETCH_FAILED: {
+    case portfolioActions.FETCH_PORTFOLIO_FAILED: {
       return state.withMutations(state => {
         state.set('isFetching', false);
         state.set('lastFetchDate', action.payload.date);
@@ -37,7 +37,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case portfolioActions.PORTFOLIO_SET_SELECTED: {
+    case portfolioActions.SET_SELECTED_PORTFOLIO: {
       return state.set('selected', action.payload.key);
     }
     default:

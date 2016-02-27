@@ -152,6 +152,7 @@ export default function(state = initialState, action) {
       const slug = action.payload.slug;
       const currentReview = state.getIn(['reviews', slug]).toJS();
       const newReview = Object.assign({}, currentReview, action.payload.result);
+      console.log('what the fuck');
       return state.setIn(['reviews', slug], fromJS(newReview));
     }
     case reviewActions.REVIEW_REQUEST_DELIVERABLES: {

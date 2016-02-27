@@ -1,45 +1,54 @@
-import FetchService from '../services/FetchService';
-import {getFormErrors} from '../utils/FormUtils';
-import * as contactActions from './contactActions';
+import SkyberryFetch from '../services/SkyberryFetchService';
+
+import * as actions from './contactActions';
 
 
-export function handleSubmit(formData) {
+export function postContact(formData) {
   return function(dispatch) {
     dispatch(postingContact(formData));
 
-    FetchService.postJson('/api/contact', formData)
+    SkyberryFetch.postJson('/api/contact', formData)
       .then(() => dispatch(postContactSuccess()))
       .catch(error => dispatch(postContactFailed(error)));
   }
 }
 
-export function postingContact(formData){
+export function resetContact() {
   return {
-    type: contactActions.CONTACT_POSTING,
+    type: actions.RESET_CONTACT
+  };
+}
+
+
+export default {
+  postContact,
+  resetContact,
+}
+
+
+// internal helpers
+function postingContact(formData){
+  return {
+    type: actions.POSTING_CONTACT,
     payload: {
       form: formData
     }
   };
 }
-export function postContactSuccess() {
+function postContactSuccess() {
   return {
-    type: contactActions.CONTACT_POST_SUCCESS,
+    type: actions.POST_CONTACT_SUCCESS,
     payload: {
       date: new Date()
     }
   };
 }
-export function postContactFailed(error) {
+function postContactFailed(error) {
   return {
-    type: contactActions.CONTACT_POST_FAILED,
+    type: actions.POST_CONTACT_FAILED,
     payload: {
       date: new Date(),
       error: error,
     }
-  };
-}
-export function resetContact() {
-  return {
-    type: contactActions.CONTACT_RESET
   };
 }

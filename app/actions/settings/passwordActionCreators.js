@@ -1,4 +1,4 @@
-import FetchService from '../../services/FetchService';
+import SkyberryFetch from '../../services/SkyberryFetchService';
 import * as actions from './passwordActions';
 
 
@@ -6,7 +6,7 @@ export function updatePassword(formData) {
   return function(dispatch) {
     dispatch(updatingPassword(formData));
 
-    FetchService.postJson('/api/users/password', formData, true)
+    SkyberryFetch.postJson('/api/users/password', formData, true)
       .then(() => dispatch(updatePasswordSuccess()))
       .catch(error => dispatch(updatePasswordFailed(error)));
   };

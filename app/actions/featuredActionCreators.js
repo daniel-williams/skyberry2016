@@ -1,4 +1,4 @@
-import {getJson} from '../services/FetchService';
+import SkyberryFetch from '../services/SkyberryFetchService';
 
 import * as featuredActions from './featuredActions';
 
@@ -7,19 +7,25 @@ export function fetchFeatured() {
   return function(dispatch) {
     dispatch(fetchingFeatured());
 
-    getJson('/api/portfolio')
+    SkyberryFetch.getJson('/api/portfolio')
       .then(json => dispatch(fetchFeaturedSuccess(json)))
       .catch(error => dispatch(fetchFeaturedFailed(error)));
   }
 }
 
 
-export function fetchingFeatured() {
+export default {
+  fetchFeatured,
+}
+
+
+// internal helpers
+function fetchingFeatured() {
   return {
     type: featuredActions.FEATURED_FETCHING,
   };
 }
-export function fetchFeaturedSuccess(json) {
+function fetchFeaturedSuccess(json) {
   return {
     type: featuredActions.FEATURED_FETCH_SUCCESS,
     payload: {

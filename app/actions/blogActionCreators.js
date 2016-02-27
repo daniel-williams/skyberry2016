@@ -1,21 +1,52 @@
-import {getJson} from '../services/FetchService';
+import Fetch from '../services/FetchService';
 
 import constants from '../constants';
 import {getSlugFromUrl} from '../utils/BloggerUtils';
-import * as blogActions from './blogActions';
+import * as actions from './blogActions';
 
 
 const {host, id, apiKey, itemsPerPage} = constants.blog;
 const blogUrl = host + id + '?key=' + apiKey;
 const postsUrl = host + id + '/posts?key=' + apiKey;
-function getPostUrl(itemId) {
-  return host + id + '/posts/' + itemId + '?key=' + apiKey;
+
+export function fetchAsNeeded(slug) {
+  return function(dispatch, getState) {
+    const blogId = getState().getIn(['blog', 'id']);
+
+    if(!blogId) {
+      fetchBlog(dispatch, getState);
+    } else {
+      fetchPostsAsNeeded(dispatch, getState, slug);
+    }
+  }
 }
 
+export function blogPageNext() {
+  return {
+    type: actions.BLOG_PAGE_NEXT
+  };
+}
+export function blogPagePrev() {
+  return {
+    type: actions.BLOG_PAGE_PREV
+  };
+}
+
+
+export default {
+  fetchAsNeeded,
+  blogPageNext,
+  blogPagePrev,
+}
+
+
+
+
+// private creators
 function fetchBlog(dispatch) {
   dispatch(fetchingBlog());
 
-  getJson(blogUrl)
+  Fetch.getJson(blogUrl)
     .then(json => dispatch(fetchBlogSuccess(json)))
     .catch(error => dispatch(fetchBlogFailed(error)));
 }
@@ -50,7 +81,7 @@ function fetchPost(count = 0, pageToken) {
   return function(dispatch) {
     dispatch(fetchingPosts());
 
-    getJson(postsUrl + count + pageToken)
+    Fetch.getJson(postsUrl + count + pageToken)
       .then(json => dispatch(fetchPostsSuccess(json)))
       .catch(error => dispatch(fetchPostsFailed(error)));
   }
@@ -60,7 +91,7 @@ function fetchPostBySlug(slug) {
   return function(dispatch, getState) {
     dispatch(fetchingPost());
 
-    getJson(postsUrl + '&maxResults=500&fields=items(id,url)')
+    Fetch.getJson(postsUrl + '&maxResults=500&fields=items(id,url)')
       .then(json => {
         const postSlugs = json.items.map(p => {
           return {
@@ -70,7 +101,7 @@ function fetchPostBySlug(slug) {
         });
         const tgtPost = postSlugs.find(p => p.slug === slug);
         if(tgtPost) {
-          return getJson(getPostUrl(tgtPost.id))
+          return Fetch.getJson(getPostUrl(tgtPost.id))
             .then(json => dispatch(fetchPostSuccess(json)))
         } else {
           throw new Error('Post not found.');
@@ -81,36 +112,27 @@ function fetchPostBySlug(slug) {
 }
 
 
-export function fetchAsNeeded(slug) {
-  return function(dispatch, getState) {
-    const blogId = getState().getIn(['blog', 'id']);
-
-    if(!blogId) {
-      fetchBlog(dispatch, getState);
-    } else {
-      fetchPostsAsNeeded(dispatch, getState, slug);
-    }
-  }
+// internal helpers
+function getPostUrl(itemId) {
+  return host + id + '/posts/' + itemId + '?key=' + apiKey;
 }
 
-
-
-export function fetchingBlog() {
+function fetchingBlog() {
   return {
-    type: blogActions.BLOG_FETCHING,
+    type: actions.FETCHING_BLOG,
   };
 }
-export function fetchBlogSuccess(json) {
+function fetchBlogSuccess(json) {
   return {
-    type: blogActions.BLOG_FETCH_SUCCESS,
+    type: actions.FETCH_BLOG_SUCCESS,
     payload: {
       blog: json
     },
   };
 }
-export function fetchBlogFailed(error) {
+function fetchBlogFailed(error) {
   return {
-    type: blogActions.BLOG_FETCH_FAILED,
+    type: actions.FETCH_BLOG_FAILED,
     payload: {
       date: new Date(),
       error: error
@@ -118,15 +140,15 @@ export function fetchBlogFailed(error) {
   };
 }
 
-export function fetchingPosts() {
+function fetchingPosts() {
   return {
-    type: blogActions.POSTS_FETCHING
+    type: actions.FETCHING_POSTS
   };
 }
 // TODO:  losing some data by plucking from json... review to persist or optimize request
-export function fetchPostsSuccess(json) {
+function fetchPostsSuccess(json) {
   return {
-    type: blogActions.POSTS_FETCH_SUCCESS,
+    type: actions.FETCH_POSTS_SUCCESS,
     payload: {
       date: new Date(),
       posts: json.items,
@@ -134,9 +156,9 @@ export function fetchPostsSuccess(json) {
     }
   };
 }
-export function fetchPostsFailed(error) {
+function fetchPostsFailed(error) {
   return {
-    type: blogActions.POSTS_FETCH_FAILED,
+    type: actions.FETCH_POSTS_FAILED,
     payload: {
       date: new Date(),
       error: error
@@ -145,37 +167,26 @@ export function fetchPostsFailed(error) {
 }
 
 
-export function fetchingPost() {
+function fetchingPost() {
   return {
-    type: blogActions.POST_FETCHING,
+    type: actions.FETCHING_POST,
   };
 }
-export function fetchPostSuccess(json) {
+function fetchPostSuccess(json) {
   return {
-    type: blogActions.POST_FETCH_SUCCESS,
+    type: actions.FETCH_POST_SUCCESS,
     payload: {
       date: new Date(),
       post: json
     },
   };
 }
-export function fetchPostFailed(error) {
+function fetchPostFailed(error) {
   return {
-    type: blogActions.POST_FETCH_FAILED,
+    type: actions.FETCH_POST_FAILED,
     payload: {
       date: new Date(),
       error: error
     },
-  };
-}
-
-export function blogPageNext() {
-  return {
-    type: blogActions.BLOG_PAGE_NEXT
-  };
-}
-export function blogPagePrev() {
-  return {
-    type: blogActions.BLOG_PAGE_PREV
   };
 }

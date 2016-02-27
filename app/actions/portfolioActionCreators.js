@@ -1,4 +1,4 @@
-import {getJson} from '../services/FetchService';
+import SkyberryFetch from '../services/SkyberryFetchService';
 import * as portfolioActions from './portfolioActions';
 
 
@@ -17,22 +17,29 @@ export function fetchPortfolio(key) {
   return function(dispatch) {
     dispatch(fetchingPortfolio());
 
-    getJson('/api/portfolio?c=' + key)
+    SkyberryFetch.getJson('/api/portfolio?c=' + key)
       .then(json => dispatch(fetchPortfolioSuccess(key, json)))
       .catch(error => dispatch(fetchPortfolioFailed(error)));
   }
 }
 
 
-export function fetchingPortfolio() {
+export default {
+  switchPortfolio,
+  fetchPortfolio,
+}
+
+
+// internal helpers
+function fetchingPortfolio() {
   return {
-    type: portfolioActions.PORTFOLIO_FETCHING,
+    type: portfolioActions.FETCHING_PORTFOLIO,
   };
 }
 
-export function fetchPortfolioSuccess(key, json) {
+function fetchPortfolioSuccess(key, json) {
   return {
-    type: portfolioActions.PORTFOLIO_FETCH_SUCCESS,
+    type: portfolioActions.FETCH_PORTFOLIO_SUCCESS,
     payload: {
       date: new Date(),
       key: key,
@@ -41,9 +48,9 @@ export function fetchPortfolioSuccess(key, json) {
   };
 }
 
-export function fetchPortfolioFailed(error) {
+function fetchPortfolioFailed(error) {
   return {
-    type: portfolioActions.PORTFOLIO_FETCH_FAILED,
+    type: portfolioActions.FETCH_PORTFOLIO_FAILED,
     payload: {
       date: new Date(),
       error: error
@@ -51,9 +58,9 @@ export function fetchPortfolioFailed(error) {
   };
 }
 
-export function setSelectedPortfolio(key) {
+function setSelectedPortfolio(key) {
   return {
-    type: portfolioActions.PORTFOLIO_SET_SELECTED,
+    type: portfolioActions.SET_SELECTED_PORTFOLIO,
     payload: {
       key: key
     }

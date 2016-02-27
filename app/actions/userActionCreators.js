@@ -1,15 +1,15 @@
-import * as userActions from './userActions';
+import * as actions from './userActions';
 
 
 export function fetchingUser() {
   return {
-    type: userActions.FETCH_USER,
+    type: actions.FETCH_USER,
   };
 }
 
 export function fetchUserSuccess(json) {
   return {
-    type: userActions.FETCH_USER_SUCCESS,
+    type: actions.FETCH_USER_SUCCESS,
     payload: {
       date: new Date(),
       user: json
@@ -19,7 +19,7 @@ export function fetchUserSuccess(json) {
 
 export function fetchUserFailed(error) {
   return {
-    type: userActions.FETCH_USER_FAILED,
+    type: actions.FETCH_USER_FAILED,
     payload: {
       date: new Date(),
       error: error,
@@ -29,7 +29,7 @@ export function fetchUserFailed(error) {
 
 export function resetUser() {
   return {
-    type: userActions.RESET_USER,
+    type: actions.RESET_USER,
   }
 }
 

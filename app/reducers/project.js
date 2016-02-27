@@ -14,7 +14,7 @@ const initialState = fromJS({
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case projectActions.FETCH_PROJECT: {
+    case projectActions.FETCHING_PROJECT: {
       return state.set('isFetching', true);
     }
     case projectActions.FETCH_PROJECT_SUCCESS: {

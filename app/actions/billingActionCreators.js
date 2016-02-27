@@ -6,3 +6,8 @@ export function changeAccount(accountSlug) {
     history.pushState(null, '/dashboard/billing/' + accountSlug);
   }
 }
+
+
+export default {
+  changeAccount,
+}

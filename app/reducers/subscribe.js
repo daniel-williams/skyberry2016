@@ -14,7 +14,7 @@ const initialState = fromJS({
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case subscribeActions.SUBSCRIBE_POSTING: {
+    case subscribeActions.POSTING_SUBSCRIBE: {
       return state.withMutations(state => {
         state.set('isPosting', true);
         state.set('lastPostDate', null);
@@ -24,7 +24,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case subscribeActions.SUBSCRIBE_POST_SUCCESS: {
+    case subscribeActions.POST_SUBSCRIBE_SUCCESS: {
       return state.withMutations(state => {
         state.set('isPosting', false);
         state.set('lastPostDate', action.payload.date);
@@ -34,7 +34,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case subscribeActions.SUBSCRIBE_POST_FAILED: {
+    case subscribeActions.POST_SUBSCRIBE_FAILED: {
       return state.withMutations(state => {
         state.set('isPosting', false);
         state.set('lastPostDate', action.payload.date);
@@ -42,10 +42,10 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case subscribeActions.SUBSCRIBE_SHOW: {
+    case subscribeActions.SHOW_SUBSCRIBE: {
       return state.set('showSubscribe', true);
     }
-    case subscribeActions.SUBSCRIBE_HIDE: {
+    case subscribeActions.HIDE_SUBSCRIBE: {
       return state.set('showSubscribe', false);
     }
     default: {

@@ -1,4 +1,4 @@
-import FetchService from '../../services/FetchService';
+import SkyberryFetch from '../../services/SkyberryFetchService';
 import * as actions from './emailActions';
 
 
@@ -6,7 +6,7 @@ export function updateEmail(formData) {
   return function(dispatch) {
     dispatch(updatingEmail(formData));
 
-    FetchService.postJson('/api/users/email', formData, true)
+    SkyberryFetch.postJson('/api/users/email', formData, true)
       .then((json) => dispatch(updateEmailSuccess(json)))
       .catch(error => dispatch(updateEmailFailed(error)));
   };
@@ -37,7 +37,7 @@ function updateEmailSuccess(json) {
     type: actions.UPDATE_EMAIL_SUCCESS,
     payload: {
       date: new Date(),
-      email: json.payload.email,
+      email: json.email,
     },
   };
 }

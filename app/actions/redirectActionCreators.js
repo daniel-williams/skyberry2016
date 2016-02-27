@@ -1,9 +1,9 @@
-import * as redirectActions from './redirectActions';
+import * as actions from './redirectActions';
 
 
 export function setNext(next) {
   return {
-    type: redirectActions.NEXT_SET,
+    type: actions.NEXT_SET,
     payload: {
       next
     }
@@ -12,7 +12,7 @@ export function setNext(next) {
 
 export function clearNext(next) {
   return {
-    type: redirectActions.NEXT_CLEAR,
+    type: actions.NEXT_CLEAR,
   };
 }
 

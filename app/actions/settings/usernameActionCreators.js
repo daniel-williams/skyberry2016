@@ -1,4 +1,4 @@
-import FetchService from '../../services/FetchService';
+import SkyberryFetch from '../../services/SkyberryFetchService';
 import * as actions from './usernameActions';
 
 
@@ -6,7 +6,7 @@ export function updateUsername(formData) {
   return function(dispatch) {
     dispatch(updatingUsername(formData));
 
-    FetchService.postJson('/api/users/username', formData, true)
+    SkyberryFetch.postJson('/api/users/username', formData, true)
       .then((json) => dispatch(updateUsernameSuccess(json)))
       .catch(error => dispatch(updateUsernameFailed(error)));
   };
@@ -37,7 +37,7 @@ function updateUsernameSuccess(json) {
     type: actions.UPDATE_USERNAME_SUCCESS,
     payload: {
       date: new Date(),
-      username: json.payload.username,
+      username: json.username,
     },
   };
 }

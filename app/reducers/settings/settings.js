@@ -10,22 +10,22 @@ const initialState = fromJS({
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case actions.CHANGE_EMAIL_SHOW: {
+    case actions.SHOW_CHANGE_EMAIL: {
       return state.set('showChangeEmail', true);
     }
-    case actions.CHANGE_EMAIL_HIDE: {
+    case actions.HIDE_CHANGE_EMAIL: {
       return state.set('showChangeEmail', false);
     }
-    case actions.CHANGE_USERNAME_SHOW: {
+    case actions.SHOW_CHANGE_USERNAME: {
       return state.set('showChangeUsername', true);
     }
-    case actions.CHANGE_USERNAME_HIDE: {
+    case actions.HIDE_CHANGE_USERNAME: {
       return state.set('showChangeUsername', false);
     }
-    case actions.CHANGE_PASSWORD_SHOW: {
+    case actions.SHOW_CHANGE_PASSWORD: {
       return state.set('showChangePassword', true);
     }
-    case actions.CHANGE_PASSWORD_HIDE: {
+    case actions.HIDE_CHANGE_PASSWORD: {
       return state.set('showChangePassword', false);
     }
     default: {

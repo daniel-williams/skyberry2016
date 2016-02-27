@@ -1,10 +1,10 @@
-import FetchService from '../services/FetchService';
-import * as reviewActions from './reviewActions';
+import SkyberryFetch from '../services/SkyberryFetchService';
+import * as actions from './reviewActions';
 
 
 export function mergeIncomingReviews(reviews) {
   return {
-    type: reviewActions.MERGE_INCOMING_REVIEWS,
+    type: actions.MERGE_INCOMING_REVIEWS,
     payload: {
       reviews: reviews,
     }
@@ -17,7 +17,7 @@ export function reviewOptionSetSelected(slug, optionId) {
 
     const id = getState().getIn(['review', 'reviews', slug, 'id']);
 
-    return FetchService.getJson('/api/reviews/' + id + '/options/' + optionId, true)
+    return SkyberryFetch.getJson('/api/reviews/' + id + '/options/' + optionId, true)
       .then(() => {
         dispatch(setSelected(slug, optionId));
         dispatch(updateReviewSuccess());
@@ -33,7 +33,7 @@ export function reviewOptionClearSelected(slug) {
 
     const id = getState().getIn(['review', 'reviews', slug, 'id']);
 
-    return FetchService.getJson('/api/reviews/' + id + '/options/clear', true)
+    return SkyberryFetch.getJson('/api/reviews/' + id + '/options/clear', true)
       .then(() => {
         dispatch(clearSelected(slug));
         dispatch(updateReviewSuccess());
@@ -49,8 +49,8 @@ export function reviewOptionAddComment(slug, formData) {
 
     const id = getState().getIn(['review', 'reviews', slug, 'id']);
 
-    return FetchService.postJson('/api/reviews/' + id + '/comments', formData, true)
-      .then((json) => dispatch(postCommentSuccess(slug, json.payload)))
+    return SkyberryFetch.postJson('/api/reviews/' + id + '/comments', formData, true)
+      .then((json) => dispatch(postCommentSuccess(slug, json)))
       .catch(error => dispatch(postCommentFailed(error)));
   }
 }
@@ -61,9 +61,9 @@ export function reviewRequestRevision(slug) {
 
     const id = getState().getIn(['review', 'reviews', slug, 'id']);
 
-    return FetchService.getJson('/api/reviews/' + id + '/revision', true)
+    return SkyberryFetch.getJson('/api/reviews/' + id + '/revision', true)
       .then((json) => {
-        dispatch(requestRevision(slug, json.result));
+        dispatch(requestRevision(slug, json));
         dispatch(updateReviewSuccess());
       })
       .catch(error => {
@@ -77,9 +77,9 @@ export function reviewRequestDeliverables(slug) {
 
     const id = getState().getIn(['review', 'reviews', slug, 'id']);
 
-    return FetchService.getJson('/api/reviews/' + id + '/deliverables', true)
+    return SkyberryFetch.getJson('/api/reviews/' + id + '/deliverables', true)
       .then((json) => {
-        dispatch(requestDeliverables(slug, json.result));
+        dispatch(requestDeliverables(slug, json));
         dispatch(updateReviewSuccess());
       })
       .catch(error => {
@@ -93,7 +93,7 @@ export function reviewRequestCanceled(slug) {
 
     const id = getState().getIn(['review', 'reviews', slug, 'id']);
 
-    return FetchService.getJson('/api/reviews/' + id + '/clear-request', true)
+    return SkyberryFetch.getJson('/api/reviews/' + id + '/clear-request', true)
       .then(() => {
         dispatch(requestCanceled(slug));
         dispatch(updateReviewSuccess());
@@ -110,9 +110,9 @@ export function reviewApproveProject(slug) {
 
     const id = getState().getIn(['review', 'reviews', slug, 'id']);
 
-    return FetchService.getJson('/api/reviews/' + id + '/approve-project', true)
+    return SkyberryFetch.getJson('/api/reviews/' + id + '/approve-project', true)
       .then((json) => {
-        dispatch(approveProject(slug, json.result));
+        dispatch(approveProject(slug, json));
         dispatch(updateReviewSuccess());
       })
       .catch(error => {
@@ -122,26 +122,27 @@ export function reviewApproveProject(slug) {
 }
 
 
+
 export function reviewHideFeedback() {
   return {
-    type: reviewActions.REVIEW_HIDE_FEEDBACK,
+    type: actions.REVIEW_HIDE_FEEDBACK,
   };
 }
 
 export function reviewShowApproval() {
   return {
-    type: reviewActions.REVIEW_SHOW_APPROVAL,
+    type: actions.REVIEW_SHOW_APPROVAL,
   };
 }
 export function reviewHideApproval() {
   return {
-    type: reviewActions.REVIEW_HIDE_APPROVAL,
+    type: actions.REVIEW_HIDE_APPROVAL,
   };
 }
 
 export function reviewResetUi() {
   return {
-    type: reviewActions.REVIEW_UI_RESET,
+    type: actions.REVIEW_UI_RESET,
   };
 }
 
@@ -174,7 +175,7 @@ export default {
 // internal helpers
 function setSelected(slug, optionId) {
   return {
-    type: reviewActions.REVIEW_OPTION_SET_SELECTED,
+    type: actions.REVIEW_OPTION_SET_SELECTED,
     payload: {
       slug: slug,
       optionId: optionId,
@@ -183,7 +184,7 @@ function setSelected(slug, optionId) {
 }
 function clearSelected(slug) {
   return {
-    type: reviewActions.REVIEW_OPTION_CLEAR_SELECTED,
+    type: actions.REVIEW_OPTION_CLEAR_SELECTED,
     payload: {
       slug: slug,
     }
@@ -191,7 +192,7 @@ function clearSelected(slug) {
 }
 function postComment(formData) {
   return {
-    type: reviewActions.REVIEW_OPTION_POST_COMMENT,
+    type: actions.REVIEW_OPTION_POST_COMMENT,
     payload: {
       comment: formData.comment,
     }
@@ -199,7 +200,7 @@ function postComment(formData) {
 }
 function postCommentSuccess(slug, comment) {
   return {
-    type: reviewActions.REVIEW_OPTION_POST_COMMENT_SUCCESS,
+    type: actions.REVIEW_OPTION_POST_COMMENT_SUCCESS,
     payload: {
       date: new Date(),
       slug: slug,
@@ -209,7 +210,7 @@ function postCommentSuccess(slug, comment) {
 }
 function postCommentFailed(error) {
   return {
-    type: reviewActions.REVIEW_OPTION_POST_COMMENT_FAILED,
+    type: actions.REVIEW_OPTION_POST_COMMENT_FAILED,
     payload: {
       date: new Date(),
       error: error,
@@ -220,7 +221,7 @@ function postCommentFailed(error) {
 
 function requestRevision(slug, result) {
   return {
-    type: reviewActions.REVIEW_REQUEST_REVISION,
+    type: actions.REVIEW_REQUEST_REVISION,
     payload: {
       slug: slug,
       result: result,
@@ -229,7 +230,7 @@ function requestRevision(slug, result) {
 }
 function requestDeliverables(slug, result) {
   return {
-    type: reviewActions.REVIEW_REQUEST_DELIVERABLES,
+    type: actions.REVIEW_REQUEST_DELIVERABLES,
     payload: {
       slug: slug,
       result: result,
@@ -238,7 +239,7 @@ function requestDeliverables(slug, result) {
 }
 function requestCanceled(slug) {
   return {
-    type: reviewActions.REVIEW_REQUEST_CANCELED,
+    type: actions.REVIEW_REQUEST_CANCELED,
     payload: {
       slug: slug,
     }
@@ -247,7 +248,7 @@ function requestCanceled(slug) {
 
 function approveProject(slug, result) {
   return {
-    type: reviewActions.REVIEW_APPROVE_PROJECT,
+    type: actions.REVIEW_APPROVE_PROJECT,
     payload: {
       slug: slug,
       result: result,
@@ -258,12 +259,12 @@ function approveProject(slug, result) {
 
 function updateReview() {
   return {
-    type: reviewActions.UPDATE_REVIEW,
+    type: actions.UPDATE_REVIEW,
   };
 }
 function updateReviewSuccess(slug, review) {
   return {
-    type: reviewActions.UPDATE_REVIEW_SUCCESS,
+    type: actions.UPDATE_REVIEW_SUCCESS,
     payload: {
       date: new Date(),
       slug: slug,
@@ -273,7 +274,7 @@ function updateReviewSuccess(slug, review) {
 }
 function updateReviewFailed(error) {
   return {
-    type: reviewActions.UPDATE_REVIEW_FAILED,
+    type: actions.UPDATE_REVIEW_FAILED,
     payload: {
       date: new Date(),
       error: error,

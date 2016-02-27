@@ -1,4 +1,4 @@
-import FetchService from '../services/FetchService';
+import SkyberryFetch from '../services/SkyberryFetchService';
 
 import * as accountActions from './accountActions';
 
@@ -27,9 +27,9 @@ function loadAccount(id, slug) {
   return function(dispatch) {
     dispatch(fetchAccount());
 
-    return FetchService.loadAccount(id)
+    return SkyberryFetch.loadAccount(id)
       .then(json => {
-        dispatch(fetchAccountSuccess(slug, json.account));
+        dispatch(fetchAccountSuccess(slug, json));
       })
       .catch(error => {
         dispatch(fetchAccountFailed(error));

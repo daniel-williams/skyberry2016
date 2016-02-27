@@ -1,28 +1,33 @@
-import {getJson} from '../services/FetchService';
+import SkyberryFetch from '../services/SkyberryFetchService';
 
-import * as testimonialActions from './testimonialActions';
+import * as actions from './testimonialActions';
 
 
 export function fetchTestimonials() {
   return function(dispatch) {
     dispatch(fetchingTestimonials());
 
-    getJson('/api/portfolio')
+    SkyberryFetch.getJson('/api/testimonials')
     .then(json => dispatch(fetchTestimonialsSuccess(json)))
     .catch(error => dispatch(fetchTestimonialsFailed(error)));
   }
 }
 
 
-export function fetchingTestimonials() {
+export default {
+  fetchTestimonials,
+}
+
+
+function fetchingTestimonials() {
   return {
-    type: testimonialActions.TESTIMONIALS_FETCHING,
+    type: actions.FETCHING_TESTIMONIALS,
   };
 }
 
-export function fetchTestimonialsSuccess(json) {
+function fetchTestimonialsSuccess(json) {
   return {
-    type: testimonialActions.testimonialActions.TESTIMONIALS_FETCH_SUCCESS,
+    type: actions.FETCH_TESTIMONIALS_SUCCESS,
     payload: {
       date: new Date(),
       items: json,
@@ -30,9 +35,9 @@ export function fetchTestimonialsSuccess(json) {
   };
 }
 
-export function fetchTestimonialsFailed(error) {
+function fetchTestimonialsFailed(error) {
   return {
-    type: testimonialActions.TESTIMONIALS_FETCH_FAILED,
+    type: actions.FETCH_TESTIMONIALS_FAILED,
     payload: {
       date: new Date(),
       error: error

@@ -16,7 +16,7 @@ const initialState = fromJS({
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case contactActions.CONTACT_POSTING: {
+    case contactActions.POSTING_CONTACT: {
       return state.withMutations(state => {
         state.set('isPosting', true);
 
@@ -27,7 +27,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case contactActions.CONTACT_POST_SUCCESS: {
+    case contactActions.POST_CONTACT_SUCCESS: {
       return state.withMutations(state => {
         state.set('hasPosted', true);
         state.set('isPosting', false);
@@ -38,7 +38,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case contactActions.CONTACT_POST_FAILED: {
+    case contactActions.POST_CONTACT_FAILED: {
       return state.withMutations(state => {
         state.set('isPosting', false);
         state.set('lastPostDate', action.payload.date);
@@ -46,7 +46,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case contactActions.CONTACT_RESET: {
+    case contactActions.RESET_CONTACT: {
       return state.withMutations(state => {
         state.set('hasPosted', false);
         state.set('isPosting', false);

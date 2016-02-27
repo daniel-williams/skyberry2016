@@ -1,11 +1,11 @@
-import FetchService from '../services/FetchService';
+import SkyberryFetch from '../services/SkyberryFetchService';
 import history from '../routes/history';
 
-import * as projectActions from './projectActions';
-import {mergeIncomingReviews} from './reviewActionCreators';
+import reviewActionCreators from './reviewActionCreators';
+import * as actions from './projectActions';
 
 
-export function fetchProjectAsNeeded(compositeSlug) {
+export function fetchAsNeeded(compositeSlug) {
   return function(dispatch, getState) {
     const state = getState();
     const slugs = compositeSlug.split('/');
@@ -26,7 +26,7 @@ export function fetchProjectAsNeeded(compositeSlug) {
 
 export function setProjectDirectory(projectDirectory) {
   return {
-    type: projectActions.SET_PROJECT_DIRECTORY,
+    type: actions.SET_PROJECT_DIRECTORY,
     payload: {
       projectDirectory: projectDirectory,
     }
@@ -54,13 +54,13 @@ export function changeProject(compositeSlug) {
 
 export function resetProjects() {
   return {
-    type: projectActions.RESET_PROJECTS,
+    type: actions.RESET_PROJECTS,
   };
 }
 
 
 export default {
-  fetchProjectAsNeeded,
+  fetchAsNeeded,
   setProjectDirectory,
   changeAccount,
   changeProject,
@@ -68,14 +68,14 @@ export default {
 }
 
 
-// internal helper functions
+// private creators
 function loadProject(projectId, compositeSlug) {
   return function(dispatch) {
-    dispatch(fetchProject());
+    dispatch(fetchingProject());
 
-    return FetchService.loadProject(projectId)
+    return SkyberryFetch.loadProject(projectId)
       .then(project => {
-        dispatch(mergeIncomingReviews(buildReviewMap(compositeSlug, project)));
+        dispatch(reviewActionCreators.mergeIncomingReviews(buildReviewMap(compositeSlug, project)));
         dispatch(fetchProjectSuccess(compositeSlug, project));
       })
       .catch(error => {
@@ -83,14 +83,17 @@ function loadProject(projectId, compositeSlug) {
       });
   };
 }
-function fetchProject() {
+
+
+// internal helpers
+function fetchingProject() {
   return {
-    type: projectActions.FETCH_PROJECT,
+    type: actions.FETCHING_PROJECT,
   };
 }
 function fetchProjectSuccess(key, project) {
   return {
-    type: projectActions.FETCH_PROJECT_SUCCESS,
+    type: actions.FETCH_PROJECT_SUCCESS,
     payload: {
       date: new Date(),
       key: key,
@@ -100,7 +103,7 @@ function fetchProjectSuccess(key, project) {
 }
 function fetchProjectFailed(error) {
   return {
-    type: projectActions.FETCH_PROJECT_FAILED,
+    type: actions.FETCH_PROJECT_FAILED,
     payload: {
       date: new Date(),
       error: error

@@ -19,7 +19,7 @@ const initialState = fromJS({
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case identityActions.FETCH_IDENTITY: {
+    case identityActions.FETCHING_IDENTITY: {
       return state.set('isRequesting', true);
     }
     case identityActions.FETCH_IDENTITY_SUCCESS: {

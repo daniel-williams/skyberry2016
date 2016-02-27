@@ -2,24 +2,13 @@ import {toJS} from 'immutable';
 
 import TokenService from '../services/TokenService';
 import FetchService from '../services/FetchService';
-import {clone, addSlug, toKeyMap, toNameValueMap} from '../utils/CollectionUtils';
-import {
-  fetchingUser,
-  fetchUserSuccess,
-  fetchUserFailed,
-  resetUser,
-} from '../actions/userActionCreators';
-import {
-  fetchAccounts,
-  fetchAccountsSuccess,
-  fetchAccountsFailed,
-  resetAccounts,
-  setAccountMap,
-  setAccountOptions,
-} from '../actions/accountActionCreators';
-import {setProjectDirectory} from '../actions/projectActionCreators';
-import {changeAccount, changeProject} from '../actions/dashboardActionCreators';
-import * as identityActions from './identityActions';
+import SkyberryFetch from '../services/SkyberryFetchService';
+
+import {clone, toKeyMap, toNameValueMap} from '../utils/CollectionUtils';
+import userActionCreators from '../actions/userActionCreators';
+import accountActionCreators from '../actions/accountActionCreators';
+import projectActionCreators from '../actions/projectActionCreators';
+import * as actions from './identityActions';
 
 
 export function recoverIndentity() {
@@ -49,7 +38,7 @@ export function logOn(username, password) {
   return function(dispatch, getState) {
 
     dispatch(fetchingIdentity());
-    FetchService.signIn(username, password)
+    return FetchService.signIn(username, password)
       .then(identity => {
         TokenService.setTokens(identity.access_token, identity.refresh_token);
         dispatch(fetchIdentitySuccess(identity));
@@ -62,16 +51,19 @@ export function logOn(username, password) {
           error.errors = {'error':'The username or password are incorrect.'}
           dispatch(fetchIdentityFailed(error));
         }
-      );
+      )
+      .catch(err=> {
+        console.log('Catch', err);
+      })
   }
 }
 
 export function logOff() {
   return function(dispatch) {
     TokenService.clearTokens();
-    dispatch(resetUser());
+    dispatch(userActionCreators.resetUser());
     dispatch(resetIdentity());
-    dispatch(resetAccounts());
+    dispatch(accountActionCreators.resetAccounts());
   };
 }
 
@@ -94,11 +86,11 @@ export default {
 
 function loadUserAndAccountData(user_id) {
   return function(dispatch, getState) {
-    dispatch(fetchingUser());
-    dispatch(fetchAccounts());
+    dispatch(userActionCreators.fetchingUser());
+    dispatch(accountActionCreators.fetchAccounts());
     return Promise.all([
-      FetchService.loadUser(user_id),
-      FetchService.loadAccounts(user_id),
+      SkyberryFetch.loadUser(user_id),
+      SkyberryFetch.loadAccounts(user_id),
     ])
     .then(res => {
       const user = res[0];
@@ -107,19 +99,19 @@ function loadUserAndAccountData(user_id) {
       const accountKeyMap = toKeyMap(accountMap, 'slug');
       const accountOptions = toNameValueMap(accountMap, 'name', 'slug');
 
-      // TODO: shouldn't we combine these dispatches?
-      dispatch(fetchUserSuccess(user));
-      dispatch(setAccountOptions(accountOptions));
-      dispatch(setAccountMap(accountKeyMap));
-      dispatch(fetchAccountsSuccess(accounts));
+      // TODO: should we combine these dispatches?
+      dispatch(userActionCreators.fetchUserSuccess(user));
+      dispatch(accountActionCreators.setAccountOptions(accountOptions));
+      dispatch(accountActionCreators.setAccountMap(accountKeyMap));
+      dispatch(accountActionCreators.fetchAccountsSuccess(accounts));
 
       if(accounts.length) {
-        dispatch(setProjectDirectory(buildProjectDirectory(accounts)));
+        dispatch(projectActionCreators.setProjectDirectory(buildProjectDirectory(accounts)));
       }
     })
     .catch(error => {
-      dispatch(fetchUserFailed(error));
-      dispatch(fetchAccountsFailed(error));
+      dispatch(userActionCreators.fetchUserFailed(error));
+      dispatch(accountActionCreators.fetchAccountsFailed(error));
     });
   }
 };
@@ -150,13 +142,13 @@ function buildProjectDirectory(accounts) {
 
 export function fetchingIdentity() {
   return {
-    type: identityActions.FETCH_IDENTITY
+    type: actions.FETCHING_IDENTITY
   };
 }
 
 export function fetchIdentitySuccess(identity) {
   return {
-    type: identityActions.FETCH_IDENTITY_SUCCESS,
+    type: actions.FETCH_IDENTITY_SUCCESS,
     payload: {
       date: new Date(),
       identity: identity
@@ -166,7 +158,7 @@ export function fetchIdentitySuccess(identity) {
 
 export function fetchIdentityFailed(error) {
   return {
-    type: identityActions.FETCH_IDENTITY_FAILED,
+    type: actions.FETCH_IDENTITY_FAILED,
     payload: {
       date: new Date(),
       error: error,
@@ -176,6 +168,6 @@ export function fetchIdentityFailed(error) {
 
 export function resetIdentity() {
   return {
-    type: identityActions.RESET_IDENTITY,
+    type: actions.RESET_IDENTITY,
   };
 }
