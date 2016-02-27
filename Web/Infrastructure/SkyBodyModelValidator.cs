@@ -3,13 +3,13 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Metadata;
 using System.Web.Http.Validation;
 
-namespace Web.Filters
+namespace Web.Infrastructure
 {
-    public class PrefixlessBodyModelValidator : IBodyModelValidator
+    public class SkyBodyModelValidator : IBodyModelValidator
     {
         private readonly IBodyModelValidator _innerValidator;
 
-        public PrefixlessBodyModelValidator(IBodyModelValidator innerValidator)
+        public SkyBodyModelValidator(IBodyModelValidator innerValidator)
         {
             if (innerValidator == null)
             {

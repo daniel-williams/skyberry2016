@@ -9,17 +9,17 @@ namespace Web.Controllers.api
     public class SkyApiPayload<T> : IHttpActionResult
     {
         private HttpRequestMessage Request;
-        public SkyberryPayloadContent<T> SkyberryPayloadContent;
+        public SkyberryPayloadContent<T> Payload;
 
         public SkyApiPayload(HttpRequestMessage request, T payload)
         {
             Request = request;
-            SkyberryPayloadContent = new SkyberryPayloadContent<T>(HttpStatusCode.OK, "okeydoke", payload);
+            Payload = new SkyberryPayloadContent<T>(HttpStatusCode.OK, "okeydoke", payload);
         }
 
         public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
-            HttpResponseMessage response = Request.CreateResponse<SkyberryPayloadContent<T>>(HttpStatusCode.OK, SkyberryPayloadContent);
+            HttpResponseMessage response = Request.CreateResponse<SkyberryPayloadContent<T>>(HttpStatusCode.OK, Payload);
             return Task.FromResult(response);
         }
     }

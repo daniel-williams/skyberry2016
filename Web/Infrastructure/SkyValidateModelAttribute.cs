@@ -3,15 +3,15 @@ using System.Net.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
-namespace Web.Filters
+namespace Web.Infrastructure
 {
-    public class ValidateModelAttribute : ActionFilterAttribute
+    public class SkyValidateModelAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
             if (actionContext.ModelState.IsValid == false)
             {
-                PrettyHttpError error = new PrettyHttpError(actionContext.ModelState);
+                SkyModelStateError error = new SkyModelStateError(actionContext.ModelState);
                 actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.OK, error);
             }
         }

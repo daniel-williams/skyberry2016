@@ -1,10 +1,8 @@
-﻿using Skyberry.Domain;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Web.Http;
 using Web.Controllers.api;
+
 
 namespace Web.Controllers
 {
@@ -13,23 +11,18 @@ namespace Web.Controllers
     {
 
         [Route("")]
-        public IEnumerable<Testimonial> GetAll()
+        public IHttpActionResult GetFeatured()
         {
-            var identity = User.Identity as ClaimsIdentity;
-            foreach (var claim in identity.Claims)
-            {
-                Debug.WriteLine("Identity Claims: {0} | {1} | {2}", claim.Subject.Name, claim.Type, claim.Value ?? "");
-            }
+            List<string> testimonials = UOW.Testimonials.GetFeatured().Select(e => e.Description).ToList();
 
-            var testimonials = UOW.Testimonials.GetAll();
-            return testimonials;
+            return new SkyApiPayload<List<string>>(Request, testimonials);
         }
 
-        [Route("featured")]
-        public List<string> GetFeatured()
+        [HttpGet]
+        [Route("boom")]
+        public IHttpActionResult  Boom()
         {
-            List<string> descriptions = UOW.Testimonials.GetFeatured().Select(e => e.Description).ToList();
-            return descriptions;
+            throw new System.Exception("Boom goes the dynamite!");
         }
 
     }

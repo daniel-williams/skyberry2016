@@ -2,11 +2,11 @@
 using System.Net;
 using System.Web.Http.ModelBinding;
 
-namespace Web.Filters
+namespace Web.Infrastructure
 {
-    public class PrettyHttpError
+    public class SkyModelStateError
     {
-        public PrettyHttpError(ModelStateDictionary modelState)
+        public SkyModelStateError(ModelStateDictionary modelState)
         {
             Status = HttpStatusCode.BadRequest;
             Message = "Bad Request";

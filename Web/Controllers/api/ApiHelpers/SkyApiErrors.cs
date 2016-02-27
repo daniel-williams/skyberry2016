@@ -9,17 +9,17 @@ namespace Web.Controllers.api
     public class SkyApiErrors<T> : IHttpActionResult
     {
         private HttpRequestMessage Request;
-        public SkyberryErrorsContent<T> SkyberryErrorsContent;
+        public SkyberryErrorsContent<T> Error;
 
         public SkyApiErrors(HttpRequestMessage request, HttpStatusCode status, string message, T errors)
         {
             Request = request;
-            SkyberryErrorsContent = new SkyberryErrorsContent<T>(status, message, errors);
+            Error = new SkyberryErrorsContent<T>(status, message, errors);
         }
 
         public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
-            HttpResponseMessage response = Request.CreateResponse<SkyberryErrorsContent<T>>(HttpStatusCode.OK, SkyberryErrorsContent);
+            HttpResponseMessage response = Request.CreateResponse<SkyberryErrorsContent<T>>(HttpStatusCode.OK, Error);
             return Task.FromResult(response);
         }
     }

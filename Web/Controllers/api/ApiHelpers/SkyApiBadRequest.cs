@@ -3,16 +3,16 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Web.Filters;
+using Web.Infrastructure;
 
 namespace Web.Controllers.api
 {
     public class SkyApiBadRequest : IHttpActionResult
     {
         private HttpRequestMessage Request;
-        public PrettyHttpError Error;
+        public SkyModelStateError Error;
 
-        public SkyApiBadRequest(HttpRequestMessage request, PrettyHttpError error)
+        public SkyApiBadRequest(HttpRequestMessage request, SkyModelStateError error)
         {
             Request = request;
             Error = error;
@@ -20,7 +20,7 @@ namespace Web.Controllers.api
 
         public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
-            HttpResponseMessage response = Request.CreateResponse<PrettyHttpError>(HttpStatusCode.OK, Error);
+            HttpResponseMessage response = Request.CreateResponse<SkyModelStateError>(HttpStatusCode.OK, Error);
             return Task.FromResult(response);
         }
     }
