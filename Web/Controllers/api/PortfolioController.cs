@@ -11,12 +11,12 @@ namespace Web.Controllers
     public class PortfolioController : _BaseApiController
     {
         [Route("")]
-        public List<ImageVM> GetImages(string c = "all", string f = "featured")
+        public IHttpActionResult GetImages(string c = "all", string f = "featured")
         {
             List<Image> images = UOW.Images.PortfolioImages(c, f);
             List<ImageVM> imageVMs = images.Select(e => this.ModelFactory.CreateImageVM(e)).ToList();
 
-            return imageVMs;
+            return new SkyApiPayload<List<ImageVM>>(Request, imageVMs);
         }
 
     }

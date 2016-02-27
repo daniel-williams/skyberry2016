@@ -1,24 +1,28 @@
-﻿using System.Web.Http;
+﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
-using Web.Filters;
-
-using Newtonsoft.Json;
-using System.Net.Http;
+using System.Web.Http;
+using Web.Infrastructure;
 
 namespace Web.Controllers.api
 {
     [RoutePrefix("api/contact")]
     public class ContactController : _BaseApiController
     {
-        [Route("")]
         [HttpPost]
-        [ValidateModel]
-        public IHttpActionResult Index(ContactBM contact)
+        [SkyValidateModel]
+        [Route("")]
+        public IHttpActionResult Index([FromBody]ContactBM contact)
         {
             if (contact == null) {
-                return BadRequest("No data was supplied.");
+                ModelState.AddModelError("email", "Email is required.");
+                ModelState.AddModelError("message", "Message is required.");
+                return new SkyApiBadRequest(Request, new SkyModelStateError(ModelState));
             }
-            return Ok(new { code = 200, description = "okeydoke" });
+            // TODO: 1) for now, send email with contact information
+
+            // TODO: 2) correspondence queue
+
+            return new SkyApiOkeydoke(Request);
         }
     }
 
@@ -28,10 +32,10 @@ namespace Web.Controllers.api
 
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
-        public string email { get; set; }
+        public string Email { get; set; }
 
-        [Required]
-        public string message { get; set; }
+        [Required(ErrorMessage = "Message is required.")]
+        public string Message { get; set; }
     }
 
 

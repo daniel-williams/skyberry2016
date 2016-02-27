@@ -1,25 +1,27 @@
-﻿using System.Web.Http;
-using System.ComponentModel.DataAnnotations;
-using Web.Filters;
-
-using Newtonsoft.Json;
-using System.Net.Http;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Web.Http;
+using Web.Infrastructure;
 
 namespace Web.Controllers.api
 {
     [RoutePrefix("api/subscribe")]
     public class SubscribeController : _BaseApiController
     {
-        [Route("")]
         [HttpPost]
-        [ValidateModel]
+        [SkyValidateModel]
+        [Route("")]
         public IHttpActionResult Index([FromBody]SubscribeBM subscribe)
         {
             if (subscribe == null)
             {
-                return BadRequest("No data was supplied.");
+                ModelState.AddModelError("email", "Email is required.");
+                return new SkyApiBadRequest(Request, new SkyModelStateError(ModelState));
             }
-            return Ok(new { code = 200, description = "okeydoke" });
+
+            // TODO: 1) send subscribe email
+            // TODO: 2) automate subscriptions via MailChimp api
+
+            return new SkyApiOkeydoke(Request);
         }
     }
 
@@ -27,6 +29,6 @@ namespace Web.Controllers.api
     {
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
-        public string email { get; set; }
+        public string Email { get; set; }
     }
 }

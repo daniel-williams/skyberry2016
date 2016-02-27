@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNet.Identity;
 using Skyberry.Domain;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Http;
 using Web.Controllers.api;
-using Web.Extensions;
+using Web.Infrastructure;
 using Web.Models;
 
 namespace Web.Controllers
@@ -17,52 +16,55 @@ namespace Web.Controllers
     {
 
         [Route("")]
-        public UserVM Get()
+        public IHttpActionResult Get()
         {
             SkyberryUser user = UOW.SkyberryUsers.GetDashboardInfo(UserIdentity.GetUserId());
             UserVM userVM = ModelFactory.CreateUserVM(user, UserRoles);
-            return userVM;
+
+            return new SkyApiPayload<UserVM>(Request, userVM);
         }
 
         [Route("{id}")]
         public IHttpActionResult Get(string id)
         {
-            if(UserIdentity.GetUserId() == id || UserRoles.Contains("Admin"))
+            if (id != UserIdentity.GetUserId() || !UserRoles.Contains("Admin"))
             {
-                SkyberryUser user = UOW.SkyberryUsers.GetDashboardInfo(id);
-                UserVM userVM = ModelFactory.CreateUserVM(user, UserRoles);
-
-                return Ok(userVM);
+                return new SkyApiNotFound(Request);
             }
-            return NotFound();
+
+            SkyberryUser user = UOW.SkyberryUsers.GetDashboardInfo(id);
+            if(user == null)
+            {
+                return new SkyApiNotFound(Request);
+            }
+
+            UserVM userVM = ModelFactory.CreateUserVM(user, UserRoles);
+            return new SkyApiPayload<UserVM>(Request, userVM);
         }
 
         [Route("{id}/accounts")]
         public IHttpActionResult GetAccounts(string id)
         {
-            if (UserIdentity.GetUserId() == id || UserRoles.Contains("Admin"))
+            if (id != UserIdentity.GetUserId() || !UserRoles.Contains("Admin"))
             {
-                List<Account> accounts = UOW.Accounts.GetByUserId(id);
-                List<AccountVM> accountList = accounts.Select(e => ModelFactory.CreateAccountVM(e)).ToList();
-
-                return Ok(accountList);
+                return new SkyApiNotFound(Request);
             }
-            return NotFound();
+
+            List<Account> accounts = UOW.Accounts.GetByUserId(id);
+            List<AccountVM> accountVMs = accounts.Select(e => ModelFactory.CreateAccountVM(e)).ToList();
+
+            return new SkyApiPayload<List<AccountVM>>(Request, accountVMs);
         }
 
         [HttpPost]
+        [SkyValidateModel]
         [Route("email")]
         public IHttpActionResult UpdateEmail([FromBody]UpdateEmailBM model)
         {
             SkyberryUser user = UOW.SkyberryUsers.GetById(UserIdentity.GetUserId());
             if(user == null)
             {
-                return new ApiNotFoundResult(Request);
-            }
-            if(model.newEmail != model.confirmEmail)
-            {
-                ModelState.AddModelError("confirmEmail", "Confirm Email and New Email must match.");
-                return new ApiBadRequestResult(Request, ModelState.ToErrorDictionary());
+                return new SkyApiNotFound(Request);
             }
 
             user.Email = model.newEmail;
@@ -73,17 +75,18 @@ namespace Web.Controllers
                 email = user.Email,
             };
 
-            return new ApiPayloadResult<UpdateEmailVM>(Request, payload);
+            return new SkyApiPayload<UpdateEmailVM>(Request, payload);
         }
 
         [HttpPost]
+        [SkyValidateModel]
         [Route("username")]
         public IHttpActionResult UpdateUsername([FromBody]UpdateUsernameBM model)
         {
             SkyberryUser user = UOW.SkyberryUsers.GetById(UserIdentity.GetUserId());
             if (user == null)
             {
-                return new ApiNotFoundResult(Request);
+                return new SkyApiNotFound(Request);
             }
 
             user.UserName = model.NewUsername;
@@ -94,33 +97,29 @@ namespace Web.Controllers
                 Username = user.UserName,
             };
 
-            return new ApiPayloadResult<UpdateUsernameVM>(Request, payload);
+            return new SkyApiPayload<UpdateUsernameVM>(Request, payload);
         }
 
         [HttpPost]
+        [SkyValidateModel]
         [Route("password")]
         public IHttpActionResult UpdatePassword([FromBody]UpdatePasswordBM model)
         {
             SkyberryUser user = UOW.SkyberryUsers.GetById(UserIdentity.GetUserId());
             if (user == null)
             {
-                return new ApiNotFoundResult(Request);
+                return new SkyApiNotFound(Request);
             }
             if(!UserManager.CheckPassword(user, model.OldPass))
             {
                 ModelState.AddModelError("oldPass", "Current password is incorrect.");
-                return new ApiBadRequestResult(Request, ModelState.ToErrorDictionary());
-            }
-            if(model.NewPass != model.ConfirmPass)
-            {
-                ModelState.AddModelError("confirmPass", "Confirm Password and New Password must match.");
-                return new ApiBadRequestResult(Request, ModelState.ToErrorDictionary());
+                return new SkyApiBadRequest(Request, new SkyModelStateError(ModelState));
             }
 
             user.PasswordHash = UserManager.PasswordHasher.HashPassword(model.NewPass);
             UOW.Commit();
 
-            return new ApiOkeyDokeResult(Request);
+            return new SkyApiOkeydoke(Request);
         }
     }
 

@@ -17,19 +17,19 @@ namespace Web.Controllers.api
     {
         [HttpGet]
         [Route("{id}")]
-        public HttpResponseMessage FileDownload(Guid id)
+        public IHttpActionResult FileDownload(Guid id)
         {
             var doc = UOW.Documents.GetById(id);
             if (doc == null)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
+                return new SkyApiNotFound(Request);
             }
 
 
             string filePath = System.Web.Hosting.HostingEnvironment.MapPath("~/files/" + doc.Filename);
             if (!System.IO.File.Exists(filePath))
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
+                return new SkyApiNotFound(Request);
             }
 
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
@@ -42,16 +42,7 @@ namespace Web.Controllers.api
                 FileName = doc.FilenameOriginal
             };
 
-            return result;
+            return ResponseMessage(result); // Note to self -> ResponseMessageResult implements IHttpActionResult
         }
     }
 }
-
-//var path = @"C:\Temp\test.exe";
-//HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-//var stream = new FileStream(path, FileMode.Open);
-//result.Content = new StreamContent(stream);
-//result.Content.Headers.ContentType = 
-//        new MediaTypeHeaderValue("application/octet-stream");
-//    return result;
-

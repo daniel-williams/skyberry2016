@@ -11,23 +11,19 @@ namespace Web.Controllers
     public class ProjectsController : _BaseApiController
     {
 
-        [Route("")]
-        public ProjectVM Get(string id)
-        {
-            return this.ModelFactory.CreateProjectVM(UOW.Projects.GetProjectById(new Guid(id)));
-        }
-
+        [HttpGet]
         [Route("{id}")]
         public IHttpActionResult GetProject(Guid id)
         {
             Project project = UOW.Projects.GetOwnById(UserIdentityId, id);
             if(project == null)
             {
-                return NotFound();
+                return new SkyApiNotFound(Request);
             }
 
             ProjectVM projectVM = ModelFactory.CreateProjectVM(project);
-            return Ok(projectVM);
+
+            return new SkyApiPayload<ProjectVM>(Request, projectVM);
         }
 
     }

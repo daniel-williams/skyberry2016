@@ -1,13 +1,9 @@
-﻿using Newtonsoft.Json;
-using Skyberry.Domain;
+﻿using Skyberry.Domain;
 using System;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Web.Http;
+using Web.Infrastructure;
 using Web.Models;
-using Web.Extensions;
 
 namespace Web.Controllers.api
 {
@@ -16,20 +12,40 @@ namespace Web.Controllers.api
     public class ReviewsController : _BaseApiController
     {
         [HttpGet]
-        [HttpPost]
+        [Route("{rid}")]
+        public IHttpActionResult GetDesignReview(Guid rid)
+        {
+            DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
+            if (review == null)
+            {
+                return new SkyApiNotFound(Request);
+            }
+
+            return new SkyApiPayload<DesignReviewVM>(Request, ModelFactory.CreateDesignReviewVM(review));
+        }
+
+        [HttpGet]
         [Route("{rid}/options/{oid}")]
         public IHttpActionResult SelectOption(Guid rid, Guid oid)
         {
-            DesignReview review = this.FindReview(rid);
+            DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
+            if (review == null)
+            {
+                return new SkyApiNotFound(Request);
+            }
+            if(review.AcceptedDate != null)
+            {
+                ModelState.AddModelError("", "Review has been accepted and further edits are not allowed.");
+                return new SkyApiBadRequest(Request, new SkyModelStateError(ModelState));
+            }
 
+            // select option
             review.SelectedReviewDocumentId = oid;
-
             // clear approval
             review.ApprovedById = null;
             review.ApprovedByName = null;
             review.ApprovedByIp = null;
             review.ApprovedDate = null;
-
             // clear request
             review.RequestById = null;
             review.RequestByName = null;
@@ -39,24 +55,31 @@ namespace Web.Controllers.api
 
             UOW.Commit();
 
-            return Ok(new { code = 200, description = "okeydoke" });
+            return new SkyApiOkeydoke(Request);
         }
 
         [HttpGet]
-        [HttpPost]
         [Route("{rid}/options/clear")]
         public IHttpActionResult ClearOption(Guid rid)
         {
-            DesignReview review = this.FindReview(rid);
+            DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
+            if (review == null)
+            {
+                return new SkyApiNotFound(Request);
+            }
+            if (review.AcceptedDate != null)
+            {
+                ModelState.AddModelError("", "Review has been accepted and further edits are not allowed.");
+                return new SkyApiBadRequest(Request, new SkyModelStateError(ModelState));
+            }
 
+            // clear selected option
             review.SelectedReviewDocumentId = null;
-
             // clear approval
             review.ApprovedById = null;
             review.ApprovedByName = null;
             review.ApprovedByIp = null;
             review.ApprovedDate = null;
-
             // clear request
             review.RequestById = null;
             review.RequestByName = null;
@@ -66,23 +89,17 @@ namespace Web.Controllers.api
 
             UOW.Commit();
 
-            return Ok(new { code = 200, description = "okeydoke" }); //return CreatedAtRoute("GetDesignReview", new { rid = review.Id }, ModelFactory.createDesignReviewVM(review));
+            return new SkyApiOkeydoke(Request);
         }
 
         [HttpGet]
-        [HttpPost]
         [Route("{rid}/revision")]
         public IHttpActionResult RequestRevision(Guid rid)
         {
             DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
             if (review == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-
-            if (review.SelectedReviewDocumentId == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new SkyApiNotFound(Request);
             }
 
             review.RequestById = UserIdentityId;
@@ -92,20 +109,19 @@ namespace Web.Controllers.api
             review.RequestDate = DateTime.UtcNow;
 
             UOW.Commit();
-            var result = new
+            ReviewRequestVM reviewUpdateVM = new ReviewRequestVM
             {
-                requestById = review.RequestById,
-                requestByName = review.RequestByName,
-                requestByIp = review.RequestByIp,
-                requestType = review.RequestType,
-                requestDate = review.RequestDate,
+                RequestById = review.RequestById,
+                RequestByName = review.RequestByName,
+                RequestByIp = review.RequestByIp,
+                RequestType = review.RequestType,
+                RequestDate = review.RequestDate,
             };
-            return Ok(new { code = 200, description = "okeydoke", result = result});
-            //return CreatedAtRoute("GetDesignReview", new { rid = review.Id }, ModelFactory.createDesignReviewVM(review));
+
+            return new SkyApiPayload<ReviewRequestVM>(Request, reviewUpdateVM);
         }
 
         [HttpGet]
-        [HttpPost]
         [Route("{rid}/deliverables")]
         public IHttpActionResult RequestDeliverables(Guid rid)
         {
@@ -115,11 +131,6 @@ namespace Web.Controllers.api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            if (review.SelectedReviewDocumentId == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
-
             review.RequestById = UserIdentityId;
             review.RequestByName = UserRecord.FirstName + " " + UserRecord.LastName;
             review.RequestByIp = ""; // TODO djw: record requesting users IP address
@@ -127,65 +138,58 @@ namespace Web.Controllers.api
             review.RequestDate = DateTime.UtcNow;
 
             UOW.Commit();
-            var result = new
+            ReviewRequestVM reviewUpdateVM = new ReviewRequestVM
             {
-                requestById = review.RequestById,
-                requestByName = review.RequestByName,
-                requestByIp = review.RequestByIp,
-                requestType = review.RequestType,
-                requestDate = review.RequestDate,
+                RequestById = review.RequestById,
+                RequestByName = review.RequestByName,
+                RequestByIp = review.RequestByIp,
+                RequestType = review.RequestType,
+                RequestDate = review.RequestDate,
             };
-            return Ok(new { code = 200, description = "okeydoke", result = result });
-            //return CreatedAtRoute("GetDesignReview", new { rid = review.Id }, ModelFactory.createDesignReviewVM(review));
+
+            return new SkyApiPayload<ReviewRequestVM>(Request, reviewUpdateVM);
         }
 
         [HttpGet]
-        [HttpPost]
         [Route("{rid}/approve-project")]
         public IHttpActionResult ApproveProject(Guid rid)
         {
             DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
             if (review == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return new SkyApiNotFound(Request);
             }
 
-            if (review.SelectedReviewDocumentId == null || review.RequestDate == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
-
-            review.ApprovedById = UserIdentityId;
+            review.ApprovedById = UserRecord.Id;
             review.ApprovedByName = UserRecord.FirstName + " " + UserRecord.LastName;
             review.ApprovedByIp = ""; // TODO djw: record requesting users IP address
             review.ApprovedDate = DateTime.UtcNow;
 
             UOW.Commit();
-            var result = new
+            ReviewApprovedVM reviewApprovedVM = new ReviewApprovedVM
             {
                 ApprovedById = review.ApprovedById,
                 ApprovedByName = review.ApprovedByName,
                 ApprovedByIp = review.ApprovedByIp,
                 ApprovedDate = review.ApprovedDate,
             };
-            return Ok(new { code = 200, description = "okeydoke", result = result });
-            //return CreatedAtRoute("GetDesignReview", new { rid = review.Id }, ModelFactory.createDesignReviewVM(review));
+            return new SkyApiPayload<ReviewApprovedVM>(Request, reviewApprovedVM);
         }
 
         [HttpGet]
-        [HttpPost]
         [Route("{rid}/clear-request")]
         public IHttpActionResult ClearRequest(Guid rid)
         {
             DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
             if (review == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return new SkyApiNotFound(Request);
             }
 
             if(review.AcceptedDate != null)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                ModelState.AddModelError("", "Review has been accepted and further changes are not allowed.");
+                return new SkyApiBadRequest(Request, new SkyModelStateError(ModelState));
             }
 
             review.RequestById = null;
@@ -201,93 +205,87 @@ namespace Web.Controllers.api
 
             UOW.Commit();
 
-            return Ok(new { code = 200, description = "okeydoke" });
+            return new SkyApiPayload<ReviewClearVM>(Request, new ReviewClearVM());
         }
 
-        [Route("{rid}/comments/{cid}", Name ="GetComment")]
-        public ReviewComment GetComment(Guid rid, string cid)
-        {
-            DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
-            if (review == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-
-            var c = review.ReviewComments.Where(e => e.Id == cid).FirstOrDefault();
-            if(c == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-
-            return c;
-        }
-
+        [HttpPost]
+        [SkyValidateModel]
         [Route("{rid}/comments")]
         public IHttpActionResult AddComment(Guid rid, [FromBody]ReviewCommentBM model)
         {
             DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
             if (review == null)
             {
-                return new ApiNotFoundResult(Request);
+                return new SkyApiNotFound(Request);
             }
 
             if (review.AcceptedDate != null)
             {
-                ModelState.AddModelError("", "Review has been accepted and no further changes are allowed.");
-                return new ApiBadRequestResult(Request, ModelState.ToErrorDictionary());
+                ModelState.AddModelError("", "Review has been accepted and further changes are not allowed.");
+                return new SkyApiBadRequest(Request, new SkyModelStateError(ModelState));
             }
 
-            ReviewComment item = new ReviewComment
+            ReviewComment reviewComment = new ReviewComment
             {
                 Comment = model.comment,
+                // TODO: looks like a typo (OrderId should be OptionId)
                 OrderId = new Guid(model.oid),
                 DesignReviewId = rid,
                 UserId = new Guid(UserRecord.Id),
                 Username = UserRecord.UserName
             };
-            review.ReviewComments.Add(item);
+            review.ReviewComments.Add(reviewComment);
 
             UOW.Commit();
 
-            ReviewCommentVM payload = ModelFactory.CreateReviewCommentVM(item);
-            return new ApiPayloadResult<ReviewCommentVM>(Request, payload);
+            return new SkyApiPayload<ReviewCommentVM>(Request, ModelFactory.CreateReviewCommentVM(reviewComment));
         }
 
-        [HttpGet]
-        [HttpPost]
-        [Route("{rid}", Name = "GetDesignReview")]
-        public DesignReviewVM GetDesignReview(Guid rid)
+    }
+
+
+    public class ReviewRequestVM
+    {
+        public string RequestById { get; set; }
+        public string RequestByName { get; set; }
+        public string RequestByIp { get; set; }
+        public RequestType RequestType { get; set; }
+        public DateTime? RequestDate { get; set; }
+    }
+
+    public class ReviewApprovedVM
+    {
+        public string ApprovedById { get; set; }
+        public string ApprovedByName { get; set; }
+        public string ApprovedByIp { get; set; }
+        public DateTime? ApprovedDate { get; set; }
+    }
+
+    public class ReviewClearVM
+    {
+        public string RequestById { get; set; }
+        public string RequestByName { get; set; }
+        public string RequestByIp { get; set; }
+        public RequestType RequestType { get; set; }
+        public DateTime? RequestDate { get; set; }
+
+        public string ApprovedById { get; set; }
+        public string ApprovedByName { get; set; }
+        public string ApprovedByIp { get; set; }
+        public DateTime? ApprovedDate { get; set; }
+
+        public ReviewClearVM()
         {
-            DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
-            if (review == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
+            RequestById = null;
+            RequestByName = null;
+            RequestByIp = null;
+            RequestType = RequestType.None;
+            RequestDate = null;
 
-            return ModelFactory.CreateDesignReviewVM(review);
-        }
-
-
-        private DesignReview FindReview(Guid rid)
-        {
-            DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
-            if (review == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-
-            if (review.AcceptedDate != null)
-            {
-                var resMessage = new HttpResponseMessage(HttpStatusCode.BadRequest);
-                resMessage.Content = new StringContent(JsonConvert.SerializeObject(new
-                {
-                    code = HttpStatusCode.BadRequest,
-                    error = "Review has been accepted and further changes are not permitted."
-                }), Encoding.UTF8, "application/json");
-                throw new HttpResponseException(resMessage);
-            }
-
-            return review;
+            ApprovedById = null;
+            ApprovedByName = null;
+            ApprovedByIp = null;
+            ApprovedDate = null;
         }
     }
 }
