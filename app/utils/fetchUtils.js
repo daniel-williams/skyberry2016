@@ -5,17 +5,38 @@ export function checkStatus(response) {
     return response;
   } else if(response.status === 401) {
     let err = new Error(response.statusText);
-    err.code = response.status;
+    err.status = response.status;
     return Promise.reject(err);
   } else {
     return response.json()
       .then(json => {
         let err = new Error(response.statusText);
-        err.code = response.status;
+        err.status = response.status;
         err.formErrors = json.errors ? getFormErrors(json.errors) : {};
         return Promise.reject(err);
       });
   }
+}
+
+export function checkSkyApiStatus(response) {
+  if(response.status !== 200) {
+    // TODO djw: switch on other status codes
+    // for now, if it's not OK, it's not OK
+    let err = new Error(response.statusText);
+    err.status = response.status;
+    return Promise.reject(err);
+  }
+  return response.json()
+    .then(json => {
+      if(json.status === 200) {
+        return Promise.resolve(json.payload);
+      } else {
+        let err = new Error(json.message);
+        err.status = json.status;
+        err.formErrors = json.errors ? getFormErrors(json.errors) : {};
+        return Promise.reject(err);
+      }
+  })
 }
 
 export function parseJSON(response) {
