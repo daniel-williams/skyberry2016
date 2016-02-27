@@ -1,6 +1,8 @@
 ﻿using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 using System.Web.Http;
+using System.Web.Http.Validation;
+using Web.Filters;
 
 namespace Web
 {
@@ -22,7 +24,7 @@ namespace Web
             // Prefer explicit attribute routing. Look to controllers for routes
             config.MapHttpAttributeRoutes();
 
-
+            config.Services.Replace(typeof(IBodyModelValidator), new PrefixlessBodyModelValidator(config.Services.GetBodyModelValidator()));
 
             //config.Routes.MapHttpRoute(
             //    name: "DefaultApi",

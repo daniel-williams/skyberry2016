@@ -6,21 +6,22 @@ using System.Web.Http;
 
 namespace Web.Controllers.api
 {
-    public class ApiResult : IHttpActionResult
+    public class SkyApiNotFound : IHttpActionResult
     {
         private HttpRequestMessage Request;
-        public ApiBase ApiBase; 
+        public SkyberryContent SkyberryContent;
 
-        public ApiResult(HttpRequestMessage request, HttpStatusCode code, string description)
+        public SkyApiNotFound(HttpRequestMessage request)
         {
             Request = request;
-            ApiBase = new ApiBase(code, description);
+            SkyberryContent = new SkyberryContent(HttpStatusCode.NotFound, "Not Found");
         }
 
         public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
-            HttpResponseMessage response = Request.CreateResponse<ApiBase>(HttpStatusCode.OK, ApiBase);
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, SkyberryContent);
             return Task.FromResult(response);
         }
     }
+
 }

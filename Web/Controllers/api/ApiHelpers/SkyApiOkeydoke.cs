@@ -6,20 +6,20 @@ using System.Web.Http;
 
 namespace Web.Controllers.api
 {
-    public class ApiPayloadResult<T> : IHttpActionResult
+    public class SkyApiOkeydoke : IHttpActionResult
     {
         private HttpRequestMessage Request;
-        public ApiPayload<T> ApiPayload;
+        public SkyberryContent SkyberryContent;
 
-        public ApiPayloadResult(HttpRequestMessage request, T payload)
+        public SkyApiOkeydoke(HttpRequestMessage request)
         {
             Request = request;
-            ApiPayload = new ApiPayload<T>(HttpStatusCode.OK, "okeydoke", payload);
+            SkyberryContent = new SkyberryContent(HttpStatusCode.OK, "okeydoke");
         }
 
         public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
-            HttpResponseMessage response = Request.CreateResponse<ApiPayload<T>>(HttpStatusCode.OK, ApiPayload);
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, SkyberryContent);
             return Task.FromResult(response);
         }
     }
