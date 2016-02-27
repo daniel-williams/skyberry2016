@@ -6,6 +6,15 @@ import {SkyInput, SkyTextArea} from './sky';
 
 
 export default React.createClass({
+  displayName: 'ContactForm',
+
+  componentWillReceiveProps: function(nextProps) {
+    if(nextProps.errors && nextProps.errors.formErrors) {
+      this.refs.form.updateInputsWithError(nextProps.errors.formErrors);
+    }
+  },
+
+
   getName: function() {
     return this.props.contact.name || (this.props.user.firstName || '') + ' ' + (this.props.user.lastName || '')
   },
@@ -18,12 +27,12 @@ export default React.createClass({
   isPosting: function() {
     return this.props.contact.isPosting;
   },
-  getFormErrors: function() {
-    return {} && this.props.contact.lastPostError && this.props.contact.lastPostError.formErrors;
-  },
+
+
+
   render: function() {
     return (
-      <formsy.Form onSubmit={this.props.handleSubmit} validationErrors={this.getFormErrors()}>
+      <formsy.Form onSubmit={this.props.postContact} ref='form'>
         <Row>
           <Col xs={12}>
             <SkyInput
@@ -59,8 +68,8 @@ export default React.createClass({
           </Col>
         </Row>
         <Row>
-          <Col xs={12} className='form-group'>
-            <button className='btn btn-sky' type='submit' disabled={this.isPosting()}>Send</button>
+          <Col xs={12} className='form-group mt-half'>
+            <button className='btn btn-lg btn-sky' type='submit' disabled={this.isPosting()}>Send Message</button>
           </Col>
         </Row>
       </formsy.Form>

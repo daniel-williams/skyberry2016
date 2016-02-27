@@ -7,6 +7,8 @@ import ChangeEmail from './ChangeEmail';
 import ChangePassword from './ChangePassword';
 import ChangeUsername from './ChangeUsername';
 
+import './Settings.less';
+
 
 export default React.createClass({
   dispayName: 'Settings',
@@ -15,38 +17,59 @@ export default React.createClass({
     return this.props.user && [this.props.user.firstName || '', ' ', this.props.user.lastName || ''].join('').trim();
   },
 
-  getUserName: function() {
+  getUsername: function() {
     return this.props.user && this.props.user.username;
   },
   getName: function() {
     return this.getFullName() || this.getUserName;
   },
   getEmail: function() {
-    return this.props.user && this.props.user.email || '';
+    return this.props.user && this.props.user.email || 'no email address on record...';
   },
 
   render: function() {
     const settings = this.props.settings;
     return (
-      <Grid fluid={true}>
+      <Grid fluid={true} id='settings'>
         <Row>
           <Col xs={12}>
             <h1><span>Settings</span><span className='accent'> for </span><span className='nowrap'>{this.getName()}</span></h1>
           </Col>
-          <Col xs={12}>
-            <button className='btn btn-lg btn-default' onClick={this.handleChangeEmail}>Change Email</button>
+        </Row>
+        <Row className='mv'>
+          <Col sm={4} xs={12} className='mv'>
+            <div className='updatable'>
+              <div className='ttl'><h2>Email</h2></div>
+              <div className='current'>{this.getEmail()}</div>
+              <div className='actions'>
+                <button className='btn btn-lg btn-default' onClick={this.handleChangeEmail}>Change Email</button>
+              </div>
+            </div>
           </Col>
-          <Col xs={12}>
-            <button className='btn btn-lg btn-default' onClick={this.handleChangePassword}>Change Password</button>
+          <Col sm={4} xs={12} className='mv'>
+            <div className='updatable'>
+              <div className='ttl'><h2>Password</h2></div>
+              <div className='current'>********</div>
+              <div className='actions'>
+                <button className='btn btn-lg btn-default' onClick={this.handleChangePassword}>Change Password</button>
+              </div>
+            </div>
           </Col>
-          <Col xs={12}>
-            <button className='btn btn-lg btn-default' onClick={this.handleChangeUsername}>Change Username</button>
+          <Col sm={4} xs={12} className='mv'>
+            <div className='updatable'>
+              <div className='ttl'><h2>Username</h2></div>
+              <div className='current'>{this.getUsername()}</div>
+              <div className='actions'>
+                <button className='btn btn-lg btn-default' onClick={this.handleChangeUsername}>Change Username</button>
+              </div>
+            </div>
           </Col>
         </Row>
         <ChangeEmail
           isVisible={settings.settings.showChangeEmail}
           isUpdating={settings.email.isUpdating}
           hasUpdated={settings.email.hasUpdated}
+          current={this.getEmail()}
           data={settings.email.data}
           errors={settings.email.error}
           onSubmit={this.props.updateEmail}
@@ -65,6 +88,7 @@ export default React.createClass({
          isVisible={settings.settings.showChangeUsername}
          isUpdating={settings.username.isUpdating}
          hasUpdated={settings.username.hasUpdated}
+         current={this.getUsername()}
          data={settings.username.data}
          errors={settings.username.error}
          onSubmit={this.props.updateUsername}

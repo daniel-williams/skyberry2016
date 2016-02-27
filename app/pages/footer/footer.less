@@ -1,14 +1,15 @@
 @import (reference) '../../site.less';
+
 #footer {
-  borderTop: 1px solid @light-gray;
+
   h1, h3 {
     color: @medium-gray;
   }
-  .footer-nav {
-    background-color: @tan;
+
+  .foot-nav {
+    background-color: @gravel;
 
     ul {
-
       li {
         float: left;
         list-style-type: none;
@@ -18,7 +19,7 @@
           padding: 15px;
           font-size: 18px;
           line-height: 18px;
-          color: #666666;
+          color: #ccc;
           border-radius: 8px;
 
           &:hover {
@@ -33,16 +34,19 @@
       }
     }
   }
-  .footer-col {
-    margin-bottom: 25px;
-    text-align: center;
+  .columns {
 
-    .col-body {
-        margin-top: 10px;
+    .foot-col {
+      margin-bottom: 25px;
+      text-align: center;
+
+      .col-body {
+          margin-top: 10px;
+      }
     }
   }
   .social-icons {
-    margin-top: 25px;
+    margin-top: 15px;
 
     a {
       margin: 0 3px;
@@ -61,15 +65,18 @@
     }
   }
 }
-// @media (min-width: 768px) {
-//   .footer-col {
-//     text-align: center;
-//   }
-// }
+
 @media (max-width: 767px) {
   #footer {
+    .ttl {
+      text-align: center;
+    }
     .footer-col {
       text-align: left;
     }
   }
+}
+#seattle-skyline {
+  float: right;
+  min-width: 300px;
 }

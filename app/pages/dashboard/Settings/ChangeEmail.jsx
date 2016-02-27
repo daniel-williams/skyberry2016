@@ -15,6 +15,7 @@ export default React.createClass({
     isVisible: PropTypes.bool,
     isUpdating: PropTypes.bool,
     hasUpdated: PropTypes.bool,
+    current: PropTypes.string,
     data: PropTypes.any,
     errors: PropTypes.any,
     onSubmit: PropTypes.func,
@@ -25,6 +26,7 @@ export default React.createClass({
       isVisible: false,
       isUpdating: false,
       hasUpdated: false,
+      current: null,
       data: {},
       errors: {},
       onSubmit: function() {},
@@ -71,6 +73,10 @@ export default React.createClass({
     const isDisabled = this.props.isUpdating;
     return (
       <div className='form-wrap'>
+        <div className='form-group'>
+          <label>Current Email</label>
+          <input disabled={true} className='form-control' value={this.props.current} />
+        </div>
         <formsy.Form onSubmit={this.props.onSubmit} ref='form'>
           <SkyInput
             type='text'

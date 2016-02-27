@@ -4,6 +4,7 @@ import {Grid, Row, Col} from 'react-bootstrap';
 import constants from '../constants';
 import {ContactForm, CoverBillboard, IconButtonBar, ModalBox} from '../components';
 
+import './Contact.less';
 
 export default React.createClass({
   hasPosted: function() {
@@ -11,13 +12,13 @@ export default React.createClass({
   },
   render: function () {
     return (
-      <div className='Contact'>
+      <div id='contact'>
         <CoverBillboard imgSrc={constants.routes.images + 'jumbo4.jpg'}>
-          <ModalBox headline='Get In Touch'>
+          <ModalBox headline='For a Good Time'>
             <div>
               <div className='center'>+1 503 272 1022</div>
-              <div className='center'><a href='mailto:contact@skyberrystudio.com'>contact@skyberrystudio.com</a></div>
-              <IconButtonBar links={constants.links.skyberry}  className='mt' />
+              <div className='center mb'><a href='mailto:contact@skyberrystudio.com'>contact@skyberrystudio.com</a></div>
+              <IconButtonBar links={constants.links.skyberry} size={40} />
             </div>
           </ModalBox>
         </CoverBillboard>

@@ -47,7 +47,7 @@ export default React.createClass({
   renderForm: function() {
     let btnState = this.getButtonState();
     return (
-      <Formsy.Form onValidSubmit={this.props.submitSubscribe}>
+      <Formsy.Form onValidSubmit={this.props.postSubscribe}>
         <Row>
           <Col xs={12} className='mb'>
             <SkyInput name="email"

@@ -22,7 +22,7 @@ export default React.createClass({
       <CoverBillboard imgSrc='/content/images/jumbo1.jpg'>
         <ModalBox headline='Meet Skyberry'>
           <p>Creative and technical, Skyberry is focused on enabling the small business.</p>
-          <button className='sky btn btn-sky' style={{width:'50%'}}>Watch Video</button>
+          <button className='sky btn btn-lg btn-sky' style={{width:'50%'}}>Watch Video</button>
         </ModalBox>
       </CoverBillboard>
     );

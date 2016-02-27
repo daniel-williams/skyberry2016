@@ -39,7 +39,6 @@ export default React.createClass({
   },
 
   render: function() {
-    console.log('trying');
     return (
       <Modal id='change-username' ref='modal' show={this.props.isVisible} backdrop='static'>
         <Modal.Header>
@@ -72,6 +71,10 @@ export default React.createClass({
     const isDisabled = this.props.isUpdating;
     return (
       <div className='form-wrap'>
+        <div className='form-group'>
+          <label>Current Username</label>
+          <input disabled={true} className='form-control' value={this.props.current} />
+        </div>
         <formsy.Form onSubmit={this.props.onSubmit} ref='form'>
           <SkyInput
             type='text'

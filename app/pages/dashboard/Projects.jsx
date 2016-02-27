@@ -25,7 +25,7 @@ export default React.createClass({
   fetchAsNeeded: function(specificProps) {
     const props = specificProps || this.props;
     if(!props.isFetching && !props.hasFetchedProject && !!props.compositeSlug) {
-      props.fetchProjectAsNeeded(props.compositeSlug);
+      props.fetchAsNeeded(props.compositeSlug);
     }
   },
   isFetching: function() {

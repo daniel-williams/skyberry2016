@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 import {Grid, Row, Col} from 'react-bootstrap';
 
-import {IconButtonBar} from '../../components';
+import {IconButtonBar, ImageLoader} from '../../components';
 import constants from '../../constants';
 require('./footer.less');
 
@@ -13,20 +13,35 @@ export default React.createClass({
   render: function () {
     return (
       <section id='footer'>
-        <Grid fluid={false}>
-          {this.renderFooterTitle()}
-          {this.renderColumns()}
-          {this.renderFooterNav()}
-          {this.renderCopyright()}
-        </Grid>
+
+        <div className='ttl'>
+          <Grid fluid={false}>
+            {this.renderFooterTitle()}
+          </Grid>
+        </div>
+        <div className='columns'>
+          <Grid fluid={false}>
+            {this.renderColumns()}
+          </Grid>
+        </div>
+        <div className='foot-nav'>
+          <Grid fluid={false}>
+            {this.renderFooterNav()}
+          </Grid>
+        </div>
+        <div className='copyright'>
+          <Grid fluid={false}>
+            {this.renderCopyright()}
+          </Grid>
+        </div>
       </section>
     );
   },
 
   renderFooterTitle: function() {
     return (
-      <Row className='mt-trpl'>
-        <Col xs={12} align='center'><h1>We Love Connecting with New People</h1></Col>
+      <Row>
+        <Col xs={12}><h1>We Love Connecting with New People</h1></Col>
       </Row>
     );
   },
@@ -48,7 +63,7 @@ export default React.createClass({
 
   renderLeftColumn: function() {
     return (
-      <div className='footer-col'>
+      <div className='foot-col'>
         <h3>Get In Touch</h3>
         <div className='col-body'>
           <div>Contact Skyberry directly.</div>
@@ -62,7 +77,7 @@ export default React.createClass({
   },
   renderCenterColumn: function() {
     return (
-      <div className='footer-col'>
+      <div className='foot-col'>
         <h3>We're Social</h3>
         <div className='col-body'>
           <div>Connect with us on social media</div>
@@ -74,7 +89,7 @@ export default React.createClass({
   },
   renderRightColumn: function() {
     return (
-      <div className='footer-col'>
+      <div className='foot-col'>
         <h3>Our Studio</h3>
         <div className='col-body'>
           <div>Skyberry Studio is located in beautiful Bothell, just northeast of Seattle Washington, overlooking the wetland preserve at North Creek.</div>
@@ -86,7 +101,7 @@ export default React.createClass({
   renderSocialIcons: function() {
     return (
       <div className='social-icons'>
-        <IconButtonBar links={constants.links.skyberry} />
+        <IconButtonBar links={constants.links.skyberry} size={40} />
       </div>
     );
   },
@@ -94,9 +109,9 @@ export default React.createClass({
   renderFooterNav: function() {
     return (
       <Row className='footer-nav'>
-        <Col xs={12} align='center'>
+        <Col md={6} sm={2}>
           <span style={{display:'inline-block'}}>
-            <ul className='nav' onClick={this.scrollTop}>
+            <ul className='nav hidden-sm' onClick={this.scrollTop}>
               <li><Link to='/'>Home</Link></li>
               <li><Link to='/about'>About</Link></li>
               <li><Link to='/portfolio'>Portfolio</Link></li>
@@ -105,6 +120,11 @@ export default React.createClass({
             </ul>
           </span>
         </Col>
+        <Col md={6} sm={10}>
+          <div className='right' style={{verticleAlign:'bottom'}}>
+            <ImageLoader id='seattle-skyline' src='/content/images/seattle-skyline.png' className='img-responsive' />
+          </div>
+        </Col>
       </Row>
     );
   },
@@ -112,8 +132,8 @@ export default React.createClass({
   renderCopyright: function() {
     let year = new Date().getFullYear();
     return (
-      <Row className='copyright'>
-        <Col xs={12}>
+      <Row>
+        <Col xs={12} className='mv-half right'>
           <span>Copyright &copy; 2006-{year}. Skyberry Studio. All Rights Reserved.</span>
         </Col>
       </Row>
