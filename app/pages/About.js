@@ -34,11 +34,6 @@ export default React.createClass({
     return (
       <Grid>
         <Row className='mt-dbl'>
-          <Col xs={12}>
-            <h1>Skyberry Studio is</h1>
-          </Col>
-        </Row>
-        <Row>
           <Col sm={6} xs={12}>
             <Staff name='Lacey Johnston' title='I produce meaningful design that communicates ideas' imgSrc='/content/images/staff-lacey-johnston.png'>
               <p>Lacey Johnston founded Skyberry in 2006, with a passion for great design, an abundance of creativity, and a drive to exhaust every pencil she comes into contact with. She is also Co-Founder of DesignOBot, an online service for Creative Professionals.</p>
@@ -79,7 +74,7 @@ export default React.createClass({
       <Grid className='choose-skyberry'>
         <Row>
           <Col xs={12}>
-            <h1>Be successful. Be carefree. <span className='bold'>Call Skyberry!</span></h1>
+            <h1>Be successful. Be carefree. Call Skyberry!</h1>
           </Col>
         </Row>
         <Row className='mt-half'>

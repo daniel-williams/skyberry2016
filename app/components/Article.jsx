@@ -64,8 +64,11 @@ export default React.createClass({
       </Breadcrumb>
     );
   },
+  
   scrollTop: function() {
-    window && window.scrollTo(0,0);
-  }
+    setTimeout(function() {
+      window && window.scrollTo(0,0);
+    }, 0);
+  },
 
 });

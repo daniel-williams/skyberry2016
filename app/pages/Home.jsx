@@ -49,7 +49,7 @@ export default React.createClass({
     if(!this.hasFeaturedItems()) { return false; }
 
     return (
-      <Grid fluid={false} className='mt mb-dbl'>
+      <Grid fluid={true} className='mt mb-dbl'>
         <ImageBoard
           images={this.getFeaturedItems()}
           headline='Full Service From Print to Web' />

@@ -32,6 +32,7 @@ export default {
       lacey: [
           {title: 'linkedin', alt:'Lacey on LinkedIn', url: 'https://www.linkedin.com/in/laceyjohnston'},
           {title: 'behance', alt:'Lacey on Behance', url: 'https://behance.com/laceyjohnston'},
+          {title: 'creativepool', alt: 'Lacey on CreativePool', url: 'http://creativepool.com/laceyjohnston'},
       ],
       daniel: [
           {title: 'linkedin', alt:'Daniel on LinkedIn', url: 'https://linkedin.com/in/danielwilliamsus'},
