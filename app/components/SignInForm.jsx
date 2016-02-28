@@ -17,11 +17,12 @@ export default React.createClass({
             <SkyInput
               type='text'
               name='username'
-              placeholder='UserName'
+              placeholder='Username or Email'
               value={identity.username}
               required
               validationError='Username is required.'
-              className='form-control' />
+              className='form-control'
+              autoFocus />
           </Col>
         </Row>
         <Row>

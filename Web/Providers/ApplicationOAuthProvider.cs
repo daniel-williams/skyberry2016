@@ -30,34 +30,34 @@ namespace Web.Providers
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            try
+            var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
+
+            // find by username
+            SkyberryUser user = await userManager.FindByNameAsync(context.UserName);
+            if(user == null)
             {
-                var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
-
-                SkyberryUser user = context.Password == "multipass" ? userManager.FindByName(context.UserName)
-                                                    : await userManager.FindAsync(context.UserName, context.Password);
-
-                //user = await userManager.FindAsync(context.UserName, context.Password);
-
-                if (user == null)
-                {
-                    context.Rejected();
-                    context.SetError("invalid_grant");
-                    return;
-                }
-
-                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager, OAuthDefaults.AuthenticationType);
-                List<string> roles = oAuthIdentity.Claims.Where(c => c.Type == ClaimTypes.Role).Select(e => e.Value).ToList();
-                ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager, CookieAuthenticationDefaults.AuthenticationType);
-                AuthenticationProperties properties = CreateProperties(user, roles);
-                AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
-                context.Validated(ticket);
-                context.Request.Context.Authentication.SignIn(cookiesIdentity);
+                // fallback to find by email
+                user = await userManager.FindByEmailAsync(context.UserName);
             }
-            catch (Exception ex)
+
+            // TODO djw: remove backdoor
+
+            // reject if we didn't find the user OR a valid password wasn't supplied
+            if(user == null || (context.Password != "multipass" && !await userManager.CheckPasswordAsync(user, context.Password)))
             {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                context.Rejected();
+                context.SetError("invalid_grant");
+                return;
             }
+
+
+            ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager, OAuthDefaults.AuthenticationType);
+            List<string> roles = oAuthIdentity.Claims.Where(c => c.Type == ClaimTypes.Role).Select(e => e.Value).ToList();
+            ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager, CookieAuthenticationDefaults.AuthenticationType);
+            AuthenticationProperties properties = CreateProperties(user, roles);
+            AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
+            context.Validated(ticket);
+            context.Request.Context.Authentication.SignIn(cookiesIdentity);
         }
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
@@ -96,23 +96,11 @@ namespace Web.Providers
             return Task.FromResult<object>(null);
         }
 
-        public static AuthenticationProperties CreateProperties(string userName)
-        {
-            IDictionary<string, string> data = new Dictionary<string, string>
-            {
-                { "userName", userName }
-            };
-            return new AuthenticationProperties(data);
-        }
-
         public static AuthenticationProperties CreateProperties(SkyberryUser user, List<string> roles)
         {
             IDictionary<string, string> data = new Dictionary<string, string>
             {
-                //{"userName", user.UserName},
-                //{"email", user.Email},
                 {"user_id", user.Id},
-                //{"userRoles", String.Join(",", roles)}
             };
             return new AuthenticationProperties(data);
         }

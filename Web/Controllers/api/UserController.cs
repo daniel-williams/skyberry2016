@@ -67,12 +67,12 @@ namespace Web.Controllers
                 return new SkyApiNotFound(Request);
             }
 
-            user.Email = model.newEmail;
+            user.Email = model.NewEmail;
             UOW.Commit();
 
             UpdateEmailVM payload = new UpdateEmailVM
             {
-                email = user.Email,
+                Email = user.Email,
             };
 
             return new SkyApiPayload<UpdateEmailVM>(Request, payload);
@@ -127,16 +127,16 @@ namespace Web.Controllers
     {
         [Required(ErrorMessage = "New Email is required.")]
         [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
-        public string newEmail { get; set; }
+        public string NewEmail { get; set; }
 
         [Required(ErrorMessage = "Confirm Email is required.")]
         [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
-        [Compare("NewPass", ErrorMessage = "Confirm Email and New Email must match.")]
-        public string confirmEmail { get; set; }
+        [Compare("NewEmail", ErrorMessage = "Confirm Email and New Email must match.")]
+        public string ConfirmEmail { get; set; }
     }
     public class UpdateEmailVM
     {
-        public string email { get; set; }
+        public string Email { get; set; }
     }
 
     public class UpdateUsernameBM
