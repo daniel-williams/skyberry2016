@@ -3,8 +3,10 @@ import {Link} from 'react-router';
 import {Grid, Row, Col} from 'react-bootstrap';
 
 import {IconButtonBar, ImageLoader} from '../../components';
+import {getBootstrapBreakpoint} from '../../utils/BootstrapUtils';
 import constants from '../../constants';
 require('./footer.less');
+import Nav from './Nav';
 
 
 export default React.createClass({
@@ -108,10 +110,10 @@ export default React.createClass({
 
   renderFooterNav: function() {
     return (
-      <Row className='footer-nav'>
-        <Col md={6} sm={2}>
-          <span style={{display:'inline-block'}}>
-            <ul className='nav hidden-sm' onClick={this.scrollTop}>
+      <Row>
+        <div className='col'>
+          <span className='expanded hidden-sm hidden-xs' style={{display:'inline-block'}}>
+            <ul className='nav' onClick={this.scrollTop}>
               <li><Link to='/'>Home</Link></li>
               <li><Link to='/about'>About</Link></li>
               <li><Link to='/portfolio'>Portfolio</Link></li>
@@ -119,12 +121,15 @@ export default React.createClass({
               <li><Link to='/contact'>Contact</Link></li>
             </ul>
           </span>
-        </Col>
-        <Col md={6} sm={10}>
+          <div className='collapsed visible-sm visible-xs visible-xxs mt'>
+            <Nav {...this.props} />
+          </div>
+        </div>
+        <div className='col pull-right'>
           <div className='right' style={{verticleAlign:'bottom'}}>
             <ImageLoader id='seattle-skyline' src='/content/images/seattle-skyline.png' className='img-responsive' />
           </div>
-        </Col>
+        </div>
       </Row>
     );
   },
@@ -141,6 +146,9 @@ export default React.createClass({
   },
 
   scrollTop: function() {
-    window && window.scrollTo(0,0);
-  }
+    setTimeout(function() {
+      window && window.scrollTo(0,0);
+    }, 0);
+  },
+  
 });
