@@ -84,7 +84,8 @@ export default React.createClass({
             required
             validationError="Username is required."
             className='form-control'
-            disabled={isDisabled} />
+            disabled={isDisabled}
+            autoFocus />
           <SkyInput
             type='text'
             name='confirmUsername'

@@ -87,7 +87,8 @@ export default React.createClass({
             validations="isEmail"
             validationError="Email is required."
             className='form-control'
-            disabled={isDisabled} />
+            disabled={isDisabled}
+            autoFocus />
           <SkyInput
             type='text'
             name='confirmEmail'

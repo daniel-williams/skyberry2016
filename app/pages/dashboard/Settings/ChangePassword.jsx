@@ -80,7 +80,8 @@ export default React.createClass({
             required
             validationError='Password is required.'
             className='form-control'
-            disabled={isDisabled} />
+            disabled={isDisabled}
+            autoFocus />
           <SkyInput
             type='password'
             name='newPass'
