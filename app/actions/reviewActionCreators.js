@@ -146,9 +146,16 @@ export function reviewResetUi() {
   };
 }
 
+export function resetReviews() {
+  return {
+    type: actions.RESET_REVIEWS,
+  };
+}
+
 
 export default {
   mergeIncomingReviews,
+  resetReviews,
 
   reviewOptionSetSelected,
   reviewOptionClearSelected,

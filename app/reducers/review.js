@@ -1,6 +1,6 @@
 import {fromJS, Map} from 'immutable';
 
-import * as reviewActions from '../actions/reviewActions';
+import * as actions from '../actions/reviewActions';
 
 const initialState = fromJS({
   isUpdating: false,
@@ -18,7 +18,7 @@ const initialState = fromJS({
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case reviewActions.MERGE_INCOMING_REVIEWS: {
+    case actions.MERGE_INCOMING_REVIEWS: {
       return state.withMutations(state => {
         // TODO: find the correct way to merge into map without toJS()
         const currentReviews = state.get('reviews').toJS();
@@ -27,34 +27,34 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case reviewActions.REVIEW_UI_RESET: {
+    case actions.REVIEW_UI_RESET: {
       return state.withMutations(state => {
         state.set('showFeedback', true);
         state.set('showApproval', false);
         return state;
       });
     }
-    case reviewActions.REVIEW_SHOW_FEEDBACK: {
+    case actions.REVIEW_SHOW_FEEDBACK: {
       return state.set('showFeedback', true);
     }
-    case reviewActions.REVIEW_HIDE_FEEDBACK: {
+    case actions.REVIEW_HIDE_FEEDBACK: {
       return state.set('showFeedback', false);
     }
-    case reviewActions.REVIEW_SHOW_APPROVAL: {
+    case actions.REVIEW_SHOW_APPROVAL: {
       return state.withMutations(state => {
         state.set('showFeedback', false);
         state.set('showApproval', true);
         return state;
       });
     }
-    case reviewActions.REVIEW_HIDE_APPROVAL: {
+    case actions.REVIEW_HIDE_APPROVAL: {
       return state.withMutations(state => {
         state.set('showFeedback', true);
         state.set('showApproval', false);
         return state;
       });
     }
-    case reviewActions.REVIEW_OPTION_SET_SELECTED: {
+    case actions.REVIEW_OPTION_SET_SELECTED: {
       return state.withMutations(state => {
 
         const slug = action.payload.slug;
@@ -75,7 +75,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case reviewActions.REVIEW_OPTION_CLEAR_SELECTED: {
+    case actions.REVIEW_OPTION_CLEAR_SELECTED: {
       return state.withMutations(state => {
         const slug = action.payload.slug;
         const currentReview = state.getIn(['reviews', slug]).toJS();
@@ -95,14 +95,14 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case reviewActions.REVIEW_OPTION_POST_COMMENT: {
+    case actions.REVIEW_OPTION_POST_COMMENT: {
       return state.withMutations(state => {
         state.set('isPostingComment', true);
         state.set('comment', action.payload.comment);
         return state;
       });
     }
-    case reviewActions.REVIEW_OPTION_POST_COMMENT_SUCCESS: {
+    case actions.REVIEW_OPTION_POST_COMMENT_SUCCESS: {
       return state.withMutations(state => {
         state.set('lastUpdateDate', action.payload.date);
         state.set('isPostingComment', false);
@@ -121,7 +121,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case reviewActions.REVIEW_OPTION_POST_COMMENT_FAILED: {
+    case actions.REVIEW_OPTION_POST_COMMENT_FAILED: {
       return state.withMutations(state => {
         state.set('isPostingComment', false);
         state.set('lastUpdateDate', action.payload.date);
@@ -129,10 +129,10 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case reviewActions.UPDATE_REVIEW: {
+    case actions.UPDATE_REVIEW: {
       return state.set('isUpdating', true);
     }
-    case reviewActions.UPDATE_REVIEW_SUCCESS: {
+    case actions.UPDATE_REVIEW_SUCCESS: {
       return state.withMutations(state => {
         state.set('isUpdating', false);
         state.set('lastUpdateDate', action.payload.date);
@@ -140,7 +140,7 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case reviewActions.UPDATE_REVIEW_FAILED: {
+    case actions.UPDATE_REVIEW_FAILED: {
       return state.withMutations(state => {
         state.set('isUpdating', false);
         state.set('lastUpdateDate', action.payload.date);
@@ -148,42 +148,23 @@ export default function(state = initialState, action) {
         return state;
       });
     }
-    case reviewActions.REVIEW_REQUEST_REVISION: {
-      const slug = action.payload.slug;
-      const currentReview = state.getIn(['reviews', slug]).toJS();
-      const newReview = Object.assign({}, currentReview, action.payload.result);
-      console.log('what the fuck');
-      return state.setIn(['reviews', slug], fromJS(newReview));
+    case actions.REVIEW_REQUEST_REVISION: {
+      // fallthrough
     }
-    case reviewActions.REVIEW_REQUEST_DELIVERABLES: {
-      const slug = action.payload.slug;
-      const currentReview = state.getIn(['reviews', slug]).toJS();
-      const newReview = Object.assign({}, currentReview, action.payload.result);
-      return state.setIn(['reviews', slug], fromJS(newReview));
+    case actions.REVIEW_REQUEST_DELIVERABLES: {
+      // fallthrough
     }
-    case reviewActions.REVIEW_REQUEST_CANCELED: {
-      const slug = action.payload.slug;
-      const currentReview = state.getIn(['reviews', slug]).toJS();
-      const newReview = Object.assign({}, currentReview, {
-        requestById: null,
-        requestByName: null,
-        requestByIp: null,
-        requestType: null,
-        requestDate: null,
-
-        approvedById: null,
-        approvedByName: null,
-        approvedByIp: null,
-        approvedType: null,
-        approvedDate: null,
-      });
-      return state.setIn(['reviews', slug], fromJS(newReview));
+    case actions.REVIEW_REQUEST_CANCELED: {
+      // fallthrough
     }
-    case reviewActions.REVIEW_APPROVE_PROJECT: {
+    case actions.REVIEW_APPROVE_PROJECT: {
       const slug = action.payload.slug;
       const currentReview = state.getIn(['reviews', slug]).toJS();
       const newReview = Object.assign({}, currentReview, action.payload.result);
       return state.setIn(['reviews', slug], fromJS(newReview));
+    }
+    case actions.RESET_REVIEWS: {
+      return initialState;
     }
     default: {
       return state;

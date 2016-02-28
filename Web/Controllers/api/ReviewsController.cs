@@ -109,7 +109,7 @@ namespace Web.Controllers.api
             review.RequestDate = DateTime.UtcNow;
 
             UOW.Commit();
-            ReviewRequestVM reviewUpdateVM = new ReviewRequestVM
+            ReviewRequestVM reviewRequestVM = new ReviewRequestVM
             {
                 RequestById = review.RequestById,
                 RequestByName = review.RequestByName,
@@ -118,7 +118,7 @@ namespace Web.Controllers.api
                 RequestDate = review.RequestDate,
             };
 
-            return new SkyApiPayload<ReviewRequestVM>(Request, reviewUpdateVM);
+            return new SkyApiPayload<ReviewRequestVM>(Request, reviewRequestVM);
         }
 
         [HttpGet]
@@ -138,7 +138,7 @@ namespace Web.Controllers.api
             review.RequestDate = DateTime.UtcNow;
 
             UOW.Commit();
-            ReviewRequestVM reviewUpdateVM = new ReviewRequestVM
+            ReviewRequestVM reviewRequestVM = new ReviewRequestVM
             {
                 RequestById = review.RequestById,
                 RequestByName = review.RequestByName,
@@ -147,7 +147,7 @@ namespace Web.Controllers.api
                 RequestDate = review.RequestDate,
             };
 
-            return new SkyApiPayload<ReviewRequestVM>(Request, reviewUpdateVM);
+            return new SkyApiPayload<ReviewRequestVM>(Request, reviewRequestVM);
         }
 
         [HttpGet]

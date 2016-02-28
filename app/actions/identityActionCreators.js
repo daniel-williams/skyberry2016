@@ -8,6 +8,7 @@ import {clone, toKeyMap, toNameValueMap} from '../utils/CollectionUtils';
 import userActionCreators from '../actions/userActionCreators';
 import accountActionCreators from '../actions/accountActionCreators';
 import projectActionCreators from '../actions/projectActionCreators';
+import reviewActionCreators from '../actions/reviewActionCreators';
 import * as actions from './identityActions';
 
 
@@ -64,6 +65,8 @@ export function logOff() {
     dispatch(userActionCreators.resetUser());
     dispatch(resetIdentity());
     dispatch(accountActionCreators.resetAccounts());
+    dispatch(projectActionCreators.resetProjects());
+    dispatch(reviewActionCreators.resetReviews());
   };
 }
 
