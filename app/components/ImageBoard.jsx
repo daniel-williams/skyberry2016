@@ -108,9 +108,9 @@ export default React.createClass({
     let rows = [];
     for(let i = 1; i <= rowCount; i++) {
       rows.push(
-        <Row key={i}>
+        <div className='clearfix' key={i}>
           {this.renderCols(i, colCount, frameClasses, frameStyle, imageClasses)}
-        </Row>
+        </div>
       );
     }
     return rows;
