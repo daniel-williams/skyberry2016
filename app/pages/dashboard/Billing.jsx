@@ -4,7 +4,7 @@ import {Grid, Row, Col} from 'react-bootstrap';
 
 import {formatDate} from '../../utils/DateUtils';
 import {formatMoney} from '../../utils/MoneyUtils';
-import {Fetching} from '../../components';
+import {Fetching, SkyButton} from '../../components';
 import AccountSelector from './AccountSelector';
 import './Billing.less';
 
@@ -98,7 +98,7 @@ export default React.createClass({
         <Grid fluid={true}>
           <Row>
             <Col xs={12}>
-              <h1><span>Billing</span><span className="accent"> for </span><span className="nowrap">{this.getSelectedAccountName()}</span></h1>
+              <h1><span>Billing</span><span className='accent'> for </span><span className='nowrap'>{this.getSelectedAccountName()}</span></h1>
             </Col>
           </Row>
           {this.hasAccountOptions() && this.renderAccountSelector()}
@@ -141,8 +141,8 @@ export default React.createClass({
         <legend><h2>Billing Summary</h2></legend>
         <div className='tbl'>
           <div className='tbl-row'>
-            <div className="d_item">Balance</div>
-            <div className="d_data">{amountDue}</div>
+            <div className='d_item'>Balance</div>
+            <div className='d_data'>{amountDue}</div>
             <div>
               {hasBalance
                 ? this.renderPaymentOptions(balance)
@@ -155,37 +155,41 @@ export default React.createClass({
   },
   renderNoBlance: function() {
     return (
-      <div id="pay_thankYou">
-        <div className="d_item">Thank you for your business!</div>
+      <div id='pay_thankYou'>
+        <div className='d_item'>Thank you for your business!</div>
       </div>
     );
   },
   renderPaymentOptions: function(balance) {
     return (
-      <div className="paypal-wrap">
-        <div className="paypal">
-          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="frm-paypal">
-            <input type="hidden" name="cmd" value="_xclick" />
-            <input type="hidden" name="business" value="lacey@skyberrystudio.com" />
-            <input type="hidden" name="amount" value={balance} />
-            <input type="hidden" name="item_name" value="Payment via www.skyberrystudio.com website for @Model.User.FirstName @Model.User.LastName, account #@Model.Account.Number." />
-            <input type="hidden" name="custom" value={balance} />
-            <input type="hidden" name="invoice" value="" />
-            <input type="hidden" name="image_url" value="https://skyberrystudio.com/images/skyberry_logo_190x50.png" />
-            <input type="hidden" name="cpp_header_image" value="https://skyberrystudio.com/images/skyberry_logo_750x50.png" />
-            <input type="hidden" name="cpp_headerback_color" value="e6e6e6" />
-            <input type="hidden" name="cpp_headerborder_color" value="e6e6e6" />
-            <input type="hidden" name="no_note" value="1" />
-            <input type="hidden" name="no_shipping" value="1" />
-            <input type="hidden" name="return" value="https://skyberrystudio.com/my-account/summary" />
-            <input type="hidden" name="cancel_return" value="https://skyberrystudio.com/my-account/summary" />
-            <input type="hidden" name="rm" value="2" />
-            <input type="hidden" name="cbt" value="Return to Skyberry Studio&trade;." />
-            <button type="submit" className="btn btn-sky mv-half">Pay Now</button>
+      <div className='paypal-wrap'>
+        <div className='paypal'>
+          <form action='https://www.paypal.com/cgi-bin/webscr' method='post' id='frm-paypal'>
+            <input type='hidden' name='cmd' value='_xclick' />
+            <input type='hidden' name='business' value='lacey@skyberrystudio.com' />
+            <input type='hidden' name='amount' value={balance} />
+            <input type='hidden' name='item_name' value='Payment via www.skyberrystudio.com website for @Model.User.FirstName @Model.User.LastName, account #@Model.Account.Number.' />
+            <input type='hidden' name='custom' value={balance} />
+            <input type='hidden' name='invoice' value='' />
+            <input type='hidden' name='image_url' value='https://skyberrystudio.com/images/skyberry_logo_190x50.png' />
+            <input type='hidden' name='cpp_header_image' value='https://skyberrystudio.com/images/skyberry_logo_750x50.png' />
+            <input type='hidden' name='cpp_headerback_color' value='e6e6e6' />
+            <input type='hidden' name='cpp_headerborder_color' value='e6e6e6' />
+            <input type='hidden' name='no_note' value='1' />
+            <input type='hidden' name='no_shipping' value='1' />
+            <input type='hidden' name='return' value='https://skyberrystudio.com/my-account/summary' />
+            <input type='hidden' name='cancel_return' value='https://skyberrystudio.com/my-account/summary' />
+            <input type='hidden' name='rm' value='2' />
+            <input type='hidden' name='cbt' value='Return to Skyberry Studio&trade;.' />
+            <SkyButton
+              type='submit'
+              isPrimary
+              size='lg'
+              className='mv-half'>Pay Now</SkyButton>
           </form>
         </div>
-        <div className="pay-now">
-          <img src="/content/images/paypal-payments.png" className='img-responsive' alt="PayPal payment options" />
+        <div className='pay-now'>
+          <img src='/content/images/paypal-payments.png' className='img-responsive' alt='PayPal payment options' />
         </div>
       </div>
     );

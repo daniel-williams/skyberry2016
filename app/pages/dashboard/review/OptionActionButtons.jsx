@@ -3,6 +3,8 @@ import PureRender from 'react-addons-pure-render-mixin';
 import {Row, Col} from 'react-bootsrap';
 import classnames from 'classnames';
 
+import {SkyButton} from '../../../components';
+
 
 export default React.createClass({
   displayName: 'OptionActionButtons',
@@ -43,10 +45,8 @@ export default React.createClass({
   },
   renderCommentButton: function() {
     return (
-      <button
-        className='btn btn-default'
-        type='button'
-        onClick={this.props.commentToggle}>{this.renderCommentLabel()}</button>
+      <SkyButton
+        onClick={this.props.commentToggle}>{this.renderCommentLabel()}</SkyButton>
     );
   },
   renderCommentLabel: function() {
@@ -56,23 +56,18 @@ export default React.createClass({
   },
   renderSelectButton: function() {
     return (
-      <button
-        className='btn btn-sky'
-        type='button'
+      <SkyButton
+        isPrimary
         onClick={this.props.optionSelected}
         data-key={this.state.oId}
-        disabled={isDisabled}
-        title={this.renderTip()}>Select Option</button>
+        title={this.renderTip()}>Select Option</SkyButton>
     );
   },
   renderClearButton: function() {
     return (
-      <button
-        className='btn btn-default'
-        type='button'
+      <SkyButton
         onClick={this.props.clearSelected}
-        disabled={this.props.hasRequest}
-        title={this.renderTip()}>Unselect Option</button>
+        title={this.renderTip()}>Unselect Option</SkyButton>
     );
   },
   renderTip: function() {

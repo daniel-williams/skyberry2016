@@ -3,6 +3,8 @@ import PureRender from 'react-addons-pure-render-mixin';
 import {Row, Col} from 'react-bootstrap';
 import classnames from 'classnames';
 
+import {SkyButton} from '../../../components';
+
 
 export default React.createClass({
   displayName: 'OptionSelector',
@@ -32,30 +34,26 @@ export default React.createClass({
     return (
       <Row>
         <Col xs={12}>
-          {!this.props.isLegacyProject && this.renderSelectionButton()}
-          <button
-            className='btn btn-default mv-half'
-            onClick={this.props.commentsClick}>{this.renderCommentText()}</button>
+          {!this.props.isLegacyProject && this.props.isEditable && this.renderSelectionButton()}
+          <SkyButton
+            className='mv-half'
+            onClick={this.props.commentsClick}>{this.renderCommentText()}</SkyButton>
         </Col>
       </Row>
     );
   },
   renderSelectionButton: function() {
-    const selectButtonCssNames = classnames('btn', 'mv-half', {
-      'btn-default': this.props.isSelected || !this.props.isEditable,
-      'btn-sky': !this.props.isSelected && this.props.isEditable,
-      'disabled': !this.props.isEditable,
-    });
     const selectButtonTip = this.props.isEditable
       ? 'Select this option.'
       : 'This design review is no longer editable.';
 
     return (
-      <button
-        className={selectButtonCssNames}
-        disabled={!this.props.isEditable}
+      <SkyButton
+        isPrimary={this.props.isEditable}
+        isDisabled={!this.props.isEditable}
+        className='mv-half'
         title={selectButtonTip}
-        onClick={this.props.selectionClick}>{this.renderSelectionText()}</button>
+        onClick={this.props.selectionClick}>{this.renderSelectionText()}</SkyButton>
     );
   },
   renderSelectionText: function() {

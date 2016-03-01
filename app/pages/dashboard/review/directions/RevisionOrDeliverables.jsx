@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Row, Col} from 'react-bootstrap';
 
-import {TitleDrawer} from '../../../../components';
+import {SkyButton, TitleDrawer} from '../../../../components';
 import StatusBox from './StatusBox';
 import StepStatus from './StepStatus';
 
@@ -72,25 +72,23 @@ export default React.createClass({
     );
   },
   renderActions: function() {
-    var isDisabled = this.props.isDisabled; // this.state.hasOptions && !this.state.selectedId;
-    var btnType = 'btn btn-lg mb-half ' + (isDisabled ? 'btn-default' : 'btn-sky');
-
+    const isDisabled = this.props.isDisabled;
     return (
       <div>
         <Row className='request-buttons mt'>
           <div className='col'>
-            <button
-              type='button'
-              className={btnType}
-              onClick={this.props.requestRevision}
-              disabled={isDisabled}>Revision<br /><i className='glyphicon glyphicon-repeat' /></button>
+            <SkyButton
+              isPrimary={!isDisabled}
+              isDisabled={isDisabled}
+              size='lg'
+              onClick={this.props.requestRevision}>Revision<br /><i className='glyphicon glyphicon-repeat' /></SkyButton>
           </div>
           <div className='col'>
-            <button
-              type='button'
-              className={btnType}
-              onClick={this.props.requestDeliverables}
-              disabled={isDisabled}>Deliverables<br /><i className='glyphicon glyphicon-export' /></button>
+            <SkyButton
+              isPrimary={!isDisabled}
+              isDisabled={isDisabled}
+              size='lg'
+              onClick={this.props.requestDeliverables}>Deliverables<br /><i className='glyphicon glyphicon-export' /></SkyButton>
           </div>
         </Row>
       </div>
@@ -114,9 +112,8 @@ export default React.createClass({
   renderCancel: function() {
     return (
       <span className='mb-half' style={{marginLeft:'15px'}}>
-        <button
-          className='btn btn-default'
-          onClick={this.props.clearRequest}>Cancel Request</button>
+        <SkyButton
+          onClick={this.props.clearRequest}>Cancel Request</SkyButton>
       </span>
     );
   },

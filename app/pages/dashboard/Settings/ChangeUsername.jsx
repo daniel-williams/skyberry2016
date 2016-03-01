@@ -3,7 +3,7 @@ import PureRender from 'react-addons-pure-render-mixin';
 import {Row, Col, Modal} from 'react-bootstrap';
 import formsy from 'formsy-react';
 
-import {SkyInput} from '../../../components';
+import {SkyButton, SkyInput} from '../../../components';
 
 
 export default React.createClass({
@@ -83,7 +83,6 @@ export default React.createClass({
             value={this.props.data.newUsername}
             required
             validationError="Username is required."
-            className='form-control'
             disabled={isDisabled}
             autoFocus />
           <SkyInput
@@ -93,13 +92,13 @@ export default React.createClass({
             value={this.props.data.confirmUsername}
             validations='equalsField:newUsername'
             validationErrors={'Confirm Username and New Username must match.'}
-            className='form-control'
             disabled={isDisabled} />
           <div className='form-group'>
-            <button
+            <SkyButton
               type='submit'
-              className='btn btn-lg btn-default'
-              disabled={isDisabled}>Change Username</button>
+              isPrimary
+              size='lg'
+              isDisabled={isDisabled}>Change Username</SkyButton>
           </div>
         </formsy.Form>
       </div>
@@ -109,7 +108,8 @@ export default React.createClass({
   renderClose: function() {
     return (
       <div className='col pull-right'>
-        <button className='btn btn-default' onClick={this.props.onClose}>Close</button>
+      <SkyButton
+        onClick={this.props.onClose}>Close</SkyButton>
       </div>
     );
   },

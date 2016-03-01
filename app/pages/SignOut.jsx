@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 
 import constants from '../constants';
-import {CoverBillboard, ModalBox} from '../components';
+import {CoverBillboard, ModalBox, SkyButton} from '../components';
 
 
 export default React.createClass({
@@ -23,7 +23,9 @@ export default React.createClass({
   renderConfirm: function() {
     return (
       <ModalBox headline='Client Sign Out'>
-        <button className='btn btn-sky' onClick={this.props.logOff}>Sign Out</button>
+        <SkyButton
+          isPrimary
+          onClick={this.props.logOff}>Sign Out</SkyButton>
       </ModalBox>
     );
   },

@@ -3,7 +3,7 @@ import PureRender from 'react-addons-pure-render-mixin';
 import {Row, Col, Modal} from 'react-bootstrap';
 import formsy from 'formsy-react';
 
-import {SkyInput} from '../../../components';
+import {SkyButton, SkyInput} from '../../../components';
 
 
 export default React.createClass({
@@ -79,7 +79,6 @@ export default React.createClass({
             value={this.props.data.oldPass}
             required
             validationError='Password is required.'
-            className='form-control'
             disabled={isDisabled}
             autoFocus />
           <SkyInput
@@ -89,7 +88,6 @@ export default React.createClass({
             value={this.props.data.newPass}
             required
             validationError='New password is required.'
-            className='form-control'
             disabled={isDisabled} />
           <SkyInput
             type='password'
@@ -98,13 +96,13 @@ export default React.createClass({
             value={this.props.data.confirmPass}
             validations='equalsField:newPass'
             validationErrors={'Confirm password and New Password must match.'}
-            className='form-control'
             disabled={isDisabled} />
           <div className='form-group'>
-            <button
+            <SkyButton
               type='submit'
-              className='btn btn-lg btn-default'
-              disabled={isDisabled}>Change Password</button>
+              isPrimary
+              size='lg'
+              isDisabled={isDisabled}>Change Password</SkyButton>
           </div>
         </formsy.Form>
       </div>
@@ -114,7 +112,8 @@ export default React.createClass({
   renderClose: function() {
     return (
       <div className='col pull-right'>
-        <button className='btn btn-default' onClick={this.props.onClose}>Close</button>
+      <SkyButton
+        onClick={this.props.onClose}>Close</SkyButton>
       </div>
     );
   },

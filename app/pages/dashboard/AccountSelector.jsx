@@ -1,14 +1,14 @@
 import React, {PropTypes} from 'react';
-import PureRender from 'react-addons-pure-render-mixin';
+// import PureRender from 'react-addons-pure-render-mixin';
 import {Row, Col} from 'react-bootstrap';
 
-import {Selector} from '../../components';
+import {SkySelect} from '../../components';
 
 
 export default React.createClass({
-  displayName: 'BillingSelector',
+  displayName: 'AccountSelector',
 
-  mixins: [PureRender],
+  // mixins: [PureRender],
 
   propTypes: {
     hasFetched: PropTypes.bool,
@@ -21,7 +21,7 @@ export default React.createClass({
       hasFetched: false,
       accountOptions: [],
       accountSlug: '',
-      changeAccount: function() {},
+      changeAccount: function() { console.log('OKEY'); },
     }
   },
 
@@ -33,8 +33,9 @@ export default React.createClass({
     return (
       <Row className='controls'>
         <div className='form-inline col col-xs-12  mb-half'>
-          <Selector
+          <SkySelect
             label='Accounts'
+            name='accounts'
             options={this.props.accountOptions}
             selected={this.props.accountSlug}
             onChange={this.props.changeAccount} />

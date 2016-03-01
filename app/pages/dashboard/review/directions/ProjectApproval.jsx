@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Row, Col} from 'react-bootstrap';
 
-import {TitleDrawer} from '../../../../components';
+import {SkyButton, TitleDrawer} from '../../../../components';
 import StatusBox from './StatusBox';
 import StepStatus from './StepStatus';
 
@@ -62,12 +62,11 @@ export default React.createClass({
   renderActionButtons: function() {
     const btnCssNames = 'btn mb-half ' + (this.props.isApproved ? 'btn-default' : 'btn-sky');
     return (
-      <div className='mt'>
-        <button
-          type='button'
-          className={btnCssNames}
-          onClick={this.props.showApproval}
-          disabled={this.props.isApproved}>Approve Project<br /><i className='glyphicon glyphicon-thumbs-up' /></button>
+      <div className='mt mb-half'>
+        <SkyButton
+          isPrimary={!this.props.isApproved}
+          size='lg'
+          onClick={this.props.showApproval}>Approve Project<br /><i className='glyphicon glyphicon-thumbs-up' /></SkyButton>
       </div>
     );
   },
@@ -85,8 +84,9 @@ export default React.createClass({
     return (
       <div className='sel-opt mt-half' ref='selectedOption'>
         <span className='lbl mb-half'>Approved By:</span>
-        <span className='val mb-half'>{digiSig}</span>
-        <button className='btn btn-default mb-half' onClick={this.props.showApproval} style={{marginLeft:'15px'}}>View</button>
+        <span className='val mb-half' style={{marginRight:'15px'}}>{digiSig}</span>
+        <SkyButton
+          onClick={this.props.showApproval}>View</SkyButton>
       </div>
     );
   },

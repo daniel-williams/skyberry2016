@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {Modal, Row, Col} from 'react-bootstrap';
 import classnames from 'classnames';
 
+import {SkyButton} from '../../../components';
 import ReviewShared from './ReviewShared';
 import './ReviewApproval.less';
 
@@ -118,7 +119,10 @@ export default React.createClass({
     let name = this.props.user.firstName + ' ' + this.props.user.lastName;
     let digiSig = this.isApproved()
       ? this.renderSignature()
-      : <button className='btn btn-sky' onClick={() => this.props.reviewApproveProject(this.getReviewSlug())}>I Agree & Approve</button>;
+      : <SkyButton
+          isPrimary
+          size='lg'
+          onClick={() => this.props.reviewApproveProject(this.getReviewSlug())}>I Agree & Approve</SkyButton>;
 
     return (
       <div className='mt-dbl'>

@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Row, Col} from 'react-bootstrap';
 
-import {TitleDrawer} from '../../../../components';
+import {SkyButton, TitleDrawer} from '../../../../components';
 import StatusBox from './StatusBox';
 import StepStatus from './StepStatus';
 
@@ -90,9 +90,8 @@ export default React.createClass({
 
     return (
       <span className='mb-half' style={{marginLeft:'15px'}}>
-      <button
-        className='btn btn-default'
-        onClick={this.props.clearOption}>Clear</button>
+      <SkyButton
+        onClick={this.props.clearOption}>Clear</SkyButton>
       </span>
     );
   },

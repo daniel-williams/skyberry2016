@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import PureRender from 'react-addons-pure-render-mixin';
 import {Row, Col} from 'react-bootstrap';
 
-import {Selector} from '../../components';
+import {SkySelect} from '../../components';
 
 
 const NO_PROJECTS_FOUND = [
@@ -42,10 +42,11 @@ export default React.createClass({
     return (
       <Row className='controls'>
         <div className='form-inline col col-xs-12  mb-half'>
-          <Selector
+          <SkySelect
             label='Projects'
-            options={this.props.options}
+            name='projects'
             selected={this.props.projectSlug}
+            options={this.props.options}
             onChange={this.props.changeProject} />
         </div>
       </Row>

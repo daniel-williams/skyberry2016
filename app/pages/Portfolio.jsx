@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Grid, Row, Col} from 'react-bootstrap';
 
-import {Fetching, ImageBoard, Select} from '../components';
+import {Fetching, ImageBoard, SkySelect} from '../components';
 require('./Portfolio.less');
 
 
@@ -30,11 +30,11 @@ export default React.createClass({
           <Row>
             <Col md={4} sm={3} className='hidden-xs'></Col>
             <Col md={4} sm={6} xs={12}>
-              <Select
+              <SkySelect
+                name='portfolio'
                 options={this.props.portfolio.options}
                 selected={this.props.portfolio.selected}
-                onChange={this.handleChange}
-                className='form-control'  />
+                onChange={this.handleChange} />
             </Col>
             <Col md={4} sm={3} className='hidden-xs'></Col>
           </Row>
@@ -55,9 +55,10 @@ export default React.createClass({
     }
   },
 
-  handleChange: function(event)  {
-    if(event.target.value != this.props.portfolio.selected) {
-      this.props.switchPortfolio(event.target.value);
+  handleChange: function(selected)  {
+    // console.log('in port:', event);
+    if(selected != this.props.portfolio.selected) {
+      this.props.switchPortfolio(selected);
     }
   },
 

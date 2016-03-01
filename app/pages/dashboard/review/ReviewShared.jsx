@@ -1,6 +1,8 @@
 import React from 'react';
 import {Row, Col} from 'react-bootstrap';
 
+import {SkyButton} from '../../../components';
+
 export default {
 
   getProjectName: function() {
@@ -10,7 +12,8 @@ export default {
   renderClose: function() {
     return (
       <div className='col pull-right'>
-        <button className='btn btn-default' onClick={this.close}>Close</button>
+        <SkyButton
+          onClick={this.close}>Close</SkyButton>
       </div>
     );
   },

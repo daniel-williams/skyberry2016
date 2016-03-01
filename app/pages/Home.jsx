@@ -3,7 +3,7 @@ import {Grid} from 'react-bootstrap';
 import {toJS} from 'immutable';
 
 import constants from '../constants';
-import {CoverBillboard, ModalBox, ImageBoard} from '../components';
+import {SkyButton, CoverBillboard, ModalBox, ImageBoard} from '../components';
 
 
 export default React.createClass({
@@ -39,7 +39,10 @@ export default React.createClass({
       <CoverBillboard imgSrc={constants.routes.images + 'jumbo1.jpg'}>
         <ModalBox headline='Graphic Design & Web Development' overlay={true}>
           <p>Skyberry Studio is a full-service, award winning, desgin and development company. We are experts in brand identity, logo design, graphic design and web application development.</p>
-          <button className='btn btn-lg btn-sky'>Get your Free Project Consultation</button>
+          <SkyButton
+            isPrimary
+            size='lg'
+            onClick={() => console.log('clickie click!')}>Get your Free Project Consultation</SkyButton>
         </ModalBox>
       </CoverBillboard>
     );

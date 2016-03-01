@@ -3,7 +3,7 @@ import PureRender from 'react-addons-pure-render-mixin';
 import {Row, Col} from 'react-bootstrap';
 import formsy from 'formsy-react';
 
-import {SkyTextArea} from '../../../components';
+import {SkyButton, SkyTextArea} from '../../../components';
 
 
 export default React.createClass({
@@ -72,10 +72,9 @@ export default React.createClass({
           </Col>
           <Col xs={12}>
             <div className='form-group right'>
-              <button
+              <SkyButton
                 type='submit'
-                className='btn btn-sm btn-default'
-                disabled={isDisabled || this.props.isPosting}>Add Comment</button>
+                isDisabled={isDisabled || this.props.isPosting}>Add Comment</SkyButton>
             </div>
           </Col>
         </formsy.Form>

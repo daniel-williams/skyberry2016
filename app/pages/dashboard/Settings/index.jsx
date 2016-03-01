@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {Grid, Row, Col} from 'react-bootstrap';
 import formsy from 'formsy-react';
 
-import {SkyInput} from '../../../components';
+import {SkyButton, SkyInput} from '../../../components';
 import ChangeEmail from './ChangeEmail';
 import ChangePassword from './ChangePassword';
 import ChangeUsername from './ChangeUsername';
@@ -42,7 +42,9 @@ export default React.createClass({
               <div className='ttl'><h2>Email</h2></div>
               <div className='current'>{this.getEmail()}</div>
               <div className='actions'>
-                <button className='btn btn-lg btn-default' onClick={this.handleChangeEmail}>Change Email</button>
+                <SkyButton
+                  size='lg'
+                  onClick={this.handleChangeEmail}>Change Email</SkyButton>
               </div>
             </div>
           </Col>
@@ -51,7 +53,9 @@ export default React.createClass({
               <div className='ttl'><h2>Password</h2></div>
               <div className='current'>********</div>
               <div className='actions'>
-                <button className='btn btn-lg btn-default' onClick={this.handleChangePassword}>Change Password</button>
+                <SkyButton
+                size='lg'
+                onClick={this.handleChangePassword}>Change Password</SkyButton>
               </div>
             </div>
           </Col>
@@ -60,7 +64,9 @@ export default React.createClass({
               <div className='ttl'><h2>Username</h2></div>
               <div className='current'>{this.getUsername()}</div>
               <div className='actions'>
-                <button className='btn btn-lg btn-default' onClick={this.handleChangeUsername}>Change Username</button>
+                <SkyButton
+                  size='lg'
+                  onClick={this.handleChangeUsername}>Change Username</SkyButton>
               </div>
             </div>
           </Col>

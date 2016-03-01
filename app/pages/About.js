@@ -1,7 +1,7 @@
 import React from 'react';
 import {Grid, Row, Col} from 'react-bootstrap';
 
-import {CoverBillboard, IconButtonBar, ModalBox, Staff} from '../components';
+import {CoverBillboard, IconButtonBar, ModalBox, SkyButton, Staff} from '../components';
 import constants from '../constants';
 require('./About.less');
 
@@ -22,7 +22,9 @@ export default React.createClass({
       <CoverBillboard imgSrc='/content/images/jumbo1.jpg'>
         <ModalBox headline='Meet Skyberry'>
           <p>Creative and technical, Skyberry is focused on enabling the small business.</p>
-          <button className='sky btn btn-lg btn-sky' style={{width:'50%'}}>Watch Video</button>
+          <SkyButton
+            isPrimary
+            size='lg'>Watch Video</SkyButton>
         </ModalBox>
       </CoverBillboard>
     );
@@ -105,7 +107,9 @@ export default React.createClass({
         </Row>
         <Row className='mt'>
           <Col xs={12} align='center'>
-            <button className='btn btn-sky'>Get your Free Project Consultation</button>
+            <SkyButton
+              isPrimary
+              size='lg'>Get your Free Project Consultation</SkyButton>
           </Col>
         </Row>
       </Grid>
