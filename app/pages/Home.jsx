@@ -3,7 +3,7 @@ import {Grid} from 'react-bootstrap';
 import {toJS} from 'immutable';
 
 import constants from '../constants';
-import {SkyButton, CoverBillboard, ModalBox, ImageBoard} from '../components';
+import {CoverBillboard, ModalBox, ImageBoard, ImageLoader, SkyButton, SkyPlayer} from '../components';
 
 
 export default React.createClass({
@@ -15,26 +15,36 @@ export default React.createClass({
   getFeaturedItems: function() {
     return this.props.featured.items;
   },
-  // getTestimonialDescriptions: function() {
-  //     return this.props.testimonials.toJS().map(item => item.description);
-  // },
+  getTestimonials: function() {
+    return this.props.testimonial.items.map(item =>
+      <div className='quote'>
+        <span className='before'><ImageLoader src='/content/images/quote.png' className='img-responsive' /></span>
+        <span className='blockquote' dangerouslySetInnerHTML={{__html:item}} />
+        <span className='after'><ImageLoader src='/content/images/quote.png' className='img-responsive' /></span>
+      </div>
+    );
+  },
 
   componentDidMount: function() {
     if(!this.props.featured.hasFetched && !this.props.featured.isFetching) {
       this.props.fetchFeatured();
     }
+    if(!this.props.testimonial.hasFetched && !this.props.testimonial.isFetching) {
+      this.props.fetchTestimonials();
+    }
   },
 
-  render : function() {
+  render: function() {
     return (
       <div id='Home'>
         {this.renderBillboard()}
         {this.renderFeaturedItems()}
+        {this.renderTestimonials()}
       </div>
     );
   },
 
-  renderBillboard : function() {
+  renderBillboard: function() {
     return (
       <CoverBillboard imgSrc={constants.routes.images + 'jumbo1.jpg'}>
         <ModalBox headline='Graphic Design & Web Development' overlay={true}>
@@ -48,7 +58,7 @@ export default React.createClass({
     );
   },
 
-  renderFeaturedItems : function() {
+  renderFeaturedItems: function() {
     if(!this.hasFeaturedItems()) { return false; }
 
     return (
@@ -57,6 +67,16 @@ export default React.createClass({
           images={this.getFeaturedItems()}
           headline='Full Service From Print to Web' />
       </Grid>
+    );
+  },
+
+  renderTestimonials: function() {
+    return (
+      <CoverBillboard imgSrc={constants.routes.images + 'jumbo3.jpg'} className='mt'>
+        <div id='testimonials'>
+          <SkyPlayer items={this.getTestimonials()} duration={15000} />
+        </div>
+      </CoverBillboard>
     );
   },
 

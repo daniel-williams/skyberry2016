@@ -1,0 +1,22 @@
+.sky-player {
+  .slide {
+    position: relative;
+    width: 100%;
+    opacity: 0.0;
+    transition: opacity 1s;
+
+    img {
+      width: 100%;
+    }
+  }
+  .slide.active {
+    opacity: 1.0;
+  }
+  .slide.off {
+    position: absolute;
+    height: 0;
+    transition-property: height;
+    transition-delay: 1s;
+    transition-duration: 0;
+  }
+}
