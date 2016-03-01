@@ -94,8 +94,8 @@ export function reviewRequestCanceled(slug) {
     const id = getState().getIn(['review', 'reviews', slug, 'id']);
 
     return SkyberryFetch.getJson('/api/reviews/' + id + '/clear-request', true)
-      .then(() => {
-        dispatch(requestCanceled(slug));
+      .then((json) => {
+        dispatch(requestCanceled(slug, json));
         dispatch(updateReviewSuccess());
       })
       .catch(error => {
@@ -244,11 +244,12 @@ function requestDeliverables(slug, result) {
     }
   }
 }
-function requestCanceled(slug) {
+function requestCanceled(slug, result) {
   return {
     type: actions.REVIEW_REQUEST_CANCELED,
     payload: {
       slug: slug,
+      result: result,
     }
   }
 }
