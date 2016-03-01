@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Row, Col} from 'react-bootstrap';
 
-import {SkyButton, TitleDrawer} from '../../../../components';
+import {Icon, SkyButton, TitleDrawer} from '../../../../components';
 import StatusBox from './StatusBox';
 import StepStatus from './StepStatus';
 
@@ -83,7 +83,7 @@ export default React.createClass({
     const option = this.props.selectedOption;
     return !!option
     ? option.title || option.filenameOriginal
-    : <i className='glyphicon glyphicon-alert invalid' />;
+    : <Icon className='glyphicon glyphicon-alert invalid' />;
   },
   renderClearAction: function() {
     if(this.props.selectedOption === null || !this.props.isEditable) { return; }
@@ -108,7 +108,7 @@ export default React.createClass({
     const option = this.props.refinementOption;
     return !!option
       ? option.title || option.filenameOriginal
-      : <i className='glyphicon glyphicon-alert invalid' />;
+      : <Icon className='glyphicon glyphicon-alert invalid' />;
   },
 
 

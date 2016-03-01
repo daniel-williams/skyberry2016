@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Row, Col} from 'react-bootstrap';
 
-import {SkyButton, TitleDrawer} from '../../../../components';
+import {Icon, SkyButton, TitleDrawer} from '../../../../components';
 import StatusBox from './StatusBox';
 import StepStatus from './StepStatus';
 
@@ -66,7 +66,7 @@ export default React.createClass({
         <SkyButton
           isPrimary={!this.props.isApproved}
           size='lg'
-          onClick={this.props.showApproval}>Approve Project<br /><i className='glyphicon glyphicon-thumbs-up' /></SkyButton>
+          onClick={this.props.showApproval}>Approve Project<br /><Icon className='glyphicon glyphicon-thumbs-up' /></SkyButton>
       </div>
     );
   },
@@ -78,7 +78,7 @@ export default React.createClass({
   renderApprovalSummary: function() {
     var digiSig = this.renderSignature();
     if(!digiSig) {
-      digiSig = <i className='glyphicon glyphicon-alert invalid' />;
+      digiSig = <Icon className='glyphicon glyphicon-alert invalid' />;
     }
 
     return (

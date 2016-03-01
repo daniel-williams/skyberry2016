@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import PureRender from 'react-addons-pure-render-mixin';
 import classnames from 'classnames';
 
+import {Icon} from '../../../../components';
 import StepStatus from './StepStatus';
 
 
@@ -44,7 +45,7 @@ export default React.createClass({
   },
   renderIcon: function() {
     return this.props.status === StepStatus.COMPLETED
-      ? <i className='glyphicon glyphicon-ok' />
+      ? <Icon className='glyphicon glyphicon-ok' />
       : <span> </span>;
   },
 

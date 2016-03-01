@@ -3,6 +3,7 @@ import PureRender from 'react-addons-pure-render-mixin';
 import {Row, Col} from 'react-bootstrap';
 import classnames from 'classnames';
 
+import {Icon} from './icons';
 import './TitleDrawer.less';
 
 
@@ -37,7 +38,7 @@ export default React.createClass({
       <div className='title-drawer'>
         <Row>
           <Col xs={12} className='title stack' onClick={this.props.onClick}>
-            <i className={iconCssNames} />
+            <Icon className={iconCssNames} />
             {this.props.title}
           </Col>
         </Row>

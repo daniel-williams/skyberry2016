@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Row, Col} from 'react-bootstrap';
 
-import {SkyButton, TitleDrawer} from '../../../../components';
+import {Icon, SkyButton, TitleDrawer} from '../../../../components';
 import StatusBox from './StatusBox';
 import StepStatus from './StepStatus';
 
@@ -81,14 +81,14 @@ export default React.createClass({
               isPrimary={!isDisabled}
               isDisabled={isDisabled}
               size='lg'
-              onClick={this.props.requestRevision}>Revision<br /><i className='glyphicon glyphicon-repeat' /></SkyButton>
+              onClick={this.props.requestRevision}>Revision<br /><Icon className='glyphicon glyphicon-repeat' /></SkyButton>
           </div>
           <div className='col'>
             <SkyButton
               isPrimary={!isDisabled}
               isDisabled={isDisabled}
               size='lg'
-              onClick={this.props.requestDeliverables}>Deliverables<br /><i className='glyphicon glyphicon-export' /></SkyButton>
+              onClick={this.props.requestDeliverables}>Deliverables<br /><Icon className='glyphicon glyphicon-export' /></SkyButton>
           </div>
         </Row>
       </div>
