@@ -3,7 +3,7 @@ import {toJS} from 'immutable';
 import {Modal, Grid, Row, Col} from 'react-bootstrap';
 import Formsy from 'formsy-react';
 
-import {Icon, SkyInput} from '../components';
+import {Icon, SkyButton, SkyInput} from '../components';
 
 // FIX: subscribe email could be different than identity.email... we need to store this apart.
 export default React.createClass({
@@ -61,10 +61,13 @@ export default React.createClass({
         </Row>
         <Row>
           <div className='col mb-half'>
-            <button type='submit' className='btn btn-default' disabled={btnState}>Subscribe Now</button>
+            <SkyButton
+              isPrimary
+              type='submit'>Subscribe Now</SkyButton>
           </div>
           <div className='col mb-half'>
-            <button type='button' className='btn btn-primary' onClick={this.handleClose} disabled={btnState}>Maybe Later</button>
+            <SkyButton
+              onClick={this.handleClose}>Maybe Later</SkyButton>
           </div>
         </Row>
       </Formsy.Form>
@@ -78,7 +81,8 @@ export default React.createClass({
           <p>You will occasionally receive news and announcements at <span className='b'>{this.props.subscribe.email}</span>. Thank you for your interest in Skyberry Studio. We love what we do and would be here without you!</p>
         </Col>
         <Col xs={12}>
-          <button type='button' className='btn btn-default' onClick={this.handleClose}>Close</button>
+          <SkyButton
+            onClick={this.handleClose}>Close</SkyButton>
         </Col>
       </Row>
     );

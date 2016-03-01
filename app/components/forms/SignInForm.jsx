@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import formsy from 'formsy-react';
 
-import {SkyCheckbox, SkyInput} from './';
+import {SkyButton, SkyCheckbox, SkyInput} from './';
 
 export default React.createClass({
 
@@ -21,7 +21,6 @@ export default React.createClass({
               value={identity.username}
               required
               validationError='Username is required.'
-              className='form-control'
               autoFocus />
           </Col>
         </Row>
@@ -32,18 +31,16 @@ export default React.createClass({
               name='password'
               placeholder='Password'
               required
-              validationError="Password is required."
-              className='form-control' />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12} className='help-block'>
-            <SkyInput type='hidden' name='error' value='' />
+              validationError="Password is required." />
           </Col>
         </Row>
         <Row>
           <Col xs={12} className='form-group'>
-            <button className='btn btn-sky' type='submit' disabled={this.props.identity.isRequesting}>Sign In</button>
+            <SkyButton
+              type='submit'
+              isPrimary
+              size='lg'
+              isDisabled={this.props.identity.isRequesting}>Sign In</SkyButton>
           </Col>
         </Row>
       </formsy.Form>

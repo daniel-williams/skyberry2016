@@ -1,9 +1,9 @@
 import React, {PropTypes} from 'react';
 import {Row, Col} from 'react-bootstrap';
 
-import {getBootstrapBreakpoint} from '../utils/BootstrapUtils';
+import {getBootstrapBreakpoint} from '../../utils/BootstrapUtils';
+import ImageLoader from '../ImageLoader';
 
-import ImageLoader from './ImageLoader';
 require('./ImageBoard.less');
 
 

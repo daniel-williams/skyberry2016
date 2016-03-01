@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import formsy from 'formsy-react';
 
-import {SkyInput, SkyTextArea} from './sky';
+import {SkyButton, SkyInput, SkyTextArea} from './';
 
 
 export default React.createClass({
@@ -32,15 +32,14 @@ export default React.createClass({
 
   render: function() {
     return (
-      <formsy.Form onSubmit={this.props.postContact} ref='form'>
+      <formsy.Form onValidSubmit={this.props.postContact} ref='form'>
         <Row>
           <Col xs={12}>
             <SkyInput
               type='text'
               name='name'
               label='Name'
-              value={this.getName().trim()}
-              className='form-control' />
+              value={this.getName().trim()} />
           </Col>
         </Row>
         <Row>
@@ -52,8 +51,7 @@ export default React.createClass({
               value={this.getEmail()}
               required
               validations="isEmail"
-              validationError="Email address is required."
-              className='form-control' />
+              validationError="Email address is required." />
           </Col>
         </Row>
         <Row>
@@ -69,7 +67,11 @@ export default React.createClass({
         </Row>
         <Row>
           <Col xs={12} className='form-group mt-half'>
-            <button className='btn btn-lg btn-sky' type='submit' disabled={this.isPosting()}>Send Message</button>
+            <SkyButton
+              type='submit'
+              isPrimary
+              size='lg'
+              isDisabled={this.isPosting()}>Send Message</SkyButton>
           </Col>
         </Row>
       </formsy.Form>

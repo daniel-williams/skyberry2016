@@ -1,13 +1,9 @@
-import SkyCheckbox from './SkyCheckbox';
-import SkyInput from './SkyInput';
+import SkyModal from './SkyModal';
 import SkyPager from './SkyPager';
 import SkyPlayer from './SkyPlayer';
-import SkyTextArea from './SkyTextArea';
 
 export {
-  SkyCheckbox,
-  SkyInput,
+  SkyModal,
   SkyPager,
   SkyPlayer,
-  SkyTextArea,
 }
