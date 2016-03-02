@@ -1,10 +1,18 @@
 import React, {PropTypes} from 'react';
+import classnames from 'classnames';
+
 
 export default React.createClass({
     displayName: 'ImageLoader',
 
     propTypes: {
-        src: PropTypes.string
+        src: PropTypes.string,
+        responsive: PropTypes.bool,
+    },
+    getDefaultProps: function() {
+      return {
+        responsive: true,
+      };
     },
     getInitialState: function() {
         return {
@@ -17,9 +25,12 @@ export default React.createClass({
         img.src = this.props.src;
     },
     render: function() {
-        var cssNames = this.state.loaded ? 'loaded' : 'loading';
-        if(this.props.className) cssNames = `${cssNames} ${this.props.className}`;
-        return <img {...this.props} className={cssNames} />;
+      const cssNames = classnames(this.props.className, {
+        loaded: this.state.loaded,
+        loading: !this.state.loaded,
+        'img-responsive': this.props.responsive,
+      });
+      return <img {...this.props} className={cssNames} />;
     },
 
 
