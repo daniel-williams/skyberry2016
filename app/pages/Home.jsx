@@ -5,6 +5,7 @@ import {toJS} from 'immutable';
 
 import constants from '../constants';
 import {CoverBillboard, ModalBox, ImageBoard, ImageLoader, SkyButton, SkyPlayer} from '../components';
+import {shuffle} from '../utils/CollectionUtils';
 
 
 export default React.createClass({
@@ -16,8 +17,13 @@ export default React.createClass({
   getFeaturedItems: function() {
     return this.props.featured.items;
   },
+  hasTestimonials: function() {
+    return this.props.testimonial.items.length > 0;
+  },
   getTestimonials: function() {
-    return this.props.testimonial.items.map(item => { return item.replace(/["]/g,''); }).map(item =>
+    if(!this.hasTestimonials()) { return []; }
+    const testimonials = shuffle(this.props.testimonial.items.slice(0));
+    return testimonials.map(item => { return item.replace(/["]/g,''); }).map(item =>
       <div className='quote'>
         <span className='before'><ImageLoader src='/content/images/quote.png' /></span>
         <span className='blockquote' dangerouslySetInnerHTML={{__html:item}} />
@@ -88,6 +94,8 @@ export default React.createClass({
   },
 
   renderTestimonials: function() {
+    if(!this.hasTestimonials()) { return false; }
+
     return (
       <section id='testimonials' className='mt-dbl'>
         <CoverBillboard imgSrc={constants.routes.images + 'jumbo3.jpg'} posY={30}  overlayOpacity={65} overlayColor='#fff' className='mt'>
