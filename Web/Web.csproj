@@ -252,10 +252,22 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="content\fonts\icomoon.css" />
     <Content Include="content\fonts\icomoon.svg" />
-    <Content Include="content\images\gold-dot.png" />
+    <Content Include="content\images\featured-client-city-of-beaverton.png" />
+    <Content Include="content\images\featured-client-clear-channel.png" />
+    <Content Include="content\images\featured-client-napa-auto-parts.png" />
+    <Content Include="content\images\featured-client-strideline.png" />
+    <Content Include="content\images\featured-client-tedx.png" />
+    <Content Include="content\images\paypal-payments.png" />
     <Content Include="content\images\portfolio-slug.png" />
+    <Content Include="content\images\quote.png" />
+    <Content Include="content\images\seattle-skyline.png" />
+    <Content Include="content\images\services-branding-logo-design.png" />
+    <Content Include="content\images\services-graphic-design-print-design.png" />
+    <Content Include="content\images\services-web-development-seo.png" />
+    <Content Include="content\images\services-website-design.png" />
     <Content Include="content\images\staff-daniel-williams.png" />
     <Content Include="content\images\staff-lacey-johnston.png" />
     <Content Include="content\images\jumbo6.jpg" />
@@ -268,6 +280,8 @@
     <Content Include="content\fonts\icomoon.eot" />
     <Content Include="content\fonts\icomoon.ttf" />
     <Content Include="content\fonts\icomoon.woff" />
+    <Content Include="content\styles\bootstrap.custom.min.css" />
+    <Content Include="content\styles\bootstrap.min.css" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -286,7 +300,6 @@
   <ItemGroup>
     <Folder Include="content\bundles\" />
     <Folder Include="content\scripts\" />
-    <Folder Include="content\styles\" />
     <Folder Include="Views\Contact\" />
     <Folder Include="Views\MyAccount\" />
     <Folder Include="Views\Subscribe\" />
@@ -307,6 +320,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="system.web-machinekey.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="content\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Properties\PublishProfiles\prod.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
