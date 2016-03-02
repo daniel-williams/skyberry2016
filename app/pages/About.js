@@ -19,7 +19,7 @@ export default React.createClass({
   },
   renderBillboard: function() {
     return (
-      <CoverBillboard imgSrc='/content/images/jumbo1.jpg'>
+      <CoverBillboard imgSrc='/content/images/jumbo1.jpg' overlayOpacity={30}>
         <ModalBox headline='Meet Skyberry'>
           <p>Creative and technical, Skyberry is focused on enabling the small business.</p>
           <SkyButton

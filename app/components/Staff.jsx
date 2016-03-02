@@ -48,7 +48,7 @@ export default React.createClass({
   renderImage: function() {
     if(this.props.imgSrc) {
       return (
-        <ImageLoader src={this.props.imgSrc} className='staff-img img-responsive' />
+        <ImageLoader src={this.props.imgSrc} className='staff-img' />
       );
     }
   },

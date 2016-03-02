@@ -67,10 +67,6 @@ export default React.createClass({
       return cssStyle;
   },
 
-  getImageClasses: function() {
-      return ('img-responsive');
-  },
-
   getImageStyle: function() {
       let cssStyle = {};
       return cssStyle;
@@ -101,7 +97,6 @@ export default React.createClass({
   renderRows: function() {
     const frameClasses = this.getFrameClasses();
     const frameStyle = this.getFrameStyle();
-    const imageClasses = this.getImageClasses();
     const imageStyle = this.getImageStyle();
     const rowCount = this.getRowCount();
     const colCount = this.props.columns[this.state.breakpoint];
@@ -109,21 +104,21 @@ export default React.createClass({
     for(let i = 1; i <= rowCount; i++) {
       rows.push(
         <div className='clearfix' key={i}>
-          {this.renderCols(i, colCount, frameClasses, frameStyle, imageClasses)}
+          {this.renderCols(i, colCount, frameClasses, frameStyle)}
         </div>
       );
     }
     return rows;
   },
 
-  renderCols: function(rowIndex, colCount, frameClasses, frameStyle, imageClasses) {
+  renderCols: function(rowIndex, colCount, frameClasses, frameStyle) {
     let itemOffset = (rowIndex * colCount) - colCount;
     let cols = [];
     for(let i = 0; i < colCount; i++) {
       let src = this.getImageSource(this.props.images[itemOffset + i]);
       cols.push(
         <div className={frameClasses} style={frameStyle} key={src + i}>
-          <ImageLoader src={src} className={imageClasses} />
+          <ImageLoader src={src} />
         </div>
       );
     }

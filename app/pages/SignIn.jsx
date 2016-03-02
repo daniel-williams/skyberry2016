@@ -23,7 +23,7 @@ export default React.createClass({
   },
   render: function() {
     return (
-      <CoverBillboard imgSrc={constants.routes.images + 'jumbo4.jpg'}>
+      <CoverBillboard imgSrc={constants.routes.images + 'jumbo4.jpg'} overlayOpacity={30}>
         <ModalBox headline='Client Sign In' overlay={true}>
           <SignInForm {...this.props}/>
         </ModalBox>

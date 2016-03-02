@@ -13,7 +13,7 @@ export default React.createClass({
   render: function () {
     return (
       <div id='contact'>
-        <CoverBillboard imgSrc={constants.routes.images + 'jumbo4.jpg'}>
+        <CoverBillboard imgSrc={constants.routes.images + 'jumbo2.jpg'} overlayOpacity={30}>
           <ModalBox headline='For a Good Time'>
             <div>
               <div className='center'>+1 503 272 1022</div>

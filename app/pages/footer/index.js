@@ -16,7 +16,7 @@ export default React.createClass({
     return (
       <section id='footer'>
 
-        <div className='ttl'>
+        <div>
           <Grid fluid={false}>
             {this.renderFooterTitle()}
           </Grid>
@@ -43,7 +43,9 @@ export default React.createClass({
   renderFooterTitle: function() {
     return (
       <Row>
-        <Col xs={12}><h1>We Love Connecting with New People</h1></Col>
+        <Col xs={12}>
+          <h1 className='ttl'>We Love Connecting with New People</h1>
+        </Col>
       </Row>
     );
   },
@@ -127,7 +129,7 @@ export default React.createClass({
         </div>
         <div className='col pull-right'>
           <div className='right' style={{verticleAlign:'bottom'}}>
-            <ImageLoader id='seattle-skyline' src='/content/images/seattle-skyline.png' className='img-responsive' />
+            <ImageLoader id='seattle-skyline' src='/content/images/seattle-skyline.png' />
           </div>
         </div>
       </Row>
@@ -150,5 +152,5 @@ export default React.createClass({
       window && window.scrollTo(0,0);
     }, 0);
   },
-  
+
 });

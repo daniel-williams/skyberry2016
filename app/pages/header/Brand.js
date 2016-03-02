@@ -17,7 +17,7 @@ export default React.createClass({
   },
 
   render: function () {
-    let item = this.props.src ? <ImageLoader src={this.props.src} className='img-responsive' style={{maxHeight:'100px'}} alt={this.props.title} />
+    let item = this.props.src ? <ImageLoader src={this.props.src} style={{maxHeight:'100px'}} alt={this.props.title} />
                               : <span>{this.props.title}</span>;
     return <h1 {...this.props}>{item}</h1>;
   },

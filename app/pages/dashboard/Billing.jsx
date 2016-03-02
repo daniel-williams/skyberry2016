@@ -4,7 +4,7 @@ import {Grid, Row, Col} from 'react-bootstrap';
 
 import {formatDate} from '../../utils/DateUtils';
 import {formatMoney} from '../../utils/MoneyUtils';
-import {Fetching, SkyButton} from '../../components';
+import {Fetching, ImageLoader, SkyButton} from '../../components';
 import AccountSelector from './AccountSelector';
 import './Billing.less';
 
@@ -189,7 +189,7 @@ export default React.createClass({
           </form>
         </div>
         <div className='pay-now'>
-          <img src='/content/images/paypal-payments.png' className='img-responsive' alt='PayPal payment options' />
+          <ImageLoader src='/content/images/paypal-payments.png' alt='PayPal payment options' />
         </div>
       </div>
     );
