@@ -35,14 +35,15 @@ html {
 body {
   font-family: 'proxima-nova-alt', 'sans-serif';
   background-color: @white;
-  color: @medium-gray;
+  // color: @medium-gray;
+  color: #555;
   font-size: @base-font-size;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'bebas-neue', 'sans-serif';
   // font-weight: normal;
-  color: @medium-gray;
+  color: #555;
   margin-top: 0;
   margin-bottom: 10px;
 }
@@ -80,6 +81,13 @@ h1, h2, h3, h4, h5, h6 {
   }
   .col-xxs-3 {
     width: 25%;
+  }
+
+  .hidden-xxs {
+    display: none;
+  }
+  .visible-xxs {
+    display: block;
   }
 }
 
@@ -347,35 +355,94 @@ img.loaded {
     opacity: 0.0;
 }
 
+#featured {
+  text-align: center;
+}
 
 #testimonials {
-  padding: 50px 20px;
-  color: @medium-gray;
 
-  .quote {
-    display: table-row;
+  .player-wrap {
+    padding: 50px 20px;
+    color: #555;
+
+    .quote {
+      display: table-row;
+    }
+    .blockquote, .before, .after {
+      position: relative;
+      display: table-cell;
+      vertical-align: top;
+    }
+    .blockquote {
+      padding: 0 30px;
+      font-size: 30px;
+      text-align: center;
+    }
+    .before, .after {
+      width: 30px;
+    }
+    .after {
+      vertical-align: bottom;
+    }
   }
-  .blockquote, .before, .after {
-    position: relative;
-    display: table-cell;
-    vertical-align: top;
+}
+@media (max-width: 767px) {
+  #testimonials .player-wrap .blockquote {
+      font-size: 26px;
   }
-  .blockquote {
-    padding: 0 30px;
-    font-size: 30px;
-    text-align: center;
-  }
-  .before, .after {
-    width: 30px;
-  }
-  .after {
-    vertical-align: bottom;
+}
+@media (max-width: 479px) {
+  #testimonials .player-wrap {
+    .blockquote {
+      font-size: 20px;
+    }
+    .before, .after {
+      display: none;
+    }
   }
 }
 
+#services {
+  h1.ttl {
+    margin-bottom: 20px;
+  }
+  .service {
+    margin-bottom: 40px;
+  }
+  .ttl {
+    text-align: center;
+  }
+  .img-button {
+    margin-bottom: 10px;
 
+    img {
+      margin: 0 auto;
+    }
+  }
+  p {
+    text-align: justify;
+  }
+}
 
+#relax {
 
+  .relax-wrap {
+    color: #555;
+    padding: 50px 50px 0;
+    text-align: center;
+
+    .ttl {
+      color: #555;
+    }
+    .featured-clients {
+
+      img {
+        margin: 0 30px 30px 0;
+        display: inline-block;
+      }
+    }
+  }
+}
 
 .as-bg {
     float: left;
