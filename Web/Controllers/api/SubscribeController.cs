@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Web.Http;
 using Web.Infrastructure;
 
@@ -10,18 +11,29 @@ namespace Web.Controllers.api
         [HttpPost]
         [SkyValidateModel]
         [Route("")]
-        public IHttpActionResult Index([FromBody]SubscribeBM subscribe)
+        public IHttpActionResult Index([FromBody]SubscribeBM model)
         {
-            if (subscribe == null)
+            if (model == null)
             {
                 ModelState.AddModelError("email", "Email is required.");
-                return new SkyApiBadRequest(Request, new SkyModelStateError(ModelState));
             }
 
-            // TODO: 1) send subscribe email
-            // TODO: 2) automate subscriptions via MailChimp api
+            if(ModelState.IsValid)
+            {
+                // 1) for now, send email with subscribe info
+                // TODO: 2) correspondence queue
+                // TODO: 3) automate subscriptions via MailChimp api
+                IDictionary<string, string> data = new Dictionary<string, string>();
+                data.Add("Email", model.Email);
 
-            return new SkyApiOkeydoke(Request);
+                MailService.SendForm(model.Email, "Skyberry Subscribe to Newsletter Form Submission", data);
+
+                return new SkyApiOkeydoke(Request);
+            }
+            else
+            {
+                return new SkyApiBadRequest(Request, new SkyModelStateError(ModelState));
+            }
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Http;
 using Web.Infrastructure;
@@ -11,18 +12,30 @@ namespace Web.Controllers.api
         [HttpPost]
         [SkyValidateModel]
         [Route("")]
-        public IHttpActionResult Index([FromBody]ContactBM contact)
+        public IHttpActionResult Index([FromBody]ContactBM model)
         {
-            if (contact == null) {
+            if (model == null) {
                 ModelState.AddModelError("email", "Email is required.");
                 ModelState.AddModelError("message", "Message is required.");
+            }
+
+            if(ModelState.IsValid)
+            {
+                // 1) for now, send email with contact information
+                // TODO: 2) correspondence queue
+                IDictionary<string, string> data = new Dictionary<string, string>();
+                data.Add("Name", model.Name);
+                data.Add("Email", model.Email);
+                data.Add("Message", model.Message);
+
+                MailService.SendForm(model.Email, "Skyberry Contact Form Submission", data);
+
+                return new SkyApiOkeydoke(Request);
+            }
+            else
+            {
                 return new SkyApiBadRequest(Request, new SkyModelStateError(ModelState));
             }
-            // TODO: 1) for now, send email with contact information
-
-            // TODO: 2) correspondence queue
-
-            return new SkyApiOkeydoke(Request);
         }
     }
 
