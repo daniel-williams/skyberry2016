@@ -58,7 +58,7 @@ export default React.createClass({
           <Col xs={12}>
             <SkyTextArea
               name='message'
-              label={'What is on your mind?'}
+              label={`What's on your mind?`}
               value={this.getMessage()}
               required
               validationError="Message is required."

@@ -2,7 +2,7 @@
 export default {
   subscribe: {
     active: false,
-    delay: 600000000000000,
+    delay: 5000,
   },
 
   keys: {
@@ -21,7 +21,7 @@ export default {
   portfolio: {
     options: [
         {name: 'Print & Graphic Design', value: 'print'},
-        {name: 'Brand & Identity', value: 'logo'},
+        {name: 'Branding & Logo Design', value: 'logo'},
         {name: 'Web & Apps', value: 'web'},
     ],
     selected: 'print',
@@ -31,7 +31,7 @@ export default {
   links: {
       lacey: [
           {title: 'linkedin', alt:'Lacey on LinkedIn', url: 'https://www.linkedin.com/in/laceyjohnston'},
-          {title: 'behance', alt:'Lacey on Behance', url: 'https://behance.com/laceyjohnston'},
+          {title: 'behance', alt:'Lacey on Behance', url: 'https://behance.net/laceyjohnston'},
           {title: 'creativepool', alt: 'Lacey on CreativePool', url: 'http://creativepool.com/laceyjohnston'},
       ],
       daniel: [

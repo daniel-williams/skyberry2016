@@ -110,24 +110,23 @@ export default React.createClass({
     const p = this.props.project;
     const now = Date.now();
     const start = new Date(p.startDate);
-    const est = new Date(p.estimatedCompletionDate);
-    const completed = new Date(p.completionDate);
     const begin = now < start
-      ? <Brick>starting: {formatDate(start)}</Brick>
-      : <Brick>started: {formatDate(start)}</Brick>;
-    const done = !!completed
-      ? <Brick>Completed: {formatDate(completed)}</Brick>
-      : <Brick>Completion: {formatDate(completed)} (estimated)</Brick>;
+      ? <Brick>Starting: {formatDate(start)}</Brick>
+      : <Brick>Started: {formatDate(start)}</Brick>;
+    const done = !!p.completionDate
+      ? <Brick>Completed: {formatDate(p.completionDate)}</Brick>
+      : <Brick>Completion: {formatDate(p.estimatedCompletionDate)} (estimated)</Brick>;
 
     return (
       <Row id='project-details'>
-        <Col xs={12}><h2>{p.name}</h2></Col>
-        <Col xs={12} className='mb'>
+        <Col xs={12}><h2 className='ttl'>{p.name}</h2></Col>
+        <Col xs={12} className='mb-half'>
             <Row className='dates'>
                 {begin}
                 {done}
             </Row>
         </Col>
+        <Col xs={12} className='mb'><div dangerouslySetInnerHTML={{__html:p.description}} /></Col>
         <Col sm={6} xs={12}>
           <Row>
             <Col md={6} xs={12} className='mb'>

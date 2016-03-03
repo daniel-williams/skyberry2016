@@ -76,7 +76,10 @@ export default React.createClass({
     return items.sort((a,b) => {
       const da = a.date.getTime();
       const db = b.date.getTime();
-      return db < da ? -1 : db > da ? 1 : 0;
+      // by date then type desc
+      return da === db
+        ? a.type < b.type ? 1 : a.type > b.type ? -1 : 0
+        : db < da ? -1 : 1;
     });
   },
   getBalance: function() {

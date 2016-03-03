@@ -23,7 +23,7 @@ export default React.createClass({
       <div id='portfolio'>
         <Grid fluid={true}>
           <Row>
-            <Col xs={12} align='center'>
+            <Col xs={12} className='center'>
               <h1>Featured Works</h1>
             </Col>
           </Row>

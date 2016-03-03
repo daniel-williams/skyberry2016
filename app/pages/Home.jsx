@@ -6,10 +6,17 @@ import {toJS} from 'immutable';
 import constants from '../constants';
 import {CoverBillboard, ModalBox, ImageBoard, ImageLoader, SkyButton, SkyPlayer} from '../components';
 import {shuffle} from '../utils/CollectionUtils';
+import Consultation from './Consultation';
 
 
 export default React.createClass({
   displayName: 'Home',
+
+  getInitialState: function() {
+    return {
+      isConsultationVisible: false,
+    };
+  },
 
   hasFeaturedItems: function() {
     return this.props.featured.items.length > 0;
@@ -22,12 +29,15 @@ export default React.createClass({
   },
   getTestimonials: function() {
     if(!this.hasTestimonials()) { return []; }
+    // const testimonials = ['looks great - thanks'];
     const testimonials = shuffle(this.props.testimonial.items.slice(0));
-    return testimonials.map(item => { return item.replace(/["]/g,''); }).map(item =>
+    return testimonials.map(item => { return item.replace(/["]/g,''); }).map(item => { return item.replace(/ - /g, '<br />- ')}).map(item =>
       <div className='quote'>
-        <span className='before'><ImageLoader src='/content/images/quote.png' /></span>
-        <span className='blockquote' dangerouslySetInnerHTML={{__html:item}} />
-        <span className='after'><ImageLoader src='/content/images/quote.png' /></span>
+        <div className='quote-inner'>
+          <span className='before'><ImageLoader src='/content/images/quote.png' /></span>
+          <span className='blockquote' dangerouslySetInnerHTML={{__html:item}} />
+          <span className='after'><ImageLoader src='/content/images/quote.png' /></span>
+        </div>
       </div>
     );
   },
@@ -61,7 +71,7 @@ export default React.createClass({
           <SkyButton
             isPrimary
             size='lg'
-            onClick={() => console.log('clickie click!')}>Get your Free Project Consultation</SkyButton>
+            onClick={this.toggleConsultation}>Get your Free Project Consultation</SkyButton>
         </ModalBox>
       </CoverBillboard>
     );
@@ -99,8 +109,10 @@ export default React.createClass({
     return (
       <section id='testimonials' className='mt-dbl'>
         <CoverBillboard imgSrc={constants.routes.images + 'jumbo3.jpg'} posY={30}  overlayOpacity={65} overlayColor='#fff' className='mt'>
-          <div className='player-wrap'>
+          <div className='player-wrap-outer'>
+          <div className='player-wrap-inner'>
             <SkyPlayer items={this.getTestimonials()} duration={15000} />
+          </div>
           </div>
         </CoverBillboard>
       </section>
@@ -127,8 +139,7 @@ export default React.createClass({
                 <Col sm={6} xs={12} className='service'>
                   <h2 className='ttl'>Graphic & Print Design</h2>
                   <div className='img-button'><ImageLoader src='/content/images/services-graphic-design-print-design.png' /></div>
-                  <p>Skyberry produces artwork that is hand-drawn and created specifically for our clients unique needs.</p>
-                  <p>We design stationery, collateral, catalogs, posters, advertisements or anything else you might need.</p>
+                  <p>Skyberry produces hand drawn artwork and pixel perfect design created specifically for our clients unique needs. We design stationery, collateral, catalogs, posters, advertisements or anything else you might need.</p>
                 </Col>
               </Row>
             </Col>
@@ -137,7 +148,7 @@ export default React.createClass({
                 <Col sm={6} xs={12} className='service'>
                   <h2 className='ttl'>Website Design</h2>
                   <div className='img-button'><ImageLoader src='/content/images/services-website-design.png' /></div>
-                  <p>Here, creative talent combines with technical know-how to create smart, responsive and user-friendly websites based on the most up-to-date industry standards & trends.</p>
+                  <p>Here, creative talent combines with technical know-how to create smart, responsive and user-friendly websites. Our custom designs are targeted to your audience and are based on the most up-to-date industry standards & trends.</p>
                 </Col>
                 <Col sm={6} xs={12} className='service'>
                   <h2 className='ttl'>Web Development & SEO</h2>
@@ -155,10 +166,10 @@ export default React.createClass({
   renderRelax: function() {
     return (
       <section id='relax'>
-        <CoverBillboard imgSrc={constants.routes.images + 'jumbo6.jpg'} posY={70} overlayOpacity={40}>
+        <CoverBillboard imgSrc={constants.routes.images + 'jumbo6.jpg'} posY={70} overlayOpacity={60}>
           <div className='relax-wrap'>
             <h1 className='ttl'>Relax, You'll Enjoy Working With Skyberry</h1>
-            <p>Need a project done right? We go to great lengths to make you look like the hero! Our clients seems to approve, too. Many of Skyberry's clients came to us through referals!</p>
+            <p>Need a project done right? We go to great lengths to make you look like the hero! Many of Skyberry's clients came to us through referrals!</p>
             <div className='featured-clients'>
               <ImageLoader src='/content/images/featured-client-city-of-beaverton.png' />
               <ImageLoader src='/content/images/featured-client-clear-channel.png' />
@@ -170,6 +181,13 @@ export default React.createClass({
         </CoverBillboard>
       </section>
     );
+  },
+
+
+  toggleConsultation: function() {
+    this.setState({
+      isConsultationVisible: !this.state.isConsultationVisible,
+    });
   },
 
 });

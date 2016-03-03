@@ -38,9 +38,9 @@ export default React.createClass({
         <Row className='mt-dbl'>
           <Col sm={6} xs={12}>
             <Staff name='Lacey Johnston' title='I produce meaningful design that communicates ideas' imgSrc='/content/images/staff-lacey-johnston.png'>
-              <p>Lacey Johnston founded Skyberry in 2006, with a passion for great design, an abundance of creativity, and a drive to exhaust every pencil she comes into contact with. She is also Co-Founder of DesignOBot, an online service for Creative Professionals.</p>
-              <p>After attending Portland Community College, Lacey began a career in executive administration and human resources. Feeling the creative itch and growing restless, she decided to pursue her dreams in graphic & print design. Now, with years of award winning design and publications, she continues to do what she loves, every day. Her areas of expertise are in brand identity design, print collateral, web design and illustration.</p>
-              <p>When she's not in the studio designing, you might find Lacey swimming at the local gym, working with paper crafts, golfing, cooking, or gaming.</p>
+              <p>Lacey Johnston has a passion for minimalist, modern design and routinely is studying the latest trends to spark creativity. She finds joy in building someone’s brand and takes great pride in seeing her work come to life in a retail showroom or nationally distributed catalog.</p>
+              <p>After attending Portland Community College in 2005, Lacey began a career in executive administration, which she thrived in thanks to her organization and communication skills, as well as her ability to streamline daily procedures.  Once she became well-versed in business management & start-ups, she decided to try her hand at starting her own business and in 2006, Lacey founded Skyberry Studio.  Now, with years of award winning design and publications, she continues to do what she loves every day at Skyberry. Her areas of expertise are in brand identity design, print collateral, web design and video editing.</p>
+              <p>When she’s not in the studio, you might find Lacey swimming at the local gym, golfing, cooking, or gaming. Lacey is originally from the Portland Oregon area and she currently lives in Seattle Washington.</p>
             </Staff>
           </Col>
           <Col xs={12} className='staff-connect visible-xs xs-center'>
@@ -103,13 +103,6 @@ export default React.createClass({
                 <p>For over 10 years, team Skyberry has been helping clients with brand identity and graphic design needs. Skyberry has almost 20 years of experience developing mission critial apps and websites!</p>
               </Col>
             </Row>
-          </Col>
-        </Row>
-        <Row className='mt'>
-          <Col xs={12} align='center'>
-            <SkyButton
-              isPrimary
-              size='lg'>Get your Free Project Consultation</SkyButton>
           </Col>
         </Row>
       </Grid>

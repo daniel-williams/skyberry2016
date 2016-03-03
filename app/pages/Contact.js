@@ -14,7 +14,7 @@ export default React.createClass({
     return (
       <div id='contact'>
         <CoverBillboard imgSrc={constants.routes.images + 'jumbo2.jpg'} overlayOpacity={30}>
-          <ModalBox headline='For a Good Time'>
+          <ModalBox headline='Give Us a Shout'>
             <div>
               <div className='center'>+1 503 272 1022</div>
               <div className='center mb'><a href='mailto:contact@skyberrystudio.com'>contact@skyberrystudio.com</a></div>

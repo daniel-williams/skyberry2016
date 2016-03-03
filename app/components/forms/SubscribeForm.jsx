@@ -29,13 +29,13 @@ export default React.createClass({
       <Formsy.Form onValidSubmit={this.props.onSubmit}>
         <Row>
           <Col xs={12} className='mb'>
-            <SkyInput name="email"
+            <SkyInput
+              name="email"
               value={this.props.email}
               required
               validations="isEmail"
               validationError="A valid email address is required."
-              placeholder='Email Address'
-              className='form-control' />
+              placeholder='Email Address' />
           </Col>
         </Row>
         <Row>

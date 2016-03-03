@@ -48,25 +48,22 @@ export default React.createClass({
     let btnState = this.getButtonState();
     return (
       <Formsy.Form onValidSubmit={this.props.postSubscribe}>
-        <Row>
-          <Col xs={12} className='mb'>
             <SkyInput name="email"
               value={this.props.email}
               required
               validations="isEmail"
               validationError="A valid email address is required."
-              placeholder='Email Address'
-              className='form-control' />
-          </Col>
-        </Row>
+              placeholder='Email Address' />
         <Row>
           <div className='col mb-half'>
             <SkyButton
               isPrimary
+              size='lg'
               type='submit'>Subscribe Now</SkyButton>
           </div>
           <div className='col mb-half'>
             <SkyButton
+              size='lg'
               onClick={this.handleClose}>Maybe Later</SkyButton>
           </div>
         </Row>
@@ -77,11 +74,12 @@ export default React.createClass({
     return (
       <Row>
         <Col xs={12} className='mb'>
-          <h3>Okeydoke!</h3>
+          <h2>Okeydoke!</h2>
           <p>You will occasionally receive news and announcements at <span className='b'>{this.props.subscribe.email}</span>. Thank you for your interest in Skyberry Studio. We love what we do and would be here without you!</p>
         </Col>
         <Col xs={12}>
           <SkyButton
+            size='lg'
             onClick={this.handleClose}>Close</SkyButton>
         </Col>
       </Row>
