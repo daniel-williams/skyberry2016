@@ -26,7 +26,7 @@ export default React.createClass({
 
   render: function() {
     return (
-      <Modal ref='modal' show={this.showSubscribe()} backdrop='static'>
+      <Modal ref='modal' show={this.props.show} backdrop='static'>
         <Modal.Header>
           <div className='sky-modal-header'>
             {this.props.header}
