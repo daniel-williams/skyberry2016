@@ -218,6 +218,7 @@
     <Compile Include="Controllers\api\UserController.cs" />
     <Compile Include="Controllers\api\_BaseApiController.cs" />
     <Compile Include="Controllers\api\SubscribeController.cs" />
+    <Compile Include="Infrastructure\MailService.cs" />
     <Compile Include="Infrastructure\SkyBodyModelValidator.cs" />
     <Compile Include="Infrastructure\SkyModelStateError.cs" />
     <Compile Include="Infrastructure\SkyExcpetionFilterAttribute.cs" />
