@@ -207,6 +207,7 @@
     <Compile Include="Controllers\api\ApiHelpers\SkyApiOkeydoke.cs" />
     <Compile Include="Controllers\api\ApiHelpers\SkyApiBadRequest.cs" />
     <Compile Include="Controllers\api\ApiHelpers\SkyApiResult.cs" />
+    <Compile Include="Controllers\api\ConsultationController.cs" />
     <Compile Include="Controllers\api\ContactController.cs" />
     <Compile Include="Controllers\api\DocumentsController.cs" />
     <Compile Include="Controllers\api\ApiHelpers\SkyApiNotFound.cs" />
