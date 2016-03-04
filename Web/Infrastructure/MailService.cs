@@ -46,7 +46,9 @@ namespace Web.Infrastructure
         public static bool sendEmail(string from, string subject, string body)
         {
             MailMessage message = new MailMessage();
-            message.From = new MailAddress(from);
+            message.From = from == null
+                ? new MailAddress("no-reply@skyberrystudio.com", "No Email Address")
+                : new MailAddress(from);
             message.To.Add(new MailAddress(WebConfigurationManager.AppSettings["SUBMISSIONS_EMAIL"]));
             message.Subject = subject;
             message.IsBodyHtml = true;
