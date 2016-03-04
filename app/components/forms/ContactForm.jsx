@@ -50,8 +50,8 @@ export default React.createClass({
               label='Email'
               value={this.getEmail()}
               required
-              validations="isEmail"
-              validationError="Email address is required." />
+              validations='isEmail'
+              validationError='Email address is required.' />
           </Col>
         </Row>
         <Row>
@@ -61,7 +61,7 @@ export default React.createClass({
               label={`What's on your mind?`}
               value={this.getMessage()}
               required
-              validationError="Message is required."
+              validationError='Message is required.'
               className='form-control' />
           </Col>
         </Row>

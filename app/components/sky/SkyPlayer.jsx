@@ -51,14 +51,11 @@ export default React.createClass({
 
   setNextTimer: function() {
     if(nextTimer != null) {
-      console.log('clearInterval');
       clearInterval(nextTimer);
     }
-    console.log('setNextTimer');
     nextTimer = setInterval(this.nextSlide, this.props.duration);
   },
   nextSlide: function() {
-    console.log('NEXT SLIDE');
     let current = this.state.current + 1;
     if(current >= this.props.items.length) {
       current = 0;
