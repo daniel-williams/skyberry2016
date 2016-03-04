@@ -2,6 +2,7 @@ import {Map} from 'immutable';
 
 import account from './account';
 import blog from './blog';
+import consultation from './consultation';
 import contact from './contact';
 import identity from './identity';
 import featured from './featured';
@@ -21,6 +22,7 @@ export default function(state = initialState, action) {
   return Map({
     account: account(state.get('account'), action),
     blog: blog(state.get('blog'), action),
+    consultation: consultation(state.get('consultation'), action),
     contact: contact(state.get('contact'), action),
     featured: featured(state.get('featured'), action),
     identity: identity(state.get('identity'), action),
