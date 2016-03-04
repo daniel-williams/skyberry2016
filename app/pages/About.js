@@ -24,7 +24,8 @@ export default React.createClass({
           <p>Creative and technical, Skyberry is focused on enabling the small business.</p>
           <SkyButton
             isPrimary
-            size='lg'>Watch Video</SkyButton>
+            size='lg'
+            onClick={() => window.open('https://www.youtube.com/user/SkyberryStudio', '_blank')}>Watch Videos</SkyButton>
         </ModalBox>
       </CoverBillboard>
     );
@@ -38,9 +39,9 @@ export default React.createClass({
         <Row className='mt-dbl'>
           <Col sm={6} xs={12}>
             <Staff name='Lacey Johnston' title='I produce meaningful design that communicates ideas' imgSrc='/content/images/staff-lacey-johnston.png'>
-              <p>Lacey Johnston has a passion for minimalist, modern design and routinely is studying the latest trends to spark creativity. She finds joy in building someone’s brand and takes great pride in seeing her work come to life in a retail showroom or nationally distributed catalog.</p>
-              <p>After attending Portland Community College in 2005, Lacey began a career in executive administration, which she thrived in thanks to her organization and communication skills, as well as her ability to streamline daily procedures.  Once she became well-versed in business management & start-ups, she decided to try her hand at starting her own business and in 2006, Lacey founded Skyberry Studio.  Now, with years of award winning design and publications, she continues to do what she loves every day at Skyberry. Her areas of expertise are in brand identity design, print collateral, web design and video editing.</p>
-              <p>When she’s not in the studio, you might find Lacey swimming at the local gym, golfing, cooking, or gaming. Lacey is originally from the Portland Oregon area and she currently lives in Seattle Washington.</p>
+              <p>Lacey Johnston has a passion for minimalist, modern design and routinely monitors the latest trends to spark creativity. She finds great joy in building brand identities and takes pride in seeing her work come to life.</p>
+              <p>After attending Portland Community College, Lacey began a career in executive administration. She thrived in that role thanks to her organization and communication skills, as well as her ability to streamline daily procedures. After becoming well-versed in business management & start-ups, she decided to try her hand at starting her own business. In 2006, Lacey founded Skyberry Studio.  Now, with years of award-winning designs and publications, she continues to do what she loves. Her areas of expertise are branding, print & graphic design, web design and video editing.</p>
+              <p>When she’s not in the studio, you might find Lacey swimming at the local gym, golfing, cooking, or gaming. Originally from the Portland area, Lacey currently lives in Seattle Washington.</p>
             </Staff>
           </Col>
           <Col xs={12} className='staff-connect visible-xs xs-center'>
@@ -50,6 +51,7 @@ export default React.createClass({
           <Col sm={6} xs={12}>
             <Staff name='Daniel Williams' title='I solve business problems using technology' imgSrc='/content/images/staff-daniel-williams.png'>
               <p>Having held the position of Technical Director at numerous companies, including Landacorp, Multimedia Resources Inc., High Technology Solutions, and Coffey Communications, Daniel Williams brings a wealth of knowledge and experience to Skyberry Studio. Drawing on expertise from diverse spaces such as healthcare, content management, client relationship management, digital advertising, content distribution, finance and commerce, Daniel has been architecting end-to-end solutions for almost two decades.</p>
+              <p>Daniel is a full-stack developer and has advanced knowledge of both client and server side technologies. Daniel's current focus is on responsive SPA type web applications, using frameworks like React and AngularJS, building backend APIs, and streamlining development processes.</p>
               <p>Daniel is a Microsoft Certified Professional (MCP) & Certified Solutions Expert (MCSE+I). At Oregon Institute of Technology, he studied Laser Electro-Optical Technology. He enjoys cooking, reading, gaming, and oh yes, coffee.</p>
             </Staff>
           </Col>

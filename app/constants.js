@@ -1,8 +1,8 @@
 
 export default {
   subscribe: {
-    active: false,
-    delay: 5000,
+    active: true,
+    delay: 120000,
   },
 
   keys: {
