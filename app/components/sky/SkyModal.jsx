@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Modal, Grid, Row, Col} from 'react-bootstrap';
 
-import {Icon} from '../icons/Icon';
+import {SkyButton, Icon} from '../';
 import './SkyModal.less';
 
 export default React.createClass({
@@ -30,9 +30,9 @@ export default React.createClass({
         <Modal.Header>
           <div className='sky-modal-header'>
             {this.props.header}
-          </div>
-          <div className='sky-modal-close'>
-            <a onClick={this.handleClose} className='modal-close-icon icon'><Icon name='sky-close' /></a>
+            <div className='sky-modal-close'>
+              {this.renderClose()}
+            </div>
           </div>
         </Modal.Header>
         <Modal.Body>
@@ -43,18 +43,25 @@ export default React.createClass({
         <Modal.Footer>
           <div className='sky-modal-footer'>
             {this.props.footer}
-          </div>
-          <div className='sky-modal-close'>
-            <a onClick={this.handleClose} className='modal-close-icon icon'><Icon name='sky-close' /></a>
+            <div className='sky-modal-close'>
+              {this.renderClose()}
+            </div>
           </div>
         </Modal.Footer>
       </Modal>
     );
   },
 
-  handleClose: function(e) {
-    e.preventDefault();
-    this.props.onClose();
+  renderClose: function() {
+    return (
+      <SkyButton
+        onClick={this.props.onClose}>Close</SkyButton>
+    );
   },
+
+  // handleClose: function(e) {
+  //   e.preventDefault();
+  //   this.props.onClose();
+  // },
 
 });
