@@ -7,9 +7,17 @@ export default React.createClass({
 
   propTypes: {
     label: PropTypes.string,
+    onChange: PropTypes.func,
   },
+  getDefaultProps: function() {
+    return {
+      onChange: function() {},
+    };
+  },
+
   changeValue: function (event) {
     this.setValue(event.currentTarget.value);
+    this.props.onChange(event);
   },
   componentDidMount: function() {
     this.autoGrow(this.refs.el);
@@ -32,7 +40,9 @@ export default React.createClass({
           value={this.getValue()}
           onChange={this.changeValue}
           onkeyup='autoGrow(this)'
-          ref='el'></textarea>
+          ref='el'
+          className='form-control'
+          required={this.props.required}></textarea>
         {errorMessage}
       </div>
     );
