@@ -3,18 +3,18 @@ import {Route, IndexRoute} from 'react-router';
 import {requireAuthentication} from '../containers/AuthenticatedComponent';
 
 // containers
-import Root from '../containers/Root';
-import Main from '../containers/Main';
-import Home from '../containers/Home';
-import Blog from '../containers/Blog';
-import Portfolio from '../containers/Portfolio';
-import Contact from '../containers/Contact';
-import SignIn from '../containers/SignIn';
-import SignOut from '../containers/SignOut';
-import Projects from '../containers/Projects';
-import Billing from '../containers/Billing';
-import Settings from '../containers/Settings';
-import DesignReview from '../containers/DesignReview';
+import BillingContainer from '../containers/BillingContainer';
+import BlogContainer from '../containers/BlogContainer';
+import ContactContainer from '../containers/ContactContainer';
+import DesignReviewContainer from '../containers/DesignReviewContainer';
+import HomeContainer from '../containers/HomeContainer';
+import MainContainer from '../containers/MainContainer';
+import PortfolioContainer from '../containers/PortfolioContainer';
+import ProjectsContainer from '../containers/ProjectsContainer';
+import RootContainer from '../containers/RootContainer';
+import SettingsContainer from '../containers/SettingsContainer';
+import SignInContainer from '../containers/SignInContainer';
+import SignOutContainer from '../containers/SignOutContainer';
 
 // pages
 import Dashboard from '../pages/dashboard/Dashboard';
@@ -25,24 +25,24 @@ import {reviewResetUi} from '../actions/reviewActionCreators';
 
 
 const routes = (
-    <Route component={Root}>
-      <Route component={Main}>
-        <Route path='/' component={Home} />
+    <Route component={RootContainer}>
+      <Route component={MainContainer}>
+        <Route path='/' component={HomeContainer} />
         <Route path='/about' component={About} />
-        <Route path='/portfolio' component={Portfolio} />
-        <Route path='/blog' component={Blog}>
-          <Route path='/blog/:articleSlug' component={Blog} />
+        <Route path='/portfolio' component={PortfolioContainer} />
+        <Route path='/blog' component={BlogContainer}>
+          <Route path='/blog/:articleSlug' component={BlogContainer} />
         </Route>
-        <Route path='/contact' component={Contact} />
-        <Route path='/dashboard/sign-in' component={SignIn} />
-        <Route path='/dashboard/sign-out' component={SignOut} />
+        <Route path='/contact' component={ContactContainer} />
+        <Route path='/dashboard/sign-in' component={SignInContainer} />
+        <Route path='/dashboard/sign-out' component={SignOutContainer} />
         <Route path='/dashboard' component={requireAuthentication(Dashboard)}>
-          <Route path='billing(/:aSlug)' component={Billing} />
-          <Route path='projects' component={Projects} />
-          <Route path='projects/:aSlug/:pSlug' component={Projects}>
-            <Route path=':rSlug' component={DesignReview} onEnter={() => store.dispatch(reviewResetUi())} />
+          <Route path='billing(/:aSlug)' component={BillingContainer} />
+          <Route path='projects' component={ProjectsContainer} />
+          <Route path='projects/:aSlug/:pSlug' component={ProjectsContainer}>
+            <Route path=':rSlug' component={DesignReviewContainer} onEnter={() => store.dispatch(reviewResetUi())} />
           </Route>
-          <Route path='Settings' component={Settings} />
+          <Route path='Settings' component={SettingsContainer} />
         </Route>
       </Route>
     </Route>

@@ -21,7 +21,7 @@ export default React.createClass({
     return (
       <CoverBillboard imgSrc='/content/images/jumbo1.jpg' overlayOpacity={30}>
         <ModalBox headline='Meet Skyberry'>
-          <p>Creative and technical, Skyberry is focused on enabling the small business.</p>
+          <p>Armed with oodles of creativity, modern cultural sensibilities, and undying technology obsession, Skyberry stands uniquely poised to inject your business with hip design, and cutting-edge development.</p>
           <SkyButton
             isPrimary
             size='lg'

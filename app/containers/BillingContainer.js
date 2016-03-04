@@ -30,7 +30,7 @@ function mapStateToProps(state, ownProps) {
 
   return {
     isFetching: state.getIn(['account', 'isFetching']),
-    isFetching: state.getIn(['account', 'isFetchingDetails']),
+    isFetchingDetails: state.getIn(['account', 'isFetchingDetails']),
     hasFetchedAccounts: hasFetchedAccounts,
     accountOptions: accountOptions,
     accountSlug: accountSlug,
