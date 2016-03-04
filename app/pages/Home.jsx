@@ -14,7 +14,7 @@ export default React.createClass({
 
   getInitialState: function() {
     return {
-      isConsultationVisible: false,
+      showConsultation: false,
     };
   },
 
@@ -59,6 +59,12 @@ export default React.createClass({
         {this.renderTestimonials()}
         {this.renderServices()}
         {this.renderRelax()}
+        <Consultation
+          consultation={this.props.consultation}
+          show={this.state.showConsultation}
+          onClose={this.hideConsultation}
+          onSubmit={this.props.postConsultation}
+          onReset={this.props.resetConsultation} />
       </div>
     );
   },
@@ -71,7 +77,7 @@ export default React.createClass({
           <SkyButton
             isPrimary
             size='lg'
-            onClick={this.toggleConsultation}>Get your Free Project Consultation</SkyButton>
+            onClick={this.showConsultation}>Get your Free Project Consultation</SkyButton>
         </ModalBox>
       </CoverBillboard>
     );
@@ -184,9 +190,14 @@ export default React.createClass({
   },
 
 
-  toggleConsultation: function() {
+  showConsultation: function() {
     this.setState({
-      isConsultationVisible: !this.state.isConsultationVisible,
+      showConsultation: true,
+    });
+  },
+  hideConsultation: function() {
+    this.setState({
+      showConsultation: false,
     });
   },
 

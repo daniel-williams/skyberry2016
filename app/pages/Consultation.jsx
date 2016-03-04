@@ -9,38 +9,65 @@ export default React.createClass({
   displayName: 'Consultation',
 
   propTypes: {
-    isVisible: PropTypes.bool,
+    consultation: PropTypes.any,
+    show: PropTypes.bool,
+    onClose: PropTypes.func,
+    onSubmit: PropTypes.func,
+    onReset: PropTypes.func,
   },
   getDefaultProps: function() {
     return {
-      isVisible: false,
+      consultation: {},
+      show: false,
+      onClose: function() {},
+      onSubmit: function() {},
+      onReset: function() {},
     };
   },
 
   render: function() {
     return (
       <SkyModal
-        isVisible={true}
+        show={this.props.show}
         header={this.renderHeader()}
-        body={this.renderBody()}
-        footer={this.renderFooter()} />
+        body={
+          this.props.consultation.hasPosted
+          ? this.renderThankYou()
+          : this.renderConsultationForm()
+        }
+        onClose={this.props.onClose} />
     );
   },
 
   renderHeader: function() {
     return (
-      <div>Header</div>
+      <div>
+        <h1>Free Consultation Request Form</h1>
+      </div>
     );
   },
-  renderBody: function() {
+  renderConsultationForm: function() {
     return (
-      <ConsultationForm onSubmit={() => console.log('Submitting Consultation Form.')} />
+      <div>
+        <p className='mb'>Please tell us about your project and how we should contact you.</p>
+        <ConsultationForm
+          {...this.props.consultation.formData}
+          errors = {this.props.consultation.error}
+          onSubmit={this.props.onSubmit} />
+      </div>
     );
   },
-  renderFooter: function() {
+  renderThankYou: function() {
     return (
-      <div>Footer</div>
-    );
-  },
+      <div>
+        <h2>Super Fantastic!</h2>
+        <p>Skyberry has received your request and will get back to you shortly!</p>
+        <div className='mt'>
+          Have <a onClick={this.props.onReset}>more to say</a>?
+        </div>
+      </div>
+    )
+  }
+
 
 });
