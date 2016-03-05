@@ -28,7 +28,9 @@ export default {
 function updatingUsername(formData) {
   return {
     type: actions.UPDATING_USERNAME,
-    payload: formData,
+    payload: {
+      formData: formData,
+    } ,
   };
 }
 

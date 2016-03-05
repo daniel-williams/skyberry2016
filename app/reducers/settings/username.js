@@ -2,23 +2,23 @@ import {fromJS, Map} from 'immutable';
 
 import * as actions from '../../actions/settings/usernameActions';
 
-const initialData = {
+const initialFormData = fromJS({
   newUsername: null,
   confirmUsername: null,
-};
+});
 const initialState = fromJS({
-  data: initialData,
   isUpdating: false,
   hasUpdated: false,
   error: null,
+  formData: initialFormData,
 });
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case actions.UPDATE_USERNAME: {
+    case actions.UPDATING_USERNAME: {
       return state.withMutations(state => {
         state.set('isUpdating', true);
-        state.set('data', action.payload);
+        state.set('formData', action.payload.formData);
         return state;
       });
     }
@@ -28,7 +28,7 @@ export default function(state = initialState, action) {
         state.set('hasUpdated', true);
         state.set('date', action.payload.date);
         state.set('error', null);
-        state.set('data', initialData);
+        state.set('data', initialFormData);
         return state;
       });
     }
