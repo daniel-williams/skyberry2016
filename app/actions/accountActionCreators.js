@@ -6,7 +6,8 @@ import * as accountActions from './accountActions';
 export function fetchAccountAsNeeded(slug) {
   return function(dispatch, getState) {
     const state = getState();
-    let id = null;
+    let id;
+
     try {
       id = state.getIn(['account', 'accountMap', slug, 'id']);
     } catch(e) {}

@@ -24,7 +24,7 @@ export default React.createClass({
   },
   fetchAsNeeded: function(useProps) {
     const props = useProps || this.props;
-    if(!props.isFetching && !props.hasFetchedProject && !!props.accountSlug) {
+    if(!props.isFetching && !props.isFetchingDetails && !props.hasFetchedProject && !!props.accountSlug) {
       props.fetchAccountAsNeeded(props.accountSlug);
     }
   },
