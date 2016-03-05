@@ -28,7 +28,9 @@ export default {
 function updatingEmail(formData) {
   return {
     type: actions.UPDATING_EMAIL,
-    payload: formData,
+    payload: {
+      formData: formData,
+    },
   };
 }
 
