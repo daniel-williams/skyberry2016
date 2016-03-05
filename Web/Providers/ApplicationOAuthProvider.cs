@@ -40,10 +40,9 @@ namespace Web.Providers
                 user = await userManager.FindByEmailAsync(context.UserName);
             }
 
-            // TODO djw: remove backdoor
-
             // reject if we didn't find the user OR a valid password wasn't supplied
-            if(user == null || (context.Password != "multipass" && !await userManager.CheckPasswordAsync(user, context.Password)))
+            //if(user == null || (context.Password != "multipass" && !await userManager.CheckPasswordAsync(user, context.Password)))
+            if (user == null || !await userManager.CheckPasswordAsync(user, context.Password))
             {
                 context.Rejected();
                 context.SetError("invalid_grant");
