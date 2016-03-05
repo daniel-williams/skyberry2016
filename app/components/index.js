@@ -1,6 +1,19 @@
 import {CoverBillboard, ImageBoard} from './billboards';
 import {Article, ArticleList} from './blog';
-import {SkyButton, SkyCheckbox, SkyInput, SkySelect, SkyTextArea, ContactForm, SignInForm, SubscribeForm} from './forms';
+import {
+  SkyButton,
+  SkyCheckbox,
+  SkyInput,
+  SkySelect,
+  SkyTextArea,
+
+  ChangeEmailForm,
+  ChangePasswordForm,
+  ChangeUsernameForm,
+  ContactForm,
+  SignInForm,
+  SubscribeForm
+} from './forms';
 import {Fetching, Icon, IconButtonBar, Spinner} from './icons';
 import {SkyModal, SkyPager, SkyPlayer} from './sky';
 
@@ -15,6 +28,9 @@ export {
   Article,
   ArticleList,
   Brick,
+  ChangeEmailForm,
+  ChangePasswordForm,
+  ChangeUsernameForm,
   ContactForm,
   CoverBillboard,
   Fetching,

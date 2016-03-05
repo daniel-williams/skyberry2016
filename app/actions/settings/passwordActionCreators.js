@@ -28,7 +28,9 @@ export default {
 function updatingPassword(formData) {
   return {
     type: actions.UPDATING_PASSWORD,
-    payload: formData,
+    payload: {
+      formData: formData,
+    },
   };
 }
 

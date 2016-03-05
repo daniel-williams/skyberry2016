@@ -1,8 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Grid, Row, Col} from 'react-bootstrap';
-import formsy from 'formsy-react';
 
-import {SkyButton, SkyInput} from '../../../components';
+import {SkyButton} from '../../../components';
 import ChangeEmail from './ChangeEmail';
 import ChangePassword from './ChangePassword';
 import ChangeUsername from './ChangeUsername';
@@ -72,32 +71,26 @@ export default React.createClass({
           </Col>
         </Row>
         <ChangeEmail
-          isVisible={settings.settings.showChangeEmail}
-          isUpdating={settings.email.isUpdating}
-          hasUpdated={settings.email.hasUpdated}
-          current={this.getEmail()}
-          data={settings.email.data}
-          errors={settings.email.error}
+          show={settings.settings.showChangeEmail}
+          currentEmail={this.getEmail()}
+          changeEmail={settings.email}
           onSubmit={this.props.updateEmail}
+          onReset={this.props.resetChangeEmail}
           onClose={this.props.hideChangeEmail}
          />
         <ChangePassword
-          isVisible={settings.settings.showChangePassword}
-          isUpdating={settings.password.isUpdating}
-          hasUpdated={settings.password.hasUpdated}
-          data={settings.password.data}
-          errors={settings.password.error}
+          show={settings.settings.showChangePassword}
+          changePassword={settings.password}
           onSubmit={this.props.updatePassword}
+          onReset={this.props.resetChangePassword}
           onClose={this.props.hideChangePassword}
          />
        <ChangeUsername
-         isVisible={settings.settings.showChangeUsername}
-         isUpdating={settings.username.isUpdating}
-         hasUpdated={settings.username.hasUpdated}
-         current={this.getUsername()}
-         data={settings.username.data}
-         errors={settings.username.error}
+         show={settings.settings.showChangeUsername}
+         currentUsername={this.getUsername()}
+         changeUsername={settings.username}
          onSubmit={this.props.updateUsername}
+         onReset={this.props.resetChangeUsername}
          onClose={this.props.hideChangeUsername}
         />
       </Grid>
