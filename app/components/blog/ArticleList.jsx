@@ -20,7 +20,7 @@ export default React.createClass({
   render: function() {
     return (
       <div className='article-list'>
-        {this.props.items.map((item, idx) => <Article key={item.slug} item={item} />)}
+        {this.props.items.map((item, idx) => <Article key={item.slug} item={item} isSummary={true} />)}
       </div>
     );
   },

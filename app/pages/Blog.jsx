@@ -38,7 +38,11 @@ export default React.createClass({
   },
   getPost: function() {
     const slug = this.getSlug();
-    return this.props.blog.posts.find(p => p.slug === slug) || this.props.blog.post;
+    let post = null;
+    if(this.props.blog && this.props.blog.posts) {
+      post = this.props.blog.posts.find(p => p.slug === slug) || this.props.blog.post;
+    }
+    return post;
   },
 
   render: function() {
@@ -55,8 +59,9 @@ export default React.createClass({
     );
   },
   renderPostContent: function() {
-    return this.hasSlug() ? <Article item={this.getPost()} renderBreadcrumb />
-                          : this.renderArticles()
+    return this.hasSlug()
+      ? <Article item={this.getPost()} renderBreadcrumb />
+      : this.renderArticles();
   },
   renderArticles: function() {
     return (

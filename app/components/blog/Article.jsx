@@ -4,7 +4,7 @@ import {Link} from 'react-router';
 import {Breadcrumb, BreadcrumbItem} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 
-import {Fetching} from '.';
+import {Fetching} from '../';
 
 
 export default React.createClass({
@@ -14,11 +14,12 @@ export default React.createClass({
 
   propTypes: {
     displayBreadcrumb: PropTypes.bool,
+    isSummary: PropTypes.bool,
   },
   getDefaultProps: function() {
     return {
-      item: null,
       displayBreadcrumb: false,
+      isSummary: false,
     };
   },
   hasItem: function() {
@@ -27,23 +28,34 @@ export default React.createClass({
   getItem: function() {
     return this.props.item;
   },
+  getContent: function() {
+    return this.props.isSummary
+      ? this.props.item.summary || this.props.item.content
+      : this.props.item.content;
+  },
+
+
   render: function() {
-    return this.hasItem() ? this.renderArticle()
-                          : <Fetching />
+    return this.hasItem()
+      ? this.renderArticle()
+      : <Fetching className='mt'/>
   },
   renderArticle: function() {
     const item = this.getItem();
     return (
-      <article>
-        {this.props.renderBreadcrumb && this.renderBreadcrumb(item.title)}
-        <header>
-          <Link to={'/blog/' + item.slug}><h3 className='title' onClick={this.scrollTop}>{item.title}</h3></Link>
-        </header>
-        <div dangerouslySetInnerHTML={{__html:item.content}} />
-        <footer>
-          {item.tags && item.tags.length && this.renderTags(item.tags)}
-        </footer>
-      </article>
+      <section>
+        <article>
+          {this.props.renderBreadcrumb && this.renderBreadcrumb(item.title)}
+          <header>
+            <Link to={'/blog/' + item.slug}><h1 onClick={this.scrollTop}>{item.title}</h1></Link>
+          </header>
+          <div dangerouslySetInnerHTML={{__html:this.getContent()}} />
+          {this.props.isSummary && <Link to={'/blog/' + item.slug}><span className='i'>read more</span></Link>}
+          <footer>
+            {item.tags && item.tags.length && this.renderTags(item.tags)}
+          </footer>
+        </article>
+      </section>
     );
   },
   renderTags : function(tags) {
@@ -64,7 +76,7 @@ export default React.createClass({
       </Breadcrumb>
     );
   },
-  
+
   scrollTop: function() {
     setTimeout(function() {
       window && window.scrollTo(0,0);

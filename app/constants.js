@@ -2,7 +2,8 @@
 export default {
   subscribe: {
     active: true,
-    delay: 120000,
+    delay: 90000,
+    daysUntilNextPrompt: 15,
   },
 
   keys: {
