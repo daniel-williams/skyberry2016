@@ -9,6 +9,10 @@ var WEB_ROOT = path.resolve(PROJECT_PATH, 'Web');
 
 var DIST_PATH = path.resolve(WEB_ROOT, 'content/bundles');
 
+var definePlugin = new webpack.DefinePlugin({
+  'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+});
+
 module.exports = {
     entry: {
         app: [path.resolve(APP_ROOT, 'app')],
@@ -62,6 +66,9 @@ module.exports = {
         }),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.DefinePlugin({
+          'process.env.NODE_ENV': JSON.stringify('production')
+        })
         // new webpack.NoErrorsPlugin()
     ],
 };
