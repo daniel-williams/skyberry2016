@@ -31,7 +31,7 @@ export default React.createClass({
     const {oldPass, newPass, confirmPass} = this.props.formData;
 
     return (
-      <formsy.Form onSubmit={onSubmit} ref='form'>
+      <formsy.Form onValidSubmit={onSubmit} ref='form'>
         <SkyInput
           type='password'
           name='oldPass'

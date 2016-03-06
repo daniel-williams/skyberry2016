@@ -31,7 +31,7 @@ export default React.createClass({
     const {newUsername, confirmUsername} = this.props.formData;
 
     return (
-      <formsy.Form onSubmit={onSubmit} ref='form'>
+      <formsy.Form onValidSubmit={onSubmit} ref='form'>
         <SkyInput
           type='text'
           name='newUsername'
