@@ -1,3 +1,4 @@
+import {setPromptToSubscribe} from '../services/StorageService';
 import SkyberryFetch from '../services/SkyberryFetchService';
 import * as actions from './subscribeActions';
 
@@ -7,7 +8,10 @@ export function postSubscribe(formData) {
     dispatch(postingSubscribe(formData));
 
     SkyberryFetch.postJson('/api/subscribe', formData)
-      .then(() => dispatch(postSubscribeSuccess()))
+      .then(() => {
+        setPromptToSubscribe(false);
+        dispatch(postSubscribeSuccess());
+      })
       .catch(error => dispatch(postSubscribeFailed(error)));
   }
 }

@@ -3,16 +3,18 @@ import {connect} from 'react-redux';
 import {toJS} from 'immutable';
 
 import constants from '../constants';
-import * as identityAC from '../actions/identityActionCreators';
-import * as subscribeAC from '../actions/subscribeActionCreators';
+import {promptToSubscribe, setPromptToSubscribe} from '../services/StorageService';
 import {Subscribe} from '../components';
+import * as identityActionCreators from '../actions/identityActionCreators';
+import * as subscribeActionCreators from '../actions/subscribeActionCreators';
 
 // import Bootstrap from '../../Web/content/styles/bootstrap.custom.min.css';
 import Bootstrap from '../../Web/content/styles/bootstrap.min.css';
 require('../site.less');
 require('../utils/FontLoader');
 
-const actions = Object.assign({}, identityAC, subscribeAC);
+
+const actions = Object.assign({}, identityActionCreators, subscribeActionCreators);
 
 let subscribeTimer = null;
 const {active, delay} = constants.subscribe;
@@ -24,7 +26,7 @@ const Root = React.createClass({
     this.props.recoverIndentity();
   },
   componentDidMount: function() {
-    if(active) {
+    if(promptToSubscribe() && active) {
       subscribeTimer = setTimeout(this.props.showSubscribe, delay);
     }
   },
@@ -37,9 +39,24 @@ const Root = React.createClass({
     return (
       <div id='root'>
         {this.props.children}
-        {active && <Subscribe {...this.props} />}
+        {active && this.renderSubscribe()}
       </div>
     );
+  },
+  renderSubscribe: function() {
+    return (
+      <Subscribe
+        show={this.props.subscribe.show}
+        subscribe={this.props.subscribe}
+        onSubmit={this.props.postSubscribe}
+        onClose={this.subscribeOnClose} />
+    );
+  },
+
+  subscribeOnClose: function() {
+    console.log('set next prompt');
+    setPromptToSubscribe(true);
+    this.props.hideSubscribe();
   },
 
 });

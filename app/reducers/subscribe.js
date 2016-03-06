@@ -1,52 +1,52 @@
 import {Map, List, fromJS} from 'immutable';
 
-import * as subscribeActions from '../actions/subscribeActions';
+import * as actions from '../actions/subscribeActions';
 
-const initialState = fromJS({
-  isPosting: false,
-  lastPostDate: null,
-  lastPostError: null,
-
-  isActive: true,
-  showSubscribe: false,
+const initialFormData = fromJS({
   email: null,
+});
+const initialState = fromJS({
+  show: false,
+  isUpdating: false,
+  hasUpdated: false,
+  date: null,
+  error: null,
+  formData: initialFormData,
 });
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case subscribeActions.POSTING_SUBSCRIBE: {
-      return state.withMutations(state => {
-        state.set('isPosting', true);
-        state.set('lastPostDate', null);
-        state.set('lastPostError', null);
-
-        state.set('email', action.payload.form.email);
-        return state;
+    case actions.POSTING_SUBSCRIBE: {
+      return state.merge({
+        isUpdating: true,
+        date: null,
+        error: null,
+        formData: fromJS(action.payload.formData)
       });
     }
-    case subscribeActions.POST_SUBSCRIBE_SUCCESS: {
-      return state.withMutations(state => {
-        state.set('isPosting', false);
-        state.set('lastPostDate', action.payload.date);
-        state.set('lastPostError', null);
-
-        state.set('isActive', false);
-        return state;
+    case actions.POST_SUBSCRIBE_SUCCESS: {
+      return state.merge({
+        isUpdating: false,
+        hasUpdated: true,
+        date: action.payload.date,
+        error: null,
       });
     }
-    case subscribeActions.POST_SUBSCRIBE_FAILED: {
-      return state.withMutations(state => {
-        state.set('isPosting', false);
-        state.set('lastPostDate', action.payload.date);
-        state.set('lastPostError', action.payload.error);
-        return state;
+    case actions.POST_SUBSCRIBE_FAILED: {
+      return state.merge({
+        isUpdating: false,
+        date: action.payload.date,
+        error: action.payload.error,
       });
     }
-    case subscribeActions.SHOW_SUBSCRIBE: {
-      return state.set('showSubscribe', true);
+    case actions.POST_SUBSCRIBE_RESET: {
+      return initialState;
     }
-    case subscribeActions.HIDE_SUBSCRIBE: {
-      return state.set('showSubscribe', false);
+    case actions.SHOW_SUBSCRIBE: {
+      return state.set('show', true);
+    }
+    case actions.HIDE_SUBSCRIBE: {
+      return state.set('show', false);
     }
     default: {
       return state;
