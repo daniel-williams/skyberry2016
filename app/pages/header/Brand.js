@@ -18,7 +18,7 @@ export default React.createClass({
   },
 
   render: function () {
-    let item = this.props.src ? <ImageLoader src={this.props.src} style={{maxHeight:'100px'}} alt={this.props.title} />
+    let item = this.props.src ? <ImageLoader src={this.props.src} style={{maxHeight:'103px'}} alt={this.props.title} />
                               : <span>{this.props.title}</span>;
     return <Link to='/'><h1 {...this.props}>{item}</h1></Link>;
   },

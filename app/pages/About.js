@@ -90,7 +90,7 @@ export default React.createClass({
               </Col>
               <Col sm={6} xs={12} className='mb'>
                 <h3>Awards &amp; Publications</h3>
-                <p>Our work has been published in industry books, magazines and newspapers. We've won over a dozen awards for web design, including being selected amoung the "Top Web Design Firms of 2012" by the International Business Times.</p>
+                <p>Our work has been published in industry books, magazines and newspapers. We've won over a dozen awards for web design, including being selected among the "Top Web Design Firms of 2012" by the International Business Times.</p>
               </Col>
             </Row>
           </Col>
@@ -102,7 +102,7 @@ export default React.createClass({
               </Col>
               <Col sm={6} xs={12} className='mb'>
                 <h3>Focused &amp; Experienced</h3>
-                <p>For over 10 years, team Skyberry has been helping clients with brand identity and graphic design needs. Skyberry has almost 20 years of experience developing mission critial apps and websites!</p>
+                <p>For over 10 years, team Skyberry has been helping clients with brand identity and graphic design needs. Skyberry has almost 20 years of experience developing mission critical apps and websites!</p>
               </Col>
             </Row>
           </Col>

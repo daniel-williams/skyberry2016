@@ -24,7 +24,7 @@ export default React.createClass({
           <Navbar.Brand>
             <Brand
               src="/content/images/logo.png"
-              title='Skyberry Logo'
+              title='Skyberry Studio'
               id='sky-logo'
               className={this.state.inDashboard}
               onClick={this.goHome} />

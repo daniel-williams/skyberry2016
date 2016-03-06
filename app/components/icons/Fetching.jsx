@@ -1,4 +1,6 @@
 import React, {PropTypes} from 'react';
+import classnames from 'classnames';
+
 
 export default React.createClass({
 
@@ -35,13 +37,14 @@ export default React.createClass({
   },
 
   render: function() {
+    const cssNames = classnames(this.props.className, 'fetching-widget');
     var boxes = new Array(this.props.boxCount).fill('').map((item, idx) => {
       return this.state.count === idx ? <span key={idx} className='box active' />
                                       : <span key={idx} className='box' />
     });
 
     return (
-      <div className='fetching-widget'>
+      <div className={cssNames}>
         <span className='lbl'>{this.props.label}</span><span className='boxes'>{boxes}</span>
       </div>
     );
