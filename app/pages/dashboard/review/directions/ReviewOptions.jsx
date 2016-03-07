@@ -57,10 +57,10 @@ export default React.createClass({
           <div>
             <ul>
               {this.hasNotes() && <li>Designers' note</li>}
+              {this.props.hasProofs && <li>Proofs <span className='paren'>(see below)</span></li>}
               {this.props.hasMultipleOptions
                 ? <li>Design options <span className='paren'>(see below)</span></li>
                 : <li>Design refinements <span className='paren'>(see below)</span></li>}
-              {this.props.hasProofs && <li>Proofs <span className='paren'>(see below)</span></li>}
             </ul>
           </div>
 

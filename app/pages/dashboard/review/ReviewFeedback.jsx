@@ -137,6 +137,8 @@ export default React.createClass({
           isLegacyProject={isLegacyProject}
           {...this.props} />
 
+        {this.hasProofs() && <Proofs items={this.getProofs()} />}
+
         <OptionNavigator
           items={this.getOptionList()}
           selectedId={this.props.review.selectedId}
@@ -170,8 +172,6 @@ export default React.createClass({
               onSubmit={this.addComment} />
           </div>
         </div>
-
-        {this.hasProofs() && <Proofs items={this.getProofs()} />}
 
       </Modal.Body>
     );
