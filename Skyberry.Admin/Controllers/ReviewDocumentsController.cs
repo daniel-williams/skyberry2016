@@ -34,14 +34,14 @@ namespace Skyberry.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ReviewDocument contractDocument = UOW.ReviewDocuments.GetById(id);
-            if (contractDocument == null)
+            ReviewDocument dbDoc = UOW.ReviewDocuments.GetById(id);
+            if (dbDoc == null)
             {
                 return HttpNotFound();
             }
             ReviewDocumentVM vm = new ReviewDocumentVM
             {
-                ReviewDocument = contractDocument,
+                ReviewDocument = dbDoc,
                 DesignReviews = UOW.DesignReviews.GetAll()
             };
             return View(vm);
@@ -60,7 +60,7 @@ namespace Skyberry.Admin.Controllers
         [HttpPost]
         [ValidateInput(false)]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Prefix = "ReviewDocument")] ReviewDocument contractDocument)
+        public ActionResult Create([Bind(Prefix = "ReviewDocument")] ReviewDocument model)
         {
             if (Request.Files.Count > 0 && Request.Files[0].ContentLength > 0)
             {
@@ -74,27 +74,28 @@ namespace Skyberry.Admin.Controllers
                 string fullPath = StorageRoot + "\\" + filename;
                 file.SaveAs(fullPath);
 
-                ReviewDocument newReviewDocument = new ReviewDocument();
+                ReviewDocument newDoc = new ReviewDocument();
 
-                newReviewDocument.Id = docId;
-                newReviewDocument.Filename = filename;
-                newReviewDocument.FilenameOriginal = originalFilename;
-                newReviewDocument.FileExt = fileExt;
-                newReviewDocument.FileMimeType = GetMimeType(fullPath);
-                newReviewDocument.FileSize = file.ContentLength;
-                newReviewDocument.Title = contractDocument.Title;
-                newReviewDocument.Order = contractDocument.Order;
-                newReviewDocument.Description = contractDocument.Description;
-                newReviewDocument.Version = contractDocument.Version;
-                newReviewDocument.CreatedDate = DateTime.Now;
-                newReviewDocument.FilePath = "/files";
-                newReviewDocument.IsActive = true;
-                newReviewDocument.DesignReviewId = contractDocument.DesignReviewId;
+                newDoc.Id = docId;
+                newDoc.Filename = filename;
+                newDoc.FilenameOriginal = originalFilename;
+                newDoc.FileExt = fileExt;
+                newDoc.FileMimeType = GetMimeType(fullPath);
+                newDoc.FileSize = file.ContentLength;
+                newDoc.Title = model.Title;
+                newDoc.Order = model.Order;
+                newDoc.Description = model.Description;
+                newDoc.Version = model.Version;
+                newDoc.DocType = model.DocType;
+                newDoc.CreatedDate = DateTime.Now;
+                newDoc.FilePath = "/files";
+                newDoc.IsActive = true;
+                newDoc.DesignReviewId = model.DesignReviewId;
 
-                UOW.ReviewDocuments.Add(newReviewDocument);
+                UOW.ReviewDocuments.Add(newDoc);
 
                 UOW.Commit();
-                contractDocument = newReviewDocument;
+                model = newDoc;
             }
             else
             {
@@ -103,7 +104,7 @@ namespace Skyberry.Admin.Controllers
 
             ReviewDocumentVM vm = new ReviewDocumentVM
             {
-                ReviewDocument = contractDocument,
+                ReviewDocument = model,
                 DesignReviews = UOW.DesignReviews.GetAll()
             };
             return View("Edit", vm);
@@ -115,14 +116,14 @@ namespace Skyberry.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ReviewDocument contractDocument = UOW.ReviewDocuments.GetById(id);
-            if (contractDocument == null)
+            ReviewDocument dbDoc = UOW.ReviewDocuments.GetById(id);
+            if (dbDoc == null)
             {
                 return HttpNotFound();
             }
             ReviewDocumentVM vm = new ReviewDocumentVM
             {
-                ReviewDocument = contractDocument,
+                ReviewDocument = dbDoc,
                 DesignReviews = UOW.DesignReviews.GetAll()
             };
             return View(vm);
@@ -131,25 +132,25 @@ namespace Skyberry.Admin.Controllers
         [HttpPost]
         [ValidateInput(false)]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Prefix = "ReviewDocument")] ReviewDocument contractDocument)
+        public ActionResult Edit([Bind(Prefix = "ReviewDocument")] ReviewDocument model)
         {
-            ReviewDocument dbReviewDocument = UOW.ReviewDocuments.GetById(contractDocument.Id);
+            ReviewDocument dbReviewDocument = UOW.ReviewDocuments.GetById(model.Id);
             if (dbReviewDocument != null)
             {
-                dbReviewDocument.Title = contractDocument.Title;
-                dbReviewDocument.Order = contractDocument.Order;
-                dbReviewDocument.Description = contractDocument.Description;
-                dbReviewDocument.Version = contractDocument.Version;
-                dbReviewDocument.DocType = contractDocument.DocType;
-                dbReviewDocument.IsActive = contractDocument.IsActive;
+                dbReviewDocument.Title = model.Title;
+                dbReviewDocument.Order = model.Order;
+                dbReviewDocument.Description = model.Description;
+                dbReviewDocument.Version = model.Version;
+                dbReviewDocument.DocType = model.DocType;
+                dbReviewDocument.IsActive = model.IsActive;
 
                 UOW.Commit();
-                contractDocument = dbReviewDocument;
+                model = dbReviewDocument;
             }
 
             ReviewDocumentVM vm = new ReviewDocumentVM
             {
-                ReviewDocument = contractDocument,
+                ReviewDocument = model,
                 DesignReviews = UOW.DesignReviews.GetAll()
             };
             return View(vm);
