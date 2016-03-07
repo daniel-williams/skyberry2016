@@ -562,7 +562,9 @@
     <Content Include="styles\validation.min.css">
       <DependentUpon>validation.css</DependentUpon>
     </Content>
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -755,7 +757,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>6176</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://admin.skyberrystudio.com/</IISUrl>
+          <IISUrl>http://admin.dev.skyberrystudio.com</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
