@@ -75,7 +75,7 @@ export default React.createClass({
       status = this.hasSelectedOption()
         ? StepStatus.COMPLETED
         : StepStatus.CURRENT;
-    } else if(this.hasRequest()) {
+    } else {
       status = StepStatus.COMPLETED;
     }
     return status;
