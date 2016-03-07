@@ -5,51 +5,60 @@ import formsy from 'formsy-react';
 import {SkyButton, SkyCheckbox, SkyInput} from './';
 
 export default React.createClass({
+  displayName: 'SignInForm',
 
-  render: function() {
-    const identity = this.props.identity;
-    const errors = {} && identity.lastRequestError && identity.lastRequestError.errors;
-
-    return (
-      <formsy.Form onSubmit={this.handleSignIn} validationErrors={errors}>
-        <Row>
-          <Col xs={12}>
-            <SkyInput
-              type='text'
-              name='username'
-              placeholder='Username or Email'
-              value={identity.username}
-              required
-              validationError='Username is required.'
-              autoFocus />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <SkyInput
-              type='password'
-              name='password'
-              placeholder='Password'
-              required
-              validationError="Password is required." />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12} className='form-group'>
-            <SkyButton
-              type='submit'
-              isPrimary
-              size='lg'
-              isDisabled={this.props.identity.isRequesting}>Sign In</SkyButton>
-          </Col>
-        </Row>
-      </formsy.Form>
-    );
+  propTypes: {
+    isUpdating: PropTypes.bool,
+    formData: PropTypes.any,
+    formErrors: PropTypes.any,
+    onSubmit: PropTypes.func,
+  },
+  getDefaultProps: function() {
+    return {
+      isUpdating: false,
+      formData: {},
+      formErrors: {},
+      onSubmit: function() {},
+    };
   },
 
-  handleSignIn(formData) {
-    const {username, password} = formData;
-    this.props.logOn(username, password);
+  componentWillReceiveProps: function(nextProps) {
+    this.refs.form.updateInputsWithError(nextProps.formErrors || {});
+  },
+
+  render: function() {
+    const {onSubmit, isUpdating} = this.props;
+    const {username, password} = this.props.formData;
+
+    return (
+      <formsy.Form onValidSubmit={onSubmit} ref='form'>
+        <SkyInput
+          type='text'
+          name='username'
+          placeholder='Username or Email'
+          value={username}
+          required
+          validationError='Username is required.'
+          disabled={isUpdating}
+          autoFocus />
+        <SkyInput
+          type='password'
+          name='password'
+          placeholder='Password'
+          value={password}
+          required
+          validationError="Password is required."
+          disabled={isUpdating} />
+        {}
+        <div className='form-group'>
+          <SkyButton
+            type='submit'
+            isPrimary
+            size='lg'
+            isDisabled={isUpdating}>Sign In</SkyButton>
+        </div>
+      </formsy.Form>
+    );
   },
 
 });

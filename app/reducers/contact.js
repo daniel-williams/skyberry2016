@@ -4,10 +4,10 @@ import * as contactActions from '../actions/contactActions';
 
 
 const initialState = fromJS({
-  hasPosted: false,
   isPosting: false,
-  lastPostDate: null,
-  lastPostError: null,
+  hasPosted: false,
+  date: null,
+  error: null,
 
   name: null,
   email: null,
@@ -31,8 +31,8 @@ export default function(state = initialState, action) {
       return state.withMutations(state => {
         state.set('hasPosted', true);
         state.set('isPosting', false);
-        state.set('lastPostDate', action.payload.date);
-        state.set('lastPostError', null);
+        state.set('date', action.payload.date);
+        state.set('error', null);
 
         state.set('message', null);
         return state;
@@ -41,8 +41,8 @@ export default function(state = initialState, action) {
     case contactActions.POST_CONTACT_FAILED: {
       return state.withMutations(state => {
         state.set('isPosting', false);
-        state.set('lastPostDate', action.payload.date);
-        state.set('lastPostError', action.payload.error);
+        state.set('date', action.payload.date);
+        state.set('error', action.payload.error);
         return state;
       });
     }
@@ -50,8 +50,8 @@ export default function(state = initialState, action) {
       return state.withMutations(state => {
         state.set('hasPosted', false);
         state.set('isPosting', false);
-        state.set('lastPostDate', null);
-        state.set('lastPostError', null);
+        state.set('date', null);
+        state.set('error', null);
 
         state.set('message', null);
         return state;

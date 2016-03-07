@@ -22,10 +22,16 @@ export default React.createClass({
     }
   },
   render: function() {
+    const {isUpdating, formData, error} = this.props.identity;
+
     return (
       <CoverBillboard imgSrc={constants.routes.images + 'jumbo4.jpg'} overlayOpacity={30}>
         <ModalBox headline='Client Sign In' overlay={true}>
-          <SignInForm {...this.props}/>
+          <SignInForm
+            isUpdating={isUpdating}
+            formData={formData}
+            formErrors={error && error.formErrors}
+            onSubmit={this.props.logOn} />
         </ModalBox>
       </CoverBillboard>
     );

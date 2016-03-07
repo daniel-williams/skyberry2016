@@ -35,27 +35,24 @@ export function recoverIndentity() {
   }
 }
 
-export function logOn(username, password) {
+export function logOn(formData) {
   return function(dispatch, getState) {
 
-    dispatch(fetchingIdentity());
+    dispatch(fetchingIdentity(formData));
+
+    const {username, password} = formData;
     return FetchService.signIn(username, password)
       .then(identity => {
         TokenService.setTokens(identity.access_token, identity.refresh_token);
         dispatch(fetchIdentitySuccess(identity));
         return identity.user_id;
       })
-      .then(
-        user_id => loadUserAndAccountData(user_id)(dispatch, getState),
-        error => {
-          TokenService.clearTokens();
-          error.errors = {'error':'The username or password are incorrect.'}
-          dispatch(fetchIdentityFailed(error));
-        }
-      )
-      .catch(err=> {
-        console.log('Catch', err);
-      })
+      .then(user_id => loadUserAndAccountData(user_id)(dispatch, getState))
+      .catch(error => {
+        TokenService.clearTokens();
+        error.formErrors = {'password':'The username or password are incorrect.'}
+        dispatch(fetchIdentityFailed(error));
+      });
   }
 }
 
@@ -143,9 +140,12 @@ function buildProjectDirectory(accounts) {
   }, {});
 }
 
-export function fetchingIdentity() {
+export function fetchingIdentity(formData) {
   return {
-    type: actions.FETCHING_IDENTITY
+    type: actions.FETCHING_IDENTITY,
+    payload: {
+      formData: formData,
+    },
   };
 }
 
