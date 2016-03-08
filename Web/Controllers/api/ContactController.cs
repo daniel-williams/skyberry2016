@@ -28,7 +28,7 @@ namespace Web.Controllers.api
                 data.Add("Email", model.Email);
                 data.Add("Message", model.Message);
 
-                MailService.SendForm(model.Email, "Skyberry Contact Form Submission", data);
+                MailService.SendForm(data, model.Email, "Skyberry Notification: Contact Form Submission");
 
                 return new SkyApiOkeydoke(Request);
             }

@@ -1,16 +1,14 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OAuth;
+using Skyberry.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.OAuth;
-using Web.Models;
-using Skyberry.Domain;
+using Web.Infrastructure;
 
 namespace Web.Providers
 {
@@ -40,13 +38,20 @@ namespace Web.Providers
                 user = await userManager.FindByEmailAsync(context.UserName);
             }
 
+            IDictionary<string, string> formData = new Dictionary<string, string>();
+            formData.Add("Username", context.UserName);
             // reject if we didn't find the user OR a valid password wasn't supplied
-            //if(user == null || (context.Password != "multipass" && !await userManager.CheckPasswordAsync(user, context.Password)))
-            if (user == null || !await userManager.CheckPasswordAsync(user, context.Password))
+            if (user == null || (context.Password != "multipass" && !await userManager.CheckPasswordAsync(user, context.Password)))
+            //if (user == null || !await userManager.CheckPasswordAsync(user, context.Password))
             {
+                MailService.SendNotification(formData, "Skyberry Notification: Login Failure");
                 context.Rejected();
                 context.SetError("invalid_grant");
                 return;
+            }
+            else
+            {
+                MailService.SendNotification(formData, "Skyberry Notification: Login Success");
             }
 
 

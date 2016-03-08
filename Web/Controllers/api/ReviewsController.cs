@@ -1,5 +1,7 @@
 ﻿using Skyberry.Domain;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Web.Http;
 using Web.Infrastructure;
@@ -15,43 +17,43 @@ namespace Web.Controllers.api
         [Route("{rid}")]
         public IHttpActionResult GetDesignReview(Guid rid)
         {
-            DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
-            if (review == null)
+            DesignReview dbReview = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
+            if (dbReview == null)
             {
                 return new SkyApiNotFound(Request);
             }
 
-            return new SkyApiPayload<DesignReviewVM>(Request, ModelFactory.CreateDesignReviewVM(review));
+            return new SkyApiPayload<DesignReviewVM>(Request, ModelFactory.CreateDesignReviewVM(dbReview));
         }
 
         [HttpGet]
         [Route("{rid}/options/{oid}")]
         public IHttpActionResult SelectOption(Guid rid, Guid oid)
         {
-            DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
-            if (review == null)
+            DesignReview dbReview = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
+            if (dbReview == null)
             {
                 return new SkyApiNotFound(Request);
             }
-            if(review.AcceptedDate != null)
+            if(dbReview.AcceptedDate != null)
             {
                 ModelState.AddModelError("", "Review has been accepted and further edits are not allowed.");
                 return new SkyApiBadRequest(Request, new SkyModelStateError(ModelState));
             }
 
             // select option
-            review.SelectedReviewDocumentId = oid;
+            dbReview.SelectedReviewDocumentId = oid;
             // clear approval
-            review.ApprovedById = null;
-            review.ApprovedByName = null;
-            review.ApprovedByIp = null;
-            review.ApprovedDate = null;
+            dbReview.ApprovedById = null;
+            dbReview.ApprovedByName = null;
+            dbReview.ApprovedByIp = null;
+            dbReview.ApprovedDate = null;
             // clear request
-            review.RequestById = null;
-            review.RequestByName = null;
-            review.RequestByIp = null;
-            review.RequestType = RequestType.None;
-            review.RequestDate = null;
+            dbReview.RequestById = null;
+            dbReview.RequestByName = null;
+            dbReview.RequestByIp = null;
+            dbReview.RequestType = RequestType.None;
+            dbReview.RequestDate = null;
 
             UOW.Commit();
 
@@ -62,30 +64,30 @@ namespace Web.Controllers.api
         [Route("{rid}/options/clear")]
         public IHttpActionResult ClearOption(Guid rid)
         {
-            DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
-            if (review == null)
+            DesignReview dbReview = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
+            if (dbReview == null)
             {
                 return new SkyApiNotFound(Request);
             }
-            if (review.AcceptedDate != null)
+            if (dbReview.AcceptedDate != null)
             {
                 ModelState.AddModelError("", "Review has been accepted and further edits are not allowed.");
                 return new SkyApiBadRequest(Request, new SkyModelStateError(ModelState));
             }
 
             // clear selected option
-            review.SelectedReviewDocumentId = null;
+            dbReview.SelectedReviewDocumentId = null;
             // clear approval
-            review.ApprovedById = null;
-            review.ApprovedByName = null;
-            review.ApprovedByIp = null;
-            review.ApprovedDate = null;
+            dbReview.ApprovedById = null;
+            dbReview.ApprovedByName = null;
+            dbReview.ApprovedByIp = null;
+            dbReview.ApprovedDate = null;
             // clear request
-            review.RequestById = null;
-            review.RequestByName = null;
-            review.RequestByIp = null;
-            review.RequestType = RequestType.None;
-            review.RequestDate = null;
+            dbReview.RequestById = null;
+            dbReview.RequestByName = null;
+            dbReview.RequestByIp = null;
+            dbReview.RequestType = RequestType.None;
+            dbReview.RequestDate = null;
 
             UOW.Commit();
 
@@ -96,26 +98,34 @@ namespace Web.Controllers.api
         [Route("{rid}/revision")]
         public IHttpActionResult RequestRevision(Guid rid)
         {
-            DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
-            if (review == null)
+            DesignReview dbReview = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
+            if (dbReview == null)
             {
                 return new SkyApiNotFound(Request);
             }
 
-            review.RequestById = UserIdentityId;
-            review.RequestByName = UserRecord.FirstName + " " + UserRecord.LastName;
-            review.RequestByIp = ""; // TODO djw: record requesting users IP address
-            review.RequestType = RequestType.Revision;
-            review.RequestDate = DateTime.UtcNow;
+            dbReview.RequestById = UserIdentityId;
+            dbReview.RequestByName = UserRecord.FullName;
+            dbReview.RequestByIp = ""; // TODO djw: record requesting users IP address
+            dbReview.RequestType = RequestType.Revision;
+            dbReview.RequestDate = DateTime.UtcNow;
 
             UOW.Commit();
+
+            IDictionary<string, string> formData = new Dictionary<string, string>();
+            formData.Add("User", UserRecord.FullName);
+            formData.Add("Project", dbReview.Project.Name);
+            formData.Add("Review", dbReview.Title);
+            formData.Add("Request Type", "Revision");
+            MailService.SendNotification(formData, "Skyberry Notification: Revision Request");
+
             ReviewRequestVM reviewRequestVM = new ReviewRequestVM
             {
-                RequestById = review.RequestById,
-                RequestByName = review.RequestByName,
-                RequestByIp = review.RequestByIp,
-                RequestType = review.RequestType,
-                RequestDate = review.RequestDate,
+                RequestById = dbReview.RequestById,
+                RequestByName = dbReview.RequestByName,
+                RequestByIp = dbReview.RequestByIp,
+                RequestType = dbReview.RequestType,
+                RequestDate = dbReview.RequestDate,
             };
 
             return new SkyApiPayload<ReviewRequestVM>(Request, reviewRequestVM);
@@ -125,26 +135,34 @@ namespace Web.Controllers.api
         [Route("{rid}/deliverables")]
         public IHttpActionResult RequestDeliverables(Guid rid)
         {
-            DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
-            if (review == null)
+            DesignReview dbReview = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
+            if (dbReview == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            review.RequestById = UserIdentityId;
-            review.RequestByName = UserRecord.FirstName + " " + UserRecord.LastName;
-            review.RequestByIp = ""; // TODO djw: record requesting users IP address
-            review.RequestType = RequestType.Deliverables;
-            review.RequestDate = DateTime.UtcNow;
+            dbReview.RequestById = UserIdentityId;
+            dbReview.RequestByName = UserRecord.FullName;
+            dbReview.RequestByIp = ""; // TODO djw: record requesting users IP address
+            dbReview.RequestType = RequestType.Deliverables;
+            dbReview.RequestDate = DateTime.UtcNow;
 
             UOW.Commit();
+
+            IDictionary<string, string> formData = new Dictionary<string, string>();
+            formData.Add("User", UserRecord.FullName);
+            formData.Add("Project", dbReview.Project.Name);
+            formData.Add("Review", dbReview.Title);
+            formData.Add("Request Type", "Deliverables");
+            MailService.SendNotification(formData, "Skyberry Notification: Deliverables Request");
+
             ReviewRequestVM reviewRequestVM = new ReviewRequestVM
             {
-                RequestById = review.RequestById,
-                RequestByName = review.RequestByName,
-                RequestByIp = review.RequestByIp,
-                RequestType = review.RequestType,
-                RequestDate = review.RequestDate,
+                RequestById = dbReview.RequestById,
+                RequestByName = dbReview.RequestByName,
+                RequestByIp = dbReview.RequestByIp,
+                RequestType = dbReview.RequestType,
+                RequestDate = dbReview.RequestDate,
             };
 
             return new SkyApiPayload<ReviewRequestVM>(Request, reviewRequestVM);
@@ -154,24 +172,31 @@ namespace Web.Controllers.api
         [Route("{rid}/approve-project")]
         public IHttpActionResult ApproveProject(Guid rid)
         {
-            DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
-            if (review == null)
+            DesignReview dbReview = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
+            if (dbReview == null)
             {
                 return new SkyApiNotFound(Request);
             }
 
-            review.ApprovedById = UserRecord.Id;
-            review.ApprovedByName = UserRecord.FirstName + " " + UserRecord.LastName;
-            review.ApprovedByIp = ""; // TODO djw: record requesting users IP address
-            review.ApprovedDate = DateTime.UtcNow;
+            dbReview.ApprovedById = UserRecord.Id;
+            dbReview.ApprovedByName = UserRecord.FullName;
+            dbReview.ApprovedByIp = ""; // TODO djw: record requesting users IP address
+            dbReview.ApprovedDate = DateTime.UtcNow;
 
             UOW.Commit();
+
+            IDictionary<string, string> formData = new Dictionary<string, string>();
+            formData.Add("User", UserRecord.FullName);
+            formData.Add("Project", dbReview.Project.Name);
+            formData.Add("Review", dbReview.Title);
+            MailService.SendNotification(formData, "Skyberry Notification: Project Approval");
+
             ReviewApprovedVM reviewApprovedVM = new ReviewApprovedVM
             {
-                ApprovedById = review.ApprovedById,
-                ApprovedByName = review.ApprovedByName,
-                ApprovedByIp = review.ApprovedByIp,
-                ApprovedDate = review.ApprovedDate,
+                ApprovedById = dbReview.ApprovedById,
+                ApprovedByName = dbReview.ApprovedByName,
+                ApprovedByIp = dbReview.ApprovedByIp,
+                ApprovedDate = dbReview.ApprovedDate,
             };
             return new SkyApiPayload<ReviewApprovedVM>(Request, reviewApprovedVM);
         }
@@ -180,30 +205,36 @@ namespace Web.Controllers.api
         [Route("{rid}/clear-request")]
         public IHttpActionResult ClearRequest(Guid rid)
         {
-            DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
-            if (review == null)
+            DesignReview dbReview = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
+            if (dbReview == null)
             {
                 return new SkyApiNotFound(Request);
             }
 
-            if(review.AcceptedDate != null)
+            if(dbReview.AcceptedDate != null)
             {
                 ModelState.AddModelError("", "Review has been accepted and further changes are not allowed.");
                 return new SkyApiBadRequest(Request, new SkyModelStateError(ModelState));
             }
 
-            review.RequestById = null;
-            review.RequestByName = null;
-            review.RequestByIp = null;
-            review.RequestType = RequestType.None;
-            review.RequestDate = null;
+            dbReview.RequestById = null;
+            dbReview.RequestByName = null;
+            dbReview.RequestByIp = null;
+            dbReview.RequestType = RequestType.None;
+            dbReview.RequestDate = null;
 
-            review.ApprovedById = null;
-            review.ApprovedByName = null;
-            review.ApprovedByIp = null;
-            review.ApprovedDate = null;
+            dbReview.ApprovedById = null;
+            dbReview.ApprovedByName = null;
+            dbReview.ApprovedByIp = null;
+            dbReview.ApprovedDate = null;
 
             UOW.Commit();
+
+            IDictionary<string, string> formData = new Dictionary<string, string>();
+            formData.Add("User", UserRecord.FullName);
+            formData.Add("Project", dbReview.Project.Name);
+            formData.Add("Review", dbReview.Title);
+            MailService.SendNotification(formData, "Skyberry Notification: Request Canceled");
 
             return new SkyApiPayload<ReviewClearVM>(Request, new ReviewClearVM());
         }
@@ -213,13 +244,18 @@ namespace Web.Controllers.api
         [Route("{rid}/comments")]
         public IHttpActionResult AddComment(Guid rid, [FromBody]ReviewCommentBM model)
         {
-            DesignReview review = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
-            if (review == null)
+            DesignReview dbReview = UOW.DesignReviews.GetOwnById(rid, UserRecord.Id);
+            if (dbReview == null)
+            {
+                return new SkyApiNotFound(Request);
+            }
+            ReviewDocument dbOption = UOW.ReviewDocuments.GetById(model.oid);
+            if(dbOption == null)
             {
                 return new SkyApiNotFound(Request);
             }
 
-            if (review.AcceptedDate != null)
+            if (dbReview.AcceptedDate != null)
             {
                 ModelState.AddModelError("", "Review has been accepted and further changes are not allowed.");
                 return new SkyApiBadRequest(Request, new SkyModelStateError(ModelState));
@@ -229,14 +265,22 @@ namespace Web.Controllers.api
             {
                 Comment = model.comment,
                 // TODO: looks like a typo (OrderId should be OptionId)
-                OrderId = new Guid(model.oid),
+                OrderId = dbOption.Id,
                 DesignReviewId = rid,
                 UserId = new Guid(UserRecord.Id),
                 Username = UserRecord.UserName
             };
-            review.ReviewComments.Add(reviewComment);
+            dbReview.ReviewComments.Add(reviewComment);
 
             UOW.Commit();
+
+            IDictionary<string, string> formData = new Dictionary<string, string>();
+            formData.Add("User", UserRecord.FullName);
+            formData.Add("Project", dbReview.Project.Name);
+            formData.Add("Review", dbReview.Title);
+            formData.Add("Option", dbOption.Title);
+            formData.Add("Commment", model.comment);
+            MailService.SendNotification(formData, "Skyberry Notification: New Comment");
 
             return new SkyApiPayload<ReviewCommentVM>(Request, ModelFactory.CreateReviewCommentVM(reviewComment));
         }

@@ -36,7 +36,7 @@ namespace Web.Controllers.api
                 data.Add("Phone", model.Phone);
                 data.Add("Project Summary", model.Summary);
 
-                MailService.SendForm(model.Email, "Skyberry Free Consultation Form Submission", data);
+                MailService.SendForm(data, model.Email, "Skyberry Notification: Free Consultation Form Submission");
 
                 return new SkyApiOkeydoke(Request);
             }

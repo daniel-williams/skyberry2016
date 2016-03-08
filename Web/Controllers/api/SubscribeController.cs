@@ -26,7 +26,7 @@ namespace Web.Controllers.api
                 IDictionary<string, string> data = new Dictionary<string, string>();
                 data.Add("Email", model.Email);
 
-                MailService.SendForm(model.Email, "Skyberry Subscribe to Newsletter Form Submission", data);
+                MailService.SendForm(data, model.Email, "Skyberry Notification: Subscribe to Newsletter Form Submission");
 
                 return new SkyApiOkeydoke(Request);
             }
