@@ -9,6 +9,7 @@ namespace Skyberry.Domain
 {
     public interface IReviewDocumentRepository : IRepository<ReviewDocument>
     {
+        ReviewDocument GetById(string id);
         List<ReviewDocument> GetByDesignReviewId(Guid designReviewId);
 
         IPagedList<ReviewDocument> GetAllPaged(PageSortCriteria pageSortCriteria);
@@ -29,6 +30,15 @@ namespace Skyberry.Domain
             ReviewDocument query = DbSet.Where(e => e.Id == (Guid)id).Select(e => e).SingleOrDefault();
 
             return query;
+        }
+        public ReviewDocument GetById(string id)
+        {
+            Guid gid;
+            if(Guid.TryParse(id, out gid))
+            {
+                return DbSet.Where(e => e.Id == gid).Select(e => e).SingleOrDefault();
+            }
+            return null;
         }
 
         public override List<ReviewDocument> GetAll()

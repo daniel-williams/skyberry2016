@@ -36,6 +36,7 @@ namespace Skyberry.Domain
         {
             return DbSet
                 .Where(e => e.Id == id && e.Project.Account.SkyberryUsers.Any(u=>u.Id == userId))
+                .Include(e=>e.Project)
                 .SingleOrDefault();
         }
 
