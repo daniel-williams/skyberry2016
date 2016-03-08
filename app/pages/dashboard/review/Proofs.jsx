@@ -21,7 +21,7 @@ export default React.createClass({
     const proofs = this.props.items.map(item => {
       return (
         <Col xs={12} key={item.id}>
-          <a href='#'>{item.filenameOriginal}</a>
+          <a href={`/api/documents/${item.id}`}>{item.filenameOriginal}</a>
         </Col>
       );
     });
