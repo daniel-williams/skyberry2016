@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -37,6 +38,15 @@ namespace Skyberry.Domain
             var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
             // Add custom user claims here
             return userIdentity;
+        }
+
+        [NotMapped]
+        public string FullName
+        {
+            get
+            {
+                return (FirstName + " " + LastName).Trim();
+            }
         }
     }
 
