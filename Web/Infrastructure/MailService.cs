@@ -9,46 +9,54 @@ namespace Web.Infrastructure
 {
     public static class MailService
     {
+        private readonly static MailAddress _defaultFromAddress = new MailAddress("no-reply@skyberrystudio.com", "Skyberry Notification Service");
+        private readonly static string _defaultSubject = "Skyberry Notification Service";
 
-        public static bool SendForm(string from, string subject, IDictionary<string, string> data)
+
+        public static bool SendForm(IDictionary<string, string> theData, string theFrom = "", string theSubject = "")
         {
-            StringBuilder body = new StringBuilder();
-            body.Append(GetFormHeader());
-            foreach(var item in data)
-            {
-                body.Append(GetNameValueRow(item.Key, item.Value));
+            MailAddress from = _defaultFromAddress;
+            if(!string.IsNullOrWhiteSpace(theFrom)) {
+                try
+                {
+                    from = new MailAddress(theFrom);
+                }
+                catch { }
             }
-            body.Append(GetFormFooter());
+            string subject = string.IsNullOrWhiteSpace(theSubject)
+                ? _defaultSubject
+                : theSubject;
 
-            return MailService.sendEmail(from, subject, body.ToString());
+            return SendForm(theData, from, subject);
         }
-
-        private static string GetFormHeader()
+        public static bool SendForm(IDictionary<string, string> data, MailAddress from, string subject)
         {
-            return "<table cellpadding='3' border='0'>";
+            return sendEmail(from, subject, FormToEmailBodyString(data));
         }
-        private static string GetNameValueRow(string name, string val)
+
+
+        public static bool SendNotification(IDictionary<string, string> data, string theSubject = "")
         {
-            return string.Format("<tr><td style='background-color:#d7d7d7;white-space:nowrap;text-align:right;vertical-align:top;'><strong>{0}</strong></td><td style='background-color:#e6e6e5;text-align:left;vertical-align:top;'>{1}</td></tr>", name, val);
+            string subject = string.IsNullOrWhiteSpace(theSubject)
+                ? _defaultSubject
+                : theSubject;
+
+            return sendEmail(_defaultFromAddress, subject, FormToEmailBodyString(data));
         }
-        private static string GetFormFooter()
+
+        public static bool SendNotification(string body, string theSubject = "")
         {
-            StringBuilder footer = new StringBuilder();
+            string subject = string.IsNullOrWhiteSpace(theSubject)
+                ? _defaultSubject
+                : theSubject;
 
-            footer.Append(GetNameValueRow("Users IP", GetUserIP()));
-            footer.Append(GetNameValueRow("Timestamp", DateTime.UtcNow.ToString("MM/dd/yyyy @ h:mm tt") + " GMT"));
-            footer.Append("</table>");
-
-            return footer.ToString();
+            return sendEmail(_defaultFromAddress, subject, body);
         }
 
-
-        public static bool sendEmail(string from, string subject, string body)
+        public static bool sendEmail(MailAddress from, string subject, string body)
         {
             MailMessage message = new MailMessage();
-            message.From = from == null
-                ? new MailAddress("no-reply@skyberrystudio.com", "No Email Address")
-                : new MailAddress(from);
+            message.From = from;
             message.To.Add(new MailAddress(WebConfigurationManager.AppSettings["SUBMISSIONS_EMAIL"]));
             message.Subject = subject;
             message.IsBodyHtml = true;
@@ -62,7 +70,7 @@ namespace Web.Infrastructure
             //SMTPServer.Credentials = new System.Net.NetworkCredential(WebConfigurationManager.AppSettings["SMTP_USERNAME"], WebConfigurationManager.AppSettings["SMTP_PASSWORD"]);
 
             // TODO djw: remove this prior to go-live
-            message.Bcc.Add(WebConfigurationManager.AppSettings["DEBUG_EMAIL"]);
+            //message.Bcc.Add(WebConfigurationManager.AppSettings["DEBUG_EMAIL"]);
 
             try
             {
@@ -99,6 +107,45 @@ namespace Web.Infrastructure
                 return ipList.Split(',')[0];
             }
             return context.Request.ServerVariables["REMOTE_ADDR"];
+        }
+
+
+
+
+
+
+
+
+        private static string FormToEmailBodyString(IDictionary<string, string> formData)
+        {
+            StringBuilder body = new StringBuilder();
+            body.Append(GetFormHeader());
+            foreach (var item in formData)
+            {
+                body.Append(GetNameValueRow(item.Key, item.Value));
+            }
+            body.Append(GetFormFooter());
+
+            return body.ToString();
+        }
+
+        private static string GetFormHeader()
+        {
+            return "<table cellpadding='3' border='0'>";
+        }
+        private static string GetNameValueRow(string name, string val)
+        {
+            return string.Format("<tr><td style='background-color:#d7d7d7;white-space:nowrap;text-align:right;vertical-align:top;'><strong>{0}</strong></td><td style='background-color:#e6e6e5;text-align:left;vertical-align:top;'>{1}</td></tr>", name, val);
+        }
+        private static string GetFormFooter()
+        {
+            StringBuilder footer = new StringBuilder();
+
+            footer.Append(GetNameValueRow("Users IP", GetUserIP()));
+            footer.Append(GetNameValueRow("Timestamp", DateTime.UtcNow.ToString("MM/dd/yyyy @ h:mm tt") + " GMT"));
+            footer.Append("</table>");
+
+            return footer.ToString();
         }
     }
 }
