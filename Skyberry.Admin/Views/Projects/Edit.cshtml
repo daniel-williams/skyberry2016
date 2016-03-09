@@ -13,7 +13,7 @@
 
 <form action="@Url.Action(@mode)" name="frm" id="frm" method="post">
     @Html.AntiForgeryToken()
-    <input type="hidden" name="Project.ProjectId" value="@Model.Project.Id" />
+    <input type="hidden" name="Project.Id" value="@Model.Project.Id" />
 
     <div class="form-horizontal">
         @Html.ValidationSummary(true)
