@@ -27,7 +27,7 @@ namespace Web.Controllers
         [Route("{id}")]
         public IHttpActionResult Get(string id)
         {
-            if (id != UserIdentity.GetUserId() || !UserRoles.Contains("Admin"))
+            if (id != UserIdentity.GetUserId() && !UserRoles.Contains("Admin"))
             {
                 return new SkyApiNotFound(Request);
             }
@@ -45,7 +45,7 @@ namespace Web.Controllers
         [Route("{id}/accounts")]
         public IHttpActionResult GetAccounts(string id)
         {
-            if (id != UserIdentity.GetUserId() || !UserRoles.Contains("Admin"))
+            if (id != UserIdentity.GetUserId() && !UserRoles.Contains("Admin"))
             {
                 return new SkyApiNotFound(Request);
             }
