@@ -50,7 +50,9 @@ export default React.createClass({
             <Link to={'/blog/' + item.slug}><h1 onClick={this.scrollTop}>{item.title}</h1></Link>
           </header>
           <div dangerouslySetInnerHTML={{__html:this.getContent()}} />
-          {this.props.isSummary && <Link to={'/blog/' + item.slug}><span className='i'>read more</span></Link>}
+          <div className='left mt-half'>
+          {this.props.isSummary && <Link to={'/blog/' + item.slug}><span className='b i' onClick={this.scrollTop}>continue reading...</span></Link>}
+          </div>
           <footer>
             {item.tags && item.tags.length && this.renderTags(item.tags)}
           </footer>

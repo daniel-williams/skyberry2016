@@ -3,7 +3,7 @@ import {Location} from 'react-router';
 import {toJS} from 'immutable';
 import {Grid, Row, Col, Pager, PageItem, Pagination} from 'react-bootstrap';
 
-import {Article, ArticleList, Fetching} from '../components';
+import {Article, ArticleList, Fetching, SkyButton} from '../components';
 require('./Blog.less');
 
 
@@ -76,11 +76,20 @@ export default React.createClass({
   renderPager: function() {
     const {totalPages, activePage} = this.props.blog;
     return (
-      <Pager>
-        <PageItem previous onClick={this.handlePagePrev} disabled={activePage === 1}>newer</PageItem>
+      <div className='pager'>
+        <SkyButton
+          className='previous'
+          isPrimary={activePage !== 1}
+          isDisabled={activePage === 1}
+          onClick={this.handlePagePrev}>newer</SkyButton>
         <span className='mh' style={{lineHeight:'32px'}}>page {activePage} of {totalPages}</span>
-        <PageItem next onClick={this.handlePageNext} disabled={activePage === totalPages}>older</PageItem>
-      </Pager>
+        <SkyButton
+          className='next'
+          isPrimary={activePage !== totalPages}
+          isDisabled={activePage === totalPages}
+          onClick={this.handlePageNext}>older</SkyButton>
+      </div>
+
     );
   },
   handlePagePrev: function() {

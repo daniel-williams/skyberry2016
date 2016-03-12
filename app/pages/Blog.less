@@ -9,7 +9,17 @@
   }
   article {
     padding-bottom: 40px;
-    border-bottom: 1px solid #f7f7f7;
+    border-bottom: 1px solid #eee;
+
+    a {
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+    img {
+      width: 100%;
+      max-width: 640px;
+      height: auto;
+    }
 
     header {
       margin-bottom: 20px;
@@ -26,7 +36,7 @@
       }
     }
     footer {
-      margin-top: 10px;
+      margin-top: 20px;
 
       .tags-wrap {
         .title {
@@ -40,6 +50,18 @@
           content: ''
         }
       }
+    }
+  }
+
+  .pager {
+    .previous {
+      float: left;
+    }
+    .next {
+      float: right;
+    }
+    .btn {
+      // border-radius: 15px;
     }
   }
 }
