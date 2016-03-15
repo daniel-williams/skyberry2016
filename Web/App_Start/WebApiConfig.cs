@@ -22,6 +22,8 @@ namespace Web
             // prevent circular references
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 
+            config.Formatters.JsonFormatter.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local;
+
             // Prefer explicit attribute routing. Look to controllers for routes
             config.MapHttpAttributeRoutes();
 
