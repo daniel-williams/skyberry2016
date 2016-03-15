@@ -54,7 +54,7 @@ export default React.createClass({
   },
   renderTitleBlock: function() {
     return (
-      <h3 className='stack'><StatusBox /><span>Awaiting Skyberry</span></h3>
+      <h3 className='stack'><StatusBox status={this.props.status} /><span>Awaiting Skyberry</span></h3>
     );
   },
   renderEditMessage: function() {
