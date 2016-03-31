@@ -1,5 +1,6 @@
-var webpack = require('webpack');
 var path = require('path');
+var webpack = require('webpack');
+var autoprefixer = require('autoprefixer');
 
 
 var PROJECT_ROOT = path.resolve(__dirname);
@@ -19,13 +20,16 @@ var config = {
   },
   module: {
     loaders: [
-      {test: /\.css$/, loader: 'style!css'},
-      {test: /\.less$/, loader: 'style!css!less'},
+      {test: /\.css$/, loader: 'style!css!postcss'},
+      {test: /\.less$/, loader: 'style!css!postcss!less'},
       {test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff'},
       {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream'},
       {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file'},
       {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml'},
     ],
+  },
+  postcss: function() {
+    return [autoprefixer({browsers:['last 2 versions']})];
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
