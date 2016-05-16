@@ -4,7 +4,6 @@ import * as actions from './consultationActions';
 
 
 export function postConsultation(formData) {
-  console.log('what the holly hell');
   return function(dispatch) {
     dispatch(postingConsultation(formData));
 

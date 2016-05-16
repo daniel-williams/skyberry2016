@@ -2,6 +2,7 @@ import React from 'react';
 import {Location} from 'react-router';
 import {toJS} from 'immutable';
 import {Grid, Row, Col, Pager, PageItem, Pagination} from 'react-bootstrap';
+import Helmet from 'react-helmet';
 
 import {Article, ArticleList, Fetching, SkyButton} from '../components';
 require('./Blog.less');
@@ -48,6 +49,13 @@ export default React.createClass({
   render: function() {
     return (
       <div id='blog'>
+        <Helmet
+          title='Skyberry Studio Blog'
+          meta={[{
+            'name': 'description',
+            'content': 'Skyberry is an award winning print, graphic and web design studio located in Bothell Washington.'
+          }]}
+        />
         <Grid>
           <Row>
             <Col xs={12}>

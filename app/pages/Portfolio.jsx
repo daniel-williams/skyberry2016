@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import {Grid, Row, Col} from 'react-bootstrap';
+import Helmet from 'react-helmet';
 
 import {Fetching, ImageBoard, SkySelect} from '../components';
 require('./Portfolio.less');
@@ -21,6 +22,13 @@ export default React.createClass({
   render: function () {
     return (
       <div id='portfolio'>
+        <Helmet
+          title='Featured Works Skyberry Studio'
+          meta={[{
+            'name': 'description',
+            'content': 'Skyberry is an award winning print, graphic and web design studio located in Bothell Washington.'
+          }]}
+        />
         <Grid fluid={true}>
           <Row>
             <Col xs={12} className='center'>

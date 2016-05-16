@@ -2,6 +2,7 @@ import React from 'react';
 import {Grid, Row, Col} from 'react-bootstrap';
 import {Link} from 'react-router';
 import {toJS} from 'immutable';
+import Helmet from 'react-helmet';
 
 import constants from '../constants';
 import {CoverBillboard, ModalBox, ImageBoard, ImageLoader, SkyButton, SkyPlayer} from '../components';
@@ -54,6 +55,13 @@ export default React.createClass({
   render: function() {
     return (
       <div id='Home'>
+        <Helmet
+          title='Skyberry Studio'
+          meta={[{
+            'name': 'description',
+            'content': 'Skyberry is an award winning print, graphic and web design studio located in Bothell Washington.'
+          }]}
+        />
         {this.renderBillboard()}
         {this.renderFeaturedItems()}
         {this.renderTestimonials()}

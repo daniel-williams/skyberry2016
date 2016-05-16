@@ -1,5 +1,6 @@
 import React from 'react';
 import {Grid, Row, Col} from 'react-bootstrap';
+import Helmet from 'react-helmet';
 
 import {CoverBillboard, IconButtonBar, ModalBox, SkyButton, Staff} from '../components';
 import constants from '../constants';
@@ -11,6 +12,13 @@ export default React.createClass({
   render: function () {
     return (
       <div id='About'>
+        <Helmet
+          title='About Skyberry Studio'
+          meta={[{
+            'name': 'description',
+            'content': 'Skyberry is an award winning print, graphic and web design studio located in Bothell Washington.'
+          }]}
+        />
         {this.renderBillboard()}
         {this.renderTalent()}
         {this.renderChooseSkyberry()}

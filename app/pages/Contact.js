@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import {Grid, Row, Col} from 'react-bootstrap';
+import Helmet from 'react-helmet';
 
 import constants from '../constants';
 import {ContactForm, CoverBillboard, IconButtonBar, ModalBox} from '../components';
@@ -13,6 +14,13 @@ export default React.createClass({
   render: function () {
     return (
       <div id='contact'>
+        <Helmet
+          title='Contact Skyberry Studio'
+          meta={[{
+            'name': 'description',
+            'content': 'Skyberry is an award winning print, graphic and web design studio located in Bothell Washington.'
+          }]}
+        />
         <CoverBillboard imgSrc={constants.routes.images + 'jumbo2.jpg'} overlayOpacity={30}>
           <ModalBox headline='Give Us a Shout'>
             <div>
