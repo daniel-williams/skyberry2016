@@ -56,10 +56,10 @@ export default React.createClass({
     return (
       <div id='Home'>
         <Helmet
-          title='Skyberry Studio'
+          title='Skyberry Studio : Graphic Design Seattle Washington'
           meta={[{
             'name': 'description',
-            'content': 'Skyberry is an award winning print, graphic and web design studio located in Bothell Washington.'
+            'content': `Skyberry Studio is an award-winning graphic design and web development agency located in Seattle Washington's Belltown neighborhood. Experts in logo design.`
           }]}
         />
         {this.renderBillboard()}

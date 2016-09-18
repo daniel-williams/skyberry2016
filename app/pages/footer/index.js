@@ -96,7 +96,7 @@ export default React.createClass({
       <div className='foot-col'>
         <h3>Our Studio</h3>
         <div className='col-body'>
-          <div>Skyberry Studio is located in beautiful Bothell, just northeast of Seattle Washington, overlooking the wetland preserve at North Creek.</div>
+          <div>Skyberry Studio is located in the heart of <a href='https://en.wikipedia.org/wiki/Belltown,_Seattle' target='_blank'>Belltown</a>, one of downtown Seattle's hippest neighborhoods.</div>
         </div>
       </div>
     );

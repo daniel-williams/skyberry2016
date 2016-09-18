@@ -23,10 +23,10 @@ export default React.createClass({
     return (
       <div id='portfolio'>
         <Helmet
-          title='Featured Works Skyberry Studio'
+          title='Portfolio Skyberry Studio : Graphic Design & Web Development'
           meta={[{
             'name': 'description',
-            'content': 'Skyberry is an award winning print, graphic and web design studio located in Bothell Washington.'
+            'content': 'Skyberry Studio has an extensive portfolio that showcases expertly designed logos, creative graphic design projects and professional websites.'
           }]}
         />
         <Grid fluid={true}>

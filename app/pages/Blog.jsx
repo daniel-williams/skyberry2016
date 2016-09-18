@@ -50,10 +50,10 @@ export default React.createClass({
     return (
       <div id='blog'>
         <Helmet
-          title='Skyberry Studio Blog'
+          title='Blog Skyberry Studio : Professional Design Seattle Washington'
           meta={[{
             'name': 'description',
-            'content': 'Skyberry is an award winning print, graphic and web design studio located in Bothell Washington.'
+            'content': `Skyberry Studio's blog features articles and videos about professional graphic design, Adobe Creative Suite, marketing, Website Design, and Web Development.`
           }]}
         />
         <Grid>

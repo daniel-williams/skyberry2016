@@ -13,10 +13,10 @@ export default React.createClass({
     return (
       <div id='About'>
         <Helmet
-          title='About Skyberry Studio'
+          title='About Skyberry Studio : Graphic Design & Web Development Seattle'
           meta={[{
             'name': 'description',
-            'content': 'Skyberry is an award winning print, graphic and web design studio located in Bothell Washington.'
+            'content': 'Skyberry Studio is an expert in brand identity, logo design and graphic design. With 20 years of experience developing mission critical apps and websites.'
           }]}
         />
         {this.renderBillboard()}
@@ -49,7 +49,7 @@ export default React.createClass({
             <Staff name='Lacey Johnston' title='I produce meaningful design that communicates ideas' imgSrc='/content/images/staff-lacey-johnston.png'>
               <p>Lacey Johnston has a passion for minimalist, modern design and routinely monitors the latest trends to spark creativity. She finds great joy in building brand identities and takes pride in seeing her work come to life.</p>
               <p>After attending Portland Community College, Lacey began a career in executive administration. She thrived in that role thanks to her organization and communication skills, as well as her ability to streamline daily procedures. After becoming well-versed in business management & start-ups, she decided to try her hand at starting her own business. In 2006, Lacey founded Skyberry Studio.  Now, with years of award-winning designs and publications, she continues to do what she loves. Her areas of expertise are branding, print & graphic design, web design and video editing.</p>
-              <p>When she’s not in the studio, you might find Lacey swimming at the local gym, golfing, cooking, or gaming. Originally from the Portland area, Lacey currently lives in Seattle Washington.</p>
+              <p>When she's not in the studio, you might find Lacey swimming at the local gym, golfing, cooking, or gaming. Originally from the Portland area, Lacey currently lives in Seattle Washington.</p>
             </Staff>
           </Col>
           <Col xs={12} className='staff-connect visible-xs xs-center'>
@@ -106,7 +106,7 @@ export default React.createClass({
             <Row>
               <Col sm={6} xs={12} className='mb'>
                 <h3>The Great Northwest</h3>
-                <p>Founded in Portland Oregon in 2006, Skyberry moved to the Seattle area in 2014. Our studio is located in Bothell, overlooking the wildlife preserve at North Creek. We support local organizations whenever we can. We also believe in the power of office pets!</p>
+                <p>Founded in Portland Oregon in 2006, Skyberry moved to Seattle in 2014 and is located in downtown Seattle in Belltown. We support local organizations whenever we can. We also believe in the power of office pets!</p>
               </Col>
               <Col sm={6} xs={12} className='mb'>
                 <h3>Focused &amp; Experienced</h3>

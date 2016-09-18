@@ -15,10 +15,10 @@ export default React.createClass({
     return (
       <div id='contact'>
         <Helmet
-          title='Contact Skyberry Studio'
+          title='Contact Skyberry Studio : Graphic Design Seattle Washington'
           meta={[{
             'name': 'description',
-            'content': 'Skyberry is an award winning print, graphic and web design studio located in Bothell Washington.'
+            'content': `Skyberry Studio is a graphic design and web development studio located in downtown Seattle, in Belltown, just minutes from the Space Needle and Pike's Place Market.`
           }]}
         />
         <CoverBillboard imgSrc={constants.routes.images + 'jumbo2.jpg'} overlayOpacity={30}>
